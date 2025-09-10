@@ -16,5 +16,6 @@
     bitwarden-desktop
     #vlc
     nfs-utils     # NFS share
+    mtr    # My traceroute
   ];
 }
