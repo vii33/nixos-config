@@ -17,8 +17,16 @@ networking.hostName = "nixos"; # Define your hostname.
 # networking.proxy.default = "http://user:password@proxy:port/";
 # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-# Enable networking
-networking.networkmanager.enable = true;
+# NetworkManager Configuration
+networking.networkmanager = {
+  enable = true;
+  wifi.backend = "iwd";
+  plugins = with pkgs; [
+    networkmanager-openvpn
+  ];
+};
+
+# WIREGUARD HAS TO BE DONE BY SCRIPT: 
 
 # Set your time zone.
 time.timeZone = "Europe/Berlin";
@@ -59,7 +67,6 @@ hardware.nvidia = {
 
 hardware.graphics.enable = true;
 
-
 # Configure keymap in X11
 services.xserver.xkb = {
     layout = "de";
@@ -90,6 +97,11 @@ services.pipewire = {
 
 # Enable touchpad support (enabled default in most desktopManager).
 # services.xserver.libinput.enable = true;
+
+# Bluetooth
+services.blueman.enable = true; # Blueman provides a GUI for Bluetooth management, although KDE's own tools should work too.
+hardware.bluetooth.enable = true;
+
 
 # Define a user account. Don't forget to set a password with ‘passwd’.
 users.users.vii = {
@@ -155,38 +167,5 @@ services.onedrive.enable = true;
 # networking.firewall.allowedUDPPorts = [ ... ];
 # Or disable the firewall altogether.
 # networking.firewall.enable = false;
-
-
-# WIREGUARD
-#services.resolved.enable = true; # needed for Wireguard DNS
-#networking.wireguard.enable = true;
-networking.wg-quick.interfaces = {
-    # You can name this anything, 'wg0' is a common convention.
-    wg0 = {
-      address = [ "192.168.0.203/24" "fdc2:ab7e:ff6f::203/64" ];   # IP and subnet of the client's end of tunnel interface
-      # listenPort disabled -- uses random ports - NEEDS TO BE OPENED IN FIREWAL? PORT SEE BELOW?
-      privateKeyFile = "/etc/nixos/secrets/wg_private_key";
-
-      dns = ["192.168.0.1,fd00::212e:1149:ef88:2fbd" "fdc2:ab7e:ff6f::3e37:12ff:fe63:a863" "fritz.box"];
-
-      peers = [
-        {
-          # Copy the "PublicKey" from the conf file [Peer] section.
-          publicKey = "pnyxB1YNLBGPymNIk9dH4OED1hT/i7HPeP/H7sBpozk=";
-
-          # If your file has a PresharedKey, uncomment and add it here.
-          # TODO There is also a presharedKeyFile property to move this out of the configuration
-          presharedKey = "e/C9H8JCsPgEhTRE3R2GLhneqiULvnn/bvC3fWXLQe0=";
-
-          allowedIPs = [ "192.168.0.0/24,0.0.0.0/0" "fdc2:ab7e:ff6f::/64,::/0" ];
-
-          endpoint = "gthguzg60ukjk37o.myfritz.net:50522";  # Server IP and port
-
-          # Send keep alives to keep NAT tables alive.
-          persistentKeepalive = 25;
-        }
-      ];
-    };
-  };
 
 }
