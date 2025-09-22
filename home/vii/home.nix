@@ -5,10 +5,14 @@
   # Import this user's packages
   imports = [ ./packages.nix ];
 
-  # Set home directory and state version
+  # Set minimal infos for home manager: user, home directory and state version
   home.username = "vii";
   home.homeDirectory = "/home/vii";
-  home.stateVersion = "25.05";
+  
+  # Ensures configuration doesn't break on updates. Keep version static after first config.
+  # You can update Home Manager without changing this value. See the Home Manager release
+  # notes for a list of state version changes in each release.
+  home.stateVersion = "25.05";   
 
   # Configure user-level programs
   # programs.starship.enable = true;
