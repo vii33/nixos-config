@@ -2,7 +2,7 @@
 { pkgs, ... }:
 
 {
-  # List system-wide packages here
+  # System-wide packages 
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #wget
@@ -16,6 +16,8 @@
     bitwarden-desktop
     #vlc
     nfs-utils     # NFS share
-    mtr    # My traceroute
+    mtr           # My traceroute
+    htop          # Interactive process viewer
+    nbfc-linux    # Notebook Fan Control
   ];
 }

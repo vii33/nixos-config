@@ -10,7 +10,7 @@ nix.settings.experimental-features = [ "nix-command" "flakes" ];
 boot.loader.systemd-boot.enable = true;
 boot.loader.efi.canTouchEfiVariables = true;
 
-networking.hostName = "nixos"; # Define your hostname.
+networking.hostName = "laptop"; # Define your hostname.
 # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
 # Configure network proxy if necessary
@@ -26,7 +26,7 @@ networking.networkmanager = {
   ];
 };
 
-# WIREGUARD HAS TO BE DONE BY SCRIPT: 
+# WIREGUARD HAS TO BE DONE BY SCRIPT:  nmcli connection import type wireguard file my-wg-config.conf
 
 # Set your time zone.
 time.timeZone = "Europe/Berlin";
@@ -160,7 +160,7 @@ fonts.packages = with pkgs; [
 services.onedrive.enable = true;
 
 # Enable the OpenSSH daemon.
-# services.openssh.enable = true;
+services.openssh.enable = true;
 
 # Open ports in the firewall.
 # networking.firewall.allowedTCPPorts = [ ... ];
