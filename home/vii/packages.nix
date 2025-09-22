@@ -2,6 +2,9 @@
 { pkgs, ... }:
 
 {
-  # Add user-specific packages here in the future
-  home.packages = [ ];
+  # User-specific packages
+  home.packages = [
+    brave
+
+   ];
 }

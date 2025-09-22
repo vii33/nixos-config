@@ -2,9 +2,11 @@
   description = "Laptop config";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    home-manager = {
+        url = "github:nix-community/home-manager/release-25.05";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
@@ -17,8 +19,8 @@
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.vii = import ./home/home.nix;
+            home-manager.useUserPackages = true;  # install packages to /etc/profiles/
+            home-manager.users.vii = import ./home/vii/home.nix;
           }
         ];
       };
