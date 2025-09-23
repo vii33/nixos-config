@@ -6,7 +6,7 @@
 # Enable experimental features for Nix
 nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-# Bootloader.
+# Bootloader
 boot.loader.systemd-boot.enable = true;
 boot.loader.efi.canTouchEfiVariables = true;
 
@@ -26,7 +26,7 @@ networking.networkmanager = {
   ];
 };
 
-# WIREGUARD HAS TO BE DONE BY SCRIPT:  nmcli connection import type wireguard file my-wg-config.conf
+# WIREGUARD HAS TO BE DONE BY SCRIPT OR UI:  nmcli connection import type wireguard file my-wg-config.conf
 
 # Set your time zone.
 time.timeZone = "Europe/Berlin";
@@ -127,14 +127,9 @@ programs.firefox.enable = true;
 # Allow unfree packages
 nixpkgs.config.allowUnfree = true;
 
-# Change speed for Logitech
 services.xserver.libinput = {
     enable = true;
-    mouse = {
-      accelProfile = "flat";  # no mouse acceleration
-      sensitivity = "-0.6"; # Values from -1 to 1. Negative values decrease speed.
-    };
-  };
+};
 
 # NETWORK SHARES #########################################################
 #fileSystems."/mnt/nas-nfs" = {

@@ -3,14 +3,14 @@
 
 {
   # User-specific packages
-  home.packages = [
+  home.packages = with pkgs; [
     brave
     obsidian
     onedrive
     #spotify
     #thunderbird
     #docker
-    vscode.fhs
+    vscode-fhs
     git
     bitwarden-desktop
     #vlc
