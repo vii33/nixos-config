@@ -6,7 +6,7 @@
   home.packages = with pkgs; [
     brave
     obsidian
-    onedrive
+    #onedrive   # creates high cpu load
     #spotify
     #thunderbird
     #docker
