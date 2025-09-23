@@ -8,6 +8,7 @@
       ./configuration.nix
       ./packages.nix
       ./swap.nix
+      ./nbfc.nix
     ];
 
   # This value determines the NixOS release from which the default
