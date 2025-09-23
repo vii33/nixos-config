@@ -126,19 +126,27 @@ programs.firefox.enable = true;
 # Allow unfree packages
 nixpkgs.config.allowUnfree = true;
 
+# Change speed for Logitech
+services.xserver.libinput = {
+    enable = true;
+    mouse = {
+      accelProfile = "flat";  # no mouse acceleration
+      sensitivity = "-0.6"; # Values from -1 to 1. Negative values decrease speed.
+    };
+  };
 
 # NETWORK SHARES #########################################################
-fileSystems."/mnt/nas-nfs" = {
-    device = "192.168.1.200:/volume1/spiele";    # <NAS_IP>:/volumeX/<ShareName> :contentReference[oaicite:12]{index=12}
-    fsType = "nfs";
-    options = [
-        "rw"                  # read/write :contentReference[oaicite:13]{index=13}
-        "noauto"              # do not block boot if unreachable :contentReference[oaicite:14]{index=14}
-        "x-systemd.automount" # mount on first access :contentReference[oaicite:15]{index=15}
-        "proto=tcp"           # use TCP for reliability (optional) :contentReference[oaicite:16]{index=16}
-        "timeo=14"            # NFS timeout (optional) :contentReference[oaicite:17]{index=17}
-    ];
-};
+#fileSystems."/mnt/nas-nfs" = {
+#    device = "192.168.1.200:/volume1/spiele";    # <NAS_IP>:/volumeX/<ShareName> :contentReference[oaicite:12]{index=12}
+#    fsType = "nfs";
+#    options = [
+#        "rw"                  # read/write :contentReference[oaicite:13]{index=13}
+#        "noauto"              # do not block boot if unreachable :contentReference[oaicite:14]{index=14}
+#        "x-systemd.automount" # mount on first access :contentReference[oaicite:15]{index=15}
+#        "proto=tcp"           # use TCP for reliability (optional) :contentReference[oaicite:16]{index=16}
+#        "timeo=14"            # NFS timeout (optional) :contentReference[oaicite:17]{index=17}
+#    ];
+#};
 
 fonts.packages = with pkgs; [
 # Fonts go here, search on nixos packages website and check
