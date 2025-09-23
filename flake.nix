@@ -9,20 +9,29 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+    let
+      homeManagerModules = [
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;  # install packages to /etc/profiles/
+          home-manager.users.vii = import ./home/vii/home.nix;
+        }
+      ];
+    in
+  {
     nixosConfigurations = {
       laptop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
-        modules = [
-          ./configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;  # install packages to /etc/profiles/
-            home-manager.users.vii = import ./home/vii/home.nix;
-          }
-        ];
+        modules = [ ./hosts/laptop/default.nix ] ++ homeManagerModules;
+      };
+
+      home-server = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [ ./hosts/home-server/default.nix ] ++ homeManagerModules;
       };
     };
   };
