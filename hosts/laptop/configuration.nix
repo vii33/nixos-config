@@ -103,7 +103,8 @@ services.blueman.enable = true; # Blueman provides a GUI for Bluetooth managemen
 hardware.bluetooth.enable = true;
 
 
-# Define a user account. Don't forget to set a password with ‘passwd’.
+# Define user accounts. 
+# TODO Don't forget to set a password with ‘passwd’.
 users.users.vii = {
     isNormalUser = true;
     description = "vii";
