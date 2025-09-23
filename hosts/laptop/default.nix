@@ -1,15 +1,10 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
+# ./hosts/laptop/default.nix
 { config, pkgs, ... }:
 
 {
   imports =
-    [ # 1. Import the hardware-specific configuration
+    [ 
       /etc/nixos/hardware-configuration.nix
-
-      # 2. Import system-level configurations
       ./configuration.nix
       ./packages.nix
     ];

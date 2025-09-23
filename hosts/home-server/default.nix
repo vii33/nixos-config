@@ -1,3 +1,4 @@
+# ./hosts/home-server/default.nix
 { config, pkgs, ... }:
 
 {
