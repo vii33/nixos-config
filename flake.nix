@@ -10,6 +10,7 @@
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  
     let
       homeManagerModules = [
         home-manager.nixosModules.home-manager
@@ -32,20 +33,22 @@
           };
         }
       ];
-    in
-  {
-    nixosConfigurations = {
-      laptop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [ ./hosts/laptop/default.nix ] ++ homeManagerModulesLaptop;
-      };
 
-      home-server = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [ ./hosts/home-server/default.nix ] ++ homeManagerModules;
+    in
+      {
+        nixosConfigurations = {
+          
+          laptop = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = { inherit inputs; };
+            modules = [ ./hosts/laptop/default.nix ] ++ homeManagerModulesLaptop;
+          };
+
+          home-server = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = { inherit inputs; };
+            modules = [ ./hosts/home-server/default.nix ] ++ homeManagerModules;
+          };
+        };
       };
-    };
-  };
 }
