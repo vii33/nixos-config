@@ -10,8 +10,8 @@
       /etc/nixos/hardware-configuration.nix
 
       # 2. Import system-level configurations
-      ./system/my-configuration.nix
-      ./system/packages.nix
+      ./configuration.nix
+      ./packages.nix
     ];
 
   # This value determines the NixOS release from which the default
