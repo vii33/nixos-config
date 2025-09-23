@@ -7,6 +7,7 @@
       ./hardware-configuration.nix
       ./configuration.nix
       ./packages.nix
+      ./swap.nix
     ];
 
   # This value determines the NixOS release from which the default
