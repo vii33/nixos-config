@@ -19,13 +19,26 @@
           home-manager.users.vii = import ./home/vii/home.nix;
         }
       ];
+      homeManagerModulesLaptop = [
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.vii = {
+            imports = [
+              ./home/vii/home.nix
+              ./hosts/laptop/home.nix
+            ];
+          };
+        }
+      ];
     in
   {
     nixosConfigurations = {
       laptop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
-        modules = [ ./hosts/laptop/default.nix ] ++ homeManagerModules;
+        modules = [ ./hosts/laptop/default.nix ] ++ homeManagerModulesLaptop;
       };
 
       home-server = nixpkgs.lib.nixosSystem {
