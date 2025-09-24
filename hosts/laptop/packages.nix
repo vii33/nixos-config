@@ -9,6 +9,5 @@
     mtr           # My traceroute
     htop          # Interactive process viewer
     nbfc-linux    # Notebook Fan Control
-    
   ];
 }
