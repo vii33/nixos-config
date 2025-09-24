@@ -4,8 +4,9 @@
 {
   imports =
     [ 
-      ../modules/default.nix
-      ../modules/user.nix
+      ../../modules/default.nix
+      ../../modules/user.nix
+      ../../modules/fish.nix
       ./hardware-configuration.nix
       ./configuration.nix
       ./packages.nix
