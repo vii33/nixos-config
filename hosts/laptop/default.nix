@@ -6,7 +6,7 @@
     [ 
       ../../modules/default.nix
       ../../modules/user.nix
-      ../../modules/fish.nix
+      ../../modules/fish-shell.nix
       ./hardware-configuration.nix
       ./configuration.nix
       ./packages.nix
