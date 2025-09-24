@@ -2,9 +2,8 @@
 { config, pkgs, ... }:
 
 {
-# PROGRAMS ###################################################
+# PROGRAMS 
 programs.firefox.enable = true;
-programs.fish.enable = true;
 
 
 # Allow unfree packages
