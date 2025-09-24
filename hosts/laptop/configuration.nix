@@ -127,7 +127,7 @@ programs.firefox.enable = true;
 # Allow unfree packages
 nixpkgs.config.allowUnfree = true;
 
-services.xserver.libinput = {
+services.libinput = {
     enable = true;
 };
 
@@ -161,7 +161,7 @@ fonts.packages = with pkgs; [
 
 
 # SERVICES
-services.onedrive.enable = true;
+#services.onedrive.enable = true;
 
 # Enable the OpenSSH daemon.
 services.openssh.enable = true;
