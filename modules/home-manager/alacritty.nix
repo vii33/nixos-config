@@ -1,4 +1,4 @@
-# Alacritty depends on Fish shell and MeslLG Nerd font
+# Alacritty depends on Fish shell and MesloLG Nerd font
 # ./modules/home-manager/alacritty.nix
 { config, pkgs, ... }:
 
