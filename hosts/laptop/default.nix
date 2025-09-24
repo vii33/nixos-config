@@ -4,6 +4,8 @@
 {
   imports =
     [ 
+      ../modules/default.nix
+      ../modules/user.nix
       ./hardware-configuration.nix
       ./configuration.nix
       ./packages.nix

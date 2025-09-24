@@ -28,23 +28,6 @@ networking.networkmanager = {
 
 # WIREGUARD HAS TO BE DONE BY SCRIPT OR UI:  nmcli connection import type wireguard file my-wg-config.conf
 
-# Set your time zone.
-time.timeZone = "Europe/Berlin";
-
-# Select internationalisation properties.
-i18n.defaultLocale = "en_US.UTF-8";
-
-i18n.extraLocaleSettings = {
-LC_ADDRESS = "de_DE.UTF-8";
-LC_IDENTIFICATION = "de_DE.UTF-8";
-LC_MEASUREMENT = "de_DE.UTF-8";
-LC_MONETARY = "de_DE.UTF-8";
-LC_NAME = "de_DE.UTF-8";
-LC_NUMERIC = "de_DE.UTF-8";
-LC_PAPER = "de_DE.UTF-8";
-LC_TELEPHONE = "de_DE.UTF-8";
-LC_TIME = "de_DE.UTF-8";
-};
 
 # Enable the X11 windowing system.
 services.xserver.enable = true;
@@ -73,9 +56,6 @@ services.xserver.xkb = {
     variant = "";
 };
 
-# Configure console keymap
-console.keyMap = "de";
-
 # Enable CUPS to print documents.
 services.printing.enable = true;
 
@@ -103,29 +83,13 @@ services.blueman.enable = true; # Blueman provides a GUI for Bluetooth managemen
 hardware.bluetooth.enable = true;
 
 
-# Define user accounts. 
-# TODO Don't forget to set a password with ‘passwd’.
-users.users.vii = {
-    isNormalUser = true;
-    description = "vii";
-    extraGroups = [ "networkmanager" "wheel" ];
-};
-
-# Enable automatic login for the user.
-services.displayManager.autoLogin.enable = true;
-services.displayManager.autoLogin.user = "vii";
-
 # Enable the KDE Plasma Desktop Environment.
 services.displayManager.sddm.enable = true;
 services.desktopManager.plasma6.enable = true;
 
-
-# PROGRAMS ###################################################
-programs.firefox.enable = true;
-
-
-# Allow unfree packages
-nixpkgs.config.allowUnfree = true;
+# Enable automatic login for the user.
+services.displayManager.autoLogin.enable = true;
+services.displayManager.autoLogin.user = "vii";
 
 services.libinput = {
     enable = true;
@@ -144,12 +108,7 @@ services.libinput = {
 #    ];
 #};
 
-fonts.packages = with pkgs; [
-# Fonts go here, search on nixos packages website and check
-# that NIX EXPRESSION starts with pkgs/data/fonts
 
-# font-awesome_4
-];
 
 # Some programs need SUID wrappers, can be configured further or are
 # started in user sessions.
