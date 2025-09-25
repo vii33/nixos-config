@@ -3,23 +3,37 @@
 
 {
 # Enable Fish shell
-programs.fish.enable = true;
-# Set Fish as the default shell (not everywhere otherwise will lead to low level problems)
-# programs.bash = {
-#   enable = true;
-#   initExtra = ''
-#     if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && -z ''${BASH_EXECUTION_STRING} ]]
-#     then
-#       shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=""
-#       exec ${pkgs.fish}/bin/fish $LOGIN_OPTION
-#     fi
-#   '';
-# };
+programs.fish = {
+  enable = true;
+  
+  # Run Tide's non-interactive configurator once
+  interactiveShellInit = ''
+    # Only run if Tide hasn't been configured yet on this machine
+    if not set -q tide_prompt_transient_enabled
+      tide configure --auto \
+        --style=Rainbow \
+        --prompt_colors='True color' \
+        --show_time=No \
+        --rainbow_prompt_separators=Slanted \
+        --powerline_prompt_heads=Slanted \
+        --powerline_prompt_tails=Flat \
+        --powerline_prompt_style='Two lines, character' \
+        --prompt_connection=Dotted \
+        --powerline_right_prompt_frame=No \
+        --prompt_connection_andor_frame_color=Dark \
+        --prompt_spacing=Sparse \
+        --icons='Many icons' \
+        --transient=Yes
+    end
+  '';
+};
 
+# Set Fish as default shell for user 'vii'
 users.users.vii = {
     shell = pkgs.fish;
 };
 
+# Fish plugins -----------------------------------------------
 environment.systemPackages = with pkgs; [
   fishPlugins.transient-fish   # transient prompts (stick to bottom)
   fishPlugins.tide             # Starship alternative
@@ -36,5 +50,6 @@ environment.systemPackages = with pkgs; [
   #fishPlugins.grc
   #grc
 ];
+
 
 }
