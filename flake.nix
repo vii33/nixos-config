@@ -31,6 +31,7 @@
               ./hosts/laptop/home.nix
             ];
           };
+          home-manager.backupFileExtension = "backup";   # backup existing dotfiles before overwriting
         }
       ];
 

@@ -12,20 +12,20 @@ programs.alacritty = {
       };
       font = {
         normal = {
-          family = "MesloLGS NF";
+          family = "MesloLGS Nerd Font Mono";
           style = "Regular";
         };
         bold = {
-          family = "MesloLGS NF";
+          family = "MesloLGS Nerd Font Mono";
           style = "Bold";
         };
         italic = {
-          family = "MesloLGS NF";
+          family = "MesloLGS Nerd Font Mono";
           style = "Italic";
         };
-        size = 12.0;
+        size = 11.0;
       };
-      shell = {
+      terminal.shell = {
         program = "${pkgs.fish}/bin/fish";
       };
       colors = {
