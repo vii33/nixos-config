@@ -1,9 +1,10 @@
 # ./hosts/laptop/default.nix
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
     [ 
+      inputs.home-manager.nixosModules.home-manager
       ./configuration.nix
       ./hardware-configuration.nix
 
@@ -14,6 +15,13 @@
       ./swap.nix
       ./nbfc.nix
     ];
+
+  # Home Manager wiring for this host
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.backupFileExtension = "backup";   # backup existing dotfiles before overwriting
+  home-manager.sharedModules = (import ../../modules/home-manager) ++ [ ../../modules/home-manager/mouse.nix ];
+  home-manager.users.vii.imports = [ ./home.nix ../../home/vii/home.nix ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
