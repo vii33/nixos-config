@@ -8,7 +8,7 @@
       ./configuration.nix
       ./hardware-configuration.nix
 
-      ../../modules/user.nix
+      ../../modules/system/user.nix
       ../../profiles/system/common.nix
       ../../profiles/system/development.nix
       ../../profiles/system/desktop.nix
@@ -22,13 +22,11 @@
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";   # backup existing dotfiles before overwriting
   home-manager.sharedModules =
-    (import ../../modules-home-manager/default.nix)
-    ++
     [
-      ../../modules-home-manager/mouse.nix
       ../../profiles/home/common.nix
       ../../profiles/home/desktop.nix
       ../../profiles/home/development.nix
+      ../../modules/home/mouse.nix
     ];
   home-manager.users.vii.imports = [ ./home.nix ../../home/vii/home.nix ];
 
