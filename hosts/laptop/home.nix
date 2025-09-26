@@ -1,7 +1,5 @@
-{...}: {
-  imports = [
-    ../../modules/home-manager/mouse.nix
-    ../../modules/home-manager/alacritty.nix
-    ../../modules/home-manager/fish-shell.nix
-  ];
+{ ... }: {
+  # Host-specific Home Manager overrides for laptop go here.
+  # Shared modules are provided via `home-manager.sharedModules` in composer.nix
+  # and laptop-only modules (e.g., mouse) are appended there as well.
 }
