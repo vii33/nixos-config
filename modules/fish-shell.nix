@@ -6,8 +6,8 @@
 programs.fish = {
   enable = true;
   
-  # Run Tide's non-interactive configurator once
   interactiveShellInit = ''
+    # Set up Tide 
     # Only run if Tide hasn't been configured yet on this machine
     if not set -q tide_prompt_transient_enabled
       tide configure --auto \
@@ -26,6 +26,15 @@ programs.fish = {
         --transient=Yes
     end
   '';
+
+  shellInit = ''
+    # Set ESC key delay to 50 ms so SUDOPE plugins works better (TODO doesn't work still))
+    set -g fish_escape_delay_ms 500
+    # Set alternative keybinding for sudope  (ALT+S)
+    set -g sudope_sequence \es
+  '';
+
+  # NOTE: Key bindings are in Home Manager at modules/home-manager/fish-shell.nix
 };
 
 # Set Fish as default shell for user 'vii'
