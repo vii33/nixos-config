@@ -7,7 +7,6 @@
       inputs.home-manager.nixosModules.home-manager
       ./configuration.nix
       # hardware-configuration.nix
-      ../../modules/default.nix
       ../../modules/user.nix
     ];
 
@@ -20,4 +19,3 @@
   system.stateVersion = "25.05";
 
 }
-home-manager.sharedModules = (import ../../modules/home-manager)

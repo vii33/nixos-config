@@ -2,6 +2,7 @@
 { config, pkgs, ... }:
 
 {
+nixpkgs.config.allowUnfree = true;
 
 # Enable experimental features for Nix
 nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -11,7 +12,6 @@ boot.loader.systemd-boot.enable = true;
 boot.loader.efi.canTouchEfiVariables = true;
 
 networking.hostName = "laptop"; # Define your hostname.
-# networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
 # Configure network proxy if necessary
 # networking.proxy.default = "http://user:password@proxy:port/";
@@ -35,11 +35,10 @@ services.xserver.enable = true;
 services.xserver.videoDrivers = [ "nvidia" ];
 
 hardware.nvidia = {
-  # This is the line you need to add
   open = false;
   # Modesetting is required for Wayland and recommended for X11
   modesetting.enable = true;
-  # Power management is crucial for laptops and desktops alike
+  # Enable power management (required for Dynamic Power Management)
   powerManagement.enable = true;
   # This installs the nvidia-settings utility
   nvidiaSettings = true;
@@ -130,5 +129,6 @@ services.openssh.enable = true;
 # networking.firewall.allowedUDPPorts = [ ... ];
 # Or disable the firewall altogether.
 # networking.firewall.enable = false;
+
 
 }
