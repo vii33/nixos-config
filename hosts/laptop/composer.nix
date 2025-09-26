@@ -8,9 +8,10 @@
       ./configuration.nix
       ./hardware-configuration.nix
 
-      ../../modules/default.nix
       ../../modules/user.nix
-      ../../modules/fish-shell.nix
+      ../../profiles/system/common.nix
+      ../../profiles/system/development.nix
+      ../../profiles/system/desktop.nix
       
       ./swap.nix
       ./nbfc.nix
@@ -20,10 +21,14 @@
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";   # backup existing dotfiles before overwriting
-  home-manager.sharedModules = 
-    (import ../../modules-home-manager/default.nix) 
-    ++ [ 
-    ../../modules-home-manager/mouse.nix 
+  home-manager.sharedModules =
+    (import ../../modules-home-manager/default.nix)
+    ++
+    [
+      ../../modules-home-manager/mouse.nix
+      ../../profiles/home/common.nix
+      ../../profiles/home/desktop.nix
+      ../../profiles/home/development.nix
     ];
   home-manager.users.vii.imports = [ ./home.nix ../../home/vii/home.nix ];
 

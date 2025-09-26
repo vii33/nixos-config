@@ -30,6 +30,7 @@ users.users.vii = {
     isNormalUser = true;
     description = "vii";
     extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.fish;
 };
 
 

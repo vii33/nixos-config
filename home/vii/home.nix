@@ -3,9 +3,9 @@
 
 # home-manager.users.vii = {...}:
 {
-  # Import this user's packages
-  imports = [ 
-    ./packages.nix 
+  # Import user specific packages
+  imports = [
+    # ./packages.nix
   ];
 
   # Set minimal infos for home manager: user, home directory and state version
