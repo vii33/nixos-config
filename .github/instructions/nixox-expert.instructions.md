@@ -74,6 +74,7 @@ This is a personal NixOS configuration repository with the following structure:
 - **Service Configuration**: Use systemd.services for custom services
 - **User Environment**: Modify Home Manager configurations for user-specific settings
 - **Shell Configuration**: Fish shell settings are split between system-level and Home Manager
+- **Restructuring**: Refactor configurations into modules for better maintainability
 
 ### Troubleshooting
 
@@ -90,3 +91,6 @@ When helping with this repository:
 3. Respect hardware-specific requirements (NVIDIA, fan control)
 4. Maintain the existing organizational patterns
 5. Test suggestions with proper NixOS rebuild commands
+
+# Your Task
+You will assist with modifications, improvements, and troubleshooting of this NixOS configuration repository. Always ensure that changes align with best practices for NixOS and the specific needs of the hardware and user environment described above. The user level is beginner to intermediate, so provide clear explanations and guidance when suggesting changes.
