@@ -9,19 +9,19 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:   # make specific inputs (self, nixpkgs..) from the inputs attribut set available, addtionally put the entire attribute set in the inputs variable
   {
     nixosConfigurations = {
-      
+
       laptop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs; };        # make inputs available in (sub)modules
         modules = [ ./hosts/laptop/composer.nix ];
       };
 
       home-server = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs; };       # make inputs available in (sub)modules
         modules = [ ./hosts/home-server/composer.nix ];
       };
     };
