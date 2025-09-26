@@ -21,9 +21,9 @@
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";   # backup existing dotfiles before overwriting
   home-manager.sharedModules = 
-    (import ../../home-manager-modules/default.nix) 
+    (import ../../modules-home-manager/default.nix) 
     ++ [ 
-    ../../home-manager-modules/mouse.nix 
+    ../../modules-home-manager/mouse.nix 
     ];
   home-manager.users.vii.imports = [ ./home.nix ../../home/vii/home.nix ];
 

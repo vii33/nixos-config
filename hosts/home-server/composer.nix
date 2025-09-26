@@ -14,7 +14,7 @@
   # Home Manager wiring for this host
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
-  home-manager.sharedModules = import ../../home-manager-modules;
+  home-manager.sharedModules = import ../../modules-home-manager;
   home-manager.users.vii.imports = [ ../../home/vii/home.nix ];
 
   system.stateVersion = "25.05";

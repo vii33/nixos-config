@@ -5,15 +5,6 @@
 # PROGRAMS 
 programs.firefox.enable = true;
 
-
-# Allow unfree packages
-nixpkgs.config.allowUnfree = true;
-
-fonts.packages = with pkgs; [
-  nerd-fonts.meslo-lg          # Used by Fish Shell / Alacritty
-  nerd-fonts.jetbrains-mono
-];
-
 # System-wide packages 
 environment.systemPackages = with pkgs; [
   vim 
@@ -22,5 +13,12 @@ environment.systemPackages = with pkgs; [
   htop          
 ];
 
+fonts.packages = with pkgs; [
+  nerd-fonts.meslo-lg          # Used by Fish Shell / Alacritty
+  nerd-fonts.jetbrains-mono
+];
+
+# Allow unfree packages
+nixpkgs.config.allowUnfree = true;
 
 }
