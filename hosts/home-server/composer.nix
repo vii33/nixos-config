@@ -1,4 +1,4 @@
-# ./hosts/home-server/default.nix
+# ./hosts/home-server/composer.nix
 { config, pkgs, inputs, ... }:
 
 {
@@ -14,9 +14,10 @@
   # Home Manager wiring for this host
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
-  home-manager.sharedModules = import ../../modules/home-manager;
+  home-manager.sharedModules = import ../../home-manager-modules;
   home-manager.users.vii.imports = [ ../../home/vii/home.nix ];
 
   system.stateVersion = "25.05";
 
 }
+home-manager.sharedModules = (import ../../modules/home-manager)

@@ -1,4 +1,4 @@
-# ./hosts/laptop/default.nix
+# ./hosts/laptop/composer.nix
 { config, pkgs, inputs, ... }:
 
 {
@@ -20,7 +20,11 @@
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";   # backup existing dotfiles before overwriting
-  home-manager.sharedModules = (import ../../modules/home-manager) ++ [ ../../modules/home-manager/mouse.nix ];
+  home-manager.sharedModules = 
+    (import ../../home-manager-modules/default.nix) 
+    ++ [ 
+    ../../home-manager-modules/mouse.nix 
+    ];
   home-manager.users.vii.imports = [ ./home.nix ../../home/vii/home.nix ];
 
   # This value determines the NixOS release from which the default
