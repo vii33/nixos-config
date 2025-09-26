@@ -4,12 +4,13 @@
 {
   imports =
     [ 
+      ./configuration.nix
+      ./hardware-configuration.nix
+
       ../../modules/default.nix
       ../../modules/user.nix
       ../../modules/fish-shell.nix
-      ./hardware-configuration.nix
-      ./configuration.nix
-      ./packages.nix
+      
       ./swap.nix
       ./nbfc.nix
     ];
