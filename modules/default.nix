@@ -14,6 +14,13 @@ fonts.packages = with pkgs; [
   nerd-fonts.jetbrains-mono
 ];
 
+# System-wide packages 
+environment.systemPackages = with pkgs; [
+  vim 
+  #wget
+  mtr           # My traceroute
+  htop          
+];
 
 
 }

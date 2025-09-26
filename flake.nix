@@ -12,7 +12,8 @@
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
   
     let
-      homeManagerModules = [
+    
+      homeManagerModulesHomeserver = [
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
@@ -20,6 +21,7 @@
           home-manager.users.vii = import ./home/vii/home.nix;
         }
       ];
+
       homeManagerModulesLaptop = [
         home-manager.nixosModules.home-manager
         {
@@ -42,13 +44,13 @@
           laptop = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             specialArgs = { inherit inputs; };
-            modules = [ ./hosts/laptop/default.nix ] ++ homeManagerModulesLaptop;
+            modules = [ ./hosts/laptop/composer.nix ] ++ homeManagerModulesLaptop;
           };
 
           home-server = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             specialArgs = { inherit inputs; };
-            modules = [ ./hosts/home-server/default.nix ] ++ homeManagerModules;
+            modules = [ ./hosts/home-server/composer.nix ] ++ homeManagerModulesHomeserver;
           };
         };
       };
