@@ -12,5 +12,7 @@
     fzf
     zoxide
     eza
+    ripgrep
+
   ];
 }
