@@ -13,6 +13,7 @@
     zoxide
     eza
     ripgrep
-
+    fd
+    bat
   ];
 }

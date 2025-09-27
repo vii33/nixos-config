@@ -5,5 +5,6 @@
     brave
     obsidian
     bitwarden-desktop
+    signal-desktop-bin
   ];
 }
