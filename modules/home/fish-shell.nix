@@ -13,6 +13,7 @@
   # Find out key codes with `fish_key_reader`
   programs.fish = {
     enable = true;
+
     plugins = [
       { name = "transient-fish"; src = pkgs.fishPlugins.transient-fish; }
       { name = "tide"; src = pkgs.fishPlugins.tide; }
@@ -21,6 +22,7 @@
       { name = "fzf-fish"; src = pkgs.fishPlugins.fzf-fish; }
       { name = "hydro"; src = pkgs.fishPlugins.hydro; }
     ];
+
     shellInit = ''
       # Set ESC key delay to 500 ms so SUDOPE plugins works better (TODO doesn't work still))
       set -g fish_escape_delay_ms 500
@@ -29,6 +31,7 @@
 
       set -g fish_greeting "🦤🦤🪴"
     '';
+
     interactiveShellInit = ''
       # Set up Tide 
       # Only run if Tide hasn't been configured yet on this machine
