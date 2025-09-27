@@ -28,7 +28,7 @@ programs.alacritty = {
           family = "MesloLGS Nerd Font Mono";
           style = "Italic";
         };
-        size = 11.0;
+        size = 10.0;    # Font size
       };
       terminal.shell = {
         program = "${pkgs.fish}/bin/fish";
