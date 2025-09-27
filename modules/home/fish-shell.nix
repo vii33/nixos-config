@@ -2,6 +2,15 @@
 { config, pkgs, lib, ... }:
 
 {
+  home.packages = with pkgs; [
+    fishPlugins.transient-fish
+    fishPlugins.tide
+    fishPlugins.sponge
+    fishPlugins.plugin-sudope
+    fishPlugins.fzf-fish
+    # fishPlugins.hydro         # removed due to fish_prompt.fish filename collision with tide
+  ];
+
   # Plugin settings ---------------------------------------------
   # Sponge: set false command purge after 5 commands
   home.file.".config/fish/conf.d/sponge.fish".text = ''
@@ -14,22 +23,13 @@
   programs.fish = {
     enable = true;
 
-    plugins = [
-      { name = "transient-fish"; src = pkgs.fishPlugins.transient-fish; }
-      { name = "tide"; src = pkgs.fishPlugins.tide; }
-      { name = "sponge"; src = pkgs.fishPlugins.sponge; }
-      { name = "sudope"; src = pkgs.fishPlugins.plugin-sudope; }
-      { name = "fzf-fish"; src = pkgs.fishPlugins.fzf-fish; }
-      { name = "hydro"; src = pkgs.fishPlugins.hydro; }
-    ];
-
     shellInit = ''
       # Set ESC key delay to 500 ms so SUDOPE plugins works better (TODO doesn't work still))
       set -g fish_escape_delay_ms 500
       # Set alternative keybinding for sudope  (ALT+S)
       set -g sudope_sequence \es
 
-      set -g fish_greeting "🦤🦤🪴"
+      set -g fish_greeting "🦤 🦤 🪴"
     '';
 
     interactiveShellInit = ''
@@ -63,6 +63,12 @@
       # Ctrl+Right / Ctrl+Left for word-wise movement
       bind ctrl-right forward-word
       bind ctrl-left  backward-word
+
+      # Ensure fzf.fish keybindings are registered if the function is available
+      if functions -q fzf_configure_bindings
+        # fzf_configure_bindings registers the `_fzf_*` bindings like Ctrl+R, Ctrl+V, etc.
+        fzf_configure_bindings
+      end
     '';
   };
 }
