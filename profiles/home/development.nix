@@ -9,6 +9,5 @@
   home.packages = with pkgs; [
     vscode-fhs
     git
-    #ishPlugins.tide   # Needs to be explicitly installed to be available in fish
   ];
 }

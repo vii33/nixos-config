@@ -58,16 +58,59 @@
       bind -M insert ctrl--u kill-whole-line
 
       # CTRL + L   clear screen like bash
-      bind \cl clear-screen
+      bind ctrl-l clear-screen
 
       # Ctrl+Right / Ctrl+Left for word-wise movement
       bind ctrl-right forward-word
       bind ctrl-left  backward-word
 
+      # Ctrl+B -> fuzzy search existing fish key bindings (overrides default backward-char)
+      bind ctrl-b fzf_bindings   # custom function defined below
+
       # Ensure fzf.fish keybindings are registered if the function is available
       if functions -q fzf_configure_bindings
         # fzf_configure_bindings registers the `_fzf_*` bindings like Ctrl+R, Ctrl+V, etc.
         fzf_configure_bindings
+
+        # Remove Ctrl+R binding (reserved for another plugin)
+        if bind -q ctrl-r
+          bind -e ctrl-r
+        end
+
+        # Rebind process search from default Ctrl+Alt+P to plain Ctrl+P 
+        if functions -q _fzf_search_processes
+          # Remove old binding if it exists (Ctrl+Alt+P sequence = ESC + Ctrl+P)
+          bind -q \e\cp; and bind -e \e\cp
+          # Override / set new binding (requested non-escape sequence form)
+          bind ctrl-p _fzf_search_processes
+        end
+      end
+    '';
+
+    # Custom helper function: fzf_bindings
+    functions.fzf_bindings.body = ''
+      # Fuzzy search current fish key bindings using fzf
+      if not type -q fzf
+        echo "fzf not found in PATH (required for fzf_bindings)" >&2
+        return 127
+      end
+
+      # Collect bindings, strip leading 'bind ' and let user pick
+      set -l selection (bind | sed 's/^bind \\+//' | fzf \
+        --prompt="fish bindings> " \
+        --height=60% \
+        --reverse \
+        --border \
+        --exit-0 \
+        --preview 'echo {}' )
+
+      if test -n "$selection"
+        set_color --bold green
+        echo Selected binding:
+        set_color normal
+        echo "$selection"
+        # Optionally: parse key + command
+        # echo "$selection" | read -l key rest; echo "Key: $key"; echo "Command: $rest"
       end
     '';
   };
