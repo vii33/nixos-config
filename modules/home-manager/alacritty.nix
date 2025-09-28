@@ -9,6 +9,10 @@ programs.alacritty = {
       window = {
         padding = { x = 8; y = 8; };
         #opacity = 0.95;
+        dimensions = {
+          columns = 112;  # 40% larger than typical 80 column default
+          lines = 34;     # 40% larger than typical 24 line default
+        };
       };
       # Different font: install via ./modules/default.nix. Check with 'fc-list : family | grep -i xxxxx'
       font = {
