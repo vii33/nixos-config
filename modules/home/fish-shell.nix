@@ -4,11 +4,12 @@
 {
   home.packages = with pkgs; [
     fishPlugins.transient-fish
-    fishPlugins.tide
-    fishPlugins.sponge
-    fishPlugins.plugin-sudope
+    fishPlugins.tide            # styling
+    fishPlugins.sponge          # remove wrong commands from history
+    fishPlugins.plugin-sudope   # insert sudo with alt+s
     fishPlugins.fzf-fish
     # fishPlugins.hydro         # removed due to fish_prompt.fish filename collision with tide
+    fishPlugins.colored-man-pages
   ];
 
   # Plugin settings ---------------------------------------------
@@ -67,23 +68,10 @@
       # Ctrl+B -> fuzzy search existing fish key bindings (overrides default backward-char)
       bind ctrl-b fzf_bindings   # custom function defined below
 
-      # Ensure fzf.fish keybindings are registered if the function is available
+      # Change fzf.fish keybindings (fzf_configure_bindings needs to be called at least to get default bindings)
+      # help:   fzf_configure_bindings --h
       if functions -q fzf_configure_bindings
-        # fzf_configure_bindings registers the `_fzf_*` bindings like Ctrl+R, Ctrl+V, etc.
-        fzf_configure_bindings
-
-        # Remove Ctrl+R binding (reserved for another plugin)
-        if bind -q ctrl-r
-          bind -e ctrl-r
-        end
-
-        # Rebind process search from default Ctrl+Alt+P to plain Ctrl+P 
-        if functions -q _fzf_search_processes
-          # Remove old binding if it exists (Ctrl+Alt+P sequence = ESC + Ctrl+P)
-          bind -q \e\cp; and bind -e \e\cp
-          # Override / set new binding (requested non-escape sequence form)
-          bind ctrl-p _fzf_search_processes
-        end
+        fzf_configure_bindings --processes=ctrl-p --directory=ctrl-f
       end
     '';
 
