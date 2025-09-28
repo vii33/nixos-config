@@ -12,6 +12,5 @@
     uv
   ];
 
-  # Handy if you use uv’s default install locations (~/.local/bin)
-  environment.localBinInPath = true;
+
 }

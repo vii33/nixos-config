@@ -29,10 +29,9 @@ console.keyMap = "de";
 users.users.vii = {
     isNormalUser = true;
     description = "vii";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker"];
     shell = pkgs.fish;
 };
-
 
 
 }
