@@ -6,11 +6,11 @@ Personal NixOS configuration using flakes and Home Manager.
 
 - `flake.nix` - Main flake configuration defining system builds
 - `hosts/` - Host-specific configurations
-  - `laptop/` - Desktop/laptop configuration with NVIDIA support
-  - `home-server/` - Headless server configuration
-  - `work/` - WSL / headless development configuration
+  - `laptop/` - laptop configuration 
+  - `home-server/` - Headless server 
+  - `work/` - WSL laptop 
 - `modules/` - Reusable NixOS modules
-- `home/` - Home Manager user configurations
+- `profiles/` - Used in hosts, composes `modules`
 
 ## Usage
 
