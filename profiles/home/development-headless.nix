@@ -3,6 +3,7 @@
 {
   imports = [
     ../../modules/home/fish-shell.nix
+    ../../modules/home/neovim.nix
   ];
 
   home.packages = with pkgs; [
