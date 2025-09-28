@@ -10,6 +10,7 @@ When working with files in the `hosts/` directory:
 
 - `laptop/` - Desktop/laptop configuration with GUI, NVIDIA drivers
 - `home-server/` - Headless server configuration
+- `work/` - Full desktop environment for WSL (Windows 11)
 
 ## Key Files
 
@@ -26,7 +27,7 @@ When working with files in the `hosts/` directory:
 
 ## Home Server Notes
 
-- **Minimal Configuration**: Only essential services and packages
+- **Mockup Configuration**: This is just a mockup for now and will be fleshed out later
 - **No GUI**: Headless configuration without display manager
 
 ## Modification Guidelines
@@ -36,6 +37,12 @@ When working with files in the `hosts/` directory:
 3. **User Environment**: Use home.nix for host-specific user settings
 4. **System State**: Maintain the stateVersion setting unless upgrading
 
+## Work-Specific Notes
+
+- **WSL Environment**: Running NixOS inside Windows Subsystem for Linux
+- **Full Desktop**: Complete desktop environment adapted for WSL
+- **Windows Integration**: Configured for seamless Windows 11 integration
+
 ## Testing
 
-Use `nixos-rebuild switch --flake .#hostname` where hostname is `laptop` or `home-server`.
+Use `nixos-rebuild switch --flake .#hostname` where hostname is `laptop`, `home-server`, or `work`.

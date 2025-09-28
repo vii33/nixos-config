@@ -26,9 +26,7 @@ sudo nixos-rebuild switch --flake .#home-server
 sudo nixos-rebuild test --flake .#laptop
 ```
 
-### Home Manager
 
-Home Manager is integrated via flake configuration. User-specific settings are in `home/vii/`.
 
 ## Development
 
