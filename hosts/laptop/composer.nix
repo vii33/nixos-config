@@ -11,6 +11,7 @@
       ../../modules/system/user.nix
       ../../profiles/system/common.nix
       ../../profiles/system/desktop.nix
+      ../../profiles/system/development-headless.nix
       
       ./swap.nix
       ./nbfc.nix
