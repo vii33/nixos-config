@@ -4,33 +4,32 @@ applyTo: 'modules/**/*.nix'
 
 # NixOS Modules Instructions
 
-When working with files in the `modules/` directory:
+When working with files in `modules/`:
 
-## Module Guidelines
+## Module layout in this repo
 
-1. **Structure**:
-   - Each module should be self-contained and focused
-   - Use proper Nix attribute sets and imports
-   - Follow the existing pattern of `{ config, pkgs, ... }:`
+- `modules/system/` — system-level reusable modules (users, timezone, system services).
+- `modules/home/` — Home Manager helper modules (alacritty, fish-shell, mouse, etc.).
 
-2. **Key Modules**:
-   - `default.nix` - System-wide packages and basic settings
-   - `user.nix` - User accounts, locale, and timezone settings
-   - `fish-shell.nix` - Fish shell system-level configuration
-   - `home-manager/` - User-specific configurations
+Keep modules small, composable and documented. Prefer the shape `{ config, pkgs, ... }:` for reusable modules.
 
-3. **Best Practices**:
-   - Comment hardware-specific or complex configurations
-   - Use consistent indentation (2 spaces)
-   - Group related settings together
-   - Avoid hardcoding user names where possible
+Modules are often composed into profiles (in `profiles/`) which are then imported by hosts (in `hosts/`).
 
-## Common Modifications
+## Best practices
 
-- **Adding packages**: Use `environment.systemPackages` for system-wide packages
-- **Service configuration**: Use `systemd.services` for custom services  
-- **User settings**: Consider if changes belong in Home Manager instead
+- Comment hardware-specific or non-obvious configurations.
+- Avoid hardcoding usernames or absolute paths; accept `specialArgs` and parameters where appropriate.
+- Group related settings (e.g. services, users, packages) together for clarity.
+- `modules/home/fish.nix`: Use clear text keyboard shortcuts and not escaped sequences.
+
+## Common tasks
+
+- Adding system packages: add to `environment.systemPackages` in a host or system module.
+- Adding per-user packages/config: put them under `modules/home/` and import via `home/<user>/` or the host's `home.nix`.
+- Services: declare with `systemd.services` inside system modules or host configuration.
 
 ## Testing
 
-Test module changes with `nixos-rebuild switch --flake .` after modifying system modules.
+Test changes by rebuilding the host: `nixos-rebuild switch --flake .#<host>` (for example `.#laptop`).
+
+```

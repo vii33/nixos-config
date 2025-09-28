@@ -12,36 +12,36 @@ When working with files in the `hosts/` directory:
 - `home-server/` - Headless server configuration
 - `work/` - Full desktop environment for WSL (Windows 11)
 
-## Key Files
+### Laptop-Specific Notes
 
-1. **composer.nix** - Main configuration composer that imports all modules
-2. **configuration.nix** - Host-specific system settings
-3. **hardware-configuration.nix** - Hardware detection results (auto-generated)
-4. **home.nix** - Host-specific Home Manager settings
+- **NVIDIA Configuration**: Managed in `hosts/laptop/configuration.nix` and related modules.
+- **NBFC Fan Control**: Helper is `hosts/laptop/nbfc.nix`; requires per-user `~/.config/nbfc.json` to actually run.
+- **Power Management**: Laptop-specific power settings are kept near the laptop host files.
 
-## Laptop-Specific Notes
-
-- **NVIDIA Configuration**: Carefully modify graphics settings in configuration.nix
-- **NBFC Fan Control**: Requires manual user configuration file at `~/.config/nbfc.json`
-- **Power Management**: Configured for laptop-specific power saving
-
-## Home Server Notes
+### Home Server Notes
 
 - **Mockup Configuration**: This is just a mockup for now and will be fleshed out later
-- **No GUI**: Headless configuration without display manager
 
-## Modification Guidelines
-
-1. **Hardware Changes**: Only modify hardware-configuration.nix if needed
-2. **Service Configuration**: Add host-specific services to configuration.nix
-3. **User Environment**: Use home.nix for host-specific user settings
-4. **System State**: Maintain the stateVersion setting unless upgrading
-
-## Work-Specific Notes
+### Work-Specific Notes
 
 - **WSL Environment**: Running NixOS inside Windows Subsystem for Linux
 - **Full Desktop**: Complete desktop environment adapted for WSL
 - **Windows Integration**: Configured for seamless Windows 11 integration
+
+## Key Files
+
+1. **composer.nix** - Host composer that imports modules and profiles
+2. **configuration.nix** - Host-specific NixOS configuration
+3. **hardware-configuration.nix** - Auto-generated hardware detection output (do not edit unless necessary)
+4. **home.nix** - Host-specific Home Manager entry (used to wire user home configurations)
+
+
+## Modification Guidelines
+
+1. **Hardware Changes**: Only modify `hardware-configuration.nix` when hardware was re-detected and you know what you're changing.
+2. **Service Configuration**: Add host-specific services in `configuration.nix` or split into `modules/system` and import from the composer.
+3. **User Environment**: Use the host's `home.nix` and `home/<user>/` for per-user Home Manager changes.
+4. **System State**: Keep `system.stateVersion` as-is unless planning an upgrade—update with care.
 
 ## Testing
 

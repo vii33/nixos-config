@@ -7,54 +7,28 @@ applyTo: '*.nix'
 ## Code Style
 
 1. **Indentation**: Use 2 spaces consistently
-2. **Line Length**: Keep lines under 100 characters when possible
-3. **Comments**: Add explanatory comments for complex configurations
-4. **Attribute Organization**: Group related attributes together
+2. **Line Length**: Keep lines under 100 characters when practical
+3. **Comments**: Explain non-obvious choices and hardware tweaks
+4. **Attribute Organization**: Group related attributes (services, users, packages)
 
-## Nix Expression Patterns
+## Nix Expression Patterns (examples)
 
-```nix
-# Good: Clear attribute set structure
-{
-  programs.firefox = {
-    enable = true;
-    package = pkgs.firefox;
-  };
-}
+Good: clear attribute sets and imports, keep modules small and composable.
 
-# Good: Proper imports structure
-{
-  imports = [
-    ./module1.nix
-    ./module2.nix
-  ];
-}
-
-# Good: Package lists with comments
-environment.systemPackages = with pkgs; [
-  vim       # Text editor
-  htop      # Process monitor
-  git       # Version control
-];
-```
-
-## Common Patterns to Avoid
-
-- Hardcoding absolute paths when relative paths work
-- Mixing system-level and user-level configurations inappropriately
-- Adding packages without considering if they belong in Home Manager
-- Modifying auto-generated files like hardware-configuration.nix unnecessarily
+Common patterns to avoid:
+- Hardcoding absolute paths when relative paths are sufficient
+- Mixing system-level and user-level configuration in the same file
+- Editing auto-generated files (`hardware-configuration.nix`) except intentionally
 
 ## Safety Practices
 
-1. **Never commit secrets** - Use proper secret management
-2. **Test before deployment** - Always test on non-production systems
-3. **Backup configurations** - Keep working configurations backed up
-4. **Incremental changes** - Make small, testable changes
+1. Never commit secrets — use `secrets/` for templates only and keep real secrets out of the repo.
+2. Test changes with `--dry-run` before switching.
+3. Make small, incremental commits so rollbacks are easy.
 
 ## Debugging
 
-- Use `nixos-rebuild --dry-run` to preview changes
-- Check logs with `journalctl` for service issues
-- Use `nix-store --query --tree` to inspect dependencies
-- Leverage `nix repl` for expression testing
+- Use `nixos-rebuild --dry-run --flake .#<host>` to preview changes for a host.
+- Inspect systemd logs with `journalctl -b` for runtime issues.
+- Use `nix repl` to experiment with expressions and `nix flake show` to inspect outputs.
+
