@@ -24,6 +24,12 @@
         specialArgs = { inherit inputs; };       # make inputs available in (sub)modules
         modules = [ ./hosts/home-server/composer.nix ];
       };
+
+      work = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";  # WSL environment (headless dev)
+        specialArgs = { inherit inputs; };
+        modules = [ ./hosts/work/composer.nix ];
+      };
     };
   };
 }

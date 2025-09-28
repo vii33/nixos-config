@@ -20,7 +20,7 @@ This file is the main entry point for the NixOS flake configuration. When modify
 3. **System Definitions**:
    - `laptop` - Desktop environment with NVIDIA and Home Manager wiring
    - `home-server` - Minimal server configuration
-   - `work` - Desktop environment with WSL (Windows 11)
+   - `work` - Headless WSL development environment (no GUI by default)
 
 ## Common Modifications
 

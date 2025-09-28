@@ -28,7 +28,7 @@ Common patterns to avoid:
 
 ## Debugging
 
-- Use `nixos-rebuild --dry-run --flake .#<host>` to preview changes for a host.
+- Use `nixos-rebuild --dry-run --flake .#<host>` to preview changes for a host (e.g. `.#work` for the WSL dev host).
 - Inspect systemd logs with `journalctl -b` for runtime issues.
 - Use `nix repl` to experiment with expressions and `nix flake show` to inspect outputs.
 

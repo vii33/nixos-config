@@ -22,7 +22,7 @@ This repository is a personal flake-based NixOS configuration; the document belo
 ## Top-level layout
 
 - `flake.nix` — pins `nixpkgs` to `nixos-25.05` and wires a compatible Home Manager release.
-- `hosts/` — per-host composers (`laptop`, `home-server`).
+- `hosts/` — per-host composers (`laptop`, `home-server`, `work`).
 - `modules/system/` — shared system modules (users, timezone, system services).
 - `modules/home/` — shared home Manager modules.
 - `home/` — per-user Home Manager configs (e.g. `home/vii/`).
@@ -42,6 +42,6 @@ This repository is a personal flake-based NixOS configuration; the document belo
 
 ## Testing
 
-- Rebuild a host: `nixos-rebuild switch --flake .#laptop` or `.#home-server`.
+- Rebuild a host: `nixos-rebuild switch --flake .#laptop`, `.#home-server`, or `.#work`.
 - Test changes with `nix flake check`
 ```
