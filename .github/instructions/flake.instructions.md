@@ -8,26 +8,27 @@ This file is the main entry point for the NixOS flake configuration. When modify
 
 ## Structure Guidelines
 
-1. **Inputs Section**: Only add well-maintained flake inputs
-   - Pin to specific release branches for stability
-   - Use `follows` to avoid input conflicts
+1. **Inputs Section**: Prefer pinned, well-maintained flake inputs
+   - This repo pins `nixpkgs` to `nixos-25.05` and uses a matching Home Manager release (see `flake.nix`).
+   - Use `follows` to keep `home-manager` in sync with `nixpkgs`.
 
 2. **Outputs Section**: 
-   - Keep `homeManagerModules` definitions clean and focused
-   - Each host should have its own configuration in `nixosConfigurations`
-   - Use `specialArgs` to pass flake inputs to modules
+   - Compose `nixosConfigurations` per-host (this repo exposes `laptop`, `home-server` and `work`).
+   - Use `specialArgs = { inherit inputs; }` so modules can reference flake inputs.
+   - Expose `homeConfigurations` for Home Manager per-user activation packages when useful.
 
 3. **System Definitions**:
-   - `laptop` - Full desktop environment with NVIDIA, Home Manager
+   - `laptop` - Desktop environment with NVIDIA and Home Manager wiring
    - `home-server` - Minimal server configuration
-   - `work` - Full desktop environment for WSL (Windows 11)
+   - `work` - Desktop environment with WSL (Windows 11)
 
 ## Common Modifications
 
-- **Adding new hosts**: Create new entry in `nixosConfigurations`
-- **Adding inputs**: Update both `inputs` and usage in modules
-- **Home Manager changes**: Ensure backup settings are appropriate
+- **Adding new hosts**: Add a new entry under `nixosConfigurations` and create a `hosts/<name>/composer.nix`.
+- **Adding inputs**: Add the input to `inputs` and wire it into modules via `specialArgs` or module imports.
+- **Home Manager changes**: If you add home-manager modules, ensure they are referenced from `hosts/<host>/home.nix` or `home/<user>/home.nix` as needed.
 
 ## Testing
 
-Use `nixos-rebuild switch --flake .#hostname` to test changes.
+Use `nixos-rebuild switch --flake .#<host>` to apply changes for a given host (for example `.#laptop`).
+```
