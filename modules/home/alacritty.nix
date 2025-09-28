@@ -10,8 +10,8 @@ programs.alacritty = {
         padding = { x = 8; y = 8; };
         #opacity = 0.95;
         dimensions = {
-          columns = 112;  
-          lines = 28;     
+          columns = 130;  
+          lines = 38;     
         };
       };
       # Different font: install via ./modules/default.nix. Check with 'fc-list : family | grep -i xxxxx'
