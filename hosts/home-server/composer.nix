@@ -18,7 +18,6 @@
   home-manager.backupFileExtension = "backup";   # backup existing dotfiles before overwriting
   home-manager.sharedModules =
     [
-      ../../profiles/home/common.nix
     ];
   home-manager.users.vii.imports = [ ../../home/vii/home.nix ];
 

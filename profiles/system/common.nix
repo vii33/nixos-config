@@ -18,5 +18,7 @@
     ripgrep
     fd
     bat
+    git
+    nvim
   ];
 }

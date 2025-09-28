@@ -9,7 +9,7 @@
 
     ../../modules/system/user.nix
     ../../profiles/system/common.nix
-    ../../profiles/system/development.nix
+    ../../profiles/system/development-headless.nix
   ];
 
   # Home Manager wiring (minimal: only common profile)
@@ -17,7 +17,6 @@
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";
   home-manager.sharedModules = [
-    ../../profiles/home/common.nix
   ];
   # Reuse the shared per-user config (no host-specific home.nix for now)
   home-manager.users.vii.imports = [ ../../home/vii/home.nix ];

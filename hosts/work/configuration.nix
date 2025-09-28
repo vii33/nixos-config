@@ -14,5 +14,4 @@
   # Enable OpenSSH if desired (uncomment below):
   # services.openssh.enable = true;
 
-  # Example: basic dev tools could be added via profiles/system/development.nix
 }

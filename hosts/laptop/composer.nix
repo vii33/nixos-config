@@ -10,7 +10,6 @@
 
       ../../modules/system/user.nix
       ../../profiles/system/common.nix
-      ../../profiles/system/development.nix
       ../../profiles/system/desktop.nix
       
       ./swap.nix
@@ -23,9 +22,9 @@
   home-manager.backupFileExtension = "backup";   # backup existing dotfiles before overwriting
   home-manager.sharedModules =
     [
-      ../../profiles/home/common.nix
       ../../profiles/home/desktop.nix
-      ../../profiles/home/development.nix
+      ../../profiles/home/development-desktop.nix
+      ../../profiles/home/development-headless.nix
       ../../modules/home/mouse.nix
     ];
   home-manager.users.vii.imports = [ ./home.nix ../../home/vii/home.nix ];
