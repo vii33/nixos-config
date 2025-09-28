@@ -1,0 +1,23 @@
+# NixOS build artifacts
+result
+result-*
+
+# Temporary files
+*~
+*.swp
+*.swo
+.*.tmp
+
+# IDE files
+.vscode/
+.idea/
+
+# MacOS
+.DS_Store
+
+# Backup files from Home Manager
+*.backup
+
+# Nix development
+.direnv/
+shell.nix
