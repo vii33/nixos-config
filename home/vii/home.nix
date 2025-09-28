@@ -5,7 +5,7 @@
 {
   # Import user specific packages
   imports = [
-    # ./packages.nix
+    ./git.nix
   ];
 
   # Set minimal infos for home manager: user, home directory and state version
