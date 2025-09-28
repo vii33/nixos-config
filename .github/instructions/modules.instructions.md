@@ -30,6 +30,6 @@ Modules are often composed into profiles (in `profiles/`) which are then importe
 
 ## Testing
 
-Test changes by rebuilding the host: `nixos-rebuild switch --flake .#<host>` (for example `.#laptop`).
+Test changes by rebuilding the host: `nixos-rebuild switch --flake .#<host>` (e.g. `.#laptop`, `.#work`).
 
 ```

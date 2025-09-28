@@ -10,7 +10,7 @@ When working with files in the `hosts/` directory:
 
 - `laptop/` - Desktop/laptop configuration with GUI, NVIDIA drivers
 - `home-server/` - Headless server configuration
-- `work/` - Full desktop environment for WSL (Windows 11)
+- `work/` - Headless WSL development environment (minimal, no desktop by default)
 
 ### Laptop-Specific Notes
 
@@ -24,9 +24,9 @@ When working with files in the `hosts/` directory:
 
 ### Work-Specific Notes
 
-- **WSL Environment**: Running NixOS inside Windows Subsystem for Linux
-- **Full Desktop**: Complete desktop environment adapted for WSL
-- **Windows Integration**: Configured for seamless Windows 11 integration
+- **WSL Environment**: Runs inside Windows Subsystem for Linux; no bootloader or display manager.
+- **Headless Dev Focus**: Imports common + development profiles only (no desktop profile by default).
+
 
 ## Key Files
 
