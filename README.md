@@ -2,6 +2,31 @@
 
 Personal NixOS configuration using flakes and Home Manager.
 
+## Key Features
+
+- **Flake-based**: Modern Nix flakes for reproducible configurations
+- **Home Manager**: User environment management
+- **Multi-host**: Support for laptop and server configurations
+- **Hardware Support**: NVIDIA graphics, NBFC fan control
+- **Shell Configuration**: Fish shell with Tide prompt
+
+## Keyboard Shortcuts (fish)
+
+These are keyboard shortcuts and shell abbreviations defined in `modules/home/fish-shell.nix` (fish configuration). They are configured for the fish shell and some require additional plugins like `fzf`, `tide`, and `sudope`.
+
+| Category | Key / Abbreviation | Action | Notes |
+|---|---:|---|---|
+| Abbreviation | `nv` | expands to `nvim` | Declared via `shellAbbrs` |
+| Keybinding | Ctrl+U | kill whole line (`kill-whole-line`) | Also mapped for insert mode (`bind -M insert ctrl--u`) |
+| Keybinding | Ctrl+L | clear screen (`clear-screen`) | |
+| Keybinding | Ctrl+Right | forward-word | |
+| Keybinding | Ctrl+Left | backward-word | |
+| Keybinding | Ctrl+B | run `fzf_bindings` (fuzzy-search helper for fish bindings) | Helper function defined in the fish config; requires `fzf` in PATH |
+| Keybinding (conditional) | Ctrl+P | fzf `--processes` binding | Set by `fzf_configure_bindings` when available |
+| Keybinding (conditional) | Ctrl+F | fzf directory binding | Set by `fzf_configure_bindings` when available |
+| Keybinding | Alt+S | `sudope` sequence (`set -g sudope_sequence \es`) | Requires `plugin-sudope` fish plugin; inserts `sudo` for commands |
+
+
 ## Repository Structure
 
 - `flake.nix` - Main flake configuration defining system builds
@@ -132,11 +157,3 @@ This repository includes comprehensive Copilot instructions in `.github/instruct
 - Repository structure guidance
 - Host-specific configuration details
 - Module development patterns
-
-## Key Features
-
-- **Flake-based**: Modern Nix flakes for reproducible configurations
-- **Home Manager**: User environment management
-- **Multi-host**: Support for laptop and server configurations
-- **Hardware Support**: NVIDIA graphics, NBFC fan control
-- **Shell Configuration**: Fish shell with Tide prompt
