@@ -2,8 +2,14 @@
 { config, pkgs, lib, ... }:
 
 {
+  # Enable zoxide (smart directory jumping) with fish integration
+  programs.zoxide = {
+    enable = true;
+    enableFishIntegration = true;
+  };
+
   home.packages = with pkgs; [
-    fishPlugins.transient-fish
+    #fishPlugins.transient-fish
     fishPlugins.tide            # styling
     fishPlugins.sponge          # remove wrong commands from history
     fishPlugins.plugin-sudope   # insert sudo with alt+s
@@ -24,6 +30,12 @@
   programs.fish = {
     enable = true;
 
+    # 
+    shellAbbrs = {
+      nv = "nvim";
+      nbl = "sudo nixos-rebuild switch --flake ~/nixos-config/.#laptop"
+    };
+
     shellInit = ''
       # Set ESC key delay to 500 ms so SUDOPE plugins works better (TODO doesn't work still))
       set -g fish_escape_delay_ms 500
@@ -31,6 +43,23 @@
       set -g sudope_sequence \es
 
       set -g fish_greeting "🦤 🦤 🪴"
+
+
+      # FZF: Apply vim-style movement keys globally to all fzf instances
+      # Using array form so each option is its own argument (clearer & avoids long quoted string)
+      # Reference: https://github.com/junegunn/fzf
+      # Further keybinding (use different keys, currently conflicting with fish bindings): 
+        #--bind=ctrl-u:half-page-up \
+        #--bind=ctrl-d:half-page-down \
+        #--bind=ctrl-f:page-down \
+        #--bind=ctrl-b:page-up \
+      set -gx FZF_DEFAULT_OPTS \
+        --bind=ctrl-j:down \
+        --bind=ctrl-k:up \
+        --bind=enter:accept
+
+      # Reuse same bindings for completion integrations (fzf.fish, etc.)
+      set -gx FZF_COMPLETE_OPTS $FZF_DEFAULT_OPTS
     '';
 
     interactiveShellInit = ''
@@ -52,7 +81,20 @@
           --icons='Many icons' \
           --transient=Yes
       end
+
+      # Extra readability between commands when using tide's transient prompt:
+      # The transient prompt collapses previous prompts, making it harder to visually
+      # separate one finished command from the start of the next. This postexec hook
+      # prints a blank line right before the next prompt.
+      # (Placed here instead of redefining fish_prompt to avoid conflicts with tide updates.)
+        #if not functions -q __postexec_blankline
+        #  function __postexec_blankline --on-event fish_postexec
+        #    printf '🦉\n'
+        #  end
+        #end
     '';
+
+    # Custom key bindings
     functions.fish_user_key_bindings.body = ''
       # CTRL + U    whole line delete
       bind ctrl-u kill-whole-line
