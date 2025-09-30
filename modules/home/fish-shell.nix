@@ -33,7 +33,7 @@
     # 
     shellAbbrs = {
       nv = "nvim";
-      nbl = "sudo nixos-rebuild switch --flake ~/nixos-config/.#laptop"
+      nbl = "sudo nixos-rebuild switch --flake ~/nixos-config/.#laptop";
     };
 
     shellInit = ''
@@ -49,13 +49,13 @@
       # Using array form so each option is its own argument (clearer & avoids long quoted string)
       # Reference: https://github.com/junegunn/fzf
       # Further keybinding (use different keys, currently conflicting with fish bindings): 
-        #--bind=ctrl-u:half-page-up \
-        #--bind=ctrl-d:half-page-down \
         #--bind=ctrl-f:page-down \
         #--bind=ctrl-b:page-up \
       set -gx FZF_DEFAULT_OPTS \
         --bind=ctrl-j:down \
         --bind=ctrl-k:up \
+        --bind=ctrl-d:half-page-down \
+        --bind=ctrl-u:half-page-up \
         --bind=enter:accept
 
       # Reuse same bindings for completion integrations (fzf.fish, etc.)
@@ -96,12 +96,12 @@
 
     # Custom key bindings
     functions.fish_user_key_bindings.body = ''
-      # CTRL + U    whole line delete
-      bind ctrl-u kill-whole-line
-      bind -M insert ctrl--u kill-whole-line
+      # CTRL + L    whole line delete
+      bind ctrl-l kill-whole-line
+      bind -M insert ctrl--l kill-whole-line
 
-      # CTRL + L   clear screen like bash
-      bind ctrl-l clear-screen
+      # CTRL + S   clear screen 
+      bind ctrl-s clear-screen
 
       # Ctrl+Right / Ctrl+Left for word-wise movement
       bind ctrl-right forward-word
