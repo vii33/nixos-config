@@ -17,14 +17,20 @@ These are keyboard shortcuts and shell abbreviations defined in `modules/home/fi
 | Category | Key / Abbreviation | Action | Notes |
 |---|---:|---|---|
 | Abbreviation | `nv` | expands to `nvim` | Declared via `shellAbbrs` |
-| Keybinding | Ctrl+U | kill whole line (`kill-whole-line`) | Also mapped for insert mode (`bind -M insert ctrl--u`) |
-| Keybinding | Ctrl+L | clear screen (`clear-screen`) | |
-| Keybinding | Ctrl+Right | forward-word | |
-| Keybinding | Ctrl+Left | backward-word | |
-| Keybinding | Ctrl+B | run `fzf_bindings` (fuzzy-search helper for fish bindings) | Helper function defined in the fish config; requires `fzf` in PATH |
-| Keybinding (conditional) | Ctrl+P | fzf `--processes` binding | Set by `fzf_configure_bindings` when available |
-| Keybinding (conditional) | Ctrl+F | fzf directory binding | Set by `fzf_configure_bindings` when available |
-| Keybinding | Alt+S | `sudope` sequence (`set -g sudope_sequence \es`) | Requires `plugin-sudope` fish plugin; inserts `sudo` for commands |
+| Abbreviation | `nbl` | expands to `sudo nixos-rebuild switch --flake ~/nixos-config/.#laptop` | Convenience rebuild shortcut |
+| Fish | Ctrl+L | kill whole line (`kill-whole-line`) | Insert mode too (`bind -M insert ctrl--l`) |
+| Fish | Ctrl+S | clear screen (`clear-screen`) | Repurposes traditional flow-control key |
+| Fish | Ctrl+Right | forward-word | |
+| Fish | Ctrl+Left | backward-word | |
+| Fish | Ctrl+B | run `fzf_bindings` fuzzy key search | Custom function; requires `fzf` |
+| Fish (conditional) | Ctrl+P | fzf `--processes` binding | From `fzf_configure_bindings` if available |
+| Fish (conditional) | Ctrl+F | fzf directory binding | From `fzf_configure_bindings` if available |
+| Fish | Alt+S | `sudope` sequence (`set -g sudope_sequence \\es`) | Inserts `sudo` (plugin-sudope) |
+| FZF (in list) | Ctrl+J | move down one item | From `FZF_DEFAULT_OPTS` |
+| FZF (in list) | Ctrl+K | move up one item | From `FZF_DEFAULT_OPTS` |
+| FZF (in list) | Ctrl+U | half-page up | From `FZF_DEFAULT_OPTS`; only inside fzf |
+| FZF (in list) | Ctrl+D | half-page down | From `FZF_DEFAULT_OPTS`; only inside fzf |
+| FZF (in list) | Enter | accept selection | From `FZF_DEFAULT_OPTS` |
 
 
 ## Repository Structure
