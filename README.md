@@ -104,7 +104,8 @@ sudo systemctl hibernate   # test once
 ```
 
 ### 5. WireGuard VPN import (laptop)
-Currently manual (NetworkManager), per comment in `hosts/laptop/configuration.nix`:
+Currently manually done in KDE.
+Alternative: `hosts/laptop/configuration.nix`:
 ```
 nmcli connection import type wireguard file my-wg-config.conf
 ```
@@ -114,36 +115,31 @@ Optional future: declarative via `networking.wg-quick.interfaces`.
 Wayland: `wl-clipboard` is already included. For X11 switch to `xclip` in `modules/home/neovim.nix` and rebuild.
 ### 7. Additional dev repos
 Clone any other personal repos to `~/dev/` if you plan to symlink them similarly.
-### 8. Docker group session refresh
-User `vii` is already in `docker`. If permission denied right after first login, log out/in or:
-```
-sudo systemctl restart docker
-```
 
-### 9. SSH keys (not stored in repo)
+### 8. SSH keys (not stored in repo)
 ```
 ssh-keygen -t ed25519 -C "vii@<host>"
 ```
 Add public key to forges/services manually.
 
-### 10. NVIDIA verification (laptop)
+### 9. NVIDIA verification (laptop)
 ```
 nvidia-smi
 glxinfo -B | grep -E 'OpenGL vendor|OpenGL renderer'
 ```
-### 11. Cleanup Home Manager backups
+### 10. Cleanup Home Manager backups
 Existing files overwritten get a `.backup` suffix:
 ```
 find ~ -name '*.backup' -maxdepth 4
 ```
 
-### 12. Update flake inputs (maintenance)
+### 11. Update flake inputs (maintenance)
 ```
 nix flake update
 sudo nixos-rebuild switch --flake .#<host>
 ```
 
-### 13. (Future improvements – not yet automatic)
+### 12. (Future improvements – not yet automatic)
 - Make NBFC JSON generation declarative (e.g. with a `home.file` entry gated by host)
 - Declarative WireGuard interface(s)
 - Automate swapfile creation & resume offset derivation (systemd tmpfiles + script)
@@ -157,3 +153,44 @@ This repository includes comprehensive Copilot instructions in `.github/instruct
 - Repository structure guidance
 - Host-specific configuration details
 - Module development patterns
+
+
+## Backups
+
+Nix and Home Manager restore the system and most dotfiles, but some personal data and runtime state lives outside this repo. Back up the items below regularly, especially before reinstalling or migrating.
+
+| Item | Path(s) | Why/Notes |
+|---|---|---|
+| This repo (nixos-config) | `~/nixos-config` (incl. `flake.lock`) | Preserves exact versions and config history; push to remote or archive |
+| Neovim config | `~/dev/neovim-config` | Actual editor config (repo symlinked by `modules/home/neovim.nix`) |
+| Zoxide database | `${XDG_DATA_HOME:-~/.local/share}/zoxide/db` | Directory frecency learning |
+| NBFC config | `~/.config/nbfc.json` | Required by `hosts/laptop/nbfc.nix` |
+| SSH | `~/.ssh/` | Keys (`id_ed25519*`), `config`, `known_hosts`, `authorized_keys` |
+| GPG (if used) | `~/.gnupg/` | Keys, trustdb; consider `gpg --export-secret-keys` |
+| NetworkManager | `/etc/NetworkManager/system-connections/*.nmconnection` | Wi‑Fi, VPN, WireGuard profiles (may contain secrets) |
+| WireGuard files (if not NM) | wherever saved (e.g., `~/wg/*.conf`) | Keep original `.conf` plus keys if separate |
+| Docker data (if used) | `/var/lib/docker/volumes/` and bind mounts | Persistent container volumes and data dirs |
+
+Notes on secrets: Treat SSH/GPG keys and WireGuard/NM exports as sensitive. Store with restricted permissions and never commit them to this repo.
+
+Quick backup script (fish): See `docs/backup.fish`.
+
+To run it:
+
+```fish
+fish docs/backup.fish
+```
+
+NetworkManager/WireGuard export (optional, may require sudo)
+
+```fish
+# Export all connection profiles to the backup directory
+set -l BK "$HOME/backups/(date "+%Y-%m-%d_%H-%M-%S")"
+mkdir -p $BK/nm
+nmcli -t -f NAME connection show | while read -l name
+  sudo nmcli connection export "$name" "$BK/nm/(string replace -a ' ' '_' $name).nmconnection"
+end
+echo "NM profiles exported to: $BK/nm"
+```
+
+Restoring is typically just copying files back into place (and for NM, importing with `nmcli connection import`). Always set correct permissions afterward (e.g., `chmod 600` for private keys and `.nmconnection` files containing secrets).
