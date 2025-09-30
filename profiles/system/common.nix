@@ -13,7 +13,7 @@
     mtr           # My traceroute
     htop
     fzf
-    zoxide
+    zoxide        # smart cd (integration handled in home module)
     eza
     ripgrep
     fd
