@@ -43,8 +43,8 @@
     '';
 
     interactiveShellInit = ''
-      # Enable vi-style key bindings 
-      fish_vi_key_bindings INSERT     # start in insert mode (delete param if not wanted)
+      # Enable vi-style key bindings (I think the overwrite all other key bindings) 
+      fish_vi_key_bindings           # possible to start in different vim mode
 
       # Greeting (random greeting see https://fishshell.com/docs/current/interactive.html#interactive)
       set -g fish_greeting "🦤 🦤 🪴"
