@@ -16,6 +16,7 @@
     fishPlugins.fzf-fish
     # fishPlugins.hydro         # removed due to fish_prompt.fish filename collision with tide
     fishPlugins.colored-man-pages
+    wl-clipboard                # for Wayland clipboard access (used by fun_copy_commandline_to_clipboard)
   ];
 
   # Plugin settings ---------------------------------------------
@@ -30,39 +31,30 @@
   programs.fish = {
     enable = true;
 
-    # 
+    # Abbreviations
     shellAbbrs = {
       nv = "nvim";
       nbl = "sudo nixos-rebuild switch --flake ~/nixos-config/.#laptop";
     };
 
+    # ShellInit use for fast and non-output things (e.g. path vars)
     shellInit = ''
-      # Set ESC key delay to 500 ms so SUDOPE plugins works better (TODO doesn't work still))
-      set -g fish_escape_delay_ms 500
-      # Set alternative keybinding for sudope  (ALT+S)
-      set -g sudope_sequence \es
-
-      set -g fish_greeting "🦤 🦤 🪴"
-
-
-      # FZF: Apply vim-style movement keys globally to all fzf instances
-      # Using array form so each option is its own argument (clearer & avoids long quoted string)
-      # Reference: https://github.com/junegunn/fzf
-      # Further keybinding (use different keys, currently conflicting with fish bindings): 
-        #--bind=ctrl-f:page-down \
-        #--bind=ctrl-b:page-up \
-      set -gx FZF_DEFAULT_OPTS \
-        --bind=ctrl-j:down \
-        --bind=ctrl-k:up \
-        --bind=ctrl-d:half-page-down \
-        --bind=ctrl-u:half-page-up \
-        --bind=enter:accept
-
-      # Reuse same bindings for completion integrations (fzf.fish, etc.)
-      set -gx FZF_COMPLETE_OPTS $FZF_DEFAULT_OPTS
+      # (Interactive-only variables like fish_greeting & fish_escape_delay_ms moved to interactiveShellInit)
     '';
 
     interactiveShellInit = ''
+      # Enable vi-style key bindings 
+      fish_vi_key_bindings INSERT     # start in insert mode (delete param if not wanted)
+
+      # Greeting (random greeting see https://fishshell.com/docs/current/interactive.html#interactive)
+      set -g fish_greeting "🦤 🦤 🪴"
+
+      # ESC key delay tweak (only matters with human input & vi bindings)
+      set -g fish_escape_delay_ms 500
+      
+      # Alternative keybinding sequence for sudope plugin (ALT+S)
+      set -g sudope_sequence \es
+
       # Set up Tide 
       # Only run if Tide hasn't been configured yet on this machine
       if not set -q tide_prompt_transient_enabled
@@ -81,6 +73,22 @@
           --icons='Many icons' \
           --transient=Yes
       end
+
+      # FZF: Apply vim-style movement keys globally to all fzf instances
+      # Using array form so each option is its own argument (clearer & avoids long quoted string)
+      # Reference: https://github.com/junegunn/fzf
+      # Further keybinding (use different keys, currently conflicting with fish bindings): 
+        #--bind=ctrl-f:page-down \
+        #--bind=ctrl-b:page-up \
+      set -gx FZF_DEFAULT_OPTS \
+        --bind=ctrl-j:down \
+        --bind=ctrl-k:up \
+        --bind=ctrl-d:half-page-down \
+        --bind=ctrl-u:half-page-up \
+        --bind=enter:accept
+
+      # Reuse same bindings for completion integrations (fzf.fish, etc.)
+      set -gx FZF_COMPLETE_OPTS $FZF_DEFAULT_OPTS
 
       # Extra readability between commands when using tide's transient prompt:
       # The transient prompt collapses previous prompts, making it harder to visually
@@ -108,20 +116,31 @@
       bind ctrl-left  backward-word
 
       # Ctrl+B -> fuzzy search existing fish key bindings (overrides default backward-char)
-      bind ctrl-b fzf_bindings   # custom function defined below
+      bind ctrl-b fun_fzf_bindings   # custom function defined below
 
       # Change fzf.fish keybindings (fzf_configure_bindings needs to be called at least to get default bindings)
       # help:   fzf_configure_bindings --h
       if functions -q fzf_configure_bindings
         fzf_configure_bindings --processes=ctrl-p --directory=ctrl-f
       end
-    '';
+
+      # Copy current command line to clipboard
+      # Ctrl+Y in insert mode
+      bind -M insert ctrl-y fun_copy_commandline_to_clipboard
+      # Vim-like yy in normal (default) mode
+      bind -M default 'yy' 'fun_copy_commandline_to_clipboard'
+
+      # Ctrl+O -> fuzzy pick a file and insert (works in normal/insert/visual).
+        bind ctrl-o fun_fzf_file_open
+        bind -M insert ctrl-o fun_fzf_file_open
+        bind -M visual ctrl-o fun_fzf_file_open
+        '';
 
     # Custom helper function: fzf_bindings
-    functions.fzf_bindings.body = ''
+    functions.fun_fzf_bindings.body = ''
       # Fuzzy search current fish key bindings using fzf
       if not type -q fzf
-        echo "fzf not found in PATH (required for fzf_bindings)" >&2
+        echo "fzf not found in PATH (required for fun_fzf_bindings)" >&2
         return 127
       end
 
@@ -142,6 +161,70 @@
         # Optionally: parse key + command
         # echo "$selection" | read -l key rest; echo "Key: $key"; echo "Command: $rest"
       end
+    '';
+
+    # Custom helper function: copy current command line buffer to the clipboard (Wayland/X11/macOS)
+    functions.fun_copy_commandline_to_clipboard.body = ''
+      set -l line (commandline)
+      if test -z "$line"
+        return 0
+      end
+
+      if type -q wl-copy
+        printf '%s' "$line" | wl-copy
+      else if type -q xclip
+        printf '%s' "$line" | xclip -selection clipboard
+      else if type -q xsel
+        printf '%s' "$line" | xsel --clipboard --input
+      else if type -q pbcopy
+        printf '%s' "$line" | pbcopy
+      else
+        printf 'No clipboard tool (wl-copy/xclip/xsel/pbcopy) found\n' >&2
+        return 1
+      end
+    '';
+
+    # Custom helper function: Ctrl+O launches a file picker and inserts the selected file path at cursor.
+    # - Uses fd if available (respects .gitignore); falls back to find.
+    # - Shows preview with bat (if installed) limited to first 300 lines.
+    # - Future idea: launch nvim when no editor was given in command
+    functions.fun_fzf_file_open.body = ''
+      # Build file list command (fd preferred)
+      set -l list_cmd ""
+      if type -q fd
+        set list_cmd "fd --type f --hidden --follow --exclude .git"
+      else
+        set list_cmd "find . -type f -not -path '*/.git/*'"
+      end
+
+      # Invoke picker
+      set -l file (eval $list_cmd | fzf \
+        --prompt="file> " \
+        --height=80% \
+        --reverse \
+        --border \
+        --preview 'bat --style=numbers --color=always --line-range=:300 {} 2>/dev/null' \
+        --preview-window=right,50%:wrap )
+
+      test -n "$file"; or return 0
+
+      # Absolute path resolution (keep relative fallback)
+      set -l full (realpath "$file" 2>/dev/null; or echo (pwd)/"$file")
+
+      # Tilde shortening
+      if string match -q "$HOME/*" "$full"
+        set full "~/"(string replace -r "^$HOME/" "" $full)
+      end
+
+      # Conditionally escape: keep simple paths raw; escape ones with spaces or special chars
+      set -l insert_path ""
+      if string match -q -r '^[A-Za-z0-9_./@%+=:,~-]+$' -- $full
+        set insert_path $full
+      else
+        set insert_path (string escape -- $full)
+      end
+      commandline -i $insert_path
+      commandline -f repaint
     '';
   };
 }
