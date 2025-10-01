@@ -10,6 +10,7 @@ applyTo: '*.nix'
 2. **Line Length**: Keep lines under 100 characters when practical
 3. **Comments**: Explain non-obvious choices and hardware tweaks
 4. **Attribute Organization**: Group related attributes (services, users, packages)
+5. Fish related aspects: `modules/home/fish.nix`: Use clear text keyboard shortcuts and not escaped sequences.
 
 ## Nix Expression Patterns (examples)
 
