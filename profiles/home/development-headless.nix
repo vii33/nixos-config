@@ -3,14 +3,11 @@
 {
   imports = [
     ../../modules/home/fish-shell.nix
-    ../../modules/home/neovim.nix
+    #../../modules/home/neovim.nix
+    ../../modules/home/nixvim.nix
   ];
 
   home.packages = with pkgs; [
-    docker
-    docker-compose
-    python3
-    uv
   ];
 
 
