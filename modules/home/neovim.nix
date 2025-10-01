@@ -13,14 +13,19 @@
 
   # Tools LazyVim expects
   home.packages = with pkgs; [
-    git ripgrep fd gcc gnumake unzip
+    git ripgrep fd gcc gnumake unzip wget curl
     # choose one of these for clipboard:
     #xclip              # X11
     wl-clipboard     # Wayland
     
     # Additional tools for better LazyVim experience
-    nodejs_20        # Required for many LSP servers
+    nodejs_24        # Required for many LSP servers
     # Python3 already included in other config
+    # LSP servers and formatters
+    nixd          # For nix-lsp
+    lua-language-server 
+    marksman 
+    stylua
   ];
 
   # Symlink to my neovim config ~/.config/nvim
