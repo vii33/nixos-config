@@ -9,7 +9,7 @@
   home.packages = with pkgs; [
     docker
     docker-compose
-    python3Minimal
+    python3
     uv
   ];
 
