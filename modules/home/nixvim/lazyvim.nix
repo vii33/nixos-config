@@ -1,20 +1,21 @@
 { config, pkgs, ... }:
 {
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    # External CLIs you want at runtime:
-    extraPackages = with pkgs; [ 
-        ripgrep fd nodejs_20 git 
-    ];
-  };
+
+#   programs.neovim = {
+#     enable = true;
+#     defaultEditor = true;
+#     # External CLIs you want at runtime:
+#     extraPackages = with pkgs; [ 
+#         #ripgrep fd nodejs_20 git 
+#     ];
+#   };
 
   programs.nixvim = {
     enable = true;
     # We only need lazy.nvim itself from Nix; the rest is managed by Lazy at runtime
     plugins.lazy.enable = true;
 
-    extraLuaConfig = ''
+    extraConfigLua = ''
       -- Leader first (LazyVim expects it):
       vim.g.mapleader = " "
       vim.g.maplocalleader = " "
