@@ -23,6 +23,7 @@
   home-manager.backupFileExtension = "backup";   # backup existing dotfiles before overwriting
   home-manager.sharedModules =
     [
+      inputs.nixvim.homeManagerModules.nixvim
       ../../profiles/home/desktop.nix
       ../../profiles/home/development-desktop.nix
       ../../profiles/home/development-headless.nix
