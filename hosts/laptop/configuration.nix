@@ -2,11 +2,6 @@
 { config, pkgs, ... }:
 
 {
-nixpkgs.config.allowUnfree = true;
-
-# Enable experimental features for Nix
-nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
 # Bootloader
 boot.loader.systemd-boot.enable = true;
 boot.loader.efi.canTouchEfiVariables = true;

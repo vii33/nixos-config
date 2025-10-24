@@ -1,6 +1,18 @@
 { config, pkgs, ... }:
 
 {
+  # Basic Nix settings
+  nixpkgs.config.allowUnfree = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  
+  # Build optimizations
+  nix.settings = {
+    download-buffer-size = 128 * 1024 * 1024; # 128 MiB
+    max-jobs = "auto";                          # Use all CPU cores for parallel builds
+    cores = 2;                                # Limit each build to 2 cores
+    auto-optimise-store = true;               # Save disk space automatically
+  };
+
   # Enable fish shell system-wide
   programs.fish.enable = true;
 
