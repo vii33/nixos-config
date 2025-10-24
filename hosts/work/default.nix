@@ -16,6 +16,7 @@
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";
+  home-manager.extraSpecialArgs = { inherit (config._module.specialArgs) pkgs-unstable; };
   home-manager.sharedModules = [
   ];
   # Reuse the shared per-user config (no host-specific home.nix for now)

@@ -21,6 +21,7 @@
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";   # backup existing dotfiles before overwriting
+  home-manager.extraSpecialArgs = { inherit (config._module.specialArgs) pkgs-unstable; };
   home-manager.sharedModules =
     [
       inputs.nixvim.homeManagerModules.nixvim
