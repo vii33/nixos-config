@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-unstable, ... }:
 
 {
   home.packages = with pkgs; [
@@ -8,5 +8,6 @@
     signal-desktop-bin
     thunderbird
     vlc
+    pkgs-unstable.onedriver
   ];
 }
