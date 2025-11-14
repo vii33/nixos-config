@@ -1,6 +1,10 @@
 {
   description = "Laptop config";
 
+  nixConfig = {
+    allowDirty = true;  # no build warnings even with uncommitted changes
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
