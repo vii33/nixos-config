@@ -18,28 +18,18 @@
       end
       vim.opt.rtp:prepend(devdir)
 
-      -- Bootstrap Lazy with LazyVim defaults + your overrides
+      -- Bootstrap Lazy with LazyVim (following official starter pattern)
       local specs = {
-        -- 0) LazyVim itself (let Lazy manage it for latest version):
-        {
-          "LazyVim/LazyVim",
-          priority = 10000,
-          lazy = false,
-          opts = {},
-          version = false, -- always use latest
-        },
+        -- LazyVim itself with its plugins import
+        { "LazyVim/LazyVim", import = "lazyvim.plugins" },
         
-        -- 1) Pull ALL LazyVim defaults:
-        { import = "lazyvim.plugins" },
-
-        -- 2) (optional) LazyVim extras you actually want, uncomment as needed:
+        -- (optional) LazyVim extras you actually want
         { import = "lazyvim.plugins.extras.lang.python" },
-        -- { import = "lazyvim.plugins.extras.lang.rust" },
         -- { import = "lazyvim.plugins.extras.ui.mini-starter" },
       }
       
-      -- 3) Your overrides/additions live here (writable):
-      -- Only import user specs if the directory exists
+      -- Your custom plugins/overrides (writable at runtime)
+      -- Only import user specs if the directory exists and has files
       local user_specs_path = vim.fn.expand("~/.config/nvim-local/lua/user/specs")
       if vim.fn.isdirectory(user_specs_path) == 1 then
         local has_files = vim.fn.glob(user_specs_path .. "/*.lua") ~= ""
