@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-unstable, ... }:
 
 {
   imports = [
@@ -6,6 +6,6 @@
   ];
 
   home.packages = with pkgs; [
-    vscode
+    pkgs-unstable.vscode
   ];
 }
