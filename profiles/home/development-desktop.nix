@@ -3,6 +3,7 @@
 {
   imports = [
     ../../modules/home/alacritty.nix
+    ../../modules/home/kitty.nix
   ];
 
   home.packages = with pkgs; [
