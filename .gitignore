@@ -21,3 +21,5 @@ result-*
 # Nix development
 .direnv/
 shell.nix
+# Symlink to nvim-local (user runtime config)
+nvim-local/
