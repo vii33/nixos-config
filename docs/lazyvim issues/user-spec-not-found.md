@@ -1,6 +1,8 @@
 # Problem description
 When starting LazyVim the error `notify.error lazy.nvim: No specs found for module "user.specs"` appears.
 
+STATUS: ERROR FIXED.
+
 # Further information
 
 ## Architecture Analysis vs Official Starter
