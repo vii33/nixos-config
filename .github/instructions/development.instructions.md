@@ -12,6 +12,25 @@ applyTo: '*.nix'
 4. **Attribute Organization**: Group related attributes (services, users, packages)
 5. Fish related aspects: `modules/home/fish.nix`: Use clear text keyboard shortcuts and not escaped sequences.
 
+## Shell Commands (Fish)
+
+The default shell is Fish, which **does not support heredocs**. When creating multi-line files:
+
+**Bad:**
+```fish
+cat > file.txt << 'EOF'
+content here
+EOF
+```
+
+**Good:**
+```fish
+printf '%s\n' 'line 1' 'line 2' 'line 3' > file.txt
+# or
+echo 'line 1' > file.txt
+echo 'line 2' >> file.txt
+```
+
 ## Nix Expression Patterns (examples)
 
 Good: clear attribute sets and imports, keep modules small and composable.
