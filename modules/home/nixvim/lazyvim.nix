@@ -4,7 +4,21 @@
   programs.nixvim = {
     enable = true;
     vimAlias = true;
+    viAlias = true;
 
+    # Required packages for treesitter and plugin building
+    extraPackages = with pkgs; [
+      gcc          # C compiler for treesitter parsers
+      gnumake      # Build tool
+      tree-sitter  # Tree-sitter CLI
+      
+      # Snacks.nvim dependencies
+      imagemagick  # For 'magick' command (image conversion)
+      ghostscript  # For 'gs' command (PDF rendering)
+      nodePackages.mermaid-cli  # For 'mmdc' command (Mermaid diagrams)
+    ];
+
+    # LSPs are installed with nix (not mason), due to dynamic linking issues
     lsp = {
       servers = {
         bashls.enable     = true;
@@ -13,7 +27,7 @@
         html.enable       = true;
         jsonls.enable     = true;
         lua_ls.enable     = true;
-        nixd.enable       = true;
+        nixd.enable       = true;  # Nix LSP (using nixd instead of nil)
       };
     };
 
