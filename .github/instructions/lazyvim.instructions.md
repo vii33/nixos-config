@@ -49,3 +49,25 @@ nixos-config/
 ## Making nvim-local Visible to the Agent
 
 To allow the agent to see and help with your `~/.config/nvim-local/` files a symlink was created in your `nixos-config` repo.
+
+## LSP Management: Mason vs Nix
+
+**Current Approach: Nix-managed LSPs (Recommended)**
+
+This configuration uses **Nix to manage all LSP servers** declaratively via `programs.nixvim.lsp.servers` in `lazyvim.nix`. Mason is installed but disabled from auto-installing LSPs via `mason-local.lua`.
+
+**Why Nix over Mason?**
+- **No dynamic linking issues**: Mason-built binaries expect FHS paths (`/lib`, `/usr/lib`) which don't exist on NixOS
+- **Reproducibility**: Flake lock pins exact LSP versions
+- **Simplicity**: No need for `nix-ld` or FHS wrappers
+- **Reliability**: All dependencies managed declaratively
+
+**Using Mason on NixOS (Not Recommended)**
+
+While technically possible with workarounds, it introduces complexity:
+- Requires `programs.nix-ld.enable = true` for dynamic linking
+- Need Rust toolchain (`cargo`, `rustc`) and build tools in PATH
+- Runtime library path issues common
+- Defeats NixOS declarative philosophy
+
+**Best Practice**: Manage core LSPs via Nix, keep Mason available for manual experimentation only.
