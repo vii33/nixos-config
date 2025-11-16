@@ -1,16 +1,25 @@
 ---
-applyTo: 'modules/home/nixvim/**/*lazyvim*.nix'
+applyTo: 'modules/home/nixvim/**/*.nix'
 ---
 
 # LazyVim + NixVim Configuration Guide
 
-## Architecture Overview
+The user wants to use Neovim with LazyVim as the plugin manager. To leverage the declarative nature of NixOS, we use NixVim to generate the base Neovim configuration, while allowing dynamic plugin management via LazyVim (hybrid approach).
+This allows the user to add/remove plugins and settings without needing to rebuild their entire NixOS configuration.
 
-This setup uses a **hybrid approach** combining NixVim (declarative) with LazyVim (dynamic). This is important as the user wants to have a flexbile Neovim setup where they can easily add/remove plugins without needing to rebuild their entire NixOS configuration.
+## Architecture Overview
 
 - **NixVim** manages the base Neovim configuration at `~/.config/nvim/` (read-only, generated from Nix)
 - **LazyVim** provides the plugin ecosystem and sensible defaults
 - **`~/.config/nvim-local/`** provides a writable directory for dynamic plugin management
+
+- `lazyvim.nix` is used in NixOs configuration
+- `not_used_lazyvim.nix` is just a reference file for comparison
+- `not_used_relief.nix` is another reference file for comparison
+
+The official LazyVim docs can be found [here](https://www.lazyvim.org/). 
+The official LazyVim starter configuration can be found [here](https://github.com/LazyVim/starter).
+
 
 ### Why `nvim-local` instead of standard `~/.config/nvim/lua/plugins/`?
 
@@ -32,114 +41,5 @@ According to [LazyVim docs](https://www.lazyvim.org/configuration), user plugins
             └── keymaps.lua    # Your custom keymaps and plugin specs
 ```
 
-## Critical Fix Applied
 
-**Issue:** The original `lazyvim.nix` was not following the official LazyVim starter pattern.
 
-**Was:**
-```lua
-{
-  "LazyVim/LazyVim",
-  priority = 10000,
-  lazy = false,
-  opts = {},
-},
-{ import = "lazyvim.plugins" },  -- Separate import
-```
-
-**Now (correct):**
-```lua
-{ "LazyVim/LazyVim", import = "lazyvim.plugins" }  -- Combined as per starter
-```
-
-This aligns with the [official LazyVim starter](https://github.com/LazyVim/starter) structure.
-
-## Architecture Analysis vs Official Starter
-
-### Official LazyVim Starter Structure
-```
-~/.config/nvim/
-├── init.lua                    # Bootstraps config.lazy
-├── lua/
-│   ├── config/
-│   │   ├── lazy.lua           # Sets up lazy.nvim & spec imports
-│   │   ├── autocmds.lua       # Custom autocommands
-│   │   ├── keymaps.lua        # Custom keymaps
-│   │   └── options.lua        # Vim options
-│   └── plugins/
-│       └── example.lua        # Plugin specs (auto-imported)
-```
-
-### Our NixVim Hybrid Structure
-```
-~/.config/nvim/                 # NixVim-generated (read-only)
-└── init.lua                    # Generated from lazyvim.nix
-
-~/.config/nvim-local/           # Writable runtime config
-└── lua/
-    └── user/
-        └── specs/
-            ├── init.lua        # Aggregates all spec files
-            └── keymaps.lua     # Plugin specs (equivalent to plugins/*.lua)
-```
-
-### Key Differences & Rationale
-
-1. **No `lua/config/` directory needed**: 
-   - NixVim already handles autocmds, keymaps, and options declaratively
-   - LazyVim's config files are for users who manage everything with lazy.nvim
-   - We only need plugin specs, not the full config structure
-
-2. **`user.specs` instead of `plugins` import**:
-   - Official: `{ import = "plugins" }` auto-loads `lua/plugins/*.lua`
-   - Ours: `{ import = "user.specs" }` loads `lua/user/specs/init.lua`
-   - Why: Clearer separation between NixVim (base) and user runtime additions
-
-3. **init.lua aggregator pattern**:
-   - Official: lazy.nvim auto-discovers all files in `plugins/` directory
-   - Ours: explicit aggregation via `init.lua` pcall loop
-   - Why: More control over load order and easier debugging
-
-### Correctness Verification
-
-✅ **LazyVim Plugin Spec**: Correctly follows official pattern
-```lua
-{ "LazyVim/LazyVim", import = "lazyvim.plugins" }  -- ✓ Combined import
-```
-
-✅ **Lazy.nvim Setup**: Matches official structure
-```lua
-require("lazy").setup({
-  spec = specs,
-  defaults = { lazy = false, version = false },
-  -- ...
-})
-```
-
-✅ **Runtime Path Management**: Properly prepends writable directory
-```lua
-vim.opt.rtp:prepend("~/.config/nvim-local")
-```
-
-✅ **Conditional Import**: Safely checks for user specs before importing
-```lua
-if has_files then
-  table.insert(specs, { import = "user.specs" })
-end
-```
-
-### Conclusion
-
-The structure is **correctly adapted** for a NixVim + LazyVim hybrid setup. It's not a 1:1 match with the official starter because:
-- We don't need `lua/config/` (NixVim handles that)
-- We use a custom namespace (`user.specs`) for clarity
-- We use explicit aggregation instead of lazy.nvim's auto-discovery
-
-This is **intentional** and **appropriate** for our use case.
-
-## Testing
-
-Verify specs are loading:
-```bash
-nvim --headless +"lua vim.opt.rtp:prepend(vim.fn.expand('~/.config/nvim-local')); local specs = require('user.specs'); print('Total specs:', #specs)" +qall
-```

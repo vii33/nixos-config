@@ -3,6 +3,20 @@
 
   programs.nixvim = {
     enable = true;
+    vimAlias = true;
+
+    lsp = {
+      servers = {
+        bashls.enable     = true;
+        dockerls.enable   = true;
+        # helm-ls.enable    = true;
+        html.enable       = true;
+        jsonls.enable     = true;
+        lua_ls.enable     = true;
+        nixd.enable       = true;
+      };
+    };
+
     # Enable lazy.nvim plugin manager
     plugins.lazy.enable = true;
 
@@ -17,6 +31,9 @@
         vim.fn.mkdir(devdir .. "/lua/user/specs", "p")
       end
       vim.opt.rtp:prepend(devdir)
+      
+      -- Also update package.path for Lua module loading
+      package.path = devdir .. "/lua/?.lua;" .. devdir .. "/lua/?/init.lua;" .. package.path
 
       -- Bootstrap Lazy with LazyVim (following official starter pattern)
       local specs = {
@@ -29,12 +46,11 @@
       }
       
       -- Your custom plugins/overrides (writable at runtime)
-      -- Only import user specs if the directory exists and has files
-      local user_specs_path = vim.fn.expand("~/.config/nvim-local/lua/user/specs")
-      if vim.fn.isdirectory(user_specs_path) == 1 then
-        local has_files = vim.fn.glob(user_specs_path .. "/*.lua") ~= ""
-        if has_files then
-          table.insert(specs, { import = "user.specs" })
+      -- Load user specs directly instead of using lazy's import
+      local ok, user_specs = pcall(require, "user.specs")
+      if ok and user_specs then
+        for _, spec in ipairs(user_specs) do
+          table.insert(specs, spec)
         end
       end
 
