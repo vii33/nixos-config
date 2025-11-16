@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ../../modules/home/alacritty.nix
     ../../modules/home/kitty.nix
   ];
 
