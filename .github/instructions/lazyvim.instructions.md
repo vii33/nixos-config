@@ -38,8 +38,14 @@ According to [LazyVim docs](https://www.lazyvim.org/configuration), user plugins
     └── user/
         └── specs/
             ├── init.lua       # Aggregates all spec files
-            └── keymaps.lua    # Your custom keymaps and plugin specs
+            ├── keymaps.lua    # Your custom keymaps and plugin specs
+            ├── noice.lua      # Noice plugin configuration
+            └── mason-local.lua # Mason LSP configuration
+
+nixos-config/
+└── nvim-local/              # Symlink to ~/.config/nvim-local (for agent visibility)
 ```
 
+## Making nvim-local Visible to the Agent
 
-
+To allow the agent to see and help with your `~/.config/nvim-local/` files a symlink was created in your `nixos-config` repo.

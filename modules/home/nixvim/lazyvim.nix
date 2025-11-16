@@ -32,7 +32,7 @@
       end
       vim.opt.rtp:prepend(devdir)
       
-      -- Also update package.path for Lua module loading
+      -- Update package.path for Lua module loading
       package.path = devdir .. "/lua/?.lua;" .. devdir .. "/lua/?/init.lua;" .. package.path
 
       -- Bootstrap Lazy with LazyVim (following official starter pattern)
