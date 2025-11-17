@@ -6,7 +6,7 @@
   programs.kitty = {
     enable = true;
     package = pkgs.kitty;
-    theme = "Dracula";
+    themeFile = "Dracula";
     
     # Shell configuration
     shellIntegration.enableFishIntegration = true;
@@ -82,9 +82,9 @@
       "ctrl+shift+w" = "close_window";
       
       # Font size
-      "ctrl+shift+equal" = "change_font_size all +2.0";
-      "ctrl+shift+minus" = "change_font_size all -2.0";
-      "ctrl+shift+backspace" = "change_font_size all 0";
+      "ctrl+shift+equal" = "change_font_size all +1.0";
+      "ctrl+shift+minus" = "change_font_size all -1.0";
+      "ctrl+shift+0" = "change_font_size all 0";
     };
   };
 
