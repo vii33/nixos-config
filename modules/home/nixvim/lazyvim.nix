@@ -16,6 +16,8 @@
       imagemagick  # For 'magick' command (image conversion)
       ghostscript  # For 'gs' command (PDF rendering)
       nodePackages.mermaid-cli  # For 'mmdc' command (Mermaid diagrams)
+      
+      markdownlint-cli2  # Markdown linter
     ];
 
     # LSPs are installed with nix (not mason), due to dynamic linking issues
@@ -23,16 +25,39 @@
       servers = {
         bashls.enable     = true;
         dockerls.enable   = true;
-        # helm-ls.enable    = true;
         html.enable       = true;
         jsonls.enable     = true;
         lua_ls.enable     = true;
         nixd.enable       = true;  # Nix LSP (using nixd instead of nil)
       };
     };
+    
 
     # Enable lazy.nvim plugin manager
     plugins.lazy.enable = true;
+    
+    # Enable GitHub Copilot
+    plugins.copilot-lsp.enable = true;
+    plugins.copilot-lua = {
+      enable = true;
+      settings = {
+        suggestion = {
+          enabled = true;
+          autoTrigger = true;
+          #keymap = {
+          #  accept = "<M-l>";
+          #  next = "<M-]>";
+          #  prev = "<M-[>";
+          #  dismiss = "<C-]>";
+          #};
+        };
+      };
+
+      #panel.enabled = false;
+    };
+
+    # Enable lazygit UI
+    plugins.lazygit.enable = true;
 
     extraConfigLua = ''
       -- Leader first (LazyVim expects it):
