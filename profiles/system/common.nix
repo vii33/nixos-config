@@ -31,6 +31,7 @@
     fd
     bat
     git
+    efibootmgr    # EFI boot manager for troubleshooting boot issues
   ];
 
 }
