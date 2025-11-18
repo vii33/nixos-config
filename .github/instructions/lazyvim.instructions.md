@@ -71,3 +71,6 @@ While technically possible with workarounds, it introduces complexity:
 - Defeats NixOS declarative philosophy
 
 **Best Practice**: Manage core LSPs via Nix, keep Mason available for manual experimentation only.
+
+# Important to remember
+- The current mason repo name is `mason-org/mason.nvim` instead of `williamboman/mason.nvim`.
