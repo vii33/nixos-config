@@ -4,7 +4,7 @@
 {
 # Bootloader
 boot.loader.systemd-boot.enable = true;
-boot.loader.efi.canTouchEfiVariables = true;
+boot.loader.efi.canTouchEfiVariables = false; # Disabled due to corrupted NVRAM
 
 networking.hostName = "laptop"; # Define your hostname.
 
