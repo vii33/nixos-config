@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 {
+  # LazyVim Keymaps: https://www.lazyvim.org/keymaps
 
   programs.nixvim = {
     enable = true;
@@ -11,13 +12,17 @@
       gcc          # C compiler for treesitter parsers
       gnumake      # Build tool
       tree-sitter  # Tree-sitter CLI
+      unzip        # Required by Mason for extracting packages
       
       # Snacks.nvim dependencies
       imagemagick  # For 'magick' command (image conversion)
       ghostscript  # For 'gs' command (PDF rendering)
       nodePackages.mermaid-cli  # For 'mmdc' command (Mermaid diagrams)
       
+      # Linters and formatters
       markdownlint-cli2  # Markdown linter
+      statix       # Nix linter (used by nvim-lint)
+      ruff         # Python linter and formatter
     ];
 
     # LSPs are installed with nix (not mason), due to dynamic linking issues
@@ -29,6 +34,28 @@
         jsonls.enable     = true;
         lua_ls.enable     = true;
         nixd.enable       = true;  # Nix LSP (using nixd instead of nil)
+        yamlls.enable     = true;
+
+        yamlls = {
+          # enable          = true;
+          settings = {
+            yaml.schemas = {
+              kubernetes = "*.yaml";
+              "http://json.schemastore.org/github-workflow" = ".github/workflows/*";
+              "http://json.schemastore.org/github-action" = ".github/action.{yml,yaml}";
+              "http://json.schemastore.org/ansible-stable-2.9" = "roles/tasks/*.{yml,yaml}";
+              "http://json.schemastore.org/prettierrc" = ".prettierrc.{yml,yaml}";
+              "http://json.schemastore.org/kustomization" = "kustomization.{yml,yaml}";
+              "http://json.schemastore.org/ansible-playbook" = "*play*.{yml,yaml}";
+              "http://json.schemastore.org/chart" = "Chart.{yml,yaml}";
+              "https://json.schemastore.org/dependabot-v2" = ".github/dependabot.{yml,yaml}";
+              "https://json.schemastore.org/gitlab-ci" = "*gitlab-ci*.{yml,yaml}";
+              "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json" = "*api*.{yml,yaml}";
+              "https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json" = "*docker-compose*.{yml,yaml}";
+              "https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json" = "*flow*.{yml,yaml}";
+            };
+          };
+        };
       };
     };
     
@@ -36,8 +63,11 @@
     # Enable lazy.nvim plugin manager
     plugins.lazy.enable = true;
     
+    # blink-cmp: Autompletion menu 
+
+
     # Enable GitHub Copilot
-    plugins.copilot-lsp.enable = true;
+    #plugins.copilot-lsp.enable = true;
     plugins.copilot-lua = {
       enable = true;
       settings = {
