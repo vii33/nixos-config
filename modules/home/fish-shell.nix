@@ -104,6 +104,9 @@
 
     # Custom key bindings
     functions.fish_user_key_bindings.body = ''
+      # Remove ctrl-w to allow Neovim window cycling in terminal buffers
+      bind --erase ctrl-w
+
       # CTRL + L    whole line delete
       bind ctrl-l kill-whole-line
       bind -M insert ctrl--l kill-whole-line
