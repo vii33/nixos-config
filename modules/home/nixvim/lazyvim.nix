@@ -1,4 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
+let
+  specsDir = ./lua-specs;
+in
 {
   # LazyVim Keymaps: https://www.lazyvim.org/keymaps
 
@@ -94,15 +97,9 @@
       vim.g.mapleader = " "
       vim.g.maplocalleader = " "
 
-      -- Put a writable dir on the runtimepath for your specs
-      local devdir = vim.fn.expand("~/.config/nvim-local")
-      if vim.fn.isdirectory(devdir) == 0 then
-        vim.fn.mkdir(devdir .. "/lua/user/specs", "p")
-      end
-      vim.opt.rtp:prepend(devdir)
-      
-      -- Update package.path for Lua module loading
-      package.path = devdir .. "/lua/?.lua;" .. devdir .. "/lua/?/init.lua;" .. package.path
+      -- Add specs directory to Lua path so user.specs can be required
+      local specs_dir = "${specsDir}"
+      package.path = specs_dir .. "/?.lua;" .. specs_dir .. "/?/init.lua;" .. package.path
 
       -- Bootstrap Lazy with LazyVim (following official starter pattern)
       local specs = {
