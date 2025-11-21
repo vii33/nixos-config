@@ -34,7 +34,10 @@
     # Abbreviations
     shellAbbrs = {
       nv = "nvim";
-      nbl = "sudo nixos-rebuild switch --flake ~/nixos-config/.#laptop";
+      nodry = "nh os dry-run --flake .#laptop";
+      noswitch = "nh os switch --flake .#laptop";
+      noclean = "nh clean all --keep-since 3d --keep 3";
+      nosearch = "nh search ";
     };
 
     # ShellInit use for fast and non-output things (e.g. path vars)
@@ -211,21 +214,8 @@
 
       test -n "$file"; or return 0
 
-      # Absolute path resolution (keep relative fallback)
-      set -l full (realpath "$file" 2>/dev/null; or echo (pwd)/"$file")
-
-      # Tilde shortening
-      if string match -q "$HOME/*" "$full"
-        set full "~/"(string replace -r "^$HOME/" "" $full)
-      end
-
-      # Conditionally escape: keep simple paths raw; escape ones with spaces or special chars
-      set -l insert_path ""
-      if string match -q -r '^[A-Za-z0-9_./@%+=:,~-]+$' -- $full
-        set insert_path $full
-      else
-        set insert_path (string escape -- $full)
-      end
+      # Always properly escape the path (handles spaces and special chars)
+      set -l insert_path (string escape -- "$file")
       commandline -i $insert_path
       commandline -f repaint
     '';
