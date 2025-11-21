@@ -34,4 +34,12 @@
     efibootmgr    # EFI boot manager for troubleshooting boot issues
   ];
 
+  # Nix Helper CLI, to simplify nixos-rebuild and nix-collect-garbage usage
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 4d --keep 3";
+    flake = "/home/vii/nixos-config"; # sets NH_OS_FLAKE variable for you
+  };
+
 }
