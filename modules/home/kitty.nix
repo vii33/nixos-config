@@ -78,11 +78,11 @@
       "ctrl+shift+left" = "previous_tab";
       
       # Window management
-      "ctrl+shift+enter" = "new_window";
+      "ctrl+shift+enter" = "new_window_with_cwd";
       "ctrl+shift+w" = "close_window";
       
       # Font size
-      "ctrl+shift+equal" = "change_font_size all +1.0";
+      "ctrl+shift+plus" = "change_font_size all +1.0";
       "ctrl+shift+minus" = "change_font_size all -1.0";
       "ctrl+shift+0" = "change_font_size all 0";
     };
