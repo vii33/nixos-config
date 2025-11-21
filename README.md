@@ -4,44 +4,72 @@ Personal NixOS configuration using flakes and Home Manager.
 
 ## Key Features
 
-- **Flake-based**: Modern Nix flakes for reproducible configurations
-- **Home Manager**: User environment management
-- **Multi-host**: Support for laptop and server configurations
-- **Hardware Support**: NVIDIA graphics, NBFC fan control
-- **Shell Configuration**: Fish shell with Tide prompt
+This a NixOS configuration repository designed for managing multiple hosts with a consistent setup. It is based on three tiers:
 
-## Keyboard Shortcuts (fish)
+- **Modules** (reusable building blocks) — `modules/system/` and `modules/home/`
+- **Profiles** (compositions of modules for defined use cases) — `profiles/system/` and `profiles/home/`
+- **Hosts** (specific machines with assigned profiles) — `hosts/laptop/`, `hosts/home-server/`, etc.
 
-These are keyboard shortcuts and shell abbreviations defined in `modules/home/fish-shell.nix` (fish configuration). They are configured for the fish shell and some require additional plugins like `fzf`, `tide`, and `sudope`.
+### Architecture Diagram
 
-| Category | Key / Abbreviation | Action | Notes |
-|---|---:|---|---|
-| Abbreviation | `nv` | expands to `nvim` | Declared via `shellAbbrs` |
-| Abbreviation | `nbl` | expands to `sudo nixos-rebuild switch --flake ~/nixos-config/.#laptop` | Convenience rebuild shortcut |
-| Fish | Ctrl+L | kill whole line (`kill-whole-line`) | Insert mode too (`bind -M insert ctrl--l`) |
-| Fish | Ctrl+S | clear screen (`clear-screen`) | Repurposes traditional flow-control key |
-| Fish | Ctrl+Right | forward-word | |
-| Fish | Ctrl+Left | backward-word | |
-| Fish | Ctrl+B | run `fzf_bindings` fuzzy key search | Custom function; requires `fzf` |
-| Fish (conditional) | Ctrl+P | fzf `--processes` binding | From `fzf_configure_bindings` if available |
-| Fish (conditional) | Ctrl+F | fzf directory binding | From `fzf_configure_bindings` if available |
-| Fish | Alt+S | `sudope` sequence (`set -g sudope_sequence \\es`) | Inserts `sudo` (plugin-sudope) |
-| FZF (in list) | Ctrl+J | move down one item | From `FZF_DEFAULT_OPTS` |
-| FZF (in list) | Ctrl+K | move up one item | From `FZF_DEFAULT_OPTS` |
-| FZF (in list) | Ctrl+U | half-page up | From `FZF_DEFAULT_OPTS`; only inside fzf |
-| FZF (in list) | Ctrl+D | half-page down | From `FZF_DEFAULT_OPTS`; only inside fzf |
-| FZF (in list) | Enter | accept selection | From `FZF_DEFAULT_OPTS` |
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ MODULES (Reusable Components)                                   │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  System Modules:              Home Modules:                     │
+│  ├─ user.nix                  ├─ fish-shell.nix                 │
+│  └─ ...                       ├─ kitty.nix                      │
+│                               ├─ neovim.nix                     │
+│                               ├─ nixvim/lazyvim.nix             │
+│                               └─ ...                            │
+└─────────────────────────────────────────────────────────────────┘
+                                    ▲
+                                    │ imports
+                                    │
+┌─────────────────────────────────────────────────────────────────┐
+│ PROFILES (Composed Use Cases)                                   │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  System Profiles:             Home Profiles:                    │
+│  ├─ common.nix                ├─ desktop.nix                    │
+│  ├─ desktop.nix               └─ development-desktop.nix        │
+│  ├─ development-headless.nix                                    │
+│  └─ server.nix                                                  │
+│                                                                 │
+│  Example: "laptop" needs common + desktop + development         │
+│           "home-server" needs common only                       │
+└─────────────────────────────────────────────────────────────────┘
+                                    ▲
+                                    │ imports
+                                    │
+┌─────────────────────────────────────────────────────────────────┐
+│ HOSTS (Specific Machines)                                       │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  hosts/laptop/default.nix                                       │
+│  ├─ imports common.nix                                          │
+│  ├─ imports desktop.nix                                         │
+│  ├─ imports development-headless.nix                            │
+│  ├─ imports user.nix                                            │
+│  ├─ imports configuration.nix (laptop-specific)                 │
+│  ├─ imports hardware-configuration.nix (laptop hardware)        │
+│  └─ imports swap.nix, nbfc.nix (laptop-specific services)       │
+│                                                                 │
+│  hosts/home-server/default.nix                                  │
+│  ├─ imports common.nix                                          │
+│  ├─ imports server.nix                                          │
+│  ├─ imports user.nix                                            │
+│  └─ imports configuration.nix (server-specific)                 │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+## Keyboard Shortcuts
+
+See [docs/shortcuts.md](docs/shortcuts.md) for a complete list of keyboard shortcuts and shell abbreviations for Fish shell, Kitty terminal, and FZF.
 
 
-## Repository Structure
-
-- `flake.nix` - Main flake configuration defining system builds
-- `hosts/` - Host-specific configurations
-  - `laptop/` - laptop configuration 
-  - `home-server/` - Headless server 
-  - `work/` - WSL laptop 
-- `modules/` - Reusable NixOS modules
-- `profiles/` - Used in hosts, composes `modules`
 
 ## Usage
 
@@ -58,10 +86,11 @@ sudo nixos-rebuild switch --flake .#home-server
 sudo nixos-rebuild test --flake .#laptop
 ```
 
+-----
 
 ## Manual Post-Install Steps 🛠️
 
-Even with declarative NixOS + Home Manager, a few one-time/manual actions are required when setting up a fresh machine or new user. This consolidates all imperative steps referenced in the Nix modules.
+Even with declarative NixOS a few one-time/manual actions are required when setting up a fresh machine or new user. This consolidates all imperative steps referenced in the Nix modules.
 
 ### 1. Set user password
 ```
@@ -76,7 +105,7 @@ cd ~/dev
 git clone <your-neovim-config-repo-url> neovim-config
 ```
 
-### 3. NBFC (Notebook Fan Control) – laptop only
+### 3. NBFC (Notebook Fan Control) – `laptop` host only
 `hosts/laptop/nbfc.nix` expects `~/.config/nbfc.json` and a matching username (`myUser`). Create:
 ```
 mkdir -p ~/.config
@@ -94,8 +123,8 @@ Then ensure service is active after rebuild:
 systemctl status nbfc_service
 ```
 
-### 4. Create swapfile & set hibernation offset (laptop)
-`hosts/laptop/swap.nix` assumes an existing `/swapfile` and a correct `resume_offset`.
+### 4. Create swapfile & set hibernation offset (`laptop` host)
+`hosts/laptop/swap.nix` assumes an existing `/swapfile` and a correct `resume_offset`:
 ```
 sudo dd if=/dev/zero of=/swapfile bs=1M count=12288 status=progress
 sudo chmod 600 /swapfile
@@ -133,19 +162,8 @@ Add public key to forges/services manually.
 nvidia-smi
 glxinfo -B | grep -E 'OpenGL vendor|OpenGL renderer'
 ```
-### 10. Cleanup Home Manager backups
-Existing files overwritten get a `.backup` suffix:
-```
-find ~ -name '*.backup' -maxdepth 4
-```
 
-### 11. Update flake inputs (maintenance)
-```
-nix flake update
-sudo nixos-rebuild switch --flake .#<host>
-```
-
-### 12. (Future improvements – not yet automatic)
+## Future improvements – not yet automatic
 - Make NBFC JSON generation declarative (e.g. with a `home.file` entry gated by host)
 - Declarative WireGuard interface(s)
 - Automate swapfile creation & resume offset derivation (systemd tmpfiles + script)
