@@ -9,6 +9,7 @@ local spec_files = {
   "nixd",
   "noice",
   "render-markdown",
+  "vim-swapfile",
   -- Add more spec files here as needed
 }
 
