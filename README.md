@@ -4,6 +4,11 @@ Personal NixOS configuration using flakes and Home Manager.
 
 ## Key Features
 
+This repo has two specialities: 
+- First, it uses a modular architecture to enable config reuse across multiple hosts (see next section).
+- Second, it employs LazyVim for the Neovim setup, allowing quick customization of plugins and settings via lua files - without needing to rebuild your whole NixOS config each time you change a keyboard shortcut. 
+
+## Modular Architecture
 This a NixOS configuration repository designed for managing multiple hosts with a consistent setup. It is based on three tiers:
 
 - **Modules** (reusable building blocks) — `modules/system/` and `modules/home/`
@@ -20,15 +25,15 @@ This a NixOS configuration repository designed for managing multiple hosts with 
 │  System Modules:              Home Modules:                     │
 │  ├─ user.nix                  ├─ fish-shell.nix                 │
 │  └─ ...                       ├─ kitty.nix                      │
-│                               ├─ neovim.nix                     │
+│                               ├─ mouse.nix                      │
 │                               ├─ nixvim/lazyvim.nix             │
 │                               └─ ...                            │
 └─────────────────────────────────────────────────────────────────┘
-                                    ▲
-                                    │ imports
-                                    │
+                                ▲
+                                │ imports
+                                │
 ┌─────────────────────────────────────────────────────────────────┐
-│ PROFILES (Composed Use Cases)                                   │
+│ PROFILES (Use Cases)                                   │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  System Profiles:             Home Profiles:                    │
@@ -40,27 +45,27 @@ This a NixOS configuration repository designed for managing multiple hosts with 
 │  Example: "laptop" needs common + desktop + development         │
 │           "home-server" needs common only                       │
 └─────────────────────────────────────────────────────────────────┘
-                                    ▲
-                                    │ imports
-                                    │
+                                ▲
+                                │ imports
+                                │
 ┌─────────────────────────────────────────────────────────────────┐
 │ HOSTS (Specific Machines)                                       │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  hosts/laptop/default.nix                                       │
 │  ├─ imports common.nix                                          │
-│  ├─ imports desktop.nix                                         │
-│  ├─ imports development-headless.nix                            │
 │  ├─ imports user.nix                                            │
 │  ├─ imports configuration.nix (laptop-specific)                 │
+│  ├─ imports desktop.nix                                         │
+│  ├─ imports development-headless.nix                            │
 │  ├─ imports hardware-configuration.nix (laptop hardware)        │
 │  └─ imports swap.nix, nbfc.nix (laptop-specific services)       │
 │                                                                 │
 │  hosts/home-server/default.nix                                  │
 │  ├─ imports common.nix                                          │
-│  ├─ imports server.nix                                          │
 │  ├─ imports user.nix                                            │
-│  └─ imports configuration.nix (server-specific)                 │
+│  ├─ imports configuration.nix (server-specific)                 │
+│  └─ imports server.nix                                          │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -83,7 +88,7 @@ sudo nixos-rebuild switch --flake .#laptop
 sudo nixos-rebuild switch --flake .#home-server
 
 # Test configuration without switching
-sudo nixos-rebuild test --flake .#laptop
+sudo nixos-rebuild dry-run --flake .#laptop
 ```
 
 -----
@@ -164,6 +169,7 @@ glxinfo -B | grep -E 'OpenGL vendor|OpenGL renderer'
 ```
 
 ## Future improvements – not yet automatic
+- Move more pieces towards home-manager 
 - Make NBFC JSON generation declarative (e.g. with a `home.file` entry gated by host)
 - Declarative WireGuard interface(s)
 - Automate swapfile creation & resume offset derivation (systemd tmpfiles + script)

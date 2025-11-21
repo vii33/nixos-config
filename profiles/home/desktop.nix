@@ -8,6 +8,6 @@
     signal-desktop-bin
     thunderbird
     vlc
-    pkgs-unstable.onedriver
+    pkgs-unstable.onedriver     # https://github.com/jstaf/onedriver
   ];
 }
