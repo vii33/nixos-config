@@ -3,6 +3,7 @@
 {
   imports = [
     ../../modules/home/kde.nix
+    ../../modules/home/onedriver.nix
   ];
 
   home.packages = with pkgs; [
@@ -12,6 +13,5 @@
     signal-desktop-bin
     thunderbird
     vlc
-    pkgs-unstable.onedriver     # https://github.com/jstaf/onedriver
   ];
 }
