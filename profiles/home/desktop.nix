@@ -1,6 +1,10 @@
 { config, pkgs, pkgs-unstable, ... }:
 
 {
+  imports = [
+    ../../modules/home/kde.nix
+  ];
+
   home.packages = with pkgs; [
     brave
     obsidian
