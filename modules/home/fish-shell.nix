@@ -34,10 +34,11 @@
     # Abbreviations
     shellAbbrs = {
       nv = "nvim";
-      nodry = "nh os dry-run --flake .#laptop";
-      noswitch = "nh os switch --flake .#laptop";
+      nodry = "nh os dry-run ~/nixos-config/flake.nix -H laptop";
+      noswitch = "nh os switch ~/nixos-config/flake.nix -H laptop";
       noclean = "nh clean all --keep-since 3d --keep 3";
       nosearch = "nh search ";
+      tree = "eza --tree --level 2 --git-ignore";
     };
 
     # ShellInit use for fast and non-output things (e.g. path vars)
