@@ -4,6 +4,7 @@
 {
 # Bootloader
 boot.loader.systemd-boot.enable = true;
+boot.loader.systemd-boot.graceful = true; # Ignore EFI variable errors (corrupted NVRAM workaround)
 boot.loader.efi.canTouchEfiVariables = false; # Disabled due to corrupted NVRAM
 
 networking.hostName = "laptop"; # Define your hostname.
@@ -75,6 +76,9 @@ services.pipewire = {
 # Bluetooth
 services.blueman.enable = true; # Blueman provides a GUI for Bluetooth management, although KDE's own tools should work too.
 hardware.bluetooth.enable = true;
+
+# Fingerprint Reader
+services.fprintd.enable = true;
 
 
 # Enable the KDE Plasma Desktop Environment.
