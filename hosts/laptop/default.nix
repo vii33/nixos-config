@@ -28,7 +28,6 @@
       ../../profiles/home/desktop.nix
       ../../profiles/home/development-desktop.nix
       ../../profiles/home/development-headless.nix
-      ../../modules/home/mouse.nix
     ];
   home-manager.users.vii.imports = [ ./home.nix ../../home/vii/home.nix ];
 
