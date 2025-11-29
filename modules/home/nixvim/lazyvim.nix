@@ -17,6 +17,10 @@ in
       tree-sitter  # Tree-sitter CLI
       unzip        # Required by Mason for extracting packages
       
+      # Rust toolchain (for Mason-built Rust packages)
+      rustc        # Rust compiler
+      cargo        # Rust package manager
+      
       # Snacks.nvim dependencies
       imagemagick  # For 'magick' command (image conversion)
       ghostscript  # For 'gs' command (PDF rendering)
@@ -25,7 +29,7 @@ in
       # Linters and formatters
       markdownlint-cli2  # Markdown linter
       statix       # Nix linter (used by nvim-lint)
-      ruff         # Python linter and formatter
+      # NOTE: ruff is dynamically linked in nixpkgs, use pyright instead for Python diagnostics
     ];
 
     # LSPs are installed with nix (not mason), due to dynamic linking issues
@@ -37,6 +41,7 @@ in
         jsonls.enable     = true;
         lua_ls.enable     = true;
         nixd.enable       = true;  # Nix LSP (using nixd instead of nil)
+        pyright.enable    = true;  # Python LSP (type checking)
         yamlls.enable     = true;
 
         yamlls = {
@@ -113,7 +118,7 @@ in
       
       -- Your custom plugins/overrides (writable at runtime)
       -- Load user specs directly instead of using lazy's import
-      local ok, user_specs = pcall(require, "user.specs")
+      local ok, user_specs = pcall(require, "init")
       if ok and user_specs then
         for _, spec in ipairs(user_specs) do
           table.insert(specs, spec)
