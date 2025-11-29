@@ -91,6 +91,19 @@ sudo nixos-rebuild switch --flake .#home-server
 sudo nixos-rebuild dry-run --flake .#laptop
 ```
 
+### Laptop: Bootloader Workaround (Corrupted NVRAM)
+
+The laptop has corrupted EFI NVRAM variables that cause `bootctl status` to crash. If `nixos-rebuild switch` fails with `SIGABRT` during bootloader installation, use this workaround script:
+
+```bash
+sudo fish docs/nixos-rebuild-workaround.fish
+```
+
+This script:
+1. Builds and activates the config using `nixos-rebuild test`
+2. Sets it as the system profile
+3. Manually creates the boot entry and updates the default
+
 -----
 
 ## Manual Post-Install Steps 🛠️
@@ -167,6 +180,20 @@ Add public key to forges/services manually.
 nvidia-smi
 glxinfo -B | grep -E 'OpenGL vendor|OpenGL renderer'
 ```
+
+### 10. Fingerprint reader enrollment (laptop)
+If your laptop has a fingerprint reader and `services.fprintd.enable = true` is set in `hosts/laptop/configuration.nix`, enroll your fingerprint after rebuild:
+```bash
+# Check if your fingerprint reader is detected
+lsusb | grep -i finger
+
+# Enroll your fingerprint (follow prompts to swipe finger multiple times)
+fprintd-enroll
+
+# Test fingerprint authentication
+fprintd-verify
+```
+Once enrolled, fingerprint works automatically for sudo, login (SDDM), and KDE screen unlock.
 
 ## Future improvements – not yet automatic
 - Move more pieces towards home-manager 
