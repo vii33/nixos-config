@@ -39,6 +39,13 @@
       noclean = "nh clean all --keep-since 3d --keep 3";
       nosearch = "nh search ";
       tree = "eza --tree --level 2 --git-ignore";
+      lg = "lazygit";
+      v = "nvim";
+      c = "clear";
+      fk = "fuck";
+      ls = "eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions";
+      cd = "z";
+      s = "web_search duckduckgo";
     };
 
     # ShellInit use for fast and non-output things (e.g. path vars)
