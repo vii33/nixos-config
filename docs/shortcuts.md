@@ -96,3 +96,11 @@ These shortcuts work when inside an FZF search list. Configured via `FZF_DEFAULT
 | Ctrl+U | half-page up | Only inside fzf |
 | Ctrl+D | half-page down | Only inside fzf |
 | Enter | accept selection | Only inside fzf |
+
+
+## Lazyvim Shortcuts
+
+Next Buffer: Shift + l
+Previous Buffer: Shift + h
+Close Current Buffer: <leader> bd (Buffer Delete)
+Close All Other Buffers: <leader> bo (Buffer Other)
