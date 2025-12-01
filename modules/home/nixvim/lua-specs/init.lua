@@ -4,6 +4,7 @@ local M = {}
 local spec_files = {
   "blink-cmp",
   "copilot",
+  "harpoon2",
   "keymaps",
   "mason-disabled",
   "nixd",
