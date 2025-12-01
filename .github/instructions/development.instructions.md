@@ -52,3 +52,7 @@ Common patterns to avoid:
 - Inspect systemd logs with `journalctl -b` for runtime issues.
 - Use `nix repl` to experiment with expressions and `nix flake show` to inspect outputs.
 
+## Documentation
+
+- **Keyboard Shortcuts**: When adding or modifying keyboard shortcuts (in Fish, Kitty, Neovim/LazyVim, etc.), always update `docs/shortcuts.md` to keep the documentation in sync.
+

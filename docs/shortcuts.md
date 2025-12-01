@@ -65,6 +65,26 @@ These keyboard shortcuts are configured in `modules/home/kitty.nix`.
 | Ctrl+Shift+- | decrease font size by 1.0 |
 | Ctrl+Shift+0 | reset font size to default |
 
+## Neovim/LazyVim Shortcuts
+
+### Harpoon2
+
+These keyboard shortcuts are configured in `modules/home/nixvim/lua-specs/harpoon2.lua`.
+
+| Key | Action | Notes |
+|---|---|---|
+| Space+H | Add file to Harpoon list | `<leader>H` |
+| Space+h | Toggle Harpoon quick menu | `<leader>h` |
+| Space+1 | Jump to Harpoon file 1 | `<leader>1` |
+| Space+2 | Jump to Harpoon file 2 | `<leader>2` |
+| Space+3 | Jump to Harpoon file 3 | `<leader>3` |
+| Space+4 | Jump to Harpoon file 4 | `<leader>4` |
+| Space+5 | Jump to Harpoon file 5 | `<leader>5` |
+| Space+6 | Jump to Harpoon file 6 | `<leader>6` |
+| Space+7 | Jump to Harpoon file 7 | `<leader>7` |
+| Space+8 | Jump to Harpoon file 8 | `<leader>8` |
+| Space+9 | Jump to Harpoon file 9 | `<leader>9` |
+
 ## FZF (Fuzzy Finder) Shortcuts
 
 These shortcuts work when inside an FZF search list. Configured via `FZF_DEFAULT_OPTS`.
