@@ -27,7 +27,7 @@ in
       nodePackages.mermaid-cli  # For 'mmdc' command (Mermaid diagrams)
       
       # Linters and formatters
-      markdownlint-cli2  # Markdown linter
+      #markdownlint-cli2  # Markdown linter
       statix       # Nix linter (used by nvim-lint)
       # NOTE: ruff is dynamically linked in nixpkgs, use pyright instead for Python diagnostics
     ];
