@@ -56,3 +56,9 @@ Common patterns to avoid:
 
 - **Keyboard Shortcuts**: When adding or modifying keyboard shortcuts (in Fish, Kitty, Neovim/LazyVim, etc.), always update `docs/shortcuts.md` to keep the documentation in sync.
 
+## Neovim/Lua Configuration
+
+- **File Naming**: Avoid naming Lua spec files exactly the same as the plugin module they configure. Do a `-config.lua`suffix instead.
+  - **Bad**: `render-markdown.lua` (conflicts with `require("render-markdown")`)
+  - **Good**: `render-markdown-config.lua`
+
