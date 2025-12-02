@@ -22,11 +22,16 @@
       remember_window_size = false;
       
       # Font configuration
-      font_family = "MesloLGS Nerd Font Mono";
-      bold_font = "MesloLGS Nerd Font Mono Bold";
-      italic_font = "MesloLGS Nerd Font Mono Italic";
-      bold_italic_font = "MesloLGS Nerd Font Mono Bold Italic";
+      #font_family = "MesloLGS Nerd Font Mono";
+      #bold_font = "MesloLGS Nerd Font Mono Bold";
+      #italic_font = "MesloLGS Nerd Font Mono Italic";
+      #bold_italic_font = "MesloLGS Nerd Font Mono Bold Italic";
+      font_family = "JetBrainsMono Nerd Font";  # Using JetBrains as it has ligature support (neovim)
+      bold_font = "JetBrainsMono Nerd Font Bold";
+      italic_font = "JetBrainsMono Nerd Font Italic";
+      bold_italic_font = "JetBrainsMono Nerd Font Bold Italic";
       font_size = "10.0";
+      disable_ligatures = "never";
       
       # Tab bar (minimal style to match terminal aesthetic)
       tab_bar_edge = "top";
