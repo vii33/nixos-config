@@ -77,11 +77,6 @@ services.pipewire = {
 services.blueman.enable = true; # Blueman provides a GUI for Bluetooth management, although KDE's own tools should work too.
 hardware.bluetooth.enable = true;
 
-# Fingerprint Reader (ELAN sensors need fprintd-tod for Touch OEM Driver support)
-services.fprintd.enable = true;
-services.fprintd.tod.enable = true;
-services.fprintd.tod.driver = pkgs.libfprint-2-tod1-elan;
-
 
 # Enable the KDE Plasma Desktop Environment.
 services.displayManager.sddm.enable = true;
