@@ -2,15 +2,15 @@
 local M = {}
 
 local spec_files = {
-  "blink-cmp",
-  "copilot",
-  "harpoon2",
+  "blink-cmp-config",
+  "copilot-config",
+  "harpoon2-config",
   "keymaps",
   "mason-disabled",
-  "nixd",
+  "nixd-config",
   "noice-config",
   -- "nvim-lint-config",  -- Disabled: ruff is dynamically linked on nixpkgs
-  "render-markdown",
+  "render-markdown-config",
   "vim-swapfile",
   -- Add more spec files here as needed
 }
