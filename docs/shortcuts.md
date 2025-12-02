@@ -18,7 +18,7 @@ These keyboard shortcuts are configured in `modules/home/fish-shell.nix`. Some r
 
 | Key | Action | Notes |
 |---|---|---|
-| Alt+C | change to directory | Uses `fzf` to select directory |
+| Alt+C  | change to directory | Uses `fzf` to select directory |
 | Ctrl+O | fuzzy pick file and insert path | Works in insert/normal/visual mode |
 | Ctrl+F | fzf directory  |  |
 | Ctrl+B | Key Bindings | Custom function; requires `fzf` |
@@ -67,6 +67,26 @@ These keyboard shortcuts are configured in `modules/home/kitty.nix`.
 
 ## Neovim/LazyVim Shortcuts
 
+### Basic Vim Commands
+
+Text objects with `a` (around) and `i` (inside) - use with operators like `d`, `c`, `y`, `v`:
+
+| Text Object | Description |
+|-------------|-------------|
+| `iq` / `aq` | Inside/around quotes (auto-detects `"`, `'`, `` ` ``) |
+| `ib` / `ab` | Inside/around brackets (auto-detects `()`, `[]`, `{}`) |
+| `if` / `af` | Inside/around function call |
+| `ia` / `aa` | Inside/around function argument |
+| `it` / `at` | Inside/around HTML/XML tags |
+
+Examples: `daf` (delete around function), `cia` (change inside argument), `viq` (select inside quotes)
+
+### Outline
+
+| Key | Action | Notes |
+|---|---|---|
+| Space+c+s | Toggle Outline | `<leader>cs` - Shows code symbols/structure |
+
 ### Harpoon2
 
 These keyboard shortcuts are configured in `modules/home/nixvim/lua-specs/harpoon2.lua`.
@@ -75,15 +95,7 @@ These keyboard shortcuts are configured in `modules/home/nixvim/lua-specs/harpoo
 |---|---|---|
 | Space+H | Add file to Harpoon list | `<leader>H` |
 | Space+h | Toggle Harpoon quick menu | `<leader>h` |
-| Space+1 | Jump to Harpoon file 1 | `<leader>1` |
-| Space+2 | Jump to Harpoon file 2 | `<leader>2` |
-| Space+3 | Jump to Harpoon file 3 | `<leader>3` |
-| Space+4 | Jump to Harpoon file 4 | `<leader>4` |
-| Space+5 | Jump to Harpoon file 5 | `<leader>5` |
-| Space+6 | Jump to Harpoon file 6 | `<leader>6` |
-| Space+7 | Jump to Harpoon file 7 | `<leader>7` |
-| Space+8 | Jump to Harpoon file 8 | `<leader>8` |
-| Space+9 | Jump to Harpoon file 9 | `<leader>9` |
+| Space+1 | Jump to Harpoon file 1..9 | `<leader>1` |
 
 ## FZF (Fuzzy Finder) Shortcuts
 
