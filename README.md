@@ -72,7 +72,7 @@ This a NixOS configuration repository designed for managing multiple hosts with 
 
 ## Keyboard Shortcuts
 
-See [docs/shortcuts.md](docs/shortcuts.md) for a complete list of keyboard shortcuts and shell abbreviations for Fish shell, Kitty terminal, and FZF.
+See [docs/shortcuts.md](docs/shortcuts.md) for a complete list of keyboard shortcuts and shell abbreviations for Fish shell, Kitty terminal, and FZF. Neovim/LazyVim-specific shortcuts (Outline, Harpoon2, Buffers, etc.) are in [docs/neovim-shortcuts.md](docs/neovim-shortcuts.md).
 
 
 
