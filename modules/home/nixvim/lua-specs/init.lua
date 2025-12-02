@@ -2,6 +2,7 @@
 local M = {}
 
 local spec_files = {
+  "colorscheme",
   "blink-cmp-config",
   "copilot-config",
   "harpoon2-config",
