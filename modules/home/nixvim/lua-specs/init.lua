@@ -2,7 +2,7 @@
 local M = {}
 
 local spec_files = {
-  "colorscheme",
+  --"colorscheme",
   "blink-cmp-config",
   "copilot-config",
   "harpoon2-config",
@@ -11,6 +11,7 @@ local spec_files = {
   "nixd-config",
   "noice-config",
   -- "nvim-lint-config",  -- Disabled: ruff is dynamically linked on nixpkgs
+  "opencode-config",
   "render-markdown-config",
   "vim-swapfile",
   -- Add more spec files here as needed
