@@ -39,6 +39,7 @@
       noclean = "nh clean all --keep-since 3d --keep 3";
       nosearch = "nh search ";
       tree = "eza --tree --level 2 --git-ignore";
+      cop = "github-copilot-cli";
     };
 
     # ShellInit use for fast and non-output things (e.g. path vars)
@@ -104,6 +105,12 @@
         #    printf '🦉\n'
         #  end
         #end
+
+      # GitHub Copilot CLI aliases
+      # ?? for what-the-shell, git? for git-assist, gh? for gh-assist
+      if command -v github-copilot-cli >/dev/null 2>&1
+        github-copilot-cli alias fish | source
+      end
     '';
 
     # Custom key bindings
