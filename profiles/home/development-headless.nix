@@ -7,6 +7,8 @@
   ];
 
   home.packages = with pkgs; [
+    opencode
+    github-copilot-cli
   ];
   
 
