@@ -20,7 +20,7 @@ echo "📝 Setting as system profile..."
 sudo nix-env --profile /nix/var/nix/profiles/system --set $NEW_SYSTEM
 
 # Get generation number
-set -l GEN_NUM (basename (readlink /nix/var/nix/profiles/system) | string replace 'system-' '' | string replace '-link' '')
+set -l GEN_NUM (basename (readlink /nix/var/nix/profiles/system) | string replace 'system-' '' | string replace -- '-link' '')
 echo "📦 Generation: $GEN_NUM"
 
 # Get previous generation for template
