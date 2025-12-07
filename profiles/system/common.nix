@@ -13,7 +13,7 @@
     auto-optimise-store = true;               # Save disk space automatically
   };
 
-  # Enable fish shell system-wide
+  # Enable fish shell system-wide //TODO can this be moved somewhere else?
   programs.fish.enable = true;
 
   # Enable command-not-found to suggest packages for missing commands
@@ -32,6 +32,7 @@
     bat
     git
     efibootmgr    # EFI boot manager for troubleshooting boot issues
+    yazi
   ];
 
   # Nix Helper CLI, to simplify nixos-rebuild and nix-collect-garbage usage
