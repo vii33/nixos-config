@@ -2,6 +2,12 @@
 { config, pkgs, lib, ... }:
 
 {
+  # Set environment variables for the session
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+  };
+
   # Enable zoxide (smart directory jumping) with fish integration
   programs.zoxide = {
     enable = true;
