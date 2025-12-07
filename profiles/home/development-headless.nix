@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-unstable, ... }:
 
 {
   imports = [
@@ -7,8 +7,8 @@
   ];
 
   home.packages = with pkgs; [
-    opencode
-    github-copilot-cli
+    pkgs-unstable.opencode
+    pkgs-unstable.github-copilot-cli
   ];
   
 
