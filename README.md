@@ -227,6 +227,7 @@ Nix and Home Manager restore the system and most dotfiles, but some personal dat
 | NetworkManager | `/etc/NetworkManager/system-connections/*.nmconnection` | Wi‑Fi, VPN, WireGuard profiles (may contain secrets) |
 | WireGuard files (if not NM) | wherever saved (e.g., `~/wg/*.conf`) | Keep original `.conf` plus keys if separate |
 | Docker data (if used) | `/var/lib/docker/volumes/` and bind mounts | Persistent container volumes and data dirs |
+| Opencode agents | `/home/vii/.config/opencode/agent/` | Opencode agent configurations and settings |
 
 Notes on secrets: Treat SSH/GPG keys and WireGuard/NM exports as sensitive. Store with restricted permissions and never commit them to this repo.
 
