@@ -36,7 +36,8 @@
       nv = "nvim";
       nodry = "nh os dry-run ~/nixos-config/flake.nix -H laptop";
       noswitch = "nh os switch ~/nixos-config/ -H laptop";
-      noclean = "nh clean all --keep-since 3d --keep 3";
+      noclean1 = "nh clean all --keep-since 3d --keep 3";
+      noclean2 = "sudo nix-collect-garbage";
       nosearch = "nh search ";
       tree = "eza --tree --level 2 --git-ignore";
       cop = "github-copilot-cli";
