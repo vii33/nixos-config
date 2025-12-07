@@ -6,6 +6,7 @@
 boot.loader.systemd-boot.enable = true;
 boot.loader.systemd-boot.graceful = true; # Ignore EFI variable errors (corrupted NVRAM workaround)
 boot.loader.efi.canTouchEfiVariables = false; # Disabled due to corrupted NVRAM
+boot.loader.systemd-boot.configurationLimit = 10; 
 
 networking.hostName = "laptop"; # Define your hostname.
 
