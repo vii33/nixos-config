@@ -109,7 +109,34 @@
       # GitHub Copilot CLI aliases
       # ?? for what-the-shell, git? for git-assist, gh? for gh-assist
       if command -v github-copilot-cli >/dev/null 2>&1
-        github-copilot-cli alias fish | source
+        function __copilot_helper
+          set TMPFILE (mktemp)
+          set -l ret 0
+          if github-copilot-cli $argv[1] $argv[2..-1] --shellout $TMPFILE
+            if test -e "$TMPFILE"
+              set FIXED_CMD (cat $TMPFILE)
+              eval "$FIXED_CMD"
+            else
+              echo "Apologies! Extracting command failed"
+            end
+          else
+            set ret 1
+          end
+          rm -f "$TMPFILE"
+          return $ret
+        end
+
+        function ??
+          __copilot_helper what-the-shell $argv
+        end
+
+        function git?
+          __copilot_helper git-assist $argv
+        end
+
+        function gh?
+          __copilot_helper gh-assist $argv
+        end
       end
     '';
 
