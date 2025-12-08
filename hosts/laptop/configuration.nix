@@ -26,7 +26,7 @@ networking.networkmanager = {
 # WIREGUARD HAS TO BE DONE BY SCRIPT OR UI:  nmcli connection import type wireguard file my-wg-config.conf
 
 
-# Enable the X11 windowing system.
+# Enable the X11 windowing system (needed for some X11 apps via XWayland).
 services.xserver.enable = true;
 
 services.xserver.videoDrivers = [ "nvidia" ];
@@ -46,11 +46,14 @@ hardware.nvidia = {
 
 hardware.graphics.enable = true;
 
-# Configure keymap in X11
+# Keyboard layout for X11 and console
 services.xserver.xkb = {
     layout = "de";
     variant = "";
 };
+
+# Console keymap
+console.keyMap = "de";
 
 # Enable CUPS to print documents.
 services.printing.enable = true;
@@ -71,22 +74,11 @@ services.pipewire = {
     #media-session.enable = true;
 };
 
-# Enable touchpad support (enabled default in most desktopManager).
-# services.xserver.libinput.enable = true;
-
 # Bluetooth
-services.blueman.enable = true; # Blueman provides a GUI for Bluetooth management, although KDE's own tools should work too.
+services.blueman.enable = true;
 hardware.bluetooth.enable = true;
 
-
-# Enable the KDE Plasma Desktop Environment.
-services.displayManager.sddm.enable = true;
-services.desktopManager.plasma6.enable = true;
-
-# Enable automatic login for the user.
-services.displayManager.autoLogin.enable = true;
-services.displayManager.autoLogin.user = "vii";
-
+# Input device configuration (libinput)
 services.libinput = {
     enable = true;
 };

@@ -11,6 +11,16 @@
     max-jobs = "auto";                          # Use all CPU cores for parallel builds
     cores = 2;                                # Limit each build to 2 cores
     auto-optimise-store = true;               # Save disk space automatically
+    
+    # Binary caches
+    substituters = [
+      "https://cache.nixos.org"
+      "https://niri.cachix.org"
+    ];
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
+    ];
   };
 
   # Enable fish shell system-wide //TODO can this be moved somewhere else?

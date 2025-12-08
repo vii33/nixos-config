@@ -10,7 +10,7 @@
 
       ../../modules/system/user.nix
       ../../profiles/system/common.nix
-      ../../profiles/system/desktop.nix
+      ../../profiles/system/niri.nix
       ../../profiles/system/development-headless.nix
       
       ./swap.nix
@@ -25,6 +25,7 @@
   home-manager.sharedModules =
     [
       inputs.nixvim.homeManagerModules.nixvim
+      ../../profiles/home/niri.nix
       ../../profiles/home/desktop.nix
       ../../profiles/home/development-desktop.nix
       ../../profiles/home/development-headless.nix
