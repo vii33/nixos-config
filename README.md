@@ -6,7 +6,9 @@ Personal NixOS configuration using flakes and Home Manager.
 
 This repo has two specialities: 
 - First, it uses a modular architecture to enable config reuse across multiple hosts (see next section).
-- Second, it employs LazyVim for the Neovim setup, allowing quick customization of plugins and settings via lua files - without needing to rebuild your whole NixOS config each time you change a keyboard shortcut. 
+- Second, it employs LazyVim for the Neovim setup, allowing quick customization of plugins and settings via lua files - without needing to rebuild your whole NixOS config each time you change a keyboard shortcut.
+
+The laptop configuration uses **niri**, a scrollable-tiling Wayland compositor. See [docs/niri-setup.md](docs/niri-setup.md) for details. 
 
 ## Modular Architecture
 This a NixOS configuration repository designed for managing multiple hosts with a consistent setup. It is based on three tiers:
@@ -104,6 +106,15 @@ This script:
 2. Sets it as the system profile
 3. Manually creates the boot entry and updates the default
 
+### Niri Window Manager
+
+The laptop uses niri, a scrollable-tiling Wayland compositor. After login with greetd/tuigreet:
+
+- Press `Super + Return` to open a terminal
+- Press `Super + D` to launch applications
+- Press `Super + 1-9` to switch workspaces
+- See [docs/shortcuts.md](docs/shortcuts.md) and [docs/niri-setup.md](docs/niri-setup.md) for complete details
+
 -----
 
 ## Manual Post-Install Steps 🛠️
@@ -193,7 +204,7 @@ fprintd-enroll
 # Test fingerprint authentication
 fprintd-verify
 ```
-Once enrolled, fingerprint works automatically for sudo, login (SDDM), and KDE screen unlock.
+Once enrolled, fingerprint works automatically for sudo, login (greetd/tuigreet), and screen unlock.
 
 ## Future improvements – not yet automatic
 - Move more pieces towards home-manager 

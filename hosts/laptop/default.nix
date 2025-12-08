@@ -10,6 +10,7 @@
 
       ../../modules/system/user.nix
       ../../profiles/system/common.nix
+      ../../profiles/system/desktop.nix
       ../../profiles/system/niri.nix
       ../../profiles/system/development-headless.nix
       
