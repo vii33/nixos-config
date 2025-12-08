@@ -8,7 +8,7 @@ This repo has two specialities:
 - First, it uses a modular architecture to enable config reuse across multiple hosts (see next section).
 - Second, it employs LazyVim for the Neovim setup, allowing quick customization of plugins and settings via lua files - without needing to rebuild your whole NixOS config each time you change a keyboard shortcut.
 
-The laptop configuration uses **niri**, a scrollable-tiling Wayland compositor. See [docs/niri-setup.md](docs/niri-setup.md) for details. 
+The laptop configuration includes **niri**, a scrollable-tiling Wayland compositor, available alongside KDE Plasma 6. You can test niri as an alternative session while keeping KDE as the default. See [docs/niri-testing-with-kde.md](docs/niri-testing-with-kde.md) for testing instructions or [docs/niri-setup.md](docs/niri-setup.md) for full details. 
 
 ## Modular Architecture
 This a NixOS configuration repository designed for managing multiple hosts with a consistent setup. It is based on three tiers:
@@ -106,14 +106,21 @@ This script:
 2. Sets it as the system profile
 3. Manually creates the boot entry and updates the default
 
-### Niri Window Manager
+### Niri Window Manager (Optional)
 
-The laptop uses niri, a scrollable-tiling Wayland compositor. After login with greetd/tuigreet:
+The laptop has niri available as an alternative session alongside KDE. To test niri:
 
-- Press `Super + Return` to open a terminal
-- Press `Super + D` to launch applications
-- Press `Super + 1-9` to switch workspaces
-- See [docs/shortcuts.md](docs/shortcuts.md) and [docs/niri-setup.md](docs/niri-setup.md) for complete details
+1. Log out of your current session
+2. At the SDDM login screen, select "niri" from the session dropdown
+3. Log in with your credentials
+4. Use these basic shortcuts:
+   - Press `Super + Return` to open a terminal
+   - Press `Super + 1-9` to switch workspaces
+   - See [docs/niri-shortcuts.md](docs/niri-shortcuts.md) for complete shortcuts
+   
+To switch back to KDE, log out and select "Plasma (Wayland)" or "Plasma (X11)" at the login screen.
+
+For detailed testing instructions, see [docs/niri-testing-with-kde.md](docs/niri-testing-with-kde.md).
 
 -----
 
@@ -204,7 +211,7 @@ fprintd-enroll
 # Test fingerprint authentication
 fprintd-verify
 ```
-Once enrolled, fingerprint works automatically for sudo, login (greetd/tuigreet), and screen unlock.
+Once enrolled, fingerprint works automatically for sudo, login (SDDM/KDE or niri if using greetd), and screen unlock.
 
 ## Future improvements – not yet automatic
 - Move more pieces towards home-manager 

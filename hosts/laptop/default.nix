@@ -26,7 +26,8 @@
   home-manager.sharedModules =
     [
       inputs.nixvim.homeManagerModules.nixvim
-      ../../profiles/home/niri.nix
+      # Uncomment the line below to enable niri home configuration for testing
+      # ../../profiles/home/niri.nix
       ../../profiles/home/desktop.nix
       ../../profiles/home/development-desktop.nix
       ../../profiles/home/development-headless.nix
