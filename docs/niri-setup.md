@@ -2,15 +2,22 @@
 
 This document describes the niri Wayland compositor setup in this configuration.
 
+## Testing vs Full Switch
+
+**Want to try niri without replacing KDE?** See [docs/niri-testing-with-kde.md](niri-testing-with-kde.md) for instructions on how to test niri as an alternative session while keeping KDE as your default desktop.
+
+This document describes the full niri setup. By default, the configuration allows testing niri alongside KDE.
+
 ## Overview
 
-Niri is a scrollable-tiling Wayland compositor with a focus on simplicity and usability. This configuration uses:
+Niri is a scrollable-tiling Wayland compositor with a focus on simplicity and usability. This configuration supports:
 
 - **niri** - The window manager/compositor
-- **waybar** - Status bar with systemd integration
-- **fuzzel** - Application launcher
-- **mako** - Notification daemon
-- **greetd + tuigreet** - Display manager
+- **waybar** - Status bar with systemd integration (optional)
+- **fuzzel** - Application launcher (optional)
+- **mako** - Notification daemon (optional)
+- **SDDM** - Display manager (allows choosing between KDE and niri)
+- **KDE Plasma 6** - Available as alternative desktop (default)
 
 ## Components
 
@@ -18,15 +25,16 @@ Niri is a scrollable-tiling Wayland compositor with a focus on simplicity and us
 
 - Imports the niri module from `sodiboo/niri-flake`
 - Enables niri and xwayland-satellite for X11 app support
-- Configures greetd as the display manager with tuigreet
-- Ensures `niri-session` is used to properly set environment variables
+- Makes niri available as a session option in SDDM
+- Works alongside KDE without conflicts
 
 ### Home Manager Level (`modules/home/niri.nix`)
 
 - Configures niri settings (keybindings, layout, etc.)
 - Sets `NIXOS_OZONE_WL=1` for better Electron app support (VSCode, etc.)
-- Defines comprehensive keybindings (see `docs/shortcuts.md`)
+- Defines comprehensive keybindings (see `docs/niri-shortcuts.md`)
 - Configures spawn-at-startup to reset waybar service
+- **Note**: This is optional and commented out by default in `hosts/laptop/default.nix`
 
 ### Supporting Applications
 

@@ -1,5 +1,6 @@
 # modules/system/niri.nix
 # System-level configuration for niri Wayland compositor
+# This makes niri available as a session option alongside KDE
 { config, pkgs, inputs, ... }:
 
 {
@@ -7,22 +8,11 @@
     inputs.niri.nixosModules.niri
   ];
 
-  # Enable niri compositor
+  # Enable niri compositor (makes it available as a session)
   programs.niri.enable = true;
 
   # XWayland support
   programs.xwayland-satellite.enable = true;
-
-  # Ensure required services are available
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd niri-session";
-        user = "greeter";
-      };
-    };
-  };
 
   # Ensure essential Wayland environment
   environment.systemPackages = with pkgs; [
