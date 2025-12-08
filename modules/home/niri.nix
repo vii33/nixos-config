@@ -138,5 +138,6 @@
     slurp       # Region selector
     wl-clipboard # Clipboard utilities
     brightnessctl # Brightness control
+    pavucontrol # Audio control GUI
   ];
 }

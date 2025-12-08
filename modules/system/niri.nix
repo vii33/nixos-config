@@ -10,7 +10,7 @@
   # Enable niri compositor
   programs.niri.enable = true;
 
-  # XWayland support (recommended with niri)
+  # XWayland support
   programs.xwayland-satellite.enable = true;
 
   # Ensure required services are available
@@ -27,6 +27,5 @@
   # Ensure essential Wayland environment
   environment.systemPackages = with pkgs; [
     wl-clipboard
-    xwayland-satellite
   ];
 }
