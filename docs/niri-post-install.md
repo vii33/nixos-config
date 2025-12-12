@@ -43,12 +43,6 @@ systemctl --user restart waybar
 systemctl --user status mako
 ```
 
-### Check XWayland Satellite
-For X11 application support:
-```bash
-systemctl --user status xwayland-satellite
-```
-
 ## 6. Application Compatibility
 
 ### Electron Apps (VSCode, etc.)

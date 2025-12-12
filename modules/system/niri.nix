@@ -8,11 +8,19 @@
     inputs.niri.nixosModules.niri
   ];
 
+  # Disable niri-flake's automatic cache configuration (we manage it in common.nix)
+  niri-flake.cache.enable = false;
+
   # Enable niri compositor (makes it available as a session)
-  programs.niri.enable = true;
+  programs.niri = {
+    enable = true;
+    # Use the niri package from nixpkgs (available in cache.nixos.org)
+    # instead of building from niri-flake
+    package = pkgs.niri;
+  };
 
   # XWayland support
-  programs.xwayland-satellite.enable = true;
+#  programs.xwayland-satellite.enable = true;  # not existing setting - remove?
 
   # Ensure essential Wayland environment
   environment.systemPackages = with pkgs; [
