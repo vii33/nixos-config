@@ -5,7 +5,7 @@
   programs.git = {
     enable = true;
     userName = "vii33";
-    userEmail = "https://x.com/vii33_official";
+    userEmail = "1887246+vii33@users.noreply.github.com";
 
     extraConfig = {
       pull = {
