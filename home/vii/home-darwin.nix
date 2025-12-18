@@ -1,6 +1,6 @@
 # /etc/nixos/home/vii/home-darwin.nix
 # Home Manager configuration for macOS (nix-darwin)
-{ config, pkgs, ... }:
+{ config, pkgs, lib, localConfig, ... }:
 
 {
   # Import user specific packages
@@ -8,8 +8,9 @@
     #./git.nix
   ];
 
-  # On macOS, home.username and home.homeDirectory are managed by the system
-  # No need to set them explicitly
+  # Set user and home directory for macOS (from local-config.nix)
+  home.username = localConfig.macosUsername;
+  home.homeDirectory = lib.mkForce "/Users/${localConfig.macosUsername}";
 
   # Configure user-level programs
   programs.fish.enable = true;
