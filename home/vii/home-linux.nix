@@ -1,17 +1,17 @@
-# /etc/nixos/home/vii/home.nix
+# /etc/nixos/home/vii/home-linux.nix
+# Home Manager configuration for Linux (NixOS)
 { config, pkgs, ... }:
 
-# home-manager.users.vii = {...}:
 {
   # Import user specific packages
   imports = [
     ./git.nix
   ];
 
-  # Set minimal infos for home manager: user, home directory and state version
+  # Set user and home directory (required on NixOS)
   home.username = "vii";
   home.homeDirectory = "/home/vii";
-  
+
   # Configure user-level programs
   programs.fish.enable = true;
   programs.direnv.enable = true;

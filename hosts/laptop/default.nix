@@ -10,6 +10,7 @@
 
       ../../modules/system/user.nix
       ../../profiles/system/common.nix
+      ../../profiles/system/common_linux.nix
       ../../profiles/system/desktop.nix
       ../../profiles/system/niri.nix
       ../../profiles/system/development-headless.nix
@@ -32,7 +33,7 @@
       ../../profiles/home/development-desktop.nix
       ../../profiles/home/development-headless.nix
     ];
-  home-manager.users.vii.imports = [ ./home.nix ../../home/vii/home.nix ];
+  home-manager.users.vii.imports = [ ./home.nix ../../home/vii/home-linux.nix ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

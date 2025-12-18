@@ -9,7 +9,7 @@
 
     #../../modules/system/user.nix
     ../../profiles/system/common.nix
-    ../../profiles/system/development-headless.nix
+    #../../profiles/system/development-headless.nix
   ];
 
   # Home Manager wiring
@@ -19,8 +19,8 @@
   home-manager.extraSpecialArgs = { inherit (config._module.specialArgs) pkgs-unstable; };
   home-manager.sharedModules = [
   ];
-  # Reuse the shared per-user config (no host-specific home.nix for now)
-  home-manager.users.vii.imports = [ ../../home/vii/home.nix ];
+  # Reuse the shared per-user config (macOS-specific)
+  home-manager.users.vii.imports = [ ../../home/vii/home-darwin.nix ];
 
   system.stateVersion = 6; # Used to pin darwin configuration versions to avoid breaking changes.
                            # Updated from time to time. See https://nix-darwin.github.io/nix-darwin/manual/index.html#opt-system.stateVersion

@@ -9,6 +9,7 @@
       # hardware-configuration.nix
       ../../modules/system/user.nix
       ../../profiles/system/common.nix
+      ../../profiles/system/common_linux.nix
       ../../profiles/system/server.nix
     ];
 
@@ -20,7 +21,7 @@
   home-manager.sharedModules =
     [
     ];
-  home-manager.users.vii.imports = [ ../../home/vii/home.nix ];
+  home-manager.users.vii.imports = [ ../../home/vii/home-linux.nix ];
 
   system.stateVersion = "25.05";
 
