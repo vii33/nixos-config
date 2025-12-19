@@ -12,9 +12,22 @@ in
   # Set primary user for nix-darwin
   system.primaryUser = localConfig.macosUsername;
 
+  # Configure Nix settings
+  nix.settings = {
+    http-connections = 50;
+    connect-timeout = 30;
+    download-attempts = 5;
+  };
+
+  # Set proxy environment variables for Nix daemon
+  launchd.daemons.nix-daemon.environment = {
+    HTTP_PROXY = "http://localhost:3128";
+    HTTPS_PROXY = "http://localhost:3128";
+  };
+
   # Basic macOS system defaults (optional, can be customized)
   system.defaults = {
-    dock.autohide = true;
+    dock.autohide = false;
     finder.AppleShowAllExtensions = true;
     NSGlobalDomain.AppleShowAllExtensions = true;
   };

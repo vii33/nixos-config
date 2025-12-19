@@ -54,7 +54,9 @@
         };
         modules = [ ./hosts/home-server/default.nix ];
       };
+    };
 
+    darwinConfigurations = {
       work = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";  # Apple Silicon macOS
         specialArgs = { 

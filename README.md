@@ -69,6 +69,13 @@ This a NixOS configuration repository designed for managing multiple hosts with 
 │  ├─ imports configuration.nix (server-specific)                 │
 │  └─ imports server.nix                                          │
 │                                                                 │
+│  hosts/work/default.nix (macOS with nix-darwin)                 │
+│  ├─ imports common.nix                                          │
+│  ├─ imports user.nix                                            │
+│  ├─ imports configuration.nix (work-specific)                   │
+│  ├─ imports nix-darwin.nix (darwin platform config)             │
+│  └─ imports development-headless.nix                            │
+│                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -82,6 +89,8 @@ See [docs/shortcuts.md](docs/shortcuts.md) for a complete list of keyboard short
 
 ### Building Configurations
 
+#### NixOS Hosts (Linux)
+
 ```bash
 # Build and switch laptop configuration
 sudo nixos-rebuild switch --flake .#laptop
@@ -92,6 +101,43 @@ sudo nixos-rebuild switch --flake .#home-server
 # Test configuration without switching
 sudo nixos-rebuild dry-run --flake .#laptop
 ```
+
+#### macOS Host (nix-darwin)
+
+```bash
+# Build and activate work configuration (macOS)
+sudo darwin-rebuild switch --flake .#work
+
+# Test work configuration without switching
+darwin-rebuild build --flake .#work
+
+# Show what would change without building
+darwin-rebuild check --flake .#work
+```
+
+**First-time setup:** The first time you set up nix-darwin on a new macOS system, follow these steps:
+
+1. Build the system configuration:
+```bash
+nix run nix-darwin -- switch --flake .#work
+```
+
+2. When prompted with "system activation must now be run as root", activate with sudo:
+```bash
+sudo /nix/store/*-darwin-system-*/activate
+```
+
+3. Run darwin-rebuild to complete the setup:
+```bash
+sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
+```
+
+4. Restart your shell to update PATH:
+```bash
+exec zsh
+```
+
+After this, `darwin-rebuild` will be in your PATH for future updates.
 
 ### Laptop: Bootloader Workaround (Corrupted NVRAM)
 
