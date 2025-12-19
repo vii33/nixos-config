@@ -11,7 +11,7 @@ in
     ./configuration.nix
     ./nix-darwin.nix
 
-    #../../modules/system/user.nix
+    #user.nix setup not needed as this is done by mandatory base installation
     ../../profiles/system/common.nix
     #../../profiles/system/development-headless.nix
   ];
@@ -26,6 +26,7 @@ in
   };
   home-manager.sharedModules = [
   ];
+  
   # Reuse the shared per-user config (macOS-specific)
   home-manager.users.${localConfig.macosUsername}.imports = [ ../../home/vii/home-darwin.nix ];
 

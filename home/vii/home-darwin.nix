@@ -14,7 +14,6 @@
 
   # Configure user-level programs
   programs.fish.enable = true;
-  ########programs.direnv.enable = true;
 
   # Let Home Manager manage itself
   programs.home-manager.enable = true;
