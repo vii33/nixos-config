@@ -2,8 +2,8 @@
 
 {
   imports = [
-    ../../modules/home/kde.nix
-    ../../modules/home/onedriver.nix
+    ../../modules/home/kde.nix   # has to move to host
+    ../../modules/home/onedriver.nix #same
   ];
 
   home.packages = with pkgs; [
