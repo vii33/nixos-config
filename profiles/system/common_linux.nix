@@ -33,6 +33,34 @@
     clean.extraArgs = "--keep-since 4d --keep 3";
     flake = "/home/vii/nixos-config";
   };
+
+  # System locale, timezone, console keymap and user account
+  # (moved from modules/system/user.nix)
+  time.timeZone = "Europe/Berlin";
+
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "de_DE.UTF-8";
+    LC_IDENTIFICATION = "de_DE.UTF-8";
+    LC_MEASUREMENT = "de_DE.UTF-8";
+    LC_MONETARY = "de_DE.UTF-8";
+    LC_NAME = "de_DE.UTF-8";
+    LC_NUMERIC = "de_DE.UTF-8";
+    LC_PAPER = "de_DE.UTF-8";
+    LC_TELEPHONE = "de_DE.UTF-8";
+    LC_TIME = "de_DE.UTF-8";
+  };
+
+  console.keyMap = "de";
+
+  # Define user accounts. Keep as a system-level declaration.
+  users.users.vii = {
+    isNormalUser = true;
+    description = "vii";
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    shell = pkgs.fish;
+  };
   
   # Linux-only packages
   environment.systemPackages = with pkgs; [

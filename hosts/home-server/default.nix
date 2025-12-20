@@ -7,7 +7,6 @@
       inputs.home-manager.nixosModules.home-manager
       ./configuration.nix
       # hardware-configuration.nix
-      ../../modules/system/user.nix
       ../../profiles/system/common.nix
       ../../profiles/system/common_linux.nix
       ../../profiles/system/server.nix
