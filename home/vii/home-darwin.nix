@@ -1,5 +1,7 @@
 # /etc/nixos/home/vii/home-darwin.nix
 # Home Manager configuration for macOS (nix-darwin)
+# TODO Merge this with the home-linux.nix
+
 { config, pkgs, lib, localConfig, ... }:
 
 {

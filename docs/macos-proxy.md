@@ -76,7 +76,7 @@ sudo grep -nE '^(http-proxy|https-proxy)\s*=' /etc/nix/nix.conf || echo 'OK: no 
 
 Because `nix-daemon` runs as root under launchd, it usually won’t inherit your terminal’s `HTTP_PROXY`/`HTTPS_PROXY`.
 
-Step 2b worked. <<<
+> Solution Step 2b worked. <<<
 
 #### 2a) Attempt: `launchctl setenv` (may be blocked by SIP)
 
@@ -112,6 +112,7 @@ sudo launchctl kickstart -k system/org.nixos.nix-daemon \
 
 ps aux | egrep 'nix-daemon' | grep -v egrep
 ```
+
 
 #### 2b) SIP-compatible approach: put proxy env vars into the `nix-daemon` LaunchDaemon plist
 

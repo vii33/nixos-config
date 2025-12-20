@@ -11,7 +11,7 @@ in
     ./configuration.nix
     ./nix-darwin.nix
 
-    #user.nix setup not needed as this is done by mandatory base installation
+    # user.nix setup not needed as this is done by mandatory base installation
     ../../profiles/system/common.nix
     #../../profiles/system/development-headless.nix
   ];
