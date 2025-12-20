@@ -10,9 +10,10 @@ in
     inputs.home-manager.darwinModules.home-manager
     ./configuration-nix-darwin.nix
 
-    # user.nix setup not needed as this is done by mandatory base installation
     ../../profiles/system/common_all.nix
+    # no deskop.nix as this overlaps too much with the managed MacOS setup
     #../../profiles/system/development-headless.nix
+    #./apps.nix
   ];
 
   # Home Manager wiring
