@@ -8,7 +8,6 @@
       ./configuration.nix
       ./hardware-configuration.nix
 
-      ../../modules/system/user.nix
       ../../profiles/system/common.nix
       ../../profiles/system/common_linux.nix
       ../../profiles/system/desktop.nix
@@ -28,7 +27,6 @@
     [
       inputs.nixvim.homeManagerModules.nixvim
       # Niri home configuration (waybar, fuzzel, mako)
-      ../../profiles/home/niri.nix
       ../../profiles/home/desktop.nix
       ../../profiles/home/development-desktop.nix
       ../../profiles/home/development-headless.nix
