@@ -2,7 +2,7 @@
 
 Back to the main shortcuts list: see [docs/shortcuts.md](shortcuts.md).
 
-These keyboard shortcuts are configured in `modules/home/niri.nix`.
+These keyboard shortcuts are configured in `modules/home/niri/niri.nix`.
 
 ## Application Launching
 

@@ -1,4 +1,4 @@
-# modules/home/mako.nix
+# modules/home/niri/mako.nix
 # Mako notification daemon for Wayland
 { config, pkgs, ... }:
 

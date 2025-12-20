@@ -37,7 +37,7 @@ Edit `hosts/laptop/default.nix` and uncomment this line:
 home-manager.sharedModules =
   [
     inputs.nixvim.homeManagerModules.nixvim
-    ../../profiles/home/niri.nix  # <-- Uncomment this line
+    ../../profiles/home/desktop.nix  # <-- Uncomment this line
     ../../profiles/home/desktop.nix
     ../../profiles/home/development-desktop.nix
     ../../profiles/home/development-headless.nix
@@ -118,7 +118,7 @@ If niri starts but shows a blank screen:
 ### Waybar/Fuzzel Not Working
 
 These require the home-manager configuration. Make sure you:
-1. Uncommented `../../profiles/home/niri.nix` in `hosts/laptop/default.nix`
+1. Uncommented `../../profiles/home/desktop.nix` in `hosts/laptop/default.nix`
 2. Rebuilt the system
 3. Logged out and back in to niri
 
@@ -126,7 +126,7 @@ These require the home-manager configuration. Make sure you:
 
 To remove niri and go back to KDE-only:
 1. Remove `../../profiles/system/niri.nix` from `hosts/laptop/default.nix` imports
-2. Remove `../../profiles/home/niri.nix` from home-manager.sharedModules (if uncommented)
+2. Remove `../../profiles/home/desktop.nix` from home-manager.sharedModules (if uncommented)
 3. Rebuild: `sudo nixos-rebuild switch --flake .#laptop`
 
 ## See Also

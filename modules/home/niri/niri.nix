@@ -1,4 +1,4 @@
-# modules/home/niri.nix
+# modules/home/niri/niri.nix
 # Home Manager configuration for niri Wayland compositor
 { config, pkgs, lib, ... }:
 

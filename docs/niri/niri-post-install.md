@@ -77,7 +77,7 @@ journalctl --user -u niri -f
 
 ### Keyboard Layout Not Working
 The keyboard layout is set to German (`de`) in the configuration. To change it:
-- Edit `modules/home/niri.nix` and change the `layout` under `input.keyboard.xkb`
+- Edit `modules/home/niri/niri.nix` and change the `layout` under `input.keyboard.xkb`
 - Rebuild and relogin
 
 ## 8. Customization

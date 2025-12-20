@@ -1,4 +1,4 @@
-# modules/home/fuzzel.nix
+# modules/home/niri/fuzzel.nix
 # Fuzzel application launcher for Wayland
 { config, pkgs, ... }:
 

@@ -19,7 +19,7 @@ The niri setup is organized in a modular way:
 - **System Profile**: `profiles/system/niri.nix`
   - Simple wrapper that imports the system module
 
-- **Home Module**: `modules/home/niri.nix`
+- **Home Module**: `modules/home/niri/niri.nix`
   - User-level niri configuration
   - Keybindings (Super+Return for terminal, Super+D for launcher, etc.)
   - Layout settings (gaps, column widths)
@@ -27,7 +27,7 @@ The niri setup is organized in a modular way:
   - Environment variables (NIXOS_OZONE_WL for Electron apps)
   - Window rules and preferences
 
-- **Home Profile**: `profiles/home/niri.nix`
+- **Home Profile**: `profiles/home/desktop.nix`
   - Imports niri home module
   - Imports waybar, fuzzel, and mako modules for complete desktop stack
 
@@ -72,8 +72,8 @@ The niri setup is organized in a modular way:
 
 In `hosts/laptop/default.nix`:
 - System level: `../../profiles/system/niri.nix` is imported (always enabled)
-- Home level: `../../profiles/home/niri.nix` is commented out by default
-  - Uncomment to enable waybar, fuzzel, mako for full desktop experience
+- Home level: `../../profiles/home/desktop.nix` is commented out by default
+   - Uncomment to enable waybar, fuzzel, mako for full desktop experience
   - Keep commented for minimal testing
 
 ### Documentation Created
