@@ -56,7 +56,7 @@ Niri is a scrollable-tiling Wayland compositor with a focus on simplicity and us
 
 ## Binary Cache
 
-The niri binary cache is configured in `profiles/system/common.nix`:
+The niri binary cache is configured in `profiles/system/common_all.nix`:
 
 ```nix
 substituters = [

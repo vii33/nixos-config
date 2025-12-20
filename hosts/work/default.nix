@@ -8,11 +8,10 @@ in
 {
   imports = [
     inputs.home-manager.darwinModules.home-manager
-    ./configuration.nix
-    ./nix-darwin.nix
+    ./configuration-nix-darwin.nix
 
     # user.nix setup not needed as this is done by mandatory base installation
-    ../../profiles/system/common.nix
+    ../../profiles/system/common_all.nix
     #../../profiles/system/development-headless.nix
   ];
 

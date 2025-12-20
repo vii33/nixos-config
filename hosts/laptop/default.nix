@@ -8,7 +8,7 @@
       ./configuration.nix
       ./hardware-configuration.nix
 
-      ../../profiles/system/common.nix
+      ../../profiles/system/common_all.nix
       ../../profiles/system/common_linux.nix
       ../../profiles/system/desktop.nix
       ../../profiles/system/niri.nix

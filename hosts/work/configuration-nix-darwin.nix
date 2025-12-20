@@ -1,4 +1,4 @@
-# ./hosts/work/nix-darwin.nix
+# ./hosts/work/configuration-nix-darwin.nix
 # Basic nix-darwin configuration for macOS work host
 { config, pkgs, ... }:
 
