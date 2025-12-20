@@ -1,4 +1,4 @@
-# modules/home/waybar.nix
+# modules/home/niri/waybar.nix
 # Waybar status bar configuration for Wayland compositors
 { config, pkgs, ... }:
 

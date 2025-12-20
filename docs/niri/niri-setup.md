@@ -28,7 +28,7 @@ Niri is a scrollable-tiling Wayland compositor with a focus on simplicity and us
 - Makes niri available as a session option in SDDM
 - Works alongside KDE without conflicts
 
-### Home Manager Level (`modules/home/niri.nix`)
+### Home Manager Level (`modules/home/niri/niri.nix`)
 
 - Configures niri settings (keybindings, layout, etc.)
 - Sets `NIXOS_OZONE_WL=1` for better Electron app support (VSCode, etc.)
@@ -38,18 +38,18 @@ Niri is a scrollable-tiling Wayland compositor with a focus on simplicity and us
 
 ### Supporting Applications
 
-#### Waybar (`modules/home/waybar.nix`)
+#### Waybar (`modules/home/niri/waybar.nix`)
 - Status bar with workspace, window title, system info
 - Systemd integration for proper session management
 - Custom styling with Dracula-inspired theme
 - Requires reset-failed workaround in niri spawn-at-startup
 
-#### Fuzzel (`modules/home/fuzzel.nix`)
+#### Fuzzel (`modules/home/niri/fuzzel.nix`)
 - Application launcher with fuzzy search
 - Configured with Dracula colors
 - Launched with `Super + D`
 
-#### Mako (`modules/home/mako.nix`)
+#### Mako (`modules/home/niri/mako.nix`)
 - Notification daemon
 - Positioned at top-right
 - Dracula-inspired theme
@@ -131,11 +131,11 @@ The niri configuration is spread across several files:
 
 ### Changing Keybindings
 
-Edit `modules/home/niri.nix` under the `binds` section.
+Edit `modules/home/niri/niri.nix` under the `binds` section.
 
 ### Monitor Configuration
 
-Add output configuration in `modules/home/niri.nix`:
+Add output configuration in `modules/home/niri/niri.nix`:
 
 ```nix
 outputs = {
@@ -152,7 +152,7 @@ outputs = {
 
 ### Window Rules
 
-Add window-specific rules in `modules/home/niri.nix`:
+Add window-specific rules in `modules/home/niri/niri.nix`:
 
 ```nix
 window-rules = [
@@ -169,7 +169,7 @@ window-rules = [
 
 The waybar systemd service has a restart limit. The configuration includes a workaround:
 - `systemctl --user reset-failed waybar.service` is run at startup
-- This is configured in `modules/home/niri.nix` under `spawn-at-startup`
+- This is configured in `modules/home/niri/niri.nix` under `spawn-at-startup`
 
 ### Electron apps (VSCode) not using Wayland
 
@@ -178,7 +178,7 @@ Check that `NIXOS_OZONE_WL=1` is set:
 echo $NIXOS_OZONE_WL
 ```
 
-This is configured in `modules/home/niri.nix`.
+This is configured in `modules/home/niri/niri.nix`.
 
 ### XWayland apps not working
 

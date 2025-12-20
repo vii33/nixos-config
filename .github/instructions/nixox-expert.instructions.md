@@ -31,7 +31,7 @@ This repository is a personal flake-based NixOS configuration; the document belo
 
 ## Notes
 
-- Primary user: `vii` (configured in `modules/system/user.nix`).
+- Primary user: `vii` (configured in `profiles/system/common_linux.nix`).
 - NBFC fan control helper exists at `hosts/laptop/nbfc.nix` and requires a per-user `~/.config/nbfc.json` to run.
 
 ## Working with the repo
