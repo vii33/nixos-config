@@ -45,11 +45,11 @@ The niri setup is organized in a modular way:
 
 3. **Binary Cache Configuration**
    - Disabled niri-flake's automatic cache setup: `niri-flake.cache.enable = false;`
-   - Kept niri.cachix.org in common.nix for potential future use
+   - Kept niri.cachix.org in common_all.nix for potential future use
    - Uses cache.nixos.org for the actual niri package
 
 4. **Trusted Users**
-   - Added `trusted-users = [ "root" "@wheel" ];` in `profiles/system/common.nix`
+   - Added `trusted-users = [ "root" "@wheel" ];` in `profiles/system/common_all.nix`
    - Required for users to use binary cache configuration
 
 ### Issues Resolved

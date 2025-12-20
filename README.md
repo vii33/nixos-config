@@ -73,7 +73,7 @@ This a NixOS configuration repository designed for managing multiple hosts with 
 │  ├─ imports common.nix                                          │
 │  ├─ imports user.nix                                            │
 │  ├─ imports configuration.nix (work-specific)                   │
-│  ├─ imports nix-darwin.nix (darwin platform config)             │
+│  ├─ imports configuration-nix-darwin.nix                        │
 │  └─ imports development-headless.nix                            │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
