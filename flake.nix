@@ -27,7 +27,8 @@
 
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nix-darwin, nixvim, niri, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, 
+              nix-darwin, nixvim, niri, ... }@inputs:
   {
     nixosConfigurations = {
 
@@ -58,7 +59,7 @@
 
     darwinConfigurations = {
       work = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";  # Apple Silicon macOS
+        system = "aarch64-darwin";  # Apple silicon
         specialArgs = { 
           inherit inputs;
           pkgs-unstable = import nixpkgs-unstable {
