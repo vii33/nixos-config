@@ -118,23 +118,17 @@ darwin-rebuild check --flake .#work
 
 **First-time setup:** The first time you set up nix-darwin on a new macOS system, follow these steps:
 
-1. Build the system configuration:
 ```bash
+# 1. Build the system configuration:
 nix run nix-darwin -- switch --flake .#work
-```
 
-2. When prompted with "system activation must now be run as root", activate with sudo:
-```bash
+# 2. When prompted with "system activation must now be run as root", activate with sudo:
 sudo /nix/store/*-darwin-system-*/activate
-```
 
-3. Run darwin-rebuild to complete the setup:
-```bash
+# 3. Run darwin-rebuild to complete the setup:
 sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
-```
 
-4. Restart your shell to update PATH:
-```bash
+# 4. Restart your shell to update PATH:
 exec zsh
 ```
 
@@ -147,16 +141,17 @@ sudo ./result/activate
 ```
 
 ##### Home Manager Commands
-First time setup only:
+First time setup to get Home Manager into PATH:
 ```bash
 nix profile install "github:nix-community/home-manager/release-25.05#home-manager"
 ```
 
+After this, update Home Manager configuration with:
 ```bash
-home-manager --flake .#work switch
+home-manager --flake .#work switch  # not yet tested!
 ```
 
-### Laptop: Bootloader Workaround (Corrupted NVRAM)
+### Laptop Host: Bootloader Workaround (Corrupted NVRAM)
 
 The laptop has corrupted EFI NVRAM variables that cause `bootctl status` to crash. If `nixos-rebuild switch` fails with `SIGABRT` during bootloader installation, use this workaround script:
 
@@ -190,6 +185,9 @@ For detailed testing instructions, see [docs/niri-testing-with-kde.md](docs/niri
 ## Manual Post-Install Steps
 
 [docs/post-install-steps.md](docs/post-install-steps.md).
+
+## Updating
+[docs/updating.md](docs/updating.md).
 
 ## Future improvements – not yet automatic
 - Move more pieces towards home-manager 
