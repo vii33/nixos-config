@@ -45,11 +45,12 @@ in
   };
   
   system.defaults = {
+
     # Dock
     dock = {
       autohide = false;
       show-recents = false;
-      tilesize = 48;
+      tilesize = 36;
       orientation = "bottom";
       # Hot Corners
       wvous-tr-corner = 12;
@@ -64,7 +65,7 @@ in
 
     # Keyboard & Input
     hitoolbox = {
-      AppleFnUsageType = "Show Emoji & Symbols";  # Use fn key explicitly for F-keys
+      AppleFnUsageType = "Show Emoji & Symbols"; 
     };
 
     # Control Center
@@ -85,7 +86,7 @@ in
       _FXShowPosixPathInTitle = true;
     };
 
-    # Globale UI/Input Einstellungen
+    # Global UI/Input
     NSGlobalDomain = {
       AppleShowAllExtensions = true;
 
