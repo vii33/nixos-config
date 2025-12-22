@@ -1,6 +1,6 @@
 # NixOS Configuration 🌚🌠
 
-Personal NixOS configuration using flakes and Home Manager.
+Personal NixOS configuration for multiple hosts, including MacOS.
 
 ## Key Features
 
@@ -35,7 +35,7 @@ This a NixOS configuration repository designed for managing multiple hosts with 
                                 │ imports
                                 │
 ┌─────────────────────────────────────────────────────────────────┐
-│ PROFILES (Use Cases)                                   │
+│ PROFILES (Use Cases)                                            │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  System Profiles:             Home Profiles:                    │
@@ -104,9 +104,10 @@ sudo nixos-rebuild dry-run --flake .#laptop
 
 #### macOS Host (nix-darwin)
 
+##### Darwin Rebuild Commands
 ```bash
 # Build and activate work configuration (macOS)
-sudo darwin-rebuild switch --flake .#work
+sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
 
 # Test work configuration without switching
 darwin-rebuild build --flake .#work
@@ -139,6 +140,22 @@ exec zsh
 
 After this, `darwin-rebuild` will be in your PATH for future updates.
 
+##### Nix Rebuild Commands
+```bash
+nix build .#darwinConfigurations.work.activationPackage
+sudo ./result/activate
+```
+
+##### Home Manager Commands
+First time setup only:
+```bash
+nix profile install "github:nix-community/home-manager/release-25.05#home-manager"
+```
+
+```bash
+home-manager --flake .#work switch
+```
+
 ### Laptop: Bootloader Workaround (Corrupted NVRAM)
 
 The laptop has corrupted EFI NVRAM variables that cause `bootctl status` to crash. If `nixos-rebuild switch` fails with `SIGABRT` during bootloader installation, use this workaround script:
@@ -170,94 +187,9 @@ For detailed testing instructions, see [docs/niri-testing-with-kde.md](docs/niri
 
 -----
 
-## Manual Post-Install Steps 🛠️
+## Manual Post-Install Steps
 
-Even with declarative NixOS a few one-time/manual actions are required when setting up a fresh machine or new user. This consolidates all imperative steps referenced in the Nix modules.
-
-### 1. Set user password
-```
-sudo passwd vii
-```
-
-### 2. Clone Neovim config (for LazyVim)
-`modules/home/neovim.nix` symlinks `~/.config/nvim` to `~/dev/neovim-config`, so clone the repo before launching Neovim:
-```
-mkdir -p ~/dev
-cd ~/dev
-git clone <your-neovim-config-repo-url> neovim-config
-```
-
-### 3. NBFC (Notebook Fan Control) – `laptop` host only
-`hosts/laptop/nbfc.nix` expects `~/.config/nbfc.json` and a matching username (`myUser`). Create:
-```
-mkdir -p ~/.config
-nano ~/.config/nbfc.json
-```
-Example content:
-```
-{
-  "SelectedConfigId": "Xiaomi Mi Book (TM1613, TM1703)",
-  "TargetFanSpeeds": [ 30.0, 30.0 ]
-}
-```
-Then ensure service is active after rebuild:
-```
-systemctl status nbfc_service
-```
-
-### 4. Create swapfile & set hibernation offset (`laptop` host)
-`hosts/laptop/swap.nix` assumes an existing `/swapfile` and a correct `resume_offset`:
-```
-sudo dd if=/dev/zero of=/swapfile bs=1M count=12288 status=progress
-sudo chmod 600 /swapfile
-sudo mkswap /swapfile
-sudo swapon /swapfile
-filefrag -v /swapfile | awk '{ if($1=="0:"){print $4} }' | sed 's/..$//'   # capture number for resume_offset
-```
-Update `boot.kernelParams = ["resume_offset=<NUMBER>"];` and `boot.resumeDevice` (UUID of underlying partition) in `swap.nix`, then:
-```
-sudo nixos-rebuild switch --flake .#laptop
-sudo systemctl hibernate   # test once
-```
-
-### 5. WireGuard VPN import (laptop)
-Currently manually done in KDE.
-Alternative: `hosts/laptop/configuration.nix`:
-```
-nmcli connection import type wireguard file my-wg-config.conf
-```
-Optional future: declarative via `networking.wg-quick.interfaces`.
-
-### 6. Clipboard provider choice
-Wayland: `wl-clipboard` is already included. For X11 switch to `xclip` in `modules/home/neovim.nix` and rebuild.
-### 7. Additional dev repos
-Clone any other personal repos to `~/dev/` if you plan to symlink them similarly.
-
-### 8. SSH keys (not stored in repo)
-```
-ssh-keygen -t ed25519 -C "vii@<host>"
-```
-Add public key to forges/services manually.
-
-### 9. NVIDIA verification (laptop)
-```
-nvidia-smi
-glxinfo -B | grep -E 'OpenGL vendor|OpenGL renderer'
-```
-
-### 10. Fingerprint reader enrollment (laptop)
-If your laptop has a fingerprint reader and `services.fprintd.enable = true` is set in `hosts/laptop/configuration.nix`, enroll your fingerprint after rebuild:
-```bash
-# Check if your fingerprint reader is detected
-lsusb | grep -i finger
-
-# Enroll your fingerprint (follow prompts to swipe finger multiple times)
-fprintd-enroll
-
-# Test fingerprint authentication
-fprintd-verify
-```
-Once enrolled, fingerprint works automatically for sudo, login (SDDM/KDE or niri if using greetd), and screen unlock.
+[docs/post-install-steps.md](docs/post-install-steps.md).
 
 ## Future improvements – not yet automatic
 - Move more pieces towards home-manager 
@@ -265,7 +197,6 @@ Once enrolled, fingerprint works automatically for sudo, login (SDDM/KDE or niri
 - Declarative WireGuard interface(s)
 - Automate swapfile creation & resume offset derivation (systemd tmpfiles + script)
 - Introduce sops-nix or similar for secrets (VPN keys, etc.)
-
 
 ## Development
 
@@ -275,44 +206,6 @@ This repository includes comprehensive Copilot instructions in `.github/instruct
 - Host-specific configuration details
 - Module development patterns
 
-
 ## Backups
 
-Nix and Home Manager restore the system and most dotfiles, but some personal data and runtime state lives outside this repo. Back up the items below regularly, especially before reinstalling or migrating.
-
-| Item | Path(s) | Why/Notes |
-|---|---|---|
-| This repo (nixos-config) | `~/nixos-config` (incl. `flake.lock`) | Preserves exact versions and config history; push to remote or archive |
-| Neovim config | `~/dev/neovim-config` | Actual editor config (repo symlinked by `modules/home/neovim.nix`) |
-| Zoxide database | `${XDG_DATA_HOME:-~/.local/share}/zoxide/db` | Directory frecency learning |
-| NBFC config | `~/.config/nbfc.json` | Required by `hosts/laptop/nbfc.nix` |
-| SSH | `~/.ssh/` | Keys (`id_ed25519*`), `config`, `known_hosts`, `authorized_keys` |
-| GPG (if used) | `~/.gnupg/` | Keys, trustdb; consider `gpg --export-secret-keys` |
-| NetworkManager | `/etc/NetworkManager/system-connections/*.nmconnection` | Wi‑Fi, VPN, WireGuard profiles (may contain secrets) |
-| WireGuard files (if not NM) | wherever saved (e.g., `~/wg/*.conf`) | Keep original `.conf` plus keys if separate |
-| Docker data (if used) | `/var/lib/docker/volumes/` and bind mounts | Persistent container volumes and data dirs |
-| Opencode agents | `/home/vii/.config/opencode/agent/` | Opencode agent configurations and settings |
-
-Notes on secrets: Treat SSH/GPG keys and WireGuard/NM exports as sensitive. Store with restricted permissions and never commit them to this repo.
-
-Quick backup script (fish): See `docs/backup.fish`.
-
-To run it:
-
-```fish
-fish docs/backup.fish
-```
-
-NetworkManager/WireGuard export (optional, may require sudo)
-
-```fish
-# Export all connection profiles to the backup directory
-set -l BK "$HOME/backups/(date "+%Y-%m-%d_%H-%M-%S")"
-mkdir -p $BK/nm
-nmcli -t -f NAME connection show | while read -l name
-  sudo nmcli connection export "$name" "$BK/nm/(string replace -a ' ' '_' $name).nmconnection"
-end
-echo "NM profiles exported to: $BK/nm"
-```
-
-Restoring is typically just copying files back into place (and for NM, importing with `nmcli connection import`). Always set correct permissions afterward (e.g., `chmod 600` for private keys and `.nmconnection` files containing secrets).
+[docs/backup.md](docs/backup.md).
