@@ -19,7 +19,9 @@
     fishPlugins.tide            # styling
     fishPlugins.sponge          # remove wrong commands from history
     fishPlugins.plugin-sudope   # insert sudo with alt+s
-    fishPlugins.fzf-fish
+    (fishPlugins.fzf-fish.overrideAttrs (oldAttrs: {
+      doCheck = false;  # Skip tests due to missing fishtape dependency
+    }))
     # fishPlugins.hydro         # removed due to fish_prompt.fish filename collision with tide
     fishPlugins.colored-man-pages
     wl-clipboard                # for Wayland clipboard access (used by fun_copy_commandline_to_clipboard)
