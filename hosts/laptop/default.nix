@@ -4,6 +4,7 @@
 {
   imports =
     [ 
+      # Only System level modules here! Home manager further down. Home Manager modules must be imported at user level, not system 
       inputs.home-manager.nixosModules.home-manager
       ./configuration.nix
       ./hardware-configuration.nix
@@ -23,7 +24,7 @@
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";   # backup existing dotfiles before overwriting
   home-manager.extraSpecialArgs = { inherit (config._module.specialArgs) pkgs-unstable; };
-  home-manager.sharedModules =
+  home-manager.sharedModules =  # Home Manager modules shared between all users TODO maybe move down to specific user (like nix darwin)
     [
       inputs.nixvim.homeManagerModules.nixvim
       # Niri home configuration (waybar, fuzzel, mako)
