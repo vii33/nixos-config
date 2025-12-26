@@ -1,6 +1,9 @@
 # modules/home-manager/fish-shell.nix
 { config, pkgs, lib, ... }:
 
+let
+  isLinux = pkgs.stdenv.isLinux;
+in
 {
   # Set environment variables for the session
   home.sessionVariables = {
@@ -15,6 +18,7 @@
   };
 
   home.packages = with pkgs; [
+  ] ++ lib.optionals isLinux [
     wl-clipboard                # for Wayland clipboard access (used by fun_copy_commandline_to_clipboard)
   ];
 
