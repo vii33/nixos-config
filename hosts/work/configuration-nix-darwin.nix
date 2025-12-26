@@ -125,7 +125,7 @@ in
   # Trackpad
   system.defaults.trackpad = {
     #TrackpadThreeFingerVertSwipeGesture = 2;  # Enable three-finger vertical swipe for App Exposé
-    TrackpadThreeFingerDrag = true;  # Enable three-finger drag for window management
+    TrackpadThreeFingerDrag = true;  # Enable three-finger drag for window management 
   };
 
   # Sudo with Touch ID
@@ -133,9 +133,13 @@ in
   security.pam.services.sudo_local.touchIdAuth = true;
 
   # Fonts
-  fonts.packages = [
-    pkgs.nerd-fonts.jetbrains-mono
-    pkgs.nerd-fonts.fira-code
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
+    fira-code
+    fira-code-symbols
+    noto-fonts
+    noto-fonts-color-emoji
   ];
 
   # Programs
@@ -155,5 +159,36 @@ in
 
   # Power
   power.sleep.allowSleepByPowerButton = null;  
+
+  # Activation scripts to fix Spotlight indexing for Nix apps (otherwise they don't show up in Spotlight)
+  system.activationScripts.applications.text = pkgs.lib.mkForce ''
+    echo "Indexing Nix applications for Launchpad/Spotlight..." >&2
+
+    # Activation scripts run as root, so writing into ~/Applications would land in /var/root.
+    # Use the system Applications folder instead.
+    target="/Applications/Nix Apps"
+    user_home="/Users/${localConfig.macosUsername}"
+    hm_apps="$user_home/Applications/Home Manager Apps"
+
+    rm -rf "$target"
+    mkdir -p "$target"
+
+    if [ -d "${config.system.build.applications}/Applications" ]; then
+      find "${config.system.build.applications}/Applications" -maxdepth 1 -type l -print |
+      while IFS= read -r link; do
+        src=$(readlink "$link")
+        app_name=$(basename "$src")
+        echo "Aliasing $app_name" >&2
+        ${pkgs.mkalias}/bin/mkalias "$src" "$target/$app_name"
+      done
+    fi
+
+    # Rebuild Launch Services entries so Launchpad/Spotlight pick up the apps.
+    /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister \
+      -f "$target"/*.app 2>/dev/null || true
+    /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister \
+      -f "$hm_apps"/*.app 2>/dev/null || true
+    /usr/bin/killall Dock 2>/dev/null || true
+  '';
  
 }
