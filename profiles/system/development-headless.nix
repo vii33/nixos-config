@@ -1,16 +1,20 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
+let
+  isLinux = builtins.match ".*-linux" (builtins.currentSystem or "") != null;
+in
 {
   environment.systemPackages = with pkgs; [
-    docker
-    docker-compose
     python3
     uv
+  ]
+  ++ lib.optionals isLinux [
+    docker  # Docker is managed via brew on macOS
+    docker-compose
   ];
 
-  # Needed if uv / pip is needed as the put packages there (/.local/bin)
+  # NixOS/Linux-only options (these option paths don't exist on nix-darwin)
+} // lib.optionalAttrs isLinux {
   environment.localBinInPath = true;
-
-  # Enable and start Docker service
   virtualisation.docker.enable = true;
 }
