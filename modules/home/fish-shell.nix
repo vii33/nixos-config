@@ -15,15 +15,6 @@
   };
 
   home.packages = with pkgs; [
-    #fishPlugins.transient-fish
-    fishPlugins.tide            # styling
-    fishPlugins.sponge          # remove wrong commands from history
-    fishPlugins.plugin-sudope   # insert sudo with alt+s
-    (fishPlugins.fzf-fish.overrideAttrs (oldAttrs: {
-      doCheck = false;  # Skip tests due to missing fishtape dependency
-    }))
-    # fishPlugins.hydro         # removed due to fish_prompt.fish filename collision with tide
-    fishPlugins.colored-man-pages
     wl-clipboard                # for Wayland clipboard access (used by fun_copy_commandline_to_clipboard)
   ];
 
@@ -38,6 +29,32 @@
   # Find out key codes with `fish_key_reader`
   programs.fish = {
     enable = true;
+
+    # Fish plugins (must be declared here to be loaded properly)
+    plugins = [
+      {
+        name = "tide";
+        src = pkgs.fishPlugins.tide.src;
+      }
+      {
+        name = "sponge";
+        src = pkgs.fishPlugins.sponge.src;
+      }
+      {
+        name = "plugin-sudope";
+        src = pkgs.fishPlugins.plugin-sudope.src;
+      }
+      {
+        name = "fzf-fish";
+        src = (pkgs.fishPlugins.fzf-fish.overrideAttrs (oldAttrs: {
+          doCheck = false;  # Skip tests due to missing fishtape dependency
+        })).src;
+      }
+      {
+        name = "colored-man-pages";
+        src = pkgs.fishPlugins.colored-man-pages.src;
+      }
+    ];
 
     # Abbreviations
     shellAbbrs = {
