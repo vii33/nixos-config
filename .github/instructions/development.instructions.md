@@ -35,6 +35,61 @@ echo 'line 2' >> file.txt
 
 Good: clear attribute sets and imports, keep modules small and composable.
 
+## Conditional Options: `lib.optionalAttrs` vs `lib.mkIf`
+
+When writing cross-platform modules (NixOS + nix-darwin), **avoid referencing option paths that
+don't exist** on one platform.
+
+- Use `lib.mkIf` when the **option exists everywhere** you're evaluating the module, and you just
+  want to enable/disable its value.
+- Use `lib.optionalAttrs` (or `lib.mkMerge` + `lib.mkIf`) when the **option path may not exist** on
+  some platforms. This prevents “The option `...` does not exist.” evaluation errors.
+
+### Rule of thumb
+
+If you are conditionally setting a whole option subtree (e.g. `virtualisation.*`,
+`environment.localBinInPath`, `services.*`) and it might not exist on nix-darwin, **merge the attrs
+only on the platform that supports them**.
+
+### Examples
+
+Bad (still fails on platforms where the option doesn't exist):
+
+```nix
+{
+  # `environment.localBinInPath` is NixOS-only
+  environment.localBinInPath = lib.mkIf pkgs.stdenv.isLinux true;
+}
+```
+
+Good (only adds the option subtree when supported):
+
+```nix
+let
+  # Avoid forcing `pkgs` during module argument resolution.
+  isLinux = builtins.match ".*-linux" (builtins.currentSystem or "") != null;
+in
+{
+  # ... normal cross-platform options here ...
+} // lib.optionalAttrs isLinux {
+  environment.localBinInPath = true;
+  virtualisation.docker.enable = true;
+}
+```
+
+Alternative (useful when you need multiple conditional chunks):
+
+```nix
+lib.mkMerge [
+  {
+    # cross-platform config
+  }
+  (lib.mkIf isLinux {
+    # linux-only config (option paths must only exist on Linux)
+  })
+]
+```
+
 Common patterns to avoid:
 - Hardcoding absolute paths when relative paths are sufficient
 - Mixing system-level and user-level configuration in the same file
