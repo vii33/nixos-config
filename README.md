@@ -104,13 +104,17 @@ sudo nixos-rebuild dry-run --flake .#laptop
 
 #### macOS Host (nix-darwin)
 
-##### Darwin Rebuild Commands
+##### Rebuild Commands
 ```bash
-# Build and activate work configuration (macOS)
-sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
+# Build and activate work configuration (standard method)
+sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
 
-# Test work configuration without switching
+# Or build first, then activate separately:
 darwin-rebuild build --flake .#work
+sudo env "PATH=$PATH" ./result/activate
+
+# Check configuration for errors (all hosts)
+nix flake check
 
 # Show what would change without building
 darwin-rebuild check --flake .#work
@@ -119,28 +123,32 @@ darwin-rebuild check --flake .#work
 **First-time setup:** The first time you set up nix-darwin on a new macOS system, follow these steps:
 
 ```bash
-# 1. Build the system configuration:
-nix run nix-darwin -- switch --flake .#work
+# 1. Install Homebrew (if using brew.nix):
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# Add brew to PATH (Apple Silicon):
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# 2. When prompted with "system activation must now be run as root", activate with sudo:
-sudo /nix/store/*-darwin-system-*/activate
+# 2. Build the system configuration:
+darwin-rebuild build --flake .#work
 
-# 3. Run darwin-rebuild to complete the setup:
-sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
+# 3. Activate with sudo (passing PATH for brew): -- not sure if this is needed, last time was a package bug
+sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
 
-# 4. Restart your shell to update PATH:
-exec zsh
+# 4. Open a new terminal window
 ```
 
-After this, `darwin-rebuild` will be in your PATH for future updates.
+After this, use the rebuild command above for future updates.
 
 ##### Nix Rebuild Commands
+This is for first time setup and special cases where `darwin-rebuild` is not available.
 ```bash
 nix build .#darwinConfigurations.work.activationPackage
 sudo ./result/activate
 ```
 
 ##### Home Manager Commands
+Home manager just updates user lavel managed packages, mostly dotfile configs. Home brew needs to be activated via nix build commands. 
+
 First time setup to get Home Manager into PATH:
 ```bash
 nix profile install "github:nix-community/home-manager/release-25.05#home-manager"

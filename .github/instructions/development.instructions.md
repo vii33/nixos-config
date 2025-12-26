@@ -101,6 +101,17 @@ Common patterns to avoid:
 2. Test changes with `--dry-run` before switching.
 3. Make small, incremental commits so rollbacks are easy.
 
+## macOS (nix-darwin) Rebuild Commands
+
+**IMPORTANT**: When suggesting rebuild commands for macOS, ALWAYS use the full command with sudo and full path:
+
+```bash
+darwin-rebuild build --flake .#work
+sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
+```
+
+**NEVER** suggest just `darwin-rebuild switch --flake .#work` as it will fail with "command not found" when run with sudo.
+
 ## Debugging
 
 - Use `nixos-rebuild --dry-run --flake .#<host>` to preview changes for a host (e.g. `.#work` for the WSL dev host).

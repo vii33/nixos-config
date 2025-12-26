@@ -6,14 +6,14 @@ let
   localConfig = import ../../local-config.nix;
 in
 {
-  imports = [
+  imports = [  
+    # Only System level modules here! Home manager further down. Home Manager modules must be imported at user level
     inputs.home-manager.darwinModules.home-manager
     ./configuration-nix-darwin.nix
 
     ../../profiles/system/common_all.nix
-    # no deskop.nix as this overlaps too much with the managed MacOS setup
-    #../../profiles/system/development-headless.nix
-    #./apps.nix
+    ../../profiles/system/development-headless.nix
+    ./brew.nix
   ];
 
   # Home Manager wiring
@@ -22,13 +22,18 @@ in
   home-manager.backupFileExtension = "backup";
   home-manager.extraSpecialArgs = { 
     inherit (config._module.specialArgs) pkgs-unstable;
+    inherit inputs;
     inherit localConfig;
   };
   home-manager.sharedModules = [
+    inputs.nixvim.homeManagerModules.nixvim
   ];
   
-  # Reuse the shared per-user config (macOS-specific)
-  home-manager.users.${localConfig.macosUsername}.imports = [ ../../home/vii/home-darwin.nix ];
+  # Home Manager imports for main user
+  home-manager.users.${localConfig.macosUsername}.imports = [ 
+    ../../home/vii/home-darwin.nix 
+    ../../profiles/home/work.nix
+  ];
 
   system.stateVersion = 6; # Used to pin darwin configuration versions to avoid breaking changes.
                            # Updated from time to time. See https://nix-darwin.github.io/nix-darwin/manual/index.html#opt-system.stateVersion
