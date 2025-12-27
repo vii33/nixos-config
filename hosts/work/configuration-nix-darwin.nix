@@ -34,12 +34,18 @@ in
   nix.gc = {
     automatic = true;
     interval = { Weekday = 1; Hour = 8; Minute = 0; }; # Every Monday at 08:00
-    options = "--delete-older-than 40d";
+    options = "--delete-older-than 5d";
   };
 
 
   # Set proxy environment variables for Nix daemon
   launchd.daemons.nix-daemon.environment = {
+    HTTP_PROXY = "http://localhost:3128";
+    HTTPS_PROXY = "http://localhost:3128";
+  };
+  
+  # Set proxy for user environment (for Homebrew and other tools) -- did not have any effect?
+  environment.variables = {
     HTTP_PROXY = "http://localhost:3128";
     HTTPS_PROXY = "http://localhost:3128";
   };
@@ -53,7 +59,7 @@ in
       tilesize = 36;
       orientation = "bottom";
       # Hot Corners
-      wvous-tr-corner = 12;
+      wvous-tr-corner = 12; # enum: Mission Control
       wvous-br-corner = 2;
     };
 
@@ -114,6 +120,11 @@ in
       
       # AppleScrollerPagingBehavior = null;  # Keep default scrolling behavior
     };
+
+    # Disable window tiling as "Rectangle" app is used
+    WindowManager.EnableTilingByEdgeDrag = false;
+    WindowManager.EnableTopTilingByEdgeDrag = false;
+    WindowManager.EnableTilingOptionAccelerator = false;
   };
 
   # Point Caps Lock to Escape
@@ -159,36 +170,5 @@ in
 
   # Power
   power.sleep.allowSleepByPowerButton = null;  
-
-  # Activation scripts to fix Spotlight indexing for Nix apps (otherwise they don't show up in Spotlight)
-  system.activationScripts.applications.text = pkgs.lib.mkForce ''
-    echo "Indexing Nix applications for Launchpad/Spotlight..." >&2
-
-    # Activation scripts run as root, so writing into ~/Applications would land in /var/root.
-    # Use the system Applications folder instead.
-    target="/Applications/Nix Apps"
-    user_home="/Users/${localConfig.macosUsername}"
-    hm_apps="$user_home/Applications/Home Manager Apps"
-
-    rm -rf "$target"
-    mkdir -p "$target"
-
-    if [ -d "${config.system.build.applications}/Applications" ]; then
-      find "${config.system.build.applications}/Applications" -maxdepth 1 -type l -print |
-      while IFS= read -r link; do
-        src=$(readlink "$link")
-        app_name=$(basename "$src")
-        echo "Aliasing $app_name" >&2
-        ${pkgs.mkalias}/bin/mkalias "$src" "$target/$app_name"
-      done
-    fi
-
-    # Rebuild Launch Services entries so Launchpad/Spotlight pick up the apps.
-    /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister \
-      -f "$target"/*.app 2>/dev/null || true
-    /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister \
-      -f "$hm_apps"/*.app 2>/dev/null || true
-    /usr/bin/killall Dock 2>/dev/null || true
-  '';
  
 }
