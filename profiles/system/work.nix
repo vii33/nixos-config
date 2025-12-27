@@ -7,5 +7,5 @@
 
     flameshot     # Screenshot tool
     imagemagick   # Image manipulation tool
-  ]
+  ];
 }
