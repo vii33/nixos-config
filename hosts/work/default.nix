@@ -10,10 +10,10 @@ in
     # Only System level modules here! Home manager further down. Home Manager modules must be imported at user level
     inputs.home-manager.darwinModules.home-manager
     ./configuration-nix-darwin.nix
+    ./brew.nix
 
     ../../profiles/system/common_all.nix
-    ../../profiles/system/development-headless.nix
-    ./brew.nix
+    ../../profiles/system/work.nix
   ];
 
   # Home Manager wiring
