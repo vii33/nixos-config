@@ -87,7 +87,7 @@ in
     # Finder options
     finder = {
       AppleShowAllExtensions = true;
-      FXPreferredViewStyle = "clmv"; # Spaltenansicht
+      FXPreferredViewStyle = "Nlsv"; # Views: Nlsv (list), icnv (icon), clmv (column), Flwv (cover flow)
       ShowPathbar = true;
       _FXShowPosixPathInTitle = true;
     };
