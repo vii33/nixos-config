@@ -30,7 +30,7 @@
       bold_font = "JetBrainsMono Nerd Font Bold";
       italic_font = "JetBrainsMono Nerd Font Italic";
       bold_italic_font = "JetBrainsMono Nerd Font Bold Italic";
-      font_size = "10.0";
+      font_size = "11.0";
       disable_ligatures = "never";
       
       # Tab bar (minimal style to match terminal aesthetic)
