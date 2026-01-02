@@ -3,6 +3,7 @@
 {
   imports = [
     ../../modules/home/fish-shell.nix
+    #../../modules/home/paneru.nix
     #../../modules/home/nixvim/lazyvim.nix
     #../../modules/home/kitty.nix  # TODO maybe through brew is better? same for lazyvim?
   ];
