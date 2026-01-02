@@ -32,21 +32,22 @@
       #"karabiner-elements"# Keyboard remapping
       "shortcat"          # Control macOS with the keyboard
       "rocket"            # Emoji picker
-      #"battery"
-      #"vanilla"          # Menu bar items manager, drains battery (especially bluetooth, use few items)
-      "nikitabobko/tap/aerospace"  # Tiling window manager // Alternative: yabai + skhd
+      #"battery"          # Optimize battery health (80% charge limit) - Does not work well with managed MacOS
+      #"hidden"           # Hide menu bar items // Alternative: vanilla (needs screen recording permission .-/)
+      "nikitabobko/tap/aerospace"  # Tiling window manager // Alternative: paneru
       "leader-key"        # vim like keybindings - https://github.com/mikker/LeaderKey
       "raycast"           # Spotlight replacement // Alternative: alfred
-      "macs-fan-control"
+      "macs-fan-control"  # Fan conrol for Mac Notebooks
+      "mac-mouse-fix"     # Mouse gestures
       
       # DEV #####################################################
       "kitty"             # Terminal emulator
       "insomnia"
-      "docker"
+      "docker-desktop"
       "syntax-highlight"  # Syntax highlighting for macOS Quick Look. Needs to be opened once manually after install to set up.
       "qlmarkdown"        # Markdown preview in macOS Quick Look. Needs to be opened once manually after install to set up.
       "cyberduck"         # FTP/S3 client
-      "keyclu"          # Show shortcuts for current app
+      "keyclu"            # Show shortcuts for current app
     ];
   };
 }  
