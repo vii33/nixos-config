@@ -44,10 +44,11 @@ in
     HTTPS_PROXY = "http://localhost:3128";
   };
   
-  # Set proxy for user environment (for Homebrew and other tools) -- did not have any effect?
+  # Environment variables
   environment.variables = {
-    HTTP_PROXY = "http://localhost:3128";
+    HTTP_PROXY = "http://localhost:3128";       # Set proxy for user environment (for Homebrew and other tools) -- did not have any effect?
     HTTPS_PROXY = "http://localhost:3128";
+    HOMEBREW_AUTO_UPDATE_SECS = "259200";        # How often Homebrew auto-update runs (seconds). Example: 86400 = 1 day
   };
   
   system.defaults = {
@@ -95,6 +96,7 @@ in
     # Global UI/Input
     NSGlobalDomain = {
       AppleShowAllExtensions = true;
+      AppleShowAllFiles = true;     # Show hidden files in Finder by default
 
       # Keyboard
       KeyRepeat = 4;                # delay per repeat
