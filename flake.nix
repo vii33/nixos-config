@@ -24,11 +24,15 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    paneru = {
+      url = "github:karinushka/paneru";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, 
-              nix-darwin, nixvim, niri, ... }@inputs:
+              nix-darwin, nixvim, niri, paneru, ... }@inputs:
   {
     nixosConfigurations = {
 

@@ -1,6 +1,8 @@
 # ./modules/home/paneru.nix
-# Paneru window manager configuration for macOS
-# https://github.com/karinushka/paneru
+# Paneru window manager configuration for macOS https://github.com/karinushka/paneru
+# MacOS settings: 
+  # System Preferences -> Desktop & Dock -> Displays have separate spaces: ON. 
+  # System Preferences -> Displays -> Arrange: Align vertically
 { config, pkgs, inputs, ... }:
 
 {
