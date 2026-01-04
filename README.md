@@ -147,17 +147,17 @@ sudo ./result/activate
 ```
 
 ##### Home Manager Commands
-Home manager just updates user lavel managed packages, mostly dotfile configs. Home brew needs to be activated via nix build commands. 
+Home Manager just updates user-level managed packages, mostly dotfile configs.
 
-First time setup to get Home Manager into PATH:
 ```bash
-nix profile install "github:nix-community/home-manager/release-25.05#home-manager"
+# Update Home Manager configuration only (no sudo needed!)
+home-manager --flake .#work switch
+
+# This updates dotfiles (kitty, fish, etc.) without rebuilding the system
+# Use this for quick user-level config changes
 ```
 
-After this, update Home Manager configuration with:
-```bash
-home-manager --flake .#work switch  # not yet tested!
-```
+**Note:** For system-level changes (packages installed via nix-darwin, Homebrew apps, system settings), you still need to use `darwin-rebuild switch`.
 
 ### Laptop Host: Bootloader Workaround (Corrupted NVRAM)
 
