@@ -14,11 +14,13 @@
   home.username = localConfig.macosUsername;
   home.homeDirectory = lib.mkForce "/Users/${localConfig.macosUsername}";
 
+  # Add home-manager CLI to PATH
+  home.packages = with pkgs; [
+    home-manager
+  ];
+
   # Configure user-level programs
   programs.fish.enable = true;
-
-  # Let Home Manager manage itself
-  programs.home-manager.enable = true;
 
   # Ensures configuration doesn't break on updates. Keep version static after first config.
   # You can update Home Manager without changing this value. See the Home Manager release
