@@ -74,5 +74,32 @@
         modules = [ ./hosts/work/default.nix ];
       };
     };
+
+    # Standalone Home Manager configuration for macOS
+    # Allows running: home-manager --flake .#work switch (without sudo)
+    homeConfigurations = {
+      work = let
+        system = "aarch64-darwin";
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
+        pkgs-unstable = import nixpkgs-unstable {
+          inherit system;
+          config.allowUnfree = true;
+        };
+        localConfig = import ./local-config.nix;
+      in home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = { 
+          inherit inputs pkgs-unstable localConfig;
+        };
+        modules = [
+          nixvim.homeManagerModules.nixvim
+          ./home/vii/home-darwin.nix
+          ./profiles/home/work.nix
+        ];
+      };
+    };
   };
 }
