@@ -11,25 +11,12 @@ in
     inputs.home-manager.darwinModules.home-manager
     ./configuration-nix-darwin.nix
     ./brew.nix
+
+    # Common configuration
+    ../../modules/system/common_all.nix
   ];
 
-  # === From profiles/system/common_all.nix ===
-  nixpkgs.config.allowUnfree = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  programs.fish.enable = true;
-  
   environment.systemPackages = with pkgs; [
-    vim
-    mtr           # My traceroute
-    htop
-    fzf
-    zoxide        # smart cd (integration handled in home module)
-    eza
-    ripgrep
-    fd
-    bat
-    git
-    yazi
     # From profiles/system/work.nix
     python3
     uv
