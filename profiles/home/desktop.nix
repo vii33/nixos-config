@@ -6,7 +6,7 @@
     ../../modules/home/onedriver.nix #same
 
     # Niri-related home modules (moved from profiles/home/niri.nix)
-    ../../modules/system/niri.nix
+    # Note: System-level niri config is in profiles/system/niri.nix
     ../../modules/home/niri/niri.nix
     ../../modules/home/niri/waybar.nix
     ../../modules/home/niri/fuzzel.nix
