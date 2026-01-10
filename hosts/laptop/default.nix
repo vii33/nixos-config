@@ -15,24 +15,21 @@
 
       # Direct module imports
       ../../modules/system/niri.nix
-      
       ./swap.nix
       ./nbfc.nix
     ];
 
+  # Development system packages
   environment.systemPackages = with pkgs; [
-    # From profiles/system/development-headless.nix
     python3
     uv
     docker
     docker-compose
   ];
-  
-  # From profiles/system/development-headless.nix
   environment.localBinInPath = true;
   virtualisation.docker.enable = true;
 
-  # === From profiles/system/desktop.nix ===
+  # Fonts
   fonts.packages = with pkgs; [
     nerd-fonts.meslo-lg          # Used by Fish Shell / Alacritty
     nerd-fonts.jetbrains-mono
@@ -46,20 +43,34 @@
   home-manager.sharedModules =  # Home Manager modules shared between all users
     [
       inputs.nixvim.homeManagerModules.nixvim
-      # From profiles/home/desktop.nix
+      ../../modules/home/kitty.nix
+      ../../modules/home/fish-shell.nix
+      ../../modules/home/nixvim/lazyvim.nix
       ../../modules/home/kde.nix
+
       ../../modules/home/onedriver.nix
+
       ../../modules/home/niri/niri.nix
       ../../modules/home/niri/waybar.nix
       ../../modules/home/niri/fuzzel.nix
       ../../modules/home/niri/mako.nix
-      # From profiles/home/development-desktop.nix
-      ../../modules/home/kitty.nix
-      # From profiles/home/development-headless.nix
-      ../../modules/home/fish-shell.nix
-      ../../modules/home/nixvim/lazyvim.nix
     ];
-  home-manager.users.vii.imports = [ ./home.nix ../../home/vii/home-linux.nix ];
+  home-manager.users.vii = {
+    imports = [ ../../home/vii/home-linux.nix ];
+    
+    # Host-specific packages for laptop
+    home.packages = with pkgs; [
+      brave
+      obsidian
+      bitwarden-desktop
+      signal-desktop-bin
+      thunderbird
+      vlc
+      pkgs-unstable.vscode
+      pkgs-unstable.opencode
+      pkgs-unstable.github-copilot-cli
+    ];
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
