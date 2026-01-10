@@ -5,9 +5,11 @@ This guide explains how to test niri while keeping KDE as your main desktop envi
 ## Current Setup
 
 The configuration now allows you to:
-1. Keep KDE Plasma 6 with SDDM as your default desktop
-2. Have niri available as an alternative session in SDDM
-3. Test niri without replacing your current setup
+1. Select between KDE Plasma 6 and niri at the SDDM login screen
+2. Have both desktop environments available side-by-side
+3. Test niri without replacing your KDE setup
+
+Note: Auto-login is disabled by default to allow session selection. If you prefer to auto-login to a specific session, see the "Enable Auto-Login" section below.
 
 ## How to Test Niri
 
@@ -63,6 +65,20 @@ To return to KDE:
 1. Log out of niri (`Super + Shift + E` or from terminal: `niri msg action quit`)
 2. At SDDM, select "Plasma (Wayland)" or "Plasma (X11)" session
 3. Log in normally
+
+## Enable Auto-Login (Optional)
+
+If you prefer to skip the login screen and automatically log into a specific session:
+
+1. Edit `hosts/laptop/configuration.nix`
+2. Uncomment and configure these lines:
+```nix
+services.displayManager.autoLogin.enable = true;
+services.displayManager.autoLogin.user = "vii";
+```
+3. Rebuild: `sudo nixos-rebuild switch --flake .#laptop`
+
+Note: With auto-login enabled, the system will automatically log into the last-used session. To change sessions, you'll need to log out first, then quickly select a different session before auto-login triggers.
 
 ## Full Switch to Niri (Optional)
 
