@@ -23,3 +23,6 @@ result-*
 shell.nix
 # Symlink to nvim-local (user runtime config)
 nvim-local/
+
+# Local configuration files (contain user-specific settings)
+local-config.nix
