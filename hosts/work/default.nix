@@ -12,8 +12,16 @@ in
     ./configuration-nix-darwin.nix
     ./brew.nix
 
-    ../../profiles/system/common_all.nix
-    ../../profiles/system/work.nix
+    # Common configuration
+    ../../modules/system/common_all.nix
+  ];
+
+  environment.systemPackages = with pkgs; [
+    # From profiles/system/work.nix
+    python3
+    uv
+    flameshot     # Screenshot tool
+    imagemagick   # Image manipulation tool
   ];
 
   # Home Manager wiring
@@ -27,12 +35,14 @@ in
   };
   home-manager.sharedModules = [
     inputs.nixvim.homeManagerModules.nixvim
+    # From profiles/home/work.nix
+    ../../modules/home/fish-shell.nix
+    ../../modules/home/kitty-hm.nix
   ];
   
   # Home Manager imports for main user
   home-manager.users.${localConfig.macosUsername}.imports = [ 
     ../../home/vii/home-darwin.nix 
-    ../../profiles/home/work.nix
   ];
 
   system.stateVersion = 6; # Used to pin darwin configuration versions to avoid breaking changes.

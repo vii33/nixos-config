@@ -3,15 +3,15 @@
 { config, pkgs, ... }:
 
 {
-  services.mako = {
-    enable = true;
-    
+  services.mako.enable = true;
+
+  services.mako.settings = {
     # Visual settings
     font = "JetBrainsMono Nerd Font 11";
-    backgroundColor = "#282a36";
-    textColor = "#f8f8f2";
-    borderColor = "#bd93f9";
-    progressColor = "over #44475a";
+    background-color = "#282a36";
+    text-color = "#f8f8f2";
+    border-color = "#bd93f9";
+    progress-color = "over #44475a";
     
     # Layout
     width = 400;
@@ -22,9 +22,9 @@
     borderRadius = 8;
     
     # Behavior
-    maxVisible = 5;
-    defaultTimeout = 5000;  # 5 seconds
-    ignoreTimeout = false;
+    max-visible = 5;
+    default-timeout = 5000;  # 5 seconds
+    ignore-timeout = false;
     
     # Position
     anchor = "top-right";

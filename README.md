@@ -5,17 +5,19 @@ Personal NixOS configuration for multiple hosts, including MacOS.
 ## Key Features
 
 This repo has two specialities: 
-- First, it uses a modular architecture to enable config reuse across multiple hosts (see next section).
+- First, it uses a simple modular architecture where hosts directly import reusable modules, enabling clean config organization across multiple machines.
 - Second, it employs LazyVim for the Neovim setup, allowing quick customization of plugins and settings via lua files - without needing to rebuild your whole NixOS config each time you change a keyboard shortcut.
 
 The laptop configuration includes **niri**, a scrollable-tiling Wayland compositor, available alongside KDE Plasma 6. You can test niri as an alternative session while keeping KDE as the default. See [docs/niri-testing-with-kde.md](docs/niri-testing-with-kde.md) for testing instructions or [docs/niri-setup.md](docs/niri-setup.md) for full details. 
 
 ## Modular Architecture
-This a NixOS configuration repository designed for managing multiple hosts with a consistent setup. It is based on three tiers:
+
+This a NixOS configuration repository designed for managing multiple hosts with a consistent setup. It is based on a simplified two-tier approach:
 
 - **Modules** (reusable building blocks) — `modules/system/` and `modules/home/`
-- **Profiles** (compositions of modules for defined use cases) — `profiles/system/` and `profiles/home/`
-- **Hosts** (specific machines with assigned profiles) — `hosts/laptop/`, `hosts/home-server/`, etc.
+- **Hosts** (specific machines that directly import modules) — `hosts/laptop/`, `hosts/home-server/`, `hosts/work/`
+
+Each host's `default.nix` file directly imports the modules it needs and inline the necessary configuration options.
 
 ### Architecture Diagram
 
@@ -25,27 +27,13 @@ This a NixOS configuration repository designed for managing multiple hosts with 
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  System Modules:              Home Modules:                     │
-│  ├─ user.nix                  ├─ fish-shell.nix                 │
+│  ├─ niri.nix                  ├─ fish-shell.nix                 │
 │  └─ ...                       ├─ kitty.nix                      │
-│                               ├─ mouse.nix                      │
+│                               ├─ kitty-hm.nix                   │
 │                               ├─ nixvim/lazyvim.nix             │
+│                               ├─ niri/niri.nix                  │
+│                               ├─ niri/waybar.nix                │
 │                               └─ ...                            │
-└─────────────────────────────────────────────────────────────────┘
-                                ▲
-                                │ imports
-                                │
-┌─────────────────────────────────────────────────────────────────┐
-│ PROFILES (Use Cases)                                            │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  System Profiles:             Home Profiles:                    │
-│  ├─ common.nix                ├─ desktop.nix                    │
-│  ├─ desktop.nix               └─ development-desktop.nix        │
-│  ├─ development-headless.nix                                    │
-│  └─ server.nix                                                  │
-│                                                                 │
-│  Example: "laptop" needs common + desktop + development         │
-│           "home-server" needs common only                       │
 └─────────────────────────────────────────────────────────────────┘
                                 ▲
                                 │ imports
@@ -55,26 +43,23 @@ This a NixOS configuration repository designed for managing multiple hosts with 
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  hosts/laptop/default.nix                                       │
-│  ├─ imports common.nix                                          │
-│  ├─ imports user.nix                                            │
-│  ├─ imports configuration.nix (laptop-specific)                 │
-│  ├─ imports desktop.nix                                         │
-│  ├─ imports development-headless.nix                            │
+│  ├─ imports configuration.nix (laptop-specific settings)        │
 │  ├─ imports hardware-configuration.nix (laptop hardware)        │
+│  ├─ imports modules/system/niri.nix                             │
+│  ├─ inline common system configuration                          │
+│  ├─ inline Linux-specific configuration                         │
+│  ├─ inline desktop & development configuration                  │
 │  └─ imports swap.nix, nbfc.nix (laptop-specific services)       │
 │                                                                 │
 │  hosts/home-server/default.nix                                  │
-│  ├─ imports common.nix                                          │
-│  ├─ imports user.nix                                            │
-│  ├─ imports configuration.nix (server-specific)                 │
-│  └─ imports server.nix                                          │
+│  ├─ imports configuration.nix (server-specific settings)        │
+│  ├─ inline common system configuration                          │
+│  └─ inline Linux-specific configuration                         │
 │                                                                 │
 │  hosts/work/default.nix (macOS with nix-darwin)                 │
-│  ├─ imports common.nix                                          │
-│  ├─ imports user.nix                                            │
-│  ├─ imports configuration.nix (work-specific)                   │
-│  ├─ imports configuration-nix-darwin.nix                        │
-│  └─ imports development-headless.nix                            │
+│  ├─ imports configuration-nix-darwin.nix (macOS settings)       │
+│  ├─ imports brew.nix (Homebrew packages)                        │
+│  └─ inline common system configuration                          │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```

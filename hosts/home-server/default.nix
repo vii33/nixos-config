@@ -1,4 +1,4 @@
-# ./hosts/home-server/composer.nix
+# ./hosts/home-server/default.nix
 { config, pkgs, inputs, ... }:
 
 {
@@ -7,10 +7,16 @@
       inputs.home-manager.nixosModules.home-manager
       ./configuration.nix
       # hardware-configuration.nix
-      ../../profiles/system/common_all.nix
-      ../../profiles/system/common_linux.nix
-      ../../profiles/system/server.nix
+
+      # Common configuration
+      ../../modules/system/common_all.nix
+      ../../modules/system/common_linux.nix
     ];
+
+  # From profiles/system/server.nix (currently empty, but keeping structure)
+  # environment.systemPackages = with pkgs; [
+  #   # Add packages here
+  # ];
 
   # Home Manager wiring for this host
   home-manager.useGlobalPkgs = true;
