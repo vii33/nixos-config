@@ -11,9 +11,30 @@ in
     inputs.home-manager.darwinModules.home-manager
     ./configuration-nix-darwin.nix
     ./brew.nix
+  ];
 
-    ../../profiles/system/common_all.nix
-    ../../profiles/system/work.nix
+  # === From profiles/system/common_all.nix ===
+  nixpkgs.config.allowUnfree = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  programs.fish.enable = true;
+  
+  environment.systemPackages = with pkgs; [
+    vim
+    mtr           # My traceroute
+    htop
+    fzf
+    zoxide        # smart cd (integration handled in home module)
+    eza
+    ripgrep
+    fd
+    bat
+    git
+    yazi
+    # From profiles/system/work.nix
+    python3
+    uv
+    flameshot     # Screenshot tool
+    imagemagick   # Image manipulation tool
   ];
 
   # Home Manager wiring
@@ -27,12 +48,14 @@ in
   };
   home-manager.sharedModules = [
     inputs.nixvim.homeManagerModules.nixvim
+    # From profiles/home/work.nix
+    ../../modules/home/fish-shell.nix
+    ../../modules/home/kitty-hm.nix
   ];
   
   # Home Manager imports for main user
   home-manager.users.${localConfig.macosUsername}.imports = [ 
     ../../home/vii/home-darwin.nix 
-    ../../profiles/home/work.nix
   ];
 
   system.stateVersion = 6; # Used to pin darwin configuration versions to avoid breaking changes.
