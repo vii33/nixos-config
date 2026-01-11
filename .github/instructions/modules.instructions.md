@@ -22,12 +22,6 @@ Modules are directly imported by hosts (in `hosts/`) without an intermediate pro
 - Group related settings (e.g. services, users, packages) together for clarity.
 - `modules/home/fish.nix`: Use clear text keyboard shortcuts and not escaped sequences.
 
-## Common tasks
-
-- Adding system packages: add to `environment.systemPackages` in a host or system module.
-- Adding per-user packages/config: put them under `modules/home/` and import via `home/<user>/` or the host's `home.nix`.
-- Services: declare with `systemd.services` inside system modules or host configuration.
-
 ## Testing
 
 Test changes by rebuilding the host: `nixos-rebuild switch --flake .#<host>` (e.g. `.#laptop`, `.#work`).
