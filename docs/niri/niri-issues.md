@@ -1,9 +1,11 @@
 # Current issues
 
 [ ] Touchpad swiping not working
-[ ] VSCode not starting
-[ ] Waybar not starting (I had to enter the suggested terminal commands manually)
+[ ] VSCode not starting (Electron issue?!)
 [ ] Most Keybindings not working, like Super+1-9, Super+Up, Super+Down
+
+# Ignore for now
+[ ] Waybar not starting (I had to enter the suggested terminal commands manually)
 [ ] Notification not working
 
 # Working items
