@@ -1,5 +1,5 @@
 # ./hosts/laptop/default.nix
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, pkgs-unstable, ... }:
 
 {
   imports =
