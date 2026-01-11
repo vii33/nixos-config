@@ -49,18 +49,21 @@
 
         # CPU
         cpu = {
+          interval = 10;
           format = "CPU {usage}%";
           tooltip = true;
         };
 
         # Memory
         memory = {
+          interval = 30;
           format = "RAM {percentage}%";
           tooltip-format = "RAM: {used:0.1f}G / {total:0.1f}G";
         };
 
         # Temperature
         temperature = {
+          interval = 10;
           critical-threshold = 80;
           format = "{icon} {temperatureC}°C";
           format-icons = [ "" "" "" ];
@@ -68,6 +71,7 @@
 
         # Battery
         battery = {
+          interval = 30;
           states = {
             good = 90;
             warning = 30;
@@ -82,6 +86,7 @@
 
         # Network
         network = {
+          interval = 30;
           format-wifi = " {essid} ({signalStrength}%)";
           format-ethernet = " {ipaddr}/{cidr}";
           format-linked = " {ifname} (No IP)";
