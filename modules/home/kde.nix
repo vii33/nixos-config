@@ -2,8 +2,9 @@
 
 {
   # Enable KDE Wallet for credential storage (VS Code, GitHub Copilot, etc.)
-  # IMPORTANT: Since auto-login is enabled, PAM cannot auto-unlock the wallet.
-  # You must create the wallet with an EMPTY password for it to auto-unlock:
+  # NOTE: If auto-login is enabled, PAM cannot auto-unlock the wallet.
+  # With auto-login disabled (default), the wallet will auto-unlock on login.
+  # If you enable auto-login and want wallet auto-unlock, create wallet with EMPTY password:
   #   1. Run: kwalletmanager6
   #   2. Delete existing 'kdewallet' if it has a password
   #   3. Create new wallet named 'kdewallet' with empty password

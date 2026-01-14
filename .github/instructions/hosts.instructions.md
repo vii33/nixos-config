@@ -24,24 +24,25 @@ When working with files in the `hosts/` directory:
 
 ### Work-Specific Notes
 
-- **WSL Environment**: Runs inside Windows Subsystem for Linux; no bootloader or display manager.
-- **Headless Dev Focus**: Imports common + development profiles only (no desktop profile by default).
+- **macOS Environment**: Runs on macOS using nix-darwin; no bootloader or display manager.
+- **Headless Dev Focus**: Imports common system configuration and development modules directly (no desktop by default).
 
 
 ## Key Files
 
-1. **composer.nix** - Host composer that imports modules and profiles
-2. **configuration.nix** - Host-specific NixOS configuration
+1. **default.nix** - Host configuration that directly imports modules and inlines common configuration
+2. **configuration.nix** - Host-specific NixOS/nix-darwin configuration
 3. **hardware-configuration.nix** - Auto-generated hardware detection output (do not edit unless necessary)
-4. **home.nix** - Host-specific Home Manager entry (used to wire user home configurations)
+4. **home.nix** - Host-specific Home Manager entry (used for host-specific user packages)
 
 
 ## Modification Guidelines
 
 1. **Hardware Changes**: Only modify `hardware-configuration.nix` when hardware was re-detected and you know what you're changing.
-2. **Service Configuration**: Add host-specific services in `configuration.nix` or split into `modules/system` and import from the composer.
+2. **Service Configuration**: Add host-specific services in `configuration.nix` or split into `modules/system` and import from `default.nix`.
 3. **User Environment**: Use the host's `home.nix` and `home/<user>/` for per-user Home Manager changes.
 4. **System State**: Keep `system.stateVersion` as-is unless planning an upgrade—update with care.
+5. **Common Configuration**: When adding configuration that should be shared across hosts, consider creating a module in `modules/system/` or `modules/home/` and importing it.
 
 ## Testing
 

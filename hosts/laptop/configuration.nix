@@ -86,9 +86,10 @@ hardware.bluetooth.enable = true;
 services.displayManager.sddm.enable = true;
 services.desktopManager.plasma6.enable = true;
 
-# Enable automatic login for the user.
-services.displayManager.autoLogin.enable = true;
-services.displayManager.autoLogin.user = "vii";
+# Disable automatic login to allow session selection (niri or KDE)
+# To enable auto-login, set autoLogin.enable = true and specify autoLogin.user
+# services.displayManager.autoLogin.enable = true;
+# services.displayManager.autoLogin.user = "vii";
 
 services.libinput = {
     enable = true;

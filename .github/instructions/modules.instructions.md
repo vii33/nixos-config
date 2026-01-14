@@ -13,7 +13,7 @@ When working with files in `modules/`:
 
 Keep modules small, composable and documented. Prefer the shape `{ config, pkgs, ... }:` for reusable modules.
 
-Modules are often composed into profiles (in `profiles/`) which are then imported by hosts (in `hosts/`).
+Modules are directly imported by hosts (in `hosts/`) without an intermediate profile layer.
 
 ## Best practices
 

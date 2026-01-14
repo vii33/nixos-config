@@ -22,21 +22,20 @@ This repository is a personal flake-based NixOS configuration; the document belo
 ## Top-level layout
 
 - `flake.nix` — pins `nixpkgs` to `nixos-25.05` and wires a compatible Home Manager release.
-- `hosts/` — per-host composers (`laptop`, `home-server`, `work`).
+- `hosts/` — per-host configurations (`laptop`, `home-server`, `work`).
 - `modules/system/` — shared system modules (users, timezone, system services).
-- `modules/home/` — shared home Manager modules.
+- `modules/home/` — shared Home Manager modules.
 - `home/` — per-user Home Manager configs (e.g. `home/vii/`).
-- `profiles/` — composition layer used by hosts (uses shared modules).
 - `secrets/` — templates only; do not commit real secrets.
 
 ## Notes
 
-- Primary user: `vii` (configured in `profiles/system/common_linux.nix`).
+- Primary user: `vii` (configured in each host's `default.nix`).
 - NBFC fan control helper exists at `hosts/laptop/nbfc.nix` and requires a per-user `~/.config/nbfc.json` to run.
 
 ## Working with the repo
 
-1. Choose the correct layer for your change (host vs system vs home vs profile).
+1. Choose the correct layer for your change (host vs system module vs home module).
 2. Keep modules small and composable. Export `{ config, pkgs, ... }:` where applicable.
 3. Never commit secrets. Use `secrets/` for placeholders only.
 

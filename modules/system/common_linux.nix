@@ -13,16 +13,6 @@
     
     # Needed for the cache to be trusted
     trusted-users = [ "root" "@wheel" ]; # root user and all users in wheel group
-    
-    # Add binary caches - only needed when building directly from the flake (not from pkgs.niri)
-    #substituters = [
-    #  "https://cache.nixos.org"
-    #  "https://niri.cachix.org"
-    #];
-    #trusted-public-keys = [
-    #  "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-    #  "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
-    #];
   };
   
   programs.command-not-found.enable = true;
@@ -35,7 +25,6 @@
   };
 
   # System locale, timezone, console keymap and user account
-  # (moved from modules/system/user.nix)
   time.timeZone = "Europe/Berlin";
 
   i18n.defaultLocale = "en_US.UTF-8";
