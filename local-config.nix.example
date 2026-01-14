@@ -1,0 +1,8 @@
+# Local configuration - customize this for your environment
+# Copy this file to local-config.nix and replace the placeholder values
+# with your actual configuration
+#
+# WARNING: local-config.nix is in .gitignore and should NEVER be committed
+{
+  macosUsername = "your-macos-username";
+}

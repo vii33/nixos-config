@@ -16,7 +16,13 @@
 
         modules-left = [ "niri/workspaces" "niri/window" ];
         modules-center = [ "clock" ];
-        modules-right = [ "pulseaudio" "network" "cpu" "memory" "temperature" "battery" "tray" ];
+        modules-right = [ "network" "custom/separator" "cpu" "memory" "temperature" "custom/separator" "battery" "pulseaudio" "tray" ];
+
+        # Separator
+        "custom/separator" = {
+          format = "|";
+          tooltip = false;
+        };
 
         # Workspaces
         "niri/workspaces" = {
@@ -37,20 +43,19 @@
         # Clock
         clock = {
           timezone = "Europe/Berlin";
-          format = "{:%Y-%m-%d %H:%M}";
-          tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
-          format-alt = "{:%A, %B %d, %Y}";
+          format = "{:%H:%M  %d-%m-%Y}";
+          tooltip-format = "<tt>{calendar}</tt>";
         };
 
         # CPU
         cpu = {
-          format = " {usage}%";
+          format = "CPU {usage}%";
           tooltip = true;
         };
 
         # Memory
         memory = {
-          format = " {percentage}%";
+          format = "RAM {percentage}%";
           tooltip-format = "RAM: {used:0.1f}G / {total:0.1f}G";
         };
 
@@ -58,21 +63,21 @@
         temperature = {
           critical-threshold = 80;
           format = "{icon} {temperatureC}°C";
-          format-icons = [ "" "" "" ];
+          format-icons = [ "" "" "" ];
         };
 
         # Battery
         battery = {
           states = {
-            good = 95;
+            good = 90;
             warning = 30;
             critical = 15;
           };
           format = "{icon} {capacity}%";
-          format-charging = " {capacity}%";
-          format-plugged = " {capacity}%";
+          format-charging = " {capacity}%";
+          format-plugged = " {capacity}%";
           format-alt = "{icon} {time}";
-          format-icons = [ "" "" "" "" "" ];
+          format-icons = [ "" "" "" "" "" ];
         };
 
         # Network
@@ -87,22 +92,22 @@
         # Pulseaudio
         pulseaudio = {
           format = "{icon} {volume}%";
-          format-muted = " {volume}%";
+          format-muted = " {volume}%";
           format-icons = {
-            headphone = "";
-            hands-free = "";
-            headset = "";
-            phone = "";
-            portable = "";
-            car = "";
-            default = [ "" "" "" ];
+            headphone = "";
+            hands-free = "";
+            headset = "";
+            phone = "";
+            portable = "";
+            car = "";
+            default = [ "" "" "" ];
           };
           on-click = "pavucontrol";
         };
 
         # System tray
         tray = {
-          spacing = 10;
+          spacing = 6;
         };
       };
     };
@@ -112,12 +117,12 @@
         border: none;
         border-radius: 0;
         font-family: "JetBrainsMono Nerd Font";
-        font-size: 13px;
+        font-size: 12px;
         min-height: 0;
       }
 
       window#waybar {
-        background-color: rgba(43, 48, 59, 0.9);
+        background-color: rgba(0, 0, 0, 1);
         color: #ffffff;
         transition-property: background-color;
         transition-duration: .5s;
@@ -135,7 +140,7 @@
       }
 
       #workspaces button:hover {
-        background: rgba(0, 0, 0, 0.2);
+        background: rgba(27, 27, 27, 0.69);
       }
 
       #workspaces button.active {
@@ -154,9 +159,14 @@
       #temperature,
       #network,
       #pulseaudio,
+      #custom-separator,
       #tray {
         padding: 0 10px;
         margin: 0 2px;
+      }
+
+      #custom-separator {
+        color: #64727d;
       }
 
       #window {
@@ -165,13 +175,16 @@
 
       #battery.charging {
         color: #26A65B;
+        font-weight: bold;
       }
 
       #battery.warning:not(.charging) {
         color: #ffbe61;
+        font-weight: bold;
       }
 
       #battery.critical:not(.charging) {
+        font-weight: bold;
         color: #f53c3c;
         animation-name: blink;
         animation-duration: 0.5s;
