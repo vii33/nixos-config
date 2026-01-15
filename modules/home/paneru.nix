@@ -5,15 +5,8 @@
   # System Preferences -> Displays -> Arrange: Align vertically
 { config, pkgs, inputs, ... }:
 
-{
-  imports = [
-    inputs.paneru.homeModules.paneru
-  ];
-
-  services.paneru = {
-    enable = true;
-
-    settings = {
+let
+  paneruSettings = {
       options = {
         # Enables focus follows mouse. Enabled by default, set to false to disable.
         # focus_follows_mouse = true;
@@ -24,11 +17,9 @@
         # Array of widths used by the `window_resize` action to cycle between.
         # Defaults to 25%, 33%, 50%, 66% and 75%.
         preset_column_widths = [
-          0.25
           0.33
           0.50
           0.66
-          0.75
         ];
 
         # How many fingers to use for moving windows left and right.
@@ -37,11 +28,11 @@
         # Remove the line to disable the gesture feature.
         # Apple touchpads support gestures with more than five fingers (!),
         # but it is probably not that useful to use two hands :)
-        swipe_gesture_fingers = 4;
+        swipe_gesture_fingers = 5;
 
         # Window movement speed in pixels/second.
         # To disable animations, leave this unset or set to a very large value.
-        animation_speed = 4000;
+        # animation_speed = 9999;
       };
 
       bindings = {
@@ -76,8 +67,11 @@
         window_manage = "ctrl + alt - t";
 
         # Stacks and unstacks a window into the left column. Each window gets a 1/N of the height.
-        window_stack = "alt - ]";
-        window_unstack = "alt + shift - ]";
+        window_stack = "alt - 1";
+        window_unstack = "alt + shift - 1";
+
+        # Moves currently focused window to another display.
+        window_nextdisplay = "alt - n";
 
         # Quits the window manager.
         quit = "ctrl + alt - q";
@@ -99,7 +93,28 @@
           bundle_id = "com.neovide.neovide";
           index = 1;
         };
+
+        all = {
+          # Matches all windows and adds a few pixels of spacing to their borders.
+          title = ".*";
+          horizontal_padding = 4;
+          vertical_padding = 2;
+        };
       };
-    };
+  };
+in
+{
+  imports = [
+    inputs.paneru.homeModules.paneru
+  ];
+
+  services.paneru = {
+    enable = false;  # Disabled: using cargo-installed paneru instead
+    settings = paneruSettings;
+  };
+
+  # Create config file for cargo-installed paneru at $HOME/.paneru.toml
+  home.file.".paneru.toml" = {
+    source = (pkgs.formats.toml {}).generate "paneru.toml" paneruSettings;
   };
 }
