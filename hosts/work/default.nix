@@ -12,7 +12,6 @@ in
     ./configuration-nix-darwin.nix
     ./brew.nix
 
-    # Common configuration
     ../../modules/system/common_all.nix
   ];
 
@@ -22,6 +21,8 @@ in
     uv
     flameshot     # Screenshot tool
     imagemagick   # Image manipulation tool
+    cargo         # Rust package manager // needed for panerau installation
+    rustc         # Rust compiler // needed for panerau installation
   ];
 
   # Home Manager wiring
@@ -35,9 +36,10 @@ in
   };
   home-manager.sharedModules = [
     inputs.nixvim.homeManagerModules.nixvim
-    # From profiles/home/work.nix
+
     ../../modules/home/fish-shell.nix
     ../../modules/home/kitty-hm.nix
+    #../../modules/home/paneru.nix
   ];
   
   # Home Manager imports for main user

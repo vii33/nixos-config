@@ -11,6 +11,11 @@ in
     VISUAL = "nvim";
   };
 
+  # Add cargo bin to PATH (needed for cargo installed tools like paneru)
+  home.sessionPath = [
+    "$HOME/.cargo/bin"
+  ];
+
   # Enable zoxide (smart directory jumping) with fish integration
   programs.zoxide = {
     enable = true;
