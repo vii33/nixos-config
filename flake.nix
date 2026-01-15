@@ -75,10 +75,10 @@
       };
     };
 
-    # Standalone Home Manager configuration for macOS
-    # Allows running: home-manager --flake .#work switch (without sudo)
+    # Standalone Home Manager configuration for macOS, no sudo needed 
     homeConfigurations = {
-      work = let
+      work = 
+      let
         system = "aarch64-darwin";
         pkgs = import nixpkgs {
           inherit system;
@@ -89,13 +89,14 @@
           config.allowUnfree = true;
         };
         localConfig = import ./local-config.nix;
+
       in home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = { 
           inherit inputs pkgs-unstable localConfig;
         };
         modules = [
-          nixvim.homeManagerModules.nixvim
+          nixvim.homeModules.nixvim
           ./home/vii/home-darwin.nix
 
           ./modules/home/fish-shell.nix

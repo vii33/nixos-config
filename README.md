@@ -153,6 +153,34 @@ home-manager --flake .#work switch
 
 **Note:** For system-level changes (packages installed via nix-darwin, Homebrew apps, system settings), you still need to use `darwin-rebuild switch`.
 
+##### Reloading LaunchAgents
+
+After running `home-manager switch`, some services (like key remapping) need to be reloaded:
+
+```bash
+# Reload Caps Lock → F18 key remapping
+launchctl unload ~/Library/LaunchAgents/com.local.KeyRemapping.plist 2>/dev/null
+launchctl load ~/Library/LaunchAgents/com.local.KeyRemapping.plist
+```
+
+**Checking if the service is running:**
+
+```bash
+# Check if service is loaded
+launchctl list | grep KeyRemapping
+
+# Check current key mappings
+hidutil property --get "UserKeyMapping"
+
+# View service details
+launchctl print gui/$(id -u)/com.local.KeyRemapping
+
+# Manually reapply mapping if needed
+hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x70000006D}]}'
+```
+
+**Note:** The key remapping service automatically loads on login, so you only need to reload it manually after updating the configuration. The remapping requires Caps Lock to be enabled (not set to "No Action") in System Settings → Keyboard → Modifier Keys.
+
 ### Laptop Host: Bootloader Workaround (Corrupted NVRAM)
 
 The laptop has corrupted EFI NVRAM variables that cause `bootctl status` to crash. If `nixos-rebuild switch` fails with `SIGABRT` during bootloader installation, use this workaround script:
