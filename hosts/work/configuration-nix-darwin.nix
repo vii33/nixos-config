@@ -48,7 +48,7 @@ in
   environment.variables = {
     HTTP_PROXY = "http://localhost:3128";       # Set proxy for user environment (for Homebrew and other tools) -- did not have any effect?
     HTTPS_PROXY = "http://localhost:3128";
-    HOMEBREW_AUTO_UPDATE_SECS = "259200";        # How often Homebrew auto-update runs (seconds). Example: 86400 = 1 day
+    HOMEBREW_AUTO_UPDATE_SECS = "864000";        # How often Homebrew auto-update runs (seconds). Example: 86400 = 1 day
   };
   
   system.defaults = {
@@ -99,7 +99,7 @@ in
       AppleShowAllFiles = true;     # Show hidden files in Finder by default
 
       # Keyboard
-      KeyRepeat = 4;                # delay per repeat
+      KeyRepeat = 3;                # delay per repeat
       InitialKeyRepeat = 30;        # delay before repeat
 
       # Trackpad
@@ -123,17 +123,38 @@ in
       # AppleScrollerPagingBehavior = null;  # Keep default scrolling behavior
     };
 
+    # Reduce motion system-wide (less animation for supported UI)
+    # universalaccess.reduceMotion = true;
+
+    # Defaults not covered by nix-darwin's typed options
+    CustomUserPreferences = {
+      "com.apple.dock" = {
+        # Disable the sliding animation when switching "Spaces" (workspaces)
+        "workspaces-swoosh-animation-off" = true;
+        # Speed up Mission Control / Exposé animations
+        "expose-animation-duration" = 0.12;
+        "mcx-expose-animation-duration" = 0.12;
+      };
+      
+      # Finder-specific keyboard shortcuts
+      "com.apple.finder" = {
+        NSUserKeyEquivalents = {
+          "Rename" = "\UF709";  # F2 key to rename file
+        };
+      };
+    };
+
     # Disable window tiling as "Rectangle" app is used
     WindowManager.EnableTilingByEdgeDrag = false;
     WindowManager.EnableTopTilingByEdgeDrag = false;
     WindowManager.EnableTilingOptionAccelerator = false;
   };
 
-  # Point Caps Lock to Escape
-  system.keyboard = {
-    enableKeyMapping = true;
-    remapCapsLockToEscape = true;
-  };
+  # Point Caps Lock to Escape // not done bc. we use it for leader key remap via hidutil
+  #system.keyboard = {
+  #  enableKeyMapping = true;
+  #  remapCapsLockToEscape = true;
+  #};
 
   # Trackpad
   system.defaults.trackpad = {
@@ -171,6 +192,6 @@ in
   };
 
   # Power
-  power.sleep.allowSleepByPowerButton = null;  
+  # power.sleep.allowSleepByPowerButton = null;  
  
 }
