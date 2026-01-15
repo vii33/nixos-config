@@ -96,12 +96,12 @@
           inherit inputs pkgs-unstable localConfig;
         };
         modules = [
-          nixvim.homeModules.nixvim
+          #nixvim.homeModules.nixvim
           ./home/vii/home-darwin.nix
 
           ./modules/home/fish-shell.nix
           ./modules/home/kitty-hm.nix
-          #./modules/home/paneru.nix
+          #./modules/home/darwin/paneru.nix
         ];
       };
     };
