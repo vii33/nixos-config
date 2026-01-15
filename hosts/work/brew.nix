@@ -31,10 +31,10 @@
       "soundanchor"       # Pin sound output
       #"karabiner-elements"# Keyboard remapping
       "shortcat"          # Control macOS with the keyboard
-      "rocket"            # Emoji picker
-      #"battery"          # Optimize battery health (80% charge limit) - Does not work well with managed MacOS
+      #"rocket"            # Emoji picker  // Not needed as done with leader-key and raycast
+      "aldente"           # Optimize battery health (80% charge limit) - Alternative: battery (Does not work well with managed MacOS)
       #"hidden"           # Hide menu bar items // Alternative: vanilla (needs screen recording permission .-/)
-      "nikitabobko/tap/aerospace"  # Tiling window manager // Alternative: paneru
+      "nikitabobko/tap/aerospace"  # Tiling window manager // Alternative: paneru (via nixos!)
       "leader-key"        # vim like keybindings - https://github.com/mikker/LeaderKey
       "raycast"           # Spotlight replacement // Alternative: alfred
       "macs-fan-control"  # Fan conrol for Mac Notebooks
@@ -42,10 +42,10 @@
       
       # DEV #####################################################
       "kitty"             # Terminal emulator
-      "insomnia"
+      "bruno"             # API client / Alternative: insomnio
       "docker-desktop"
-      "syntax-highlight"  # Syntax highlighting for macOS Quick Look. Needs to be opened once manually after install to set up.
-      "qlmarkdown"        # Markdown preview in macOS Quick Look. Needs to be opened once manually after install to set up.
+      #"syntax-highlight"  # Syntax highlighting for macOS Quick Look. Needs to be opened once manually after install to set up. // Deprecated?
+      #"qlmarkdown"        # Markdown preview in macOS Quick Look. Needs to be opened once manually after install to set up.  // Deprecated?
       "cyberduck"         # FTP/S3 client
       "keyclu"            # Show shortcuts for current app
     ];
