@@ -108,18 +108,27 @@ darwin-rebuild check --flake .#work
 **First-time setup:** The first time you set up nix-darwin on a new macOS system, follow these steps:
 
 ```bash
-# 1. Install Homebrew (if using brew.nix):
+# 1. Create local-config.nix from the example and customize it:
+cp local-config.nix.example local-config.nix
+# Edit local-config.nix with your username
+
+# 2. Make local-config.nix visible to the flake (without committing it):
+git add --force --intent-to-add local-config.nix
+# Hide it from git status to avoid accidentally staging it:
+git update-index --assume-unchanged local-config.nix
+
+# 3. Install Homebrew (if using brew.nix):
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 # Add brew to PATH (Apple Silicon):
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# 2. Build the system configuration:
+# 4. Build the system configuration:
 darwin-rebuild build --flake .#work
 
-# 3. Activate with sudo (passing PATH for brew): -- not sure if this is needed, last time was a package bug
+# 5. Activate with sudo (passing PATH for brew): -- not sure if this is needed, last time was a package bug
 sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
 
-# 4. Open a new terminal window
+# 6. Open a new terminal window
 ```
 
 After this, use the rebuild command above for future updates.
