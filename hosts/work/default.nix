@@ -35,11 +35,12 @@ in
     inherit localConfig;
   };
   home-manager.sharedModules = [
-    inputs.nixvim.homeManagerModules.nixvim
+    #inputs.nixvim.homeManagerModules.nixvim
 
     ../../modules/home/fish-shell.nix
     ../../modules/home/kitty-hm.nix
-    #../../modules/home/paneru.nix
+    #../../modules/home/darwin/paneru.nix
+    ../../modules/home/darwin/capslock-to-f18.nix
   ];
   
   # Home Manager imports for main user
