@@ -30,9 +30,19 @@
       bold_font = "JetBrainsMono Nerd Font Bold";
       italic_font = "JetBrainsMono Nerd Font Italic";
       bold_italic_font = "JetBrainsMono Nerd Font Bold Italic";
+      
       font_size = "11.0";
       disable_ligatures = "never";
+
+      # Font modifications for better line spacing
+      modify_font = "cell_height 5px";
+      modify_font_baseline = "1px";
       
+      # macOS settings (see https://sw.kovidgoyal.net/kitty/conf/#os-specific-tweaks)
+      macos_option_as_alt = "yes";
+      macos_quit_when_last_window_closed = "yes";
+      macos_thicken_font = "0";
+
       # Tab bar (minimal style to match terminal aesthetic)
       tab_bar_edge = "top";
       tab_bar_style = "powerline";
@@ -66,7 +76,6 @@
       enable_audio_bell = false;
       visual_bell_duration = 0;
 
-      # MacOs settings see https://sw.kovidgoyal.net/kitty/conf/#os-specific-tweaks
     };
     
     # Kitty keyboard shortcuts (optional - can be customized)
