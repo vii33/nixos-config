@@ -97,9 +97,10 @@
         modules = [
           nixvim.homeManagerModules.nixvim
           ./home/vii/home-darwin.nix
-          # Direct module imports (previously from profiles/home/work.nix)
+
           ./modules/home/fish-shell.nix
           ./modules/home/kitty-hm.nix
+          #./modules/home/paneru.nix
         ];
       };
     };
