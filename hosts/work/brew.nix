@@ -18,7 +18,7 @@
     ];
 
     # Cask: macOS GUI applications
-
+    casks = [
       # UTILS ###################################################
       #"visual-studio-code"  # TODO: Check if auto-updates work with brew version
       #"obsidian"         # TODO: Check if auto-updates work with brew version

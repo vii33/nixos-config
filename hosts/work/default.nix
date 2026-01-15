@@ -38,7 +38,7 @@ in
     #inputs.nixvim.homeManagerModules.nixvim
 
     ../../modules/home/fish-shell.nix
-    ../../modules/home/kitty-hm.nix
+    ../../modules/home/kitty.nix
     #../../modules/home/darwin/paneru.nix
     ../../modules/home/darwin/capslock-to-f18.nix
   ];

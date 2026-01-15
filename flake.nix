@@ -100,7 +100,7 @@
           ./home/vii/home-darwin.nix
 
           ./modules/home/fish-shell.nix
-          ./modules/home/kitty-hm.nix
+          ./modules/home/kitty.nix
           #./modules/home/darwin/paneru.nix
         ];
       };

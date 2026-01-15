@@ -34,7 +34,7 @@
       font_size = "11.0";
       disable_ligatures = "never";
 
-      # Font modifications for better line spacing
+      # Better line spacing 
       modify_font = "cell_height 5px";
       modify_font_baseline = "1px";
       
