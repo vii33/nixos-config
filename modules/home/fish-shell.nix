@@ -3,6 +3,7 @@
 
 let
   isLinux = pkgs.stdenv.isLinux;
+  isDarwin = pkgs.stdenv.isDarwin;
 in
 {
   # Set environment variables for the session
@@ -11,8 +12,10 @@ in
     VISUAL = "nvim";
   };
 
-  # Add cargo bin to PATH (needed for cargo installed tools like paneru)
-  home.sessionPath = [
+  # Add Homebrew to PATH on macOS
+  home.sessionPath = lib.optionals isDarwin [
+    "/opt/homebrew/bin"
+    "/opt/homebrew/sbin"
     "$HOME/.cargo/bin"
   ];
 
@@ -67,14 +70,23 @@ in
 
     # Abbreviations
     shellAbbrs = {
-      nv = "nvim";
+      # Terminal
+      tree = "eza --tree --level 2 --git-ignore";
+      
+      # NixOS
       nodry = "nh os dry-run ~/nixos-config/flake.nix -H laptop";
       noswitch = "nh os switch ~/nixos-config/ -H laptop";
       noclean1 = "nh clean all --keep-since 3d --keep 3";
       noclean2 = "sudo nix-collect-garbage";
       nosearch = "nh search ";
-      tree = "eza --tree --level 2 --git-ignore";
+      
+      # Applications
+      nv = "nvim";
       cop = "github-copilot-cli";
+
+      # Mac OS
+      workbuild = "home-manager --flake ~/repos/nixos-config/flake.nix#work switch";
+      proxyrestart = "launchctl kickstart -k -p \"gui/$(id -u)/cc.colorto.proxydetox\"";
     };
 
     # ShellInit use for fast and non-output things (e.g. path vars)
