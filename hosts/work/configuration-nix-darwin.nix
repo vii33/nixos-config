@@ -42,13 +42,16 @@ in
   launchd.daemons.nix-daemon.environment = {
     HTTP_PROXY = "http://localhost:3128";
     HTTPS_PROXY = "http://localhost:3128";
+    ALL_PROXY = "http://localhost:3128";
   };
   
   # Environment variables
   environment.variables = {
-    HTTP_PROXY = "http://localhost:3128";       # Set proxy for user environment (for Homebrew and other tools) -- did not have any effect?
+    HTTP_PROXY = "http://localhost:3128";       # Set proxy for user environment (for Homebrew and other tools)
     HTTPS_PROXY = "http://localhost:3128";
-    HOMEBREW_AUTO_UPDATE_SECS = "864000";        # How often Homebrew auto-update runs (seconds). Example: 86400 = 1 day
+    ALL_PROXY = "http://localhost:3128";        # Universal proxy setting (used by curl, Homebrew, etc.)
+    no_proxy = "localhost,127.0.0.1";           # Don't proxy local connections
+    HOMEBREW_AUTO_UPDATE_SECS = "864000";       # How often Homebrew auto-update runs (seconds). Example: 86400 = 1 day
   };
   
   system.defaults = {
