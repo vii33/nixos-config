@@ -6,7 +6,7 @@
   programs.kitty = {
     enable = true;
     package = pkgs.kitty;
-    themeFile = "Dracula";
+    themeFile = "Tokyo_Night_Storm";
     
     # Shell configuration
     shellIntegration.enableFishIntegration = true;
@@ -88,12 +88,29 @@
       # Tab management
       "ctrl+shift+t" = "new_tab";
       "ctrl+shift+q" = "close_tab";
-      "ctrl+shift+right" = "next_tab";
-      "ctrl+shift+left" = "previous_tab";
+      "alt+l" = "next_tab";
+      "alt+h" = "previous_tab";
+      
+      # Jump to specific tabs (Alt+1 through Alt+9)
+      "alt+1" = "goto_tab 1";
+      "alt+2" = "goto_tab 2";
+      "alt+3" = "goto_tab 3";
+      "alt+4" = "goto_tab 4";
+      "alt+5" = "goto_tab 5";
       
       # Window management
       "ctrl+shift+enter" = "new_window_with_cwd";
       "ctrl+shift+w" = "close_window";
+      
+      # Window navigation (German keyboard: ö/ä for cycling)
+      "ctrl+shift+ö" = "next_window";
+      "ä" = "previous_window";
+      
+      # Window navigation (vim-style)
+      #"alt+h" = "neighboring_window left";
+      "alt+j" = "neighboring_window down";
+      "alt+k" = "neighboring_window up";
+      #"alt+l" = "neighboring_window right";
       
       # Font size
       "ctrl+shift+plus" = "change_font_size all +1.0";
