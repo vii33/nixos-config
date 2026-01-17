@@ -26,6 +26,7 @@ in
   };
 
   home.packages = with pkgs; [
+    chafa                       # terminal image viewer (works on Linux & macOS)
   ] ++ lib.optionals isLinux [
     wl-clipboard                # for Wayland clipboard access (used by fun_copy_commandline_to_clipboard)
   ];
@@ -85,7 +86,8 @@ in
       cop = "github-copilot-cli";
 
       # Mac OS
-      workbuild = "home-manager --flake ~/repos/nixos-config/flake.nix#work switch";
+      workbuild = "home-manager --flake ~/repos/nixos-config/.#work switch";
+      workswitch = "sudo env \"PATH=$PATH\" /run/current-system/sw/bin/darwin-rebuild switch --flake ~/repos/nixos-config/.#work";
       proxyrestart = "launchctl kickstart -k -p \"gui/$(id -u)/cc.colorto.proxydetox\"";
     };
 
@@ -204,7 +206,9 @@ in
       bind ctrl-left  backward-word
 
       # Ctrl+B -> fuzzy search existing fish key bindings (overrides default backward-char)
-      bind ctrl-b fun_fzf_bindings   # custom function defined below
+      bind ctrl-b fun_fzf_bindings
+      bind -M insert ctrl-b fun_fzf_bindings
+      bind -M visual ctrl-b fun_fzf_bindings
 
       # Change fzf.fish keybindings (fzf_configure_bindings needs to be called at least to get default bindings)
       # help:   fzf_configure_bindings --h
@@ -274,7 +278,7 @@ in
 
     # Custom helper function: Ctrl+O launches a file picker and inserts the selected file path at cursor.
     # - Uses fd if available (respects .gitignore); falls back to find.
-    # - Shows preview with bat (if installed) limited to first 300 lines.
+    # - Shows preview with bat for text files and chafa for images.
     # - Future idea: launch nvim when no editor was given in command
     functions.fun_fzf_file_open.body = ''
       # Build file list command (fd preferred)
@@ -285,13 +289,13 @@ in
         set list_cmd "find . -type f -not -path '*/.git/*'"
       end
 
-      # Invoke picker
+      # Invoke picker with smart preview (images via chafa, text via bat)
       set -l file (eval $list_cmd | fzf \
         --prompt="file> " \
         --height=80% \
         --reverse \
         --border \
-        --preview 'bat --style=numbers --color=always --line-range=:300 {} 2>/dev/null' \
+        --preview 'if file --mime-type {} | grep -qE "image/(png|jpeg|jpg|gif|bmp|webp|svg)"; chafa --size="$FZF_PREVIEW_COLUMNS"x"$FZF_PREVIEW_LINES" --animate=false {} 2>/dev/null; else bat --style=numbers --color=always --line-range=:300 {} 2>/dev/null; end' \
         --preview-window=right,50%:wrap )
 
       test -n "$file"; or return 0
