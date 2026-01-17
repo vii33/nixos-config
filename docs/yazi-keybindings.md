@@ -2,6 +2,8 @@
 
 Yazi is a blazing-fast terminal file manager written in Rust, featuring async I/O and a modern UI.
 
+**Official Documentation:** https://yazi-rs.github.io/docs/quick-start/
+
 ## Starting Yazi
 
 ```fish
@@ -16,42 +18,52 @@ yazi ~/path   # Open in specific directory
 - `k` / `↑` — Move cursor up
 - `h` / `←` — Go to parent directory
 - `l` / `→` — Enter directory / open file
-- `g` — Jump commands:
-  - `gg` — Jump to top
-  - `G` — Jump to bottom
-- `f` — Filter files (type to filter, `Esc` to clear)
-- `F` — Find files (search and jump)
+- `K` — Seek up 5 units in the preview
+- `J` — Seek down 5 units in the preview
+- `g` then `g` — Jump to top
+- `G` — Jump to bottom
 
 ### Quick Navigation
-- `~` — Go to home directory
-- `/` — Go to root directory
+- `z` — Cd to a directory or reveal a file via fzf
+- `Z` — Cd to a directory via zoxide
+- `g` then `Space` — Cd to a directory or reveal a file via interactive prompt
 - `.` — Toggle hidden files
-- `z` — Jump to a directory (uses zoxide)
 
 ## File Operations
 
 ### Selection
 - `Space` — Toggle selection for current file
-- `v` — Enter visual mode (select multiple files)
-- `V` — Enter visual mode (unset selection)
-- `Ctrl-a` — Select all files
-- `Ctrl-r` — Reverse selection
+- `v` — Enter visual mode (selection mode)
+- `V` — Enter visual mode (unset mode)
+- `Ctrl+a` — Select all files
+- `Ctrl+r` — Inverse selection of all files
+- `Esc` — Cancel selection
 
 ### Copy, Cut, Paste
 - `y` — Yank (copy) selected files
-- `x` / `d` — Cut selected files
+- `x` — Yank (cut) selected files
 - `p` — Paste files
 - `P` — Paste files (overwrite)
-- `Shift-y` — Yank file path
+- `Y` or `X` — Cancel the yank status
 
 ### File Management
 - `o` — Open file with default application
 - `O` — Open file interactively (choose application)
+- `Enter` — Open selected files
+- `Shift+Enter` — Open selected files interactively (some terminals don't support)
+- `Tab` — Show file information
 - `r` — Rename file
-- `c` — Create:
-  - Then type filename and press `Enter`
-- `Delete` / `Shift-d` — Move to trash
-- `Shift-D` — Permanently delete
+- `a` — Create file (ends with / for directories)
+- `d` — Trash selected files
+- `D` — Permanently delete selected files
+- `;` — Run a shell command
+- `:` — Run a shell command (block until finishes)
+
+### Copy Paths
+- `c` then `c` — Copy the file path
+- `c` then `d` — Copy the directory path
+- `c` then `f` — Copy the filename
+- `c` then `n` — Copy the filename without extension
 
 ### Archive Operations
 - `e` — Extract archive
@@ -60,15 +72,13 @@ yazi ~/path   # Open in specific directory
 ## Tabs and Panes
 
 ### Tabs
-- `t` — Create new tab
-- `w` — Close current tab
-- `Tab` / `Shift-Tab` — Switch between tabs
-- `1-9` — Switch to tab N
-
-### Dual Pane
-- `Ctrl-n` — Create dual pane
-- `Ctrl-w` — Close pane
-- `Ctrl-h/j/k/l` — Navigate between panes
+- `t` — Create new tab with CWD
+- `1-9` — Switch to the N-th tab
+- `[` — Switch to the previous tab
+- `]` — Switch to the next tab
+- `{` — Swap current tab with previous tab
+- `}` — Swap current tab with next tab
+- `Ctrl+c` — Close the current tab
 
 ## Preview
 
@@ -83,19 +93,37 @@ yazi ~/path   # Open in specific directory
 
 ## Search and Filtering
 
-### Filter
+### Filter Files
 - `f` — Filter files in current directory
   - Type to filter
   - `Esc` to clear filter
 
-### Find
-- `F` — Find and jump to file
-  - Type to search
-  - `Enter` to jump
-  - `Esc` to cancel
+### Find Files
+- `/` — Find next file
+- `?` — Find previous file
+- `n` — Go to the next found
+- `N` — Go to the previous found
 
-### Grep Search
-- `/` — Search file contents (if configured)
+### Search Files
+- `s` — Search files by name using fd
+- `S` — Search files by content using ripgrep
+- `Ctrl+s` — Cancel the ongoing search
+
+### Sorting
+Press `,` followed by:
+- `m` — Sort by modified time
+- `M` — Sort by modified time (reverse)
+- `b` — Sort by birth time
+- `B` — Sort by birth time (reverse)
+- `e` — Sort by file extension
+- `E` — Sort by file extension (reverse)
+- `a` — Sort alphabetically
+- `A` — Sort alphabetically (reverse)
+- `n` — Sort naturally
+- `N` — Sort naturally (reverse)
+- `s` — Sort by size
+- `S` — Sort by size (reverse)
+- `r` — Sort randomly
 
 ## Shell Integration
 
@@ -124,9 +152,9 @@ Then use `ya` instead of `yazi` to automatically cd to the directory when you qu
 
 ## Help and Configuration
 
-- `F1` — Show help
+- `F1` or `~` — Show help
 - `q` — Quit yazi
-- `Q` — Quit all tabs
+- `Q` — Quit all tabs (without changing directory)
 
 ## Useful Combinations
 
@@ -137,7 +165,9 @@ Then use `ya` instead of `yazi` to automatically cd to the directory when you qu
 4. Save and close to apply changes
 
 ### Copy File Path
-- `Shift-y` — Copy current file path to clipboard
+- `c` then `c` — Copy current file path to clipboard
+- `c` then `d` — Copy directory path
+- `c` then `f` — Copy filename
 - Useful for pasting paths in terminal commands
 
 ### Open in External Editor
@@ -162,10 +192,17 @@ Yazi configuration files are located at:
 ## Common Workflows
 
 ### Quick File Finding
-1. `F` to open find
-2. Type filename
-3. `Enter` to jump to file
-4. `l` to open it
+1. `s` to search files by name (uses fd)
+2. Type filename pattern
+3. Navigate results with arrow keys or `j/k`
+4. `Enter` to jump to selected file
+5. `l` to open it
+
+### Quick Content Search
+1. `S` to search file contents (uses ripgrep)
+2. Type search pattern
+3. Navigate matches
+4. `Enter` to jump to file
 
 ### Organize Files
 1. `v` to enter visual mode
