@@ -40,8 +40,9 @@ These keyboard shortcuts are configured in `modules/home/kitty.nix`.
 |---|---|
 | `Ctrl + Shift + T` | new tab |
 | `Ctrl + Shift + Q` | close tab |
-| `Ctrl + Shift + Right` | next tab |
-| `Ctrl + Shift + Left` | previous tab |
+| `Alt + H` | previous tab |
+| `Alt + L` | next tab |
+| `Alt + 1-5` | jump to tab 1-5 |
 
 ### Window Management
 
@@ -49,6 +50,15 @@ These keyboard shortcuts are configured in `modules/home/kitty.nix`.
 |---|---|
 | `Ctrl + Shift + Enter` | new window in current working directory |
 | `Ctrl + Shift + W` | close window |
+
+### Window Navigation
+
+| Key | Action |
+|---|---|
+| `Ctrl + Shift + Ö` | next window |
+| `Ä` | previous window |
+| `Alt + J` | neighboring window down |
+| `Alt + K` | neighboring window up |
 
 ### Copy & Paste
 
