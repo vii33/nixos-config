@@ -47,7 +47,6 @@
       #"syntax-highlight"  # Syntax highlighting for macOS Quick Look. Needs to be opened once manually after install to set up. // Deprecated?
       #"qlmarkdown"        # Markdown preview in macOS Quick Look. Needs to be opened once manually after install to set up.  // Deprecated?
       "cyberduck"         # FTP/S3 client
-      "keyclu"            # Show shortcuts for current app
     ];
   };
 }  
