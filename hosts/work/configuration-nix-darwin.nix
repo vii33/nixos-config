@@ -165,6 +165,20 @@ in
     TrackpadThreeFingerDrag = true;  # Enable three-finger drag for window management 
   };
 
+  # System-wide network proxy settings (for GUI apps like Raycast)
+  # Configure proxy on all network interfaces using networksetup
+  system.activationScripts.extraActivation.text = ''
+    # Set proxy for all known network services
+    for service in "Wi-Fi" "Office-WLAN" "Ethernet" "Thunderbolt Bridge"; do
+      if /usr/sbin/networksetup -listallnetworkservices | grep -q "^$service$"; then
+        echo "Configuring proxy for $service..."
+        /usr/sbin/networksetup -setwebproxy "$service" localhost 3128
+        /usr/sbin/networksetup -setsecurewebproxy "$service" localhost 3128
+        /usr/sbin/networksetup -setproxybypassdomains "$service" localhost 127.0.0.1
+      fi
+    done
+  '';
+
   # Sudo with Touch ID
   security.pam.services.sudo_local.enable = true;  # Keep enabled for sudo PAM services
   security.pam.services.sudo_local.touchIdAuth = true;
@@ -176,7 +190,7 @@ in
     fira-code
     fira-code-symbols
     noto-fonts
-    noto-fonts-color-emoji
+    noto-fonts-color-emoji 
   ];
 
   # Programs
