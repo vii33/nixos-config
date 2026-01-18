@@ -7,13 +7,16 @@ Even with declarative NixOS a few one-time/manual actions are required when sett
 sudo passwd vii
 ```
 
-### 2. Clone Neovim config (for LazyVim)
-`modules/home/neovim.nix` symlinks `~/.config/nvim` to `~/dev/neovim-config`, so clone the repo before launching Neovim:
+### 2. LazyVim Plugin Installation
+LazyVim is now managed via NixVim and configured directly in this repository at `modules/home/nixvim/lazyvim.nix`. Custom plugin specifications are in `modules/home/nixvim/lua-specs/`.
+
+On first launch, Neovim will automatically install LazyVim plugins. Wait for the installation to complete before using Neovim.
+
+**macOS Note**: If you're using the standalone Home Manager configuration (not nix-darwin), run:
+```bash
+home-manager --flake .#work switch
 ```
-mkdir -p ~/dev
-cd ~/dev
-git clone <your-neovim-config-repo-url> neovim-config
-```
+Then launch `nvim` to trigger plugin installation.
 
 ### 3. NBFC (Notebook Fan Control) – `laptop` host only
 `hosts/laptop/nbfc.nix` expects `~/.config/nbfc.json` and a matching username (`myUser`). Create:
