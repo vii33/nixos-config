@@ -16,7 +16,6 @@ in
   ];
 
   environment.systemPackages = with pkgs; [
-    # From profiles/system/work.nix
     python3
     uv
     flameshot     # Screenshot tool
@@ -39,9 +38,10 @@ in
 
     ../../modules/home/fish-shell.nix
     ../../modules/home/kitty.nix
-    ../../modules/home/yazi.nix
-    #../../modules/home/darwin/paneru.nix
+    #../../modules/home/yazi.nix
     ../../modules/home/darwin/capslock-to-f18.nix
+    #../../modules/home/darwin/paneru.nix
+    ../../modules/home/darwin/aldente-autostart.nix
   ];
   
   # Home Manager imports for main user
