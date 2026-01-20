@@ -18,7 +18,6 @@ in
   environment.systemPackages = with pkgs; [
     python3
     uv
-    flameshot     # Screenshot tool
     imagemagick   # Image manipulation tool
     cargo         # Rust package manager // needed for panerau installation
     rustc         # Rust compiler // needed for panerau installation
@@ -40,8 +39,10 @@ in
     ../../modules/home/kitty.nix
     #../../modules/home/yazi.nix
     ../../modules/home/darwin/capslock-to-f18.nix
+    ../../modules/home/darwin/flameshot.nix
     #../../modules/home/darwin/paneru.nix
     ../../modules/home/darwin/aldente-autostart.nix
+    ../../modules/home/darwin/finder-delete-key.nix
   ];
   
   # Home Manager imports for main user
