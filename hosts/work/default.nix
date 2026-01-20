@@ -37,7 +37,7 @@ in
 
     ../../modules/home/fish-shell.nix
     ../../modules/home/kitty.nix
-    #../../modules/home/yazi.nix
+    ../../modules/home/yazi.nix
     ../../modules/home/darwin/capslock-to-f18.nix
     ../../modules/home/darwin/flameshot.nix
     #../../modules/home/darwin/paneru.nix
