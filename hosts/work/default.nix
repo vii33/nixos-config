@@ -42,7 +42,6 @@ in
     ../../modules/home/darwin/flameshot.nix
     #../../modules/home/darwin/paneru.nix
     ../../modules/home/darwin/aldente-autostart.nix
-    ../../modules/home/darwin/finder-delete-key.nix
   ];
   
   # Home Manager imports for main user
