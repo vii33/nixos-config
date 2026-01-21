@@ -4,6 +4,11 @@
 let
   isLinux = pkgs.stdenv.isLinux;
   isDarwin = pkgs.stdenv.isDarwin;
+  
+  # Create a 'code' wrapper script for VS Code CLI
+  vscode-cli = pkgs.writeShellScriptBin "code" ''
+    open -a "Visual Studio Code" "$@"
+  '';
 in
 {
   # Set environment variables for the session
@@ -29,6 +34,8 @@ in
     chafa                       # terminal image viewer (works on Linux & macOS)
   ] ++ lib.optionals isLinux [
     wl-clipboard                # for Wayland clipboard access (used by fun_copy_commandline_to_clipboard)
+  ] ++ lib.optionals isDarwin [
+    vscode-cli                  # 'code' command for opening VS Code
   ];
 
   # Plugin settings ---------------------------------------------
@@ -86,7 +93,7 @@ in
       cop = "github-copilot-cli";
 
       # Mac OS
-      workbuild = "home-manager --flake ~/repos/nixos-config/.#work switch";
+      workbuild = "home-manager switch --flake ~/repos/nixos-config/.#work";
       workswitch = "sudo env \"PATH=$PATH\" /run/current-system/sw/bin/darwin-rebuild switch --flake ~/repos/nixos-config/.#work";
       proxyrestart = "launchctl kickstart -k -p \"gui/$(id -u)/cc.colorto.proxydetox\"";
     };

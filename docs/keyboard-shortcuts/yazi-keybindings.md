@@ -24,8 +24,8 @@ yazi ~/path   # Open in specific directory
 - `G` — Jump to bottom
 
 ### Quick Navigation
-- `z` — Cd to a directory or reveal a file via fzf
-- `Z` — Cd to a directory via zoxide
+- `z` — Cd to a directory via zoxide
+- `Z` — Cd to a directory or reveal a file via fzf
 - `g` then `Space` — Cd to a directory or reveal a file via interactive prompt
 - `.` — Toggle hidden files
 
@@ -53,7 +53,7 @@ yazi ~/path   # Open in specific directory
 - `Shift+Enter` — Open selected files interactively (some terminals don't support)
 - `Tab` — Show file information
 - `r` — Rename file
-- `a` — Create file (ends with / for directories)
+- `a` — Create file (has to end with ´/´ for directories)
 - `d` — Trash selected files
 - `D` — Permanently delete selected files
 - `;` — Run a shell command
@@ -65,9 +65,6 @@ yazi ~/path   # Open in specific directory
 - `c` then `f` — Copy the filename
 - `c` then `n` — Copy the filename without extension
 
-### Archive Operations
-- `e` — Extract archive
-- `c` — Compress selection
 
 ## Tabs and Panes
 
@@ -110,20 +107,23 @@ yazi ~/path   # Open in specific directory
 - `Ctrl+s` — Cancel the ongoing search
 
 ### Sorting
-Press `,` followed by:
+Press `,` (comma) followed by:
 - `m` — Sort by modified time
-- `M` — Sort by modified time (reverse)
 - `b` — Sort by birth time
-- `B` — Sort by birth time (reverse)
 - `e` — Sort by file extension
-- `E` — Sort by file extension (reverse)
 - `a` — Sort alphabetically
-- `A` — Sort alphabetically (reverse)
 - `n` — Sort naturally
-- `N` — Sort naturally (reverse)
 - `s` — Sort by size
-- `S` — Sort by size (reverse)
 - `r` — Sort randomly
+
+Use capital letters (e.g., `M`, `B`, `E`) for reverse sorting.
+
+### Line Mode (Display Info)
+- `M` (Shift+m) — Cycle through line modes:
+  - `size` — Show file sizes
+  - `mtime` — Show modification time
+  - `permissions` — Show file permissions
+  - `none` — Filename only
 
 ## Shell Integration
 

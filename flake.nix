@@ -28,11 +28,15 @@
       url = "github:karinushka/paneru";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    kanagawa-yazi = { # Yazi color theme
+      url = "github:dangooddd/kanagawa.yazi";
+      flake = false;
+    };
 
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, 
-              nix-darwin, nixvim, niri, paneru, ... }@inputs:
+              nix-darwin, nixvim, niri, paneru, kanagawa-yazi, ... }@inputs:
   {
     nixosConfigurations = {
 
@@ -96,11 +100,14 @@
           inherit inputs pkgs-unstable localConfig;
         };
         modules = [
-          #nixvim.homeModules.nixvim
           ./home/vii/home-darwin.nix
 
           ./modules/home/fish-shell.nix
           ./modules/home/kitty.nix
+          ./modules/home/yazi.nix
+          ./modules/home/darwin/capslock-to-f18.nix
+          ./modules/home/darwin/flameshot.nix
+          ./modules/home/darwin/aldente-autostart.nix
           #./modules/home/darwin/paneru.nix
         ];
       };

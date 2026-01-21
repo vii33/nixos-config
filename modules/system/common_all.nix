@@ -19,6 +19,5 @@
     fd
     bat
     git
-    yazi
   ];
 }

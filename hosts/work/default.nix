@@ -16,10 +16,8 @@ in
   ];
 
   environment.systemPackages = with pkgs; [
-    # From profiles/system/work.nix
     python3
     uv
-    flameshot     # Screenshot tool
     imagemagick   # Image manipulation tool
     cargo         # Rust package manager // needed for panerau installation
     rustc         # Rust compiler // needed for panerau installation
@@ -42,7 +40,11 @@ in
     ../../modules/home/nixvim/nixvim.nix
     ../../modules/home/nixvim/lazyvim.nix
     #../../modules/home/darwin/paneru.nix
+    ../../modules/home/yazi.nix
     ../../modules/home/darwin/capslock-to-f18.nix
+    ../../modules/home/darwin/flameshot.nix
+    ../../modules/home/darwin/aldente-autostart.nix
+    #../../modules/home/darwin/paneru.nix
   ];
   
   # Home Manager imports for main user
