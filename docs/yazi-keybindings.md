@@ -53,7 +53,7 @@ yazi ~/path   # Open in specific directory
 - `Shift+Enter` — Open selected files interactively (some terminals don't support)
 - `Tab` — Show file information
 - `r` — Rename file
-- `a` — Create file (ends with / for directories)
+- `a` — Create file (has to end with ´/´ for directories)
 - `d` — Trash selected files
 - `D` — Permanently delete selected files
 - `;` — Run a shell command
