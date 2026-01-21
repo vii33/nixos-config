@@ -40,8 +40,8 @@ in
     ../../modules/home/yazi.nix
     ../../modules/home/darwin/capslock-to-f18.nix
     ../../modules/home/darwin/flameshot.nix
-    #../../modules/home/darwin/paneru.nix
     ../../modules/home/darwin/aldente-autostart.nix
+    #../../modules/home/darwin/paneru.nix
   ];
   
   # Home Manager imports for main user
