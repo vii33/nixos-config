@@ -4,6 +4,11 @@
 let
   isLinux = pkgs.stdenv.isLinux;
   isDarwin = pkgs.stdenv.isDarwin;
+  
+  # Create a 'code' wrapper script for VS Code CLI
+  vscode-cli = pkgs.writeShellScriptBin "code" ''
+    open -a "Visual Studio Code" "$@"
+  '';
 in
 {
   # Set environment variables for the session
@@ -29,6 +34,8 @@ in
     chafa                       # terminal image viewer (works on Linux & macOS)
   ] ++ lib.optionals isLinux [
     wl-clipboard                # for Wayland clipboard access (used by fun_copy_commandline_to_clipboard)
+  ] ++ lib.optionals isDarwin [
+    vscode-cli                  # 'code' command for opening VS Code
   ];
 
   # Plugin settings ---------------------------------------------
@@ -185,13 +192,6 @@ in
 
         function gh?
           __copilot_helper gh-assist $argv
-        end
-      end
-
-      # VS Code command line tool (macOS)
-      if test -d "/Applications/Visual Studio Code.app"
-        function code       # "code" command to open files in VS Code
-          open -a "Visual Studio Code" $argv
         end
       end
     '';
