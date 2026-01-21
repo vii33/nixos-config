@@ -86,7 +86,7 @@ in
       cop = "github-copilot-cli";
 
       # Mac OS
-      workbuild = "home-manager --flake ~/repos/nixos-config/.#work switch";
+      workbuild = "home-manager switch --flake ~/repos/nixos-config/.#work";
       workswitch = "sudo env \"PATH=$PATH\" /run/current-system/sw/bin/darwin-rebuild switch --flake ~/repos/nixos-config/.#work";
       proxyrestart = "launchctl kickstart -k -p \"gui/$(id -u)/cc.colorto.proxydetox\"";
     };
@@ -185,6 +185,13 @@ in
 
         function gh?
           __copilot_helper gh-assist $argv
+        end
+      end
+
+      # VS Code command line tool (macOS)
+      if test -d "/Applications/Visual Studio Code.app"
+        function code       # "code" command to open files in VS Code
+          open -a "Visual Studio Code" $argv
         end
       end
     '';
