@@ -16,8 +16,8 @@
       shell = "${pkgs.fish}/bin/fish";
       
       # Window layout
-      initial_window_width = "130c";
-      initial_window_height = "38c";
+      initial_window_width = "120c";
+      initial_window_height = "41c";
       window_padding_width = 8;
       remember_window_size = false;
       
@@ -55,6 +55,8 @@
       
       # Scrollback
       scrollback_lines = 10000;
+
+      cursor_trail = 1;
       
       # Mouse
       url_style = "curly";
@@ -67,9 +69,13 @@
       confirm_os_window_close = 0;  # Don't ask for confirmation when closing
       
       # Background image
-      #background_image = "";
-      #background_image_layout = "cscaled";
-      #background_tint = 0.0;
+      background_image = "/Users/Q449608/Documents/bmw-small.png";
+      background_image_layout = "cscaled";
+      background_tint = 0.95;
+
+      # Transparency
+      #background_opacity = 0.96;
+      #background_blur = 6;
 
       # Notifications
       notify_on_cmd_finish = "invisible 10.0";
@@ -103,8 +109,8 @@
       "ctrl+shift+w" = "close_window";
       
       # Window navigation (German keyboard: ö/ä for cycling)
-      "ctrl+shift+ö" = "next_window";
-      "ä" = "previous_window";
+      "ctrl+shift+ä" = "next_window";
+      "ctrl+shift+ö" = "previous_window";
       
       # Window navigation (vim-style)
       #"alt+h" = "neighboring_window left";

@@ -23,8 +23,8 @@ These keyboard shortcuts are configured in `modules/home/kitty.nix`.
 
 | Key | Action |
 |---|---|
-| `Ctrl + Shift + Ö` | next window |
-| `Ä` | previous window |
+| `Ctrl + Shift + Ä` | next window |
+| `Ctrl + Shift + Ö` | previous window |
 | `Alt + J` | neighboring window down |
 | `Alt + K` | neighboring window up |
 
