@@ -302,7 +302,11 @@ in
         --height=80% \
         --reverse \
         --border \
-        --preview 'if file --mime-type {} | grep -qE "image/(png|jpeg|jpg|gif|bmp|webp|svg)"; chafa --size="$FZF_PREVIEW_COLUMNS"x"$FZF_PREVIEW_LINES" --animate=false {} 2>/dev/null; else bat --style=numbers --color=always --line-range=:300 {} 2>/dev/null; end' \
+        --preview 'if file --mime-type {} | grep -qE "image/(png|jpeg|jpg|gif|bmp|webp|svg)"; then
+            chafa --size="$FZF_PREVIEW_COLUMNS"x"$FZF_PREVIEW_LINES" --animate=false {} 2>/dev/null;
+          else
+            bat --style=numbers --color=always --line-range=:300 {} 2>/dev/null;
+          fi' \
         --preview-window=right,50%:wrap )
 
       test -n "$file"; or return 0
