@@ -17,7 +17,7 @@
   # Configure Yazi settings
   home.file.".config/yazi/yazi.toml".text = ''
     [mgr]
-    ratio = [ 2, 4, 3 ]   # Ratio of the 3 panes 
+    ratio = [ 2, 5, 3 ]   # Ratio of the 3 panes 
     linemode = "mtime"    # Show modified time with custom format (see init.lua below)
     sort_by = "natural"
     sort_sensitive = false
