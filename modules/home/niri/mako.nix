@@ -22,8 +22,8 @@
     borderRadius = 8;
     
     # Behavior
-    max-visible = 5;
-    default-timeout = 5000;  # 5 seconds
+    max-visible = 5;         # Amount
+    default-timeout = 5000;  # Duration
     ignore-timeout = false;
     
     # Position

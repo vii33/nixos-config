@@ -43,21 +43,21 @@
         # Clock
         clock = {
           timezone = "Europe/Berlin";
-          format = "{:%H:%M  %d-%m-%Y}";
+          format = "{:%H:%M  %d.%m.%Y}";
           tooltip-format = "<tt>{calendar}</tt>";
         };
 
         # CPU
         cpu = {
           interval = 10;
-          format = "CPU {usage}%";
+          format = "CPU {usage:2}%";
           tooltip = true;
         };
 
         # Memory
         memory = {
           interval = 30;
-          format = "RAM {percentage}%";
+          format = "RAM {percentage:2}%";
           tooltip-format = "RAM: {used:0.1f}G / {total:0.1f}G";
         };
 
@@ -140,15 +140,18 @@
       #workspaces button {
         padding: 0 8px;
         background-color: transparent;
-        color: #ffffff;
+        color: #888888;
         border-bottom: 3px solid transparent;
       }
 
       #workspaces button:hover {
-        background: rgba(27, 27, 27, 0.69);
+        background: rgba(100, 100, 100, 0.2);
+        color: #ffffff;
       }
 
       #workspaces button.active {
+        color: #ffffff;
+        background-color: #333333;
         border-bottom: 3px solid #ffffff;
       }
 

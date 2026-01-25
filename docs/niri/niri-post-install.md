@@ -21,6 +21,14 @@ After logging in, niri will start automatically. You should see:
 ### Open a Terminal
 Press `Super + Return` to open Kitty terminal.
 
+### Connecting to Wi-Fi
+Since we are not using a full Desktop Environment like KDE, we use the terminal UI for NetworkManager.
+
+1. Open a terminal (`Super + Return`).
+2. Run `nmtui`.
+3. Select **"Activate a connection"**.
+4. Choose your Wi-Fi network and enter the password.
+
 ### Launch Applications
 Press `Super + D` to open fuzzel launcher, then type the application name.
 
