@@ -42,7 +42,7 @@
   home-manager.extraSpecialArgs = { inherit (config._module.specialArgs) pkgs-unstable; };
   home-manager.sharedModules =  # Home Manager modules shared between all users
     [
-      inputs.nixvim.homeManagerModules.nixvim
+      inputs.nixvim.homeModules.nixvim
       ../../modules/home/kitty.nix
       ../../modules/home/fish-shell.nix
       ../../modules/home/nixvim/nixvim.nix
