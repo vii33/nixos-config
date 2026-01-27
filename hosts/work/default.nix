@@ -33,7 +33,7 @@ in
     inherit localConfig;
   };
   home-manager.sharedModules = [
-    inputs.nixvim.homeManagerModules.nixvim
+    inputs.nixvim.homeModules.nixvim
 
     ../../modules/home/fish-shell.nix
     ../../modules/home/kitty.nix
