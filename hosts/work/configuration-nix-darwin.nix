@@ -51,7 +51,13 @@ in
     HTTPS_PROXY = "http://localhost:3128";
     ALL_PROXY = "http://localhost:3128";        # Universal proxy setting (used by curl, Homebrew, etc.)
     no_proxy = "localhost,127.0.0.1";           # Don't proxy local connections
+    
+    # Homebrew settings
     HOMEBREW_AUTO_UPDATE_SECS = "864000";       # How often Homebrew auto-update runs (seconds). Example: 86400 = 1 day
+    HOMEBREW_NO_AUTO_UPDATE = "1";               # disable auto-update during operations, do it manually via    brew update --auto-update
+    #HOMEBREW_NO_INSTALL_CLEANUP = "1";          # Skip cleanup after install (can hang with proxy)
+    #HOMEBREW_CASK_OPTS = "--no-quarantine";     # Skip quarantine verification for casks (can timeout with proxy)
+    #HOMEBREW_NO_VERIFY_ATTESTATIONS = "1";      # Skip cryptographic verification (requires network)
   };
   
   system.defaults = {
@@ -107,6 +113,7 @@ in
 
       # Trackpad
       "com.apple.trackpad.scaling" = 0.875;  # Standard trackpad speed (range typically 0-3)
+      "com.apple.swipescrolldirection" = true;  # Natural scrolling (false = reverse/traditional scrolling)
       
       # Panels
       PMPrintingExpandedStateForPrint = true;  # Use expanded print panel by default
@@ -123,7 +130,7 @@ in
       NSAutomaticPeriodSubstitutionEnabled = false;  # Disable period substitution
       NSAutomaticCapitalizationEnabled = false;  # Disable auto-capitalization for terminals/code
       
-      # AppleScrollerPagingBehavior = null;  # Keep default scrolling behavior
+      # AppleScrollerPagingBehavior = null;  # Jump to the spot that’s clicked on the scroll bar. The default is false.
     };
 
     # Reduce motion system-wide (less animation for supported UI)
