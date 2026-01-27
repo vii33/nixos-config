@@ -55,6 +55,7 @@
       ../../modules/home/niri/waybar.nix
       ../../modules/home/niri/fuzzel.nix
       ../../modules/home/niri/mako.nix
+      ../../modules/home/niri/power-menu.nix
     ];
   home-manager.users.vii = {
     imports = [ ../../home/vii/home-linux.nix ];
