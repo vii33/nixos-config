@@ -22,8 +22,16 @@
   # XWayland support
 #  programs.xwayland-satellite.enable = true;  # not existing setting - remove?
 
+  # XDG Desktop Portal for file pickers, screen sharing, etc.
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+    config.common.default = "*";
+  };
+
   # Ensure essential Wayland environment
   environment.systemPackages = with pkgs; [
     wl-clipboard
+    nautilus  # Required for GNOME portal file picker
   ];
 }
