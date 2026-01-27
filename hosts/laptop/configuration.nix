@@ -81,6 +81,9 @@ services.pipewire = {
 services.blueman.enable = true; # Blueman provides a GUI for Bluetooth management, although KDE's own tools should work too.
 hardware.bluetooth.enable = true;
 
+# Thunderbolt
+services.hardware.bolt.enable = true;
+
 
 # Enable the KDE Plasma Desktop Environment.
 services.displayManager.sddm.enable = true;
