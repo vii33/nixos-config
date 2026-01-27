@@ -21,6 +21,7 @@ in
     imagemagick   # Image manipulation tool
     cargo         # Rust package manager // needed for panerau installation
     rustc         # Rust compiler // needed for panerau installation
+    warpd         # Modal keyboard-driven mouse pointer control
   ];
 
   # Home Manager wiring
@@ -44,6 +45,7 @@ in
     ../../modules/home/darwin/capslock-to-f18.nix
     ../../modules/home/darwin/flameshot.nix
     ../../modules/home/darwin/aldente-autostart.nix
+    ../../modules/home/warpd.nix
     #../../modules/home/darwin/paneru.nix
   ];
   
