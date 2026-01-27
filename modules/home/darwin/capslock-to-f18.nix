@@ -5,26 +5,18 @@
 
 {
   # Remap Caps Lock to F18 using hidutil (macOS built-in)
-  # This runs at login via launchd
-  home.file."Library/LaunchAgents/com.local.KeyRemapping.plist".text = ''
-    <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-    <plist version="1.0">
-    <dict>
-      <key>Label</key>
-      <string>com.local.KeyRemapping</string>
-      <key>ProgramArguments</key>
-      <array>
-        <string>/usr/bin/hidutil</string>
-        <string>property</string>
-        <string>--set</string>
-        <string>{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x70000006D}]}</string>
-      </array>
-      <key>RunAtLoad</key>
-      <true/>
-      <key>KeepAlive</key>
-      <false/>
-    </dict>
-    </plist>
-  '';
+  # Using Home Manager's launchd.agents for proper management
+  launchd.agents.KeyRemapping = {
+    enable = true;
+    config = {
+      ProgramArguments = [
+        "/usr/bin/hidutil"
+        "property"
+        "--set"
+        ''{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x70000006D}]}''
+      ];
+      RunAtLoad = true;
+      KeepAlive = false;
+    };
+  };
 }
