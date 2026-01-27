@@ -109,6 +109,7 @@
           ./modules/home/darwin/flameshot.nix
           ./modules/home/darwin/aldente-autostart.nix
           #./modules/home/darwin/paneru.nix
+          ../../modules/home/warpd.nix
         ];
       };
     };
