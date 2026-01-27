@@ -167,7 +167,7 @@
         border: none;
         border-radius: 0;
         font-family: "JetBrainsMono Nerd Font";
-        font-size: 11px;
+        font-size: 12px;
         min-height: 0;
       }
 
@@ -213,8 +213,10 @@
       #network,
       #pulseaudio,
       #custom-separator,
-      #tray {
-        padding: 0 10px;
+      #tray,
+      #custom-power-profile,
+      #custom-power {
+        padding: 0 6px;
         margin: 0 2px;
       }
 

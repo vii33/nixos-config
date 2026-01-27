@@ -14,6 +14,8 @@
 
       # Spawn commands at startup
       spawn-at-startup = [
+        # Background wallpaper
+        { command = [ "${pkgs.swaybg}/bin/swaybg" "-i" "~/Bilder/desktop.png" "-m" "fill" ]; }
         # Mako notification daemon
         { command = [ "systemctl" "--user" "reset-failed" "mako.service" ]; }
         { command = [ "systemctl" "--user" "start" "mako.service" ]; }
@@ -44,6 +46,13 @@
         mouse = {
           natural-scroll = false;
         };
+      };
+
+      # Workspace names
+      workspaces = {
+        "1" = { name = "main"; };
+        "2" = { name = "code"; };
+        "3" = { name = "web"; };
       };
 
       # Layout configuration
@@ -94,19 +103,21 @@
         "Mod+Shift+K".action.move-window-up = {};
         "Mod+Shift+J".action.move-window-down = {};
         
+        # Move windows between monitors
+        "Mod+Ctrl+Alt+Left".action.move-column-to-monitor-left = {};
+        "Mod+Ctrl+Alt+Right".action.move-column-to-monitor-right = {};
+        "Mod+Ctrl+Alt+H".action.move-column-to-monitor-left = {};
+        "Mod+Ctrl+Alt+L".action.move-column-to-monitor-right = {};
+        
         # Workspaces
         "Mod+1".action.focus-workspace = 1;
         "Mod+2".action.focus-workspace = 2;
         "Mod+3".action.focus-workspace = 3;
-        "Mod+4".action.focus-workspace = 4;
-        "Mod+5".action.focus-workspace = 5;
       
         # Move window to workspace
         "Mod+Shift+1".action.move-column-to-workspace = 1;
         "Mod+Shift+2".action.move-column-to-workspace = 2;
         "Mod+Shift+3".action.move-column-to-workspace = 3;
-        "Mod+Shift+4".action.move-column-to-workspace = 4;
-        "Mod+Shift+5".action.move-column-to-workspace = 5;
         
         # Column width
         "Mod+R".action.switch-preset-column-width = {};
@@ -156,12 +167,30 @@
       };
 
       # Outputs (monitors) - can be customized per-host
-      outputs = {};
+      outputs = {
+        "eDP-1" = {
+          # Laptop screen on the left
+          position = {
+            x = 0;
+            y = 0;
+          };
+          scale = 1.0;
+        };
+        "HDMI-A-2" = {
+          # External monitor on the right
+          # Note: Current Laptop HDMI limited to 60Hz at 1440p (would need DisplayPort for 120Hz+)
+          position = {
+            x = 1920;  # Width of laptop screen (1920 / 1.0 scale)
+            y = 0;
+          };
+        };
+      };
     };
   };
 
   # Required packages for niri functionality
   home.packages = with pkgs; [
+    swaybg         # Background/wallpaper utility
     grim           # Screenshot tool
     slurp          # Region selector
     wl-clipboard   # Clipboard utilities
