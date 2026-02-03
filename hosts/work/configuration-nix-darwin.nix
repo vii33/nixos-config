@@ -66,11 +66,11 @@ in
     dock = {
       autohide = false;
       show-recents = false;
-      tilesize = 36;
+      tilesize = 28;
       orientation = "bottom";
       # Hot Corners
-      wvous-tr-corner = 12; # enum: Mission Control
-      wvous-br-corner = 2;
+      wvous-tr-corner = 12;   # enum: Show open apps
+      wvous-br-corner = 2;    # enum: Mission control 
     };
 
     # Screenshots
@@ -113,7 +113,7 @@ in
 
       # Trackpad
       "com.apple.trackpad.scaling" = 0.875;  # Standard trackpad speed (range typically 0-3)
-      "com.apple.swipescrolldirection" = true;  # Natural scrolling (false = reverse/traditional scrolling)
+      "com.apple.swipescrolldirection" = false;  # Natural scrolling (false = reverse/traditional scrolling)
       
       # Panels
       PMPrintingExpandedStateForPrint = true;  # Use expanded print panel by default
@@ -142,8 +142,8 @@ in
         # Disable the sliding animation when switching "Spaces" (workspaces)
         "workspaces-swoosh-animation-off" = true;
         # Speed up Mission Control / Exposé animations
-        "expose-animation-duration" = 0.12;
-        "mcx-expose-animation-duration" = 0.12;
+        "expose-animation-duration" = 0.08;
+        "mcx-expose-animation-duration" = 0.08;
       };
       
       # Finder-specific keyboard shortcuts
