@@ -39,7 +39,7 @@
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";   # backup existing dotfiles before overwriting
-  home-manager.extraSpecialArgs = { inherit (config._module.specialArgs) pkgs-unstable; };
+  home-manager.extraSpecialArgs = { inherit (config._module.specialArgs) pkgs-unstable inputs; };
   home-manager.sharedModules =  # Home Manager modules shared between all users
     [
       inputs.nixvim.homeModules.nixvim
@@ -48,6 +48,7 @@
       ../../modules/home/nixvim/nixvim.nix
       ../../modules/home/nixvim/lazyvim.nix
       ../../modules/home/kde.nix
+      ../../modules/home/yazi.nix
 
       ../../modules/home/onedriver.nix
 
