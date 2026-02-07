@@ -63,10 +63,10 @@
     
     # Host-specific packages for laptop
     home.packages = with pkgs; [
-      brave
-      obsidian
-      bitwarden-desktop
-      signal-desktop-bin
+      pkgs-unstable.brave
+      pkgs-unstable.obsidian
+      pkgs-unstable.bitwarden-desktop
+      pkgs-unstable.signal-desktop-bin
       thunderbird
       vlc
       pkgs-unstable.vscode
