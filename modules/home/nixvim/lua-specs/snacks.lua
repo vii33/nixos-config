@@ -5,6 +5,7 @@ return {
   {
     "folke/snacks.nvim",
     keys = {
-      { "<C-<>", function() Snacks.terminal() end, desc = "Toggle Terminal" }, --Ctrl + <   },
+      { "<C-<>", function() Snacks.terminal() end, desc = "Toggle Terminal" }, -- Ctrl + <
+    },
   },
 }
