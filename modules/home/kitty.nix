@@ -66,26 +66,33 @@
       cursor_blink_interval = 0;  # Disable cursor blink
       
       # Window
-      confirm_os_window_close = 0;  # Don't ask for confirmation when closing
+      confirm_os_window_close = 1;  # Ask for confirmation when closing windows with running processes
       
       # Background image
       background_image = "/Users/Q449608/Documents/bmw-small.png";
       background_image_layout = "cscaled";
-      background_tint = 0.95;
+      background_tint = 0.98;
 
       # Transparency
       #background_opacity = 0.96;
       #background_blur = 6;
 
       # Notifications
-      notify_on_cmd_finish = "invisible 10.0";
+      notify_on_cmd_finish = "unfocused 30.0";  # Notify only when window unfocused and command takes >30s
       enable_audio_bell = false;
       visual_bell_duration = 0;
+
+      # Remote control (for live config reload)
+      allow_remote_control = "yes";
+      listen_on = "unix:/tmp/kitty-${config.home.username}";
 
     };
     
     # Kitty keyboard shortcuts (optional - can be customized)
     keybindings = {
+      # Disable @ shortcut (interferes with typing)
+      "shift+alt+2" = "no_op";
+
       # Easy copy / paste
 
       "ctrl+c" = "copy_or_interrupt";
@@ -94,6 +101,8 @@
       # Tab management
       "ctrl+shift+t" = "new_tab";
       "ctrl+shift+q" = "close_tab";
+      "alt+t" = "new_tab";
+      "alt+w" = "close_tab";
       "alt+l" = "next_tab";
       "alt+h" = "previous_tab";
       
@@ -122,6 +131,9 @@
       "ctrl+shift+plus" = "change_font_size all +1.0";
       "ctrl+shift+minus" = "change_font_size all -1.0";
       "ctrl+shift+0" = "change_font_size all 0";
+
+      # Shortcuts overlay (like which-key)
+      "ctrl+shift+#" = "launch --type=overlay ${pkgs.bash}/bin/bash ${config.home.homeDirectory}/repos/nixos-config/modules/home/kitty-shortcuts.sh";
     };
   };
 

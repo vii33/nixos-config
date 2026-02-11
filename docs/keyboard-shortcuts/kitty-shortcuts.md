@@ -8,6 +8,8 @@ These keyboard shortcuts are configured in `modules/home/kitty.nix`.
 |---|---|
 | `Ctrl + Shift + T` | new tab |
 | `Ctrl + Shift + Q` | close tab |
+| `Alt + T` | new tab |
+| `Alt + W` | close tab |
 | `Alt + H` | previous tab |
 | `Alt + L` | next tab |
 | `Alt + 1-5` | jump to tab 1-5 |
