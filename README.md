@@ -153,6 +153,24 @@ home-manager --flake .#work switch
 
 **Note:** For system-level changes (packages installed via nix-darwin, Homebrew apps, system settings), you still need to use `darwin-rebuild switch`.
 
+##### Syncing LazyVim Plugin Specs (Manual LazyVim Setup)
+
+If you're using manual LazyVim installation (with nixvim modules disabled), sync your plugin specs from the repo to your LazyVim config:
+
+```bash
+# Sync lua specs to ~/.config/nvim/lua/plugins/
+fish modules/home/nixvim/sync-lazyvim-specs.fish
+
+# Or from anywhere:
+fish ~/repos/nixos-config/modules/home/nixvim/sync-lazyvim-specs.fish
+```
+
+This copies all `.lua` files from `modules/home/nixvim/lua-specs/` to `~/.config/nvim/lua/plugins/`, excluding:
+- `init.lua` (only used for nix-managed setup)
+- `mason-disabled.lua` (only needed on NixOS)
+
+The script skips files that already exist, preserving any manual customizations you've made.
+
 ##### Reloading LaunchAgents
 
 After running `home-manager switch`, some services (like key remapping) need to be reloaded:

@@ -6,7 +6,7 @@ local spec_files = {
   "blink-cmp-config",
   "copilot-config",
   "harpoon2-config",
-  "keymaps",
+  "snacks",
   "mason-disabled",
   "nixd-config",
   "noice-config",
