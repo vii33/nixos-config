@@ -18,6 +18,7 @@ in
   environment.systemPackages = with pkgs; [
     python3
     uv
+    bun           # Bun runtime with npm compatibility (needed for Mason)
     imagemagick   # Image manipulation tool
     cargo         # Rust package manager // needed for panerau installation
     rustc         # Rust compiler // needed for panerau installation
