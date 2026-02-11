@@ -54,7 +54,7 @@ in
     
     # Homebrew settings
     HOMEBREW_AUTO_UPDATE_SECS = "864000";       # How often Homebrew auto-update runs (seconds). Example: 86400 = 1 day
-    HOMEBREW_NO_AUTO_UPDATE = "1";               # disable auto-update during operations, do it manually via    brew update --auto-update
+    #HOMEBREW_NO_AUTO_UPDATE = "1";               # disable auto-update during operations, do it manually via    brew update --auto-update
     #HOMEBREW_NO_INSTALL_CLEANUP = "1";          # Skip cleanup after install (can hang with proxy)
     #HOMEBREW_CASK_OPTS = "--no-quarantine";     # Skip quarantine verification for casks (can timeout with proxy)
     #HOMEBREW_NO_VERIFY_ATTESTATIONS = "1";      # Skip cryptographic verification (requires network)
@@ -66,7 +66,7 @@ in
     dock = {
       autohide = false;
       show-recents = false;
-      tilesize = 28;
+      tilesize = 32;
       orientation = "bottom";
       # Hot Corners
       wvous-tr-corner = 12;   # enum: Show open apps
