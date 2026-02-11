@@ -15,6 +15,7 @@
       "neovim"
       #"pnpm"
       "docker-compose"    # Check installation instructions: https://formulae.brew.sh/formula/docker-compose#default
+      "opencode"
     ];
 
     # Cask: macOS GUI applications
@@ -25,8 +26,7 @@
       #"bitwarden"        # TODO: Check if auto-updates work with brew version
       #"spotify"
       "drawio"
-      "rectangle"         # Window Management
-      #"tiles"            # Window management (alternative to Rectangle)
+      "rectangle"         # Window Management // Alternative: tiles
       "soundanchor"       # Pin sound output
       #"karabiner-elements"# Keyboard remapping
       "shortcat"          # Control macOS with the keyboard
@@ -44,9 +44,9 @@
       "kitty"             # Terminal emulator
       "bruno"             # API client / Alternative: insomnio
       "docker-desktop"
-      #"syntax-highlight"  # Syntax highlighting for macOS Quick Look. Needs to be opened once manually after install to set up. // Deprecated?
-      #"qlmarkdown"        # Markdown preview in macOS Quick Look. Needs to be opened once manually after install to set up.  // Deprecated?
       "cyberduck"         # FTP/S3 client
+      "copilot-cli"
+      "claude-code"
     ];
   };
 }  
