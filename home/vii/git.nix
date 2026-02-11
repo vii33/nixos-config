@@ -4,10 +4,11 @@
 {
   programs.git = {
     enable = true;
-    userName = "vii33";
-    userEmail = "1887246+vii33@users.noreply.github.com";
-
-    extraConfig = {
+    settings = {
+      user = {
+        name = "vii33";
+        email = "1887246+vii33@users.noreply.github.com";
+      };
       pull = {
         rebase = true;
       };

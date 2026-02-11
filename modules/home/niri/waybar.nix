@@ -12,11 +12,11 @@
         layer = "top";
         position = "top";
         height = 30;
-        spacing = 4;
+        spacing = 3;
 
         modules-left = [ "niri/workspaces" "niri/window" ];
         modules-center = [ "clock" ];
-        modules-right = [ "network" "custom/separator" "cpu" "memory" "temperature" "custom/separator" "battery" "pulseaudio" "tray" ];
+        modules-right = [ "network" "custom/separator" "cpu" "memory" "temperature" "custom/separator" "battery" "pulseaudio" "custom/power-profile" "tray" "custom/power" ];
 
         # Separator
         "custom/separator" = {
@@ -26,7 +26,7 @@
 
         # Workspaces
         "niri/workspaces" = {
-          format = "{name}";
+          format = "{name}";  # Use "{index}" to show numbers, or "{index}: {name}" for both
           all-outputs = false;
         };
 
@@ -114,6 +114,51 @@
         tray = {
           spacing = 6;
         };
+
+        # Power profile switcher
+        "custom/power-profile" = {
+          format = "{icon}";
+          format-icons = {
+            power-saver = "󰌪";
+            balanced = "󱐋";
+            performance = "󰓅";
+          };
+          exec = "${pkgs.power-profiles-daemon}/bin/powerprofilesctl get";
+          interval = 30;
+          on-click = "${pkgs.writeShellScript "toggle-power-profile" ''
+            current=$(${pkgs.power-profiles-daemon}/bin/powerprofilesctl get)
+            
+            case "$current" in
+              "power-saver")
+                ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set balanced
+                ;;
+              "balanced")
+                ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance
+                ;;
+              "performance")
+                ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set power-saver
+                ;;
+            esac
+          ''}";
+          tooltip-format = "Power Profile: {icon}";
+        };
+
+        # Power menu
+        "custom/power" = {
+          format = "⏻";
+          tooltip = false;
+          on-click = "${pkgs.writeShellScript "power-menu" ''
+            choice=$(echo -e "🔒 Lock\n🔄 Restart\n⏻ Shutdown\n🛌 Hibernate\n💤 Suspend" | ${pkgs.fuzzel}/bin/fuzzel --dmenu --prompt="Power: ")
+            
+            case "$choice" in
+              "🔒 Lock") ${pkgs.systemd}/bin/loginctl lock-session ;;
+              "🔄 Restart") ${pkgs.systemd}/bin/systemctl reboot ;;
+              "⏻ Shutdown") ${pkgs.systemd}/bin/systemctl poweroff ;;
+              "🛌 Hibernate") ${pkgs.systemd}/bin/systemctl hibernate ;;
+              "💤 Suspend") ${pkgs.systemd}/bin/systemctl suspend ;;
+            esac
+          ''}";
+        };
       };
     };
 
@@ -138,7 +183,7 @@
       }
 
       #workspaces button {
-        padding: 0 8px;
+        padding: 0 6px;
         background-color: transparent;
         color: #888888;
         border-bottom: 3px solid transparent;
@@ -168,8 +213,10 @@
       #network,
       #pulseaudio,
       #custom-separator,
-      #tray {
-        padding: 0 10px;
+      #tray,
+      #custom-power-profile,
+      #custom-power {
+        padding: 0 6px;
         margin: 0 2px;
       }
 
