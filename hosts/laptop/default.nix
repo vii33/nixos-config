@@ -39,15 +39,16 @@
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";   # backup existing dotfiles before overwriting
-  home-manager.extraSpecialArgs = { inherit (config._module.specialArgs) pkgs-unstable; };
+  home-manager.extraSpecialArgs = { inherit (config._module.specialArgs) pkgs-unstable inputs; };
   home-manager.sharedModules =  # Home Manager modules shared between all users
     [
-      inputs.nixvim.homeManagerModules.nixvim
+      inputs.nixvim.homeModules.nixvim
       ../../modules/home/kitty.nix
       ../../modules/home/fish-shell.nix
       ../../modules/home/nixvim/nixvim.nix
       ../../modules/home/nixvim/lazyvim.nix
       ../../modules/home/kde.nix
+      ../../modules/home/yazi.nix
 
       ../../modules/home/onedriver.nix
 
@@ -55,16 +56,17 @@
       ../../modules/home/niri/waybar.nix
       ../../modules/home/niri/fuzzel.nix
       ../../modules/home/niri/mako.nix
+      ../../modules/home/niri/power-menu.nix
     ];
   home-manager.users.vii = {
     imports = [ ../../home/vii/home-linux.nix ];
     
     # Host-specific packages for laptop
     home.packages = with pkgs; [
-      brave
-      obsidian
-      bitwarden-desktop
-      signal-desktop-bin
+      pkgs-unstable.brave
+      pkgs-unstable.obsidian
+      pkgs-unstable.bitwarden-desktop
+      pkgs-unstable.signal-desktop-bin
       thunderbird
       vlc
       pkgs-unstable.vscode

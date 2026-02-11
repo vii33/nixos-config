@@ -121,13 +121,13 @@ To update only specific inputs:
 
 ```bash
 # Update only nixpkgs
-nix flake lock --update-input nixpkgs
+nix flake update nixpkgs
 
 # Update only home-manager
-nix flake lock --update-input home-manager
+nix flake update home-manager
 
 # Update unstable channel
-nix flake lock --update-input nixpkgs-unstable
+nix flake update nixpkgs-unstable
 ```
 
 ### Apply Updates to NixOS System
@@ -188,13 +188,13 @@ Or update specific inputs:
 
 ```bash
 # Update nix-darwin
-nix flake lock --update-input nix-darwin
+nix flake update nix-darwin
 
 # Update nixpkgs
-nix flake lock --update-input nixpkgs
+nix flake update nixpkgs
 
 # Update home-manager
-nix flake lock --update-input home-manager
+nix flake update home-manager
 ```
 
 ### 2. Apply nix-darwin System Updates

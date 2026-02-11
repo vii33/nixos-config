@@ -6,7 +6,7 @@
   programs.kitty = {
     enable = true;
     package = pkgs.kitty;
-    themeFile = "Tokyo_Night_Storm";
+    themeFile = "tokyo_night_storm";
     
     # Shell configuration
     shellIntegration.enableFishIntegration = true;

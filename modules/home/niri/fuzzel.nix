@@ -8,8 +8,8 @@
     settings = {
       main = {
         terminal = "${pkgs.kitty}/bin/kitty";
-        font = "JetBrainsMono Nerd Font:size=12";
-        dpi-aware = "yes";
+        font = "JetBrainsMono Nerd Font:size=10";
+        dpi-aware = "no";
         show-actions = "yes";
         width = 50;
         lines = 15;
