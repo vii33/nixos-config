@@ -91,11 +91,15 @@ in
       # Applications
       nv = "nvim";
       cop = "github-copilot-cli";
+      bs = "pybonsai -w 0.04";
 
       # Mac OS
       workbuild = "home-manager switch --flake ~/repos/nixos-config/.#work";
       workswitch = "sudo env \"PATH=$PATH\" /run/current-system/sw/bin/darwin-rebuild switch --flake ~/repos/nixos-config/.#work";
       proxyrestart = "launchctl kickstart -k -p \"gui/$(id -u)/cc.colorto.proxydetox\"";
+
+      # Kitty
+      kittyreload = "kitty @ load-config";
     };
 
     # ShellInit use for fast and non-output things (e.g. path vars)

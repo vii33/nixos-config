@@ -11,7 +11,7 @@ let
       owner = "Ben-Edwards44";
       repo = "PyBonsai";
       rev = "main";
-      sha256 = "sha256-0jy58q356liy4mjjh0my4wz4q8cqn3n75k0p0vgp1ja38ixpbbcn";
+      sha256 = "sha256-lq11e0RDyXDfBhfMcuywmCFMPie+AihlJT5SUwZGxUs=";
     };
 
     buildInputs = [ pkgs.python3 ];
@@ -25,9 +25,9 @@ let
 
       # Create wrapper script
       cat > $out/bin/pybonsai <<EOF
-      #!/bin/sh
-      exec ${pkgs.python3}/bin/python3 $out/share/pybonsai/main.py "\$@"
-      EOF
+#!/bin/sh
+exec ${pkgs.python3}/bin/python3 $out/share/pybonsai/main.py "\$@"
+EOF
 
       chmod +x $out/bin/pybonsai
     '';
