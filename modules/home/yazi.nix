@@ -105,15 +105,17 @@
       { on = [ "z" ], run = "plugin zoxide", desc = "Jump to a directory using zoxide" },
       { on = [ "Z" ], run = "plugin fzf", desc = "Jump to a directory or reveal a file using fzf" },
       
-      # Quick Look with space bar, Tab for selection, p for peek/properties
+      # Quick Look with space bar, Tab for selection, = for peek/properties
       { on = [ "<Space>" ], run = "shell 'qlmanage -p \"$0\" > /dev/null 2>&1' --orphan", desc = "Preview with Quick Look (macOS)" },
       { on = [ "<Tab>" ], run = "toggle", desc = "Toggle selection" },
-      { on = [ "p" ], run = "peek", desc = "Peek (show properties)" },
+      { on = [ "=" ], run = "peek", desc = "Peek (show properties)" },
       
       # Custom "g" shortcuts for quick directory access
-      { on = [ "g", "r" ], run = "cd ~/repos", desc = "Go to repos" },
+      { on = [ "g", "r" ], run = 'cd "~/repos"', desc = "Go to repos" },
       { on = [ "g", "a" ], run = 'cd "~/OneDrive - BMW Group/_FG-464 Gruppe/ADPnext"', desc = "Go to ADP.next" },
-      { on = [ "g", "D" ], run = "cd ~/Documents", desc = "Go to Documents" },
+      { on = [ "g", "D" ], run = 'cd "~/Documents"', desc = "Go to Documents" },    
+      { on = [ "g", "D" ], run = 'cd "~/Downloads"', desc = "Go to Downloads" }, 
+      { on = [ "g", "D" ], run = 'cd "~/OneDrive-BMWGroup/Capgemini/Capgemini POs"', desc = "Go to Capgemini POs" },     
     ]
   '';
   
