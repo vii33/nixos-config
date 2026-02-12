@@ -19,9 +19,11 @@ in
     python3
     uv
     bun           # Bun runtime with npm compatibility (needed for Mason)
+    tree-sitter   # Tree-sitter CLI (required by nvim-treesitter)
     imagemagick   # Image manipulation tool
-    cargo         # Rust package manager // needed for panerau installation
-    rustc         # Rust compiler // needed for panerau installation
+    lazygit        # Terminal UI for git commands
+    #cargo         # Rust package manager // needed for panerau installation
+    #rustc         # Rust compiler // needed for panerau installation
     #warpd         # Modal keyboard-driven mouse pointer control
   ];
 
@@ -39,12 +41,11 @@ in
 
     ../../modules/home/fish-shell.nix
     ../../modules/home/kitty.nix
-    #../../modules/home/nixvim/nixvim.nix
-    #../../modules/home/nixvim/lazyvim.nix
-    #../../modules/home/darwin/paneru.nix
     ../../modules/home/yazi.nix
     ../../modules/home/darwin/capslock-to-f18.nix
     ../../modules/home/darwin/aldente-autostart.nix
+    #../../modules/home/nixvim/nixvim.nix
+    #../../modules/home/nixvim/lazyvim.nix
     #../../modules/home/warpd.nix
     #../../modules/home/darwin/paneru.nix
   ];

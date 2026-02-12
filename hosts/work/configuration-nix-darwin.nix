@@ -66,7 +66,7 @@ in
     dock = {
       autohide = false;
       show-recents = false;
-      tilesize = 32;
+      tilesize = 36;
       orientation = "bottom";
       # Hot Corners
       wvous-tr-corner = 12;   # enum: Show open apps
