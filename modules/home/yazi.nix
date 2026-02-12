@@ -114,8 +114,8 @@
       { on = [ "g", "r" ], run = 'cd "~/repos"', desc = "Go to repos" },
       { on = [ "g", "a" ], run = 'cd "~/OneDrive - BMW Group/_FG-464 Gruppe/ADPnext"', desc = "Go to ADP.next" },
       { on = [ "g", "D" ], run = 'cd "~/Documents"', desc = "Go to Documents" },    
-      { on = [ "g", "D" ], run = 'cd "~/Downloads"', desc = "Go to Downloads" }, 
-      { on = [ "g", "D" ], run = 'cd "~/OneDrive-BMWGroup/Capgemini/Capgemini POs"', desc = "Go to Capgemini POs" },     
+      { on = [ "g", "d" ], run = 'cd "~/Downloads"', desc = "Go to Downloads" }, 
+      { on = [ "g", "p" ], run = 'cd "~/OneDrive - BMWGroup/Capgemini/Capgemini POs"', desc = "Go to Capgemini POs" },     
     ]
   '';
   
