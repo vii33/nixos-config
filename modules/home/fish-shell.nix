@@ -91,6 +91,8 @@ in
       # Applications
       nv = "nvim";
       cop = "github-copilot-cli";
+      coclaude = "copilot --model claude-sonnet-4.5";
+      cocodex = "copilot --model gpt-5.3-codex";
       bs = "pybonsai -w 0.04";
 
       # Mac OS
