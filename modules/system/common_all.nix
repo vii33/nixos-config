@@ -19,5 +19,6 @@
     fd
     bat
     git
+    gh
   ];
 }

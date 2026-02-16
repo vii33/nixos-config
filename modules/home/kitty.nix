@@ -7,6 +7,11 @@
     enable = true;
     package = pkgs.kitty;
     themeFile = "tokyo_night_storm";
+
+    # Override theme foreground to pure white.
+    extraConfig = ''
+      foreground #ffffff
+    '';
     
     # Shell configuration
     shellIntegration.enableFishIntegration = true;
@@ -31,7 +36,7 @@
       italic_font = "JetBrainsMono Nerd Font Italic";
       bold_italic_font = "JetBrainsMono Nerd Font Bold Italic";
       
-      font_size = "11.0";
+      font_size = "12.0";
       disable_ligatures = "never";
 
       # Better line spacing 
@@ -42,11 +47,17 @@
       macos_option_as_alt = "yes";
       macos_quit_when_last_window_closed = "yes";
       macos_thicken_font = "0";
+      # Needed for macOS "press Ctrl twice" dictation shortcut to work reliably.
+      # Docs: https://sw.kovidgoyal.net/kitty/conf/#opt-kitty.macos_secure_keyboard_entry
+      macos_secure_keyboard_entry = "no";
 
       # Tab bar (minimal style to match terminal aesthetic)
       tab_bar_edge = "top";
       tab_bar_style = "powerline";
       tab_powerline_style = "slanted";
+      # Show: tab index, current directory (last path segment), and current title (usually active app/command)
+      tab_title_template = "{index}: {title} /{tab.tive_wd.split('/')[-1]}";
+      active_tab_title_template = "{index}: {title} /{tab.active_wd.split('/')[-1]}";
       
       # Performance tuning
       repaint_delay = 10;
@@ -69,7 +80,7 @@
       confirm_os_window_close = 1;  # Ask for confirmation when closing windows with running processes
       
       # Background image
-      background_image = "/Users/Q449608/Documents/bmw-small.png";
+      background_image = "${config.home.homeDirectory}/Documents/bmw-terminal-small.jpg";
       background_image_layout = "cscaled";
       background_tint = 0.98;
 
