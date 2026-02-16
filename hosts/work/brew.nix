@@ -42,6 +42,7 @@
       
       # DEV #####################################################
       "kitty"             # Terminal emulator
+      "ghostty"
       "bruno"             # API client / Alternative: insomnio
       "docker-desktop"
       "cyberduck"         # FTP/S3 client

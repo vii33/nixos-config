@@ -66,7 +66,7 @@ Each host's `default.nix` file directly imports the modules it needs and inline 
 
 ## Keyboard Shortcuts
 
-See [docs/shortcuts.md](docs/shortcuts.md) for a complete list of keyboard shortcuts and shell abbreviations for Fish shell, Kitty terminal, and FZF. Neovim/LazyVim-specific shortcuts (Outline, Harpoon2, Buffers, etc.) are in [docs/neovim-shortcuts.md](docs/neovim-shortcuts.md).
+See `docs/keyboard-shortcuts/` for Fish shell, Kitty, Ghostty, and other shortcut references. Neovim/LazyVim-specific shortcuts are in [docs/keyboard-shortcuts/neovim-shortcuts.md](docs/keyboard-shortcuts/neovim-shortcuts.md).
 
 
 
@@ -99,7 +99,7 @@ darwin-rebuild build --flake .#work
 sudo env "PATH=$PATH" ./result/activate
 
 # Check configuration for errors (all hosts)
-nix flake check
+nix flake check --no-build
 
 # Show what would change without building
 darwin-rebuild check --flake .#work
