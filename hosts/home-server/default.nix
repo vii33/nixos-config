@@ -6,7 +6,7 @@
     [
       inputs.home-manager.nixosModules.home-manager
       ./configuration.nix
-      # hardware-configuration.nix
+      ./hardware-configuration.nix
 
       # Common configuration
       ../../modules/system/common_all.nix
