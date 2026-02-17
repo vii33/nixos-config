@@ -26,6 +26,7 @@
       #"bitwarden"        # TODO: Check if auto-updates work with brew version
       #"spotify"
       "drawio"
+      "kap"               # GIF recorder
       "rectangle"         # Window Management // Alternative: tiles
       "soundanchor"       # Pin sound output
       #"karabiner-elements"# Keyboard remapping
