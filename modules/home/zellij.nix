@@ -8,25 +8,199 @@
     pkgs.zellij
   ];
 
-  home.file.".config/zellij/config.kdl".text = ''
-    default_layout "startup"
-    theme "tokyo-night"
-  '';
+  home.file.".config/zellij/config.kdl" = {
+    force = true;
+    text = ''
+      default_layout "startup"
+      theme "tokyo-night-dark-white"
+      default_shell "${pkgs.fish}/bin/fish"
 
-  home.file.".config/zellij/layouts/startup.kdl".text = ''
-    layout {
-      tab name="yazi" {
-        pane name="default" focus=true
-        pane command="yazi"
+      ui {
+        pane_frames {
+          rounded_corners true
+          // Hide the "Zellij (session-name)" prefix from the tab bar.
+          hide_session_name true
+        }
       }
-      tab name="agent1" {
-        pane name="agent1" focus=true
-        pane name="agent2" command="copilot"
+
+      // Based on Zellij's built-in tokyo-night-dark theme, but with pure white text.
+      themes {
+        tokyo-night-dark-white {
+          text_unselected {
+            base 255 255 255
+            background 26 27 38
+            emphasis_0 255 158 100
+            emphasis_1 42 195 222
+            emphasis_2 158 206 106
+            emphasis_3 187 154 247
+          }
+          text_selected {
+            base 255 255 255
+            background 56 62 90
+            emphasis_0 255 158 100
+            emphasis_1 42 195 222
+            emphasis_2 158 206 106
+            emphasis_3 187 154 247
+          }
+          ribbon_unselected {
+            base 56 62 90
+            background 169 177 214
+            emphasis_0 249 51 87
+            emphasis_1 255 255 255
+            emphasis_2 122 162 247
+            emphasis_3 187 154 247
+          }
+          ribbon_selected {
+            base 56 62 90
+            background 158 206 106
+            emphasis_0 249 51 87
+            emphasis_1 255 158 100
+            emphasis_2 187 154 247
+            emphasis_3 122 162 247
+          }
+          table_title {
+            base 158 206 106
+            background 0
+            emphasis_0 255 158 100
+            emphasis_1 42 195 222
+            emphasis_2 158 206 106
+            emphasis_3 187 154 247
+          }
+          table_cell_unselected {
+            base 255 255 255
+            // background 56 62 90
+            background 26 27 38
+            emphasis_0 255 158 100
+            emphasis_1 42 195 222
+            emphasis_2 158 206 106
+            emphasis_3 187 154 247
+          }
+          table_cell_selected {
+            base 255 255 255
+            // background 26 27 38
+            background 56 62 90
+            emphasis_0 255 158 100
+            emphasis_1 42 195 222
+            emphasis_2 158 206 106
+            emphasis_3 187 154 247
+          }
+          list_unselected {
+            base 255 255 255
+            // background 56 62 90
+            background 26 27 38
+            emphasis_0 255 158 100
+            emphasis_1 42 195 222
+            emphasis_2 158 206 106
+            emphasis_3 187 154 247
+          }
+          list_selected {
+            base 255 255 255
+            // background 26 27 38
+            background 56 62 90
+            emphasis_0 255 158 100
+            emphasis_1 42 195 222
+            emphasis_2 158 206 106
+            emphasis_3 187 154 247
+          }
+          frame_selected {
+            base 158 206 106
+            background 0
+            emphasis_0 255 158 100
+            emphasis_1 42 195 222
+            emphasis_2 187 154 247
+            emphasis_3 0
+          }
+          frame_highlight {
+            base 255 158 100
+            background 0
+            emphasis_0 187 154 247
+            emphasis_1 255 158 100
+            emphasis_2 255 158 100
+            emphasis_3 255 158 100
+          }
+          exit_code_success {
+            base 158 206 106
+            background 0
+            emphasis_0 42 195 222
+            emphasis_1 56 62 90
+            emphasis_2 187 154 247
+            emphasis_3 122 162 247
+          }
+          exit_code_error {
+            base 249 51 87
+            background 0
+            emphasis_0 224 175 104
+            emphasis_1 0
+            emphasis_2 0
+            emphasis_3 0
+          }
+          multiplayer_user_colors {
+            player_1 187 154 247
+            player_2 122 162 247
+            player_3 0
+            player_4 224 175 104
+            player_5 42 195 222
+            player_6 0
+            player_7 249 51 87
+            player_8 0
+            player_9 0
+            player_10 0
+          }
+        }
       }
-      tab name="editor" {
-        pane name="editor" focus=true
-        pane name="editor2" command="nvim"
+
+       keybinds {
+         normal {
+           bind "Alt t" { NewTab; }
+           bind "Alt w" { CloseTab; }
+           bind "Alt a" { GoToNextTab; }
+           bind "Alt j" { MoveFocus "Down"; }
+           bind "Alt k" { MoveFocus "Up"; }
+           bind "Alt 1" { GoToTab 1; }
+           bind "Alt 2" { GoToTab 2; }
+           bind "Alt 3" { GoToTab 3; }
+           bind "Alt 4" { GoToTab 4; }
+          bind "Alt 5" { GoToTab 5; }
+         }
+         shared_except "locked" {
+           // Swap-layout navigation: use umlaut keys instead of [ and ].
+           bind "Alt ö" { PreviousSwapLayout; }
+           bind "Alt ä" { NextSwapLayout; }
+         }
+       }
+     '';
+   };
+
+  home.file.".config/zellij/layouts/startup.kdl" = {
+    force = true;
+    text = ''
+      layout {
+        default_tab_template {
+          pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+          }
+          children
+          pane size=2 borderless=true {
+            plugin location="zellij:status-bar"
+          }
+        }
+
+        tab name="User" focus=true {
+          pane name="terminal" focus=true
+          pane command="yazi"
+        }
+        tab name="nvim" {
+          pane
+          }
+        tab name="agent" {
+          pane command="${pkgs.fish}/bin/fish" {
+            args "-c" "cd ~/repos/nixos-config && copilot"
+          }
+          pane command="${pkgs.fish}/bin/fish" {
+            args "-c" "cd ~/repos/nixos-config && copilot"
+          }
+        }
       }
-    }
-  '';
+    '';
+  };
 }
