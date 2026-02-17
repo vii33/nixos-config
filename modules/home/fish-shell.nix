@@ -21,6 +21,7 @@ in
   home.sessionPath = lib.optionals isDarwin [
     "/opt/homebrew/bin"
     "/opt/homebrew/sbin"
+    "/Applications/Ghostty.app/Contents/MacOS" # Ghostty CLI (e.g. `ghostty +list-themes`)
     "$HOME/.cargo/bin"
   ];
 
@@ -90,7 +91,7 @@ in
       
       # Applications
       nv = "nvim";
-      cop = "github-copilot-cli";
+      cop = "copilot";
       coclaude = "copilot --model claude-sonnet-4.5";
       cocodex = "copilot --model gpt-5.3-codex";
       bs = "pybonsai -w 0.04";
