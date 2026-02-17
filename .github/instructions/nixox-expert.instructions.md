@@ -40,5 +40,5 @@ This repository is a personal flake-based NixOS configuration; the document belo
 ## Testing
 
 - Rebuild a host: `nixos-rebuild switch --flake .#laptop`, `.#home-server`, or `.#work`.
-- Test changes with `nix flake check`
+- Test changes with `nix flake check --no-build`
 ```
