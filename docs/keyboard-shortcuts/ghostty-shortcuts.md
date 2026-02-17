@@ -2,6 +2,9 @@
 
 These keyboard shortcuts are configured in `modules/home/ghostty.nix`.
 
+> Note: Tab/split keybindings are currently **disabled** (commented out) because Zellij handles tabs/panes.
+> macOS: Ghostty is configured with `macos-option-as-alt = left` so **Left Option** acts as `Alt`.
+
 ## Tab Management
 
 | Key | Action |
@@ -39,4 +42,3 @@ These keyboard shortcuts are configured in `modules/home/ghostty.nix`.
 | `Ctrl + Shift + +` | increase font size |
 | `Ctrl + Shift + -` | decrease font size |
 | `Ctrl + Shift + 0` | reset font size |
-

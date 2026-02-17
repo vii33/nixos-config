@@ -274,7 +274,7 @@ The Nix daemon is managed by nix-darwin, so system rebuilds will update it as ne
 nix flake update
 
 # 2. Check what will change
-nix flake check
+nix flake check --no-build
 
 # 3. Rebuild system
 sudo nixos-rebuild switch --flake .#laptop
@@ -290,7 +290,7 @@ sudo nix-collect-garbage --delete-older-than 30d
 nix flake update
 
 # 2. Check what will change
-nix flake check
+nix flake check --no-build
 
 # 3. Rebuild system (includes Homebrew auto-update)
 darwin-rebuild switch --flake .#work
@@ -342,7 +342,7 @@ brew outdated --cask
 
 ```bash
 # Check for syntax errors
-nix flake check
+nix flake check --no-build
 
 # Build without switching
 darwin-rebuild build --flake .#work

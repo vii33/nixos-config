@@ -68,6 +68,14 @@ Each host's `default.nix` file directly imports the modules it needs and inline 
 
 See `docs/keyboard-shortcuts/` for Fish shell, Kitty, Ghostty, and other shortcut references. Neovim/LazyVim-specific shortcuts are in [docs/keyboard-shortcuts/neovim-shortcuts.md](docs/keyboard-shortcuts/neovim-shortcuts.md).
 
+### Ghostty: list themes
+
+On macOS (Homebrew cask), `ghostty` may not be on your `PATH`. To list the bundled themes:
+
+```bash
+/Applications/Ghostty.app/Contents/MacOS/ghostty +list-themes
+```
+
 
 
 ## Usage
