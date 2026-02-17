@@ -43,6 +43,7 @@ in
     ../../modules/home/kitty.nix
     ../../modules/home/ghostty.nix
     ../../modules/home/yazi.nix
+    ../../modules/home/zellij.nix
     ../../modules/home/darwin/capslock-to-f18.nix
     ../../modules/home/darwin/aldente-autostart.nix
     #../../modules/home/nixvim/nixvim.nix
