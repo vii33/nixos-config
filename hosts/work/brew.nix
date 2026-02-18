@@ -39,6 +39,7 @@
       "raycast"           # Spotlight replacement // Alternative: alfred
       "macs-fan-control"  # Fan conrol for Mac Notebooks
       "mac-mouse-fix"     # Mouse gestures
+      "phoenix-slides"    # Image Viewer
       #"linearmouse"    
       
       # DEV #####################################################
