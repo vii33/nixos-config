@@ -29,6 +29,15 @@ yazi ~/path   # Open in specific directory
 - `g` then `Space` — Cd to a directory or reveal a file via interactive prompt
 - `.` — Toggle hidden files
 
+### Custom `g` Shortcuts (nixos-config)
+- `g` then `r` — Go to `~/repos`
+- `g` then `a` — Go to ADP.next (OneDrive)
+- `g` then `o` — Go to OneDrive
+- `g` then `D` — Go to `~/Documents`
+- `g` then `s` — Go to `~/Documents/Screenshots`
+- `g` then `d` — Go to `~/Downloads`
+- `g` then `p` — Go to Capgemini POs (OneDrive)
+
 ## File Operations
 
 ### Selection
