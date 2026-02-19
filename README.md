@@ -7,6 +7,7 @@ Personal NixOS configuration for multiple hosts, including MacOS.
 This repo has two specialities: 
 - First, it uses a simple modular architecture where hosts directly import reusable modules, enabling clean config organization across multiple machines.
 - Second, it employs LazyVim for the Neovim setup, allowing quick customization of plugins and settings via lua files - without needing to rebuild your whole NixOS config each time you change a keyboard shortcut.
+- Secrets management via **sops-nix** (see [docs/secrets.md](docs/secrets.md)).
 
 The laptop configuration includes **niri**, a scrollable-tiling Wayland compositor, available alongside KDE Plasma 6. You can test niri as an alternative session while keeping KDE as the default. See [docs/niri-testing-with-kde.md](docs/niri-testing-with-kde.md) for testing instructions or [docs/niri-setup.md](docs/niri-setup.md) for full details. 
 
@@ -103,7 +104,7 @@ sudo nixos-rebuild dry-run --flake .#laptop
 sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
 
 # Or build first, then activate separately:
-darwin-rebuild build --flake .#work
+darwin-rebuild build --flake .#work --impure
 sudo env "PATH=$PATH" ./result/activate
 
 # Check configuration for errors (all hosts)
@@ -116,14 +117,9 @@ darwin-rebuild check --flake .#work
 **First-time setup:** The first time you set up nix-darwin on a new macOS system, follow these steps:
 
 ```bash
-# 1. Create local-config.nix from the example and customize it:
-cp local-config.nix.example local-config.nix
-# Edit local-config.nix with your username
-
-# 2. Make local-config.nix visible to the flake (without committing it):
-git add --force --intent-to-add local-config.nix
-# Hide it from git status to avoid accidentally staging it:
-git update-index --assume-unchanged local-config.nix
+# 1. (Optional) If needed, set your macOS username explicitly:
+#    (Evaluation uses $MACOS_USERNAME, then $USER/$LOGNAME, then basename($HOME).)
+export MACOS_USERNAME="your-macos-username"
 
 # 3. Install Homebrew (if using brew.nix):
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -131,7 +127,7 @@ git update-index --assume-unchanged local-config.nix
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # 4. Build the system configuration:
-darwin-rebuild build --flake .#work
+darwin-rebuild build --flake .#work --impure
 
 # 5. Activate with sudo (passing PATH for brew): -- not sure if this is needed, last time was a package bug
 sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
@@ -153,7 +149,7 @@ Home Manager just updates user-level managed packages, mostly dotfile configs.
 
 ```bash
 # Update Home Manager configuration only (no sudo needed!)
-home-manager --flake .#work switch
+home-manager --flake .#work switch --impure
 
 # This updates dotfiles (kitty, fish, etc.) without rebuilding the system
 # Use this for quick user-level config changes

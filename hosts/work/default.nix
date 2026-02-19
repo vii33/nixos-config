@@ -1,10 +1,7 @@
 # ./hosts/work/default.nix
 # macOS (darwin) host composition
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, macosUsername, ... }:
 
-let
-  localConfig = import ../../local-config.nix;
-in
 {
   imports = [  
     # Only System level modules here! Home manager further down. Home Manager modules must be imported at user level
@@ -34,11 +31,12 @@ in
   home-manager.extraSpecialArgs = { 
     inherit (config._module.specialArgs) pkgs-unstable;
     inherit inputs;
-    inherit localConfig;
+    inherit macosUsername;
   };
   home-manager.sharedModules = [
+    inputs.sops-nix.homeManagerModules.sops
     #inputs.nixvim.homeManagerModules.nixvim
- 
+  
     ../../modules/home/fish-shell.nix
     ../../modules/home/kitty.nix
     ../../modules/home/ghostty.nix
@@ -53,7 +51,7 @@ in
   ];
   
   # Home Manager imports for main user
-  home-manager.users.${localConfig.macosUsername}.imports = [ 
+  home-manager.users.${macosUsername}.imports = [ 
     ../../home/vii/home-darwin.nix 
   ];
 

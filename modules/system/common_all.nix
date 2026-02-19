@@ -20,5 +20,7 @@
     bat
     git
     gh
+    sops
+    age
   ];
 }

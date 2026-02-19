@@ -81,6 +81,7 @@ in
     shellAbbrs = {
       # Terminal
       tree = "eza --tree --level 2 --git-ignore";
+      zz = "zellij attach -c main";
       
       # NixOS
       nodry = "nh os dry-run ~/nixos-config/flake.nix -H laptop";
@@ -97,8 +98,8 @@ in
       bs = "pybonsai -w 0.04";
 
       # Mac OS
-      workbuild = "home-manager switch --flake ~/repos/nixos-config/.#work";
-      workswitch = "sudo env \"PATH=$PATH\" /run/current-system/sw/bin/darwin-rebuild switch --flake ~/repos/nixos-config/.#work";
+      workbuild = "home-manager switch --flake ~/repos/nixos-config/.#work --impure";
+      workswitch = "cd ~/repos/nixos-config; and darwin-rebuild build --flake .#work --impure; and sudo env \"PATH=$PATH\" ./result/activate";
       proxyrestart = "launchctl kickstart -k -p \"gui/$(id -u)/cc.colorto.proxydetox\"";
 
       # Kitty

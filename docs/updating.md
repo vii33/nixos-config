@@ -76,7 +76,8 @@ sudo nixos-rebuild switch --flake .#home-server
 
 **For nix-darwin host:**
 ```bash
-darwin-rebuild switch --flake .#work
+darwin-rebuild build --flake .#work --impure
+sudo env "PATH=$PATH" ./result/activate
 ```
 
 ### Step 4: Commit Changes
@@ -345,10 +346,10 @@ brew outdated --cask
 nix flake check --no-build
 
 # Build without switching
-darwin-rebuild build --flake .#work
+darwin-rebuild build --flake .#work --impure
 
 # View detailed error messages
-darwin-rebuild switch --flake .#work --show-trace
+sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work --show-trace
 ```
 
 ### If Homebrew conflicts occur

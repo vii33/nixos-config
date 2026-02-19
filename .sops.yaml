@@ -1,0 +1,19 @@
+# SOPS configuration for this repo.
+# - Public keys (age recipients) are safe to commit.
+# - Replace the placeholder age recipient(s) with your own.
+#
+# Quickstart:
+#   # If age-keygen isn't in PATH yet:
+#   nix shell nixpkgs#age -c age-keygen -o ~/.config/sops/age/keys.txt
+#   nix shell nixpkgs#age -c age-keygen -y ~/.config/sops/age/keys.txt
+#   # paste the public key below, then:
+#   sops secrets/secrets.yaml
+
+keys:
+  - &primary_age age190ale5eaf43wtyrt8x36dgf3mx7ppynevprf0j5yv9xggkzkcu7spjk5zz
+
+creation_rules:
+  - path_regex: secrets/secrets\.ya?ml$
+    key_groups:
+      - age:
+          - *primary_age

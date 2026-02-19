@@ -1,17 +1,14 @@
 # ./hosts/work/configuration-nix-darwin.nix
 # Basic nix-darwin configuration for macOS work host
 # Settings: https://nix-darwin.github.io/nix-darwin/manual/index.html
-{ config, pkgs, ... }:
+{ config, pkgs, macosUsername, ... }:
 
-let
-  localConfig = import ../../local-config.nix;
-in
 {
   # Set the system architecture for this macOS host
   nixpkgs.hostPlatform = "aarch64-darwin";  # Apple Silicon (change to "x86_64-darwin" for Intel)
 
   # Set primary user for nix-darwin
-  system.primaryUser = localConfig.macosUsername;
+  system.primaryUser = macosUsername;
 
   # Startup
   system.startup.chime = false;  # Disable startup chime for quieter boot

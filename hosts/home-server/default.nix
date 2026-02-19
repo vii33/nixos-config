@@ -25,6 +25,7 @@
   home-manager.extraSpecialArgs = { inherit (config._module.specialArgs) pkgs-unstable; };
   home-manager.sharedModules =
     [
+      inputs.sops-nix.homeManagerModules.sops
     ];
   home-manager.users.vii.imports = [ ../../home/vii/home-linux.nix ];
 

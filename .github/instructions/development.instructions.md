@@ -106,7 +106,7 @@ Common patterns to avoid:
 **IMPORTANT**: When suggesting rebuild commands for macOS, ALWAYS use the full command with sudo and full path:
 
 ```bash
-darwin-rebuild build --flake .#work
+darwin-rebuild build --flake .#work --impure
 sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
 ```
 
@@ -127,4 +127,3 @@ sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .
 - **File Naming**: Avoid naming Lua spec files exactly the same as the plugin module they configure. Do a `-config.lua`suffix instead.
   - **Bad**: `render-markdown.lua` (conflicts with `require("render-markdown")`)
   - **Good**: `render-markdown-config.lua`
-

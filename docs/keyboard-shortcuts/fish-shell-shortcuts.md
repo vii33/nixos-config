@@ -11,6 +11,8 @@ These shell abbreviations are configured in `modules/home/fish-shell.nix`.
 | `noswitch` | `nh os switch --flake .#laptop` | Apply changes & set as default boot |
 | `noclean` | `nh clean all --keep-since 3d --keep 3` | Cleanup old generations |
 | `nosearch` | `nh search` | Fast package search |
+| `workbuild` | `home-manager switch --flake ~/repos/nixos-config/.#work --impure` | macOS user-level update |
+| `workswitch` | `cd ~/repos/nixos-config; and darwin-rebuild build --flake .#work --impure; and sudo env "PATH=$PATH" ./result/activate` | macOS system rebuild (build+activate) |
 
 ## Fish Shell Keyboard Shortcuts
 

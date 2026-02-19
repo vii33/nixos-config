@@ -20,6 +20,10 @@
       url = "github:nix-community/nixvim/nixos-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     niri = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,8 +40,14 @@
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, 
-              nix-darwin, nixvim, niri, paneru, kanagawa-yazi, ... }@inputs:
-  {
+              nix-darwin, nixvim, sops-nix, niri, paneru, kanagawa-yazi, ... }@inputs:
+  let
+    macosUsername =
+      let u = builtins.getEnv "MACOS_USERNAME";
+          home = builtins.getEnv "HOME";
+          homeUser = if home != "" then builtins.baseNameOf home else "";
+      in if u != "" then u else if homeUser != "" then homeUser else "vii";
+  in {
     nixosConfigurations = {
 
       laptop = nixpkgs.lib.nixosSystem {
@@ -49,7 +59,10 @@
             config.allowUnfree = true;
           };
         };
-        modules = [ ./hosts/laptop/default.nix ];
+        modules = [
+          inputs.sops-nix.nixosModules.sops
+          ./hosts/laptop/default.nix
+        ];
       };
 
       home-server = nixpkgs.lib.nixosSystem {
@@ -61,7 +74,10 @@
             config.allowUnfree = true;
           };
         };
-        modules = [ ./hosts/home-server/default.nix ];
+        modules = [
+          inputs.sops-nix.nixosModules.sops
+          ./hosts/home-server/default.nix
+        ];
       };
     };
 
@@ -70,12 +86,16 @@
         system = "aarch64-darwin";  # Apple silicon
         specialArgs = { 
           inherit inputs;
+          inherit macosUsername;
           pkgs-unstable = import nixpkgs-unstable {
             system = "aarch64-darwin";
             config.allowUnfree = true;
           };
         };
-        modules = [ ./hosts/work/default.nix ];
+        modules = [
+          inputs.sops-nix.darwinModules.sops
+          ./hosts/work/default.nix
+        ];
       };
     };
 
@@ -92,16 +112,16 @@
           inherit system;
           config.allowUnfree = true;
         };
-        localConfig = import ./local-config.nix;
 
       in home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = { 
-          inherit inputs pkgs-unstable localConfig;
+          inherit inputs pkgs-unstable macosUsername;
         };
         modules = [
+           inputs.sops-nix.homeManagerModules.sops
            ./home/vii/home-darwin.nix
- 
+  
            ./modules/home/fish-shell.nix
            ./modules/home/kitty.nix
            ./modules/home/ghostty.nix
