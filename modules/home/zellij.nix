@@ -189,15 +189,26 @@
           pane name="terminal" focus=true
           pane command="yazi"
         }
-        tab name="nvim" {
-          pane
-          }
+
         tab name="agent" {
           pane command="${pkgs.fish}/bin/fish" {
-            args "-c" "cd ~/repos/nixos-config && copilot"
+            args "-c" "cd ~/repos/nixos-config && copilot --allow-tool \"write\" --allow-tool \"bunx\" --allow-tool \"sleep\" --allow-tool \"ls\" --allow-tool \"mkdir\""
           }
           pane command="${pkgs.fish}/bin/fish" {
-            args "-c" "cd ~/repos/nixos-config && copilot"
+            args "-c" "cd ~/repos/nixos-config && copilot --allow-tool \"write\" --allow-tool \"bunx\" --allow-tool \"sleep\" --allow-tool \"ls\" --allow-tool \"mkdir\""
+          }
+        }
+
+        tab name="nvim" {
+          pane command="nvim"
+        }
+
+        tab name="ask" {
+          pane name="gpt 5.2" command="${pkgs.fish}/bin/fish" {
+            args "-c" "cd ~/repos/ask && copilot --model gpt-5.2"
+          }
+          pane name="opus 4.6" command="${pkgs.fish}/bin/fish" {
+            args "-c" "cd ~/repos/ask && copilot --model claude-opus-4.6"
           }
         }
       }
