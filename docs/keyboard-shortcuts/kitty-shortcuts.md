@@ -8,11 +8,11 @@ These keyboard shortcuts are configured in `modules/home/kitty.nix`.
 |---|---|
 | `Ctrl + Shift + T` | new tab |
 | `Ctrl + Shift + Q` | close tab |
-| `Alt + T` | new tab |
-| `Alt + W` | close tab |
-| `Alt + H` | previous tab |
-| `Alt + L` | next tab |
-| `Alt + 1-5` | jump to tab 1-5 |
+| `Ctrl + Shift + H` | previous tab |
+| `Ctrl + Shift + L` | next tab |
+| `Ctrl + Shift + 1-5` | jump to tab 1-5 |
+
+> Note: `Alt + ...` is intentionally left unbound in Kitty so Zellij can use it (e.g. `Alt + 1-5`).
 
 ## Window Management
 
@@ -27,8 +27,8 @@ These keyboard shortcuts are configured in `modules/home/kitty.nix`.
 |---|---|
 | `Ctrl + Shift + Ä` | next window |
 | `Ctrl + Shift + Ö` | previous window |
-| `Alt + J` | neighboring window down |
-| `Alt + K` | neighboring window up |
+| `Ctrl + Shift + J` | neighboring window down |
+| `Ctrl + Shift + K` | neighboring window up |
 
 ## Copy & Paste
 

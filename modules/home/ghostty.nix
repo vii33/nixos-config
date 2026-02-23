@@ -22,8 +22,9 @@ in
     # macOS: map ONLY the left Option key to Alt/Meta.
     macos-option-as-alt = left
 
-    # Theme (others: Ayu)
-    theme = TokyoNight
+    # Theme 
+    theme = Monokai Pro Spectrum
+    # others: Ayu, TokyoNight, MonokaiProSpectrum
     
     # Force pure white default text (override theme foreground)
     foreground = ffffff
@@ -34,9 +35,10 @@ in
     keybind = performable:ctrl+c=copy_to_clipboard
     keybind = ctrl+v=paste_from_clipboard
 
-    # Tab management (disabled; superseded by Zellij)
-    # keybind = ctrl+shift+t=new_tab
-    # keybind = ctrl+shift+q=close_tab
+    # Tab management
+    # Note: Zellij is configured to use Alt+... for tabs/panes, so keep Alt+... unbound in Ghostty.
+    keybind = ctrl+shift+t=new_tab
+    keybind = ctrl+shift+q=close_tab
     # keybind = alt+t=new_tab
     # keybind = alt+w=close_tab
     # keybind = alt+h=previous_tab
@@ -68,7 +70,7 @@ in
     window-padding-y = 8
 
     # Font configuration
-    font-family = "JetBrainsMono Nerd Font"
+    font-family = "FiraCode Nerd Font"
     #font-family-bold = "JetBrainsMono Nerd Font Bold"
     #font-family-italic = "JetBrainsMono Nerd Font Italic"
     #font-family-bold-italic = "JetBrainsMono Nerd Font Bold Italic"
@@ -79,7 +81,7 @@ in
     background-image = "${bgImage}"
     background-image-fit = cover
     background-image-position = center
-    background-image-opacity = 0.05
+    background-image-opacity = 0.04
 
     # Transparency (optional; macOS requires restart)
     #background-opacity = 0.96

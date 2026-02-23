@@ -1,5 +1,5 @@
 # ./modules/home/kitty.nix
-# Kitty terminal depends on Fish shell and MesloLG Nerd font
+# Kitty terminal depends on Fish shell and Nerd Font (match Ghostty: FiraCode Nerd Font)
 { config, pkgs, ... }:
 
 {
@@ -26,18 +26,16 @@
       window_padding_width = 8;
       remember_window_size = false;
       
-      # Font configuration
-      #font_family = "MesloLGS Nerd Font Mono";
-      #bold_font = "MesloLGS Nerd Font Mono Bold";
-      #italic_font = "MesloLGS Nerd Font Mono Italic";
-      #bold_italic_font = "MesloLGS Nerd Font Mono Bold Italic";
-      font_family = "JetBrainsMono Nerd Font";  # Using JetBrains as it has ligature support (neovim)
-      bold_font = "JetBrainsMono Nerd Font Bold";
-      italic_font = "JetBrainsMono Nerd Font Italic";
-      bold_italic_font = "JetBrainsMono Nerd Font Bold Italic";
-      
-      font_size = "12.0";
-      disable_ligatures = "never";
+       # Font configuration
+       #font_family = "MesloLGS Nerd Font Mono";
+       #bold_font = "MesloLGS Nerd Font Mono Bold";
+       #italic_font = "MesloLGS Nerd Font Mono Italic";
+       #bold_italic_font = "MesloLGS Nerd Font Mono Bold Italic";
+       font_family = "FiraCode Nerd Font"; # Match Ghostty
+       #font_family = "JetBrainsMono Nerd Font";  # Using JetBrains as it has ligature support (neovim)
+       
+       font_size = "12.0";
+       disable_ligatures = "never";
 
       # Better line spacing 
       modify_font = "cell_height 5px";
@@ -112,17 +110,16 @@
       # Tab management
       "ctrl+shift+t" = "new_tab";
       "ctrl+shift+q" = "close_tab";
-      "alt+t" = "new_tab";
-      "alt+w" = "close_tab";
-      "alt+l" = "next_tab";
-      "alt+h" = "previous_tab";
-      
-      # Jump to specific tabs (Alt+1 through Alt+9)
-      "alt+1" = "goto_tab 1";
-      "alt+2" = "goto_tab 2";
-      "alt+3" = "goto_tab 3";
-      "alt+4" = "goto_tab 4";
-      "alt+5" = "goto_tab 5";
+      # Keep Alt+... unbound so apps like Zellij can use it for their own keybinds.
+      "ctrl+shift+l" = "next_tab";
+      "ctrl+shift+h" = "previous_tab";
+       
+      # Jump to specific tabs (leave Alt+1.. for Zellij)
+      "ctrl+shift+1" = "goto_tab 1";
+      "ctrl+shift+2" = "goto_tab 2";
+      "ctrl+shift+3" = "goto_tab 3";
+      "ctrl+shift+4" = "goto_tab 4";
+      "ctrl+shift+5" = "goto_tab 5";
       
       # Window management
       "ctrl+shift+enter" = "new_window_with_cwd";
@@ -134,8 +131,8 @@
       
       # Window navigation (vim-style)
       #"alt+h" = "neighboring_window left";
-      "alt+j" = "neighboring_window down";
-      "alt+k" = "neighboring_window up";
+      "ctrl+shift+j" = "neighboring_window down";
+      "ctrl+shift+k" = "neighboring_window up";
       #"alt+l" = "neighboring_window right";
       
       # Font size
