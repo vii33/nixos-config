@@ -1,6 +1,6 @@
 # /etc/nixos/home/vii/home-linux.nix
 # Home Manager configuration for Linux (NixOS)
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, gitIdentity ? "personal", ... }:
 
 let
   secretsFile = ../../secrets/secrets.yaml;
@@ -31,16 +31,22 @@ in
 
     # Per-user age key (create via docs/secrets.md)
     age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
-    secrets = {
-      x_api_key = { };
-      x_api_key_secret = { };
-      claude_api_key = { };
-    };
+    secrets =
+      {
+        x_api_key = { };
+        x_api_key_secret = { };
+        claude_api_key = { };
+      }
+      // lib.optionalAttrs (gitIdentity == "work") {
+        git_work_gitconfig = { };
+      };
   };
 
   home.file = lib.mkIf haveSecretsFile {
     ".config/fish/conf.d/90-sops-secrets.fish".text = ''
       # Export secrets via sops-nix managed files (avoid putting values in the Nix store).
+      # Point sops at our age key location (macOS default differs, but safe on Linux too).
+      set -gx SOPS_AGE_KEY_FILE $HOME/.config/sops/age/keys.txt
       set -gx X_API_KEY (string trim < ${config.sops.secrets.x_api_key.path})
       set -gx X_API_KEY_SECRET (string trim < ${config.sops.secrets.x_api_key_secret.path})
       set -gx CLAUDE_API_KEY (string trim < ${config.sops.secrets.claude_api_key.path})

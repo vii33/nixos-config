@@ -111,6 +111,29 @@ When a secret must be rotated:
 2. Update `secrets/secrets.yaml` using `sops secrets/secrets.yaml`.
 3. Rebuild/switch so the decrypted files are updated.
 
+## Git work identity (optional)
+
+If you want your **work Git user.name/user.email** without storing it in the Nix store, add a secret
+named `git_work_gitconfig` containing a gitconfig snippet.
+
+In `secrets/secrets.yaml` (encrypted with sops), the entry should look exactly like this:
+
+```yaml
+git_work_gitconfig: |
+  [user]
+    name = Your Name
+    email = you@company.example
+```
+
+This entire value is written to a plaintext file by sops-nix at activation time, and Home Manager
+adds it via `git config include.path=...`.
+
+```ini
+[user]
+  name = Your Name
+  email = you@company.example
+```
+
 ## Important
 
 - If a secret ever landed in git history (even briefly), rotate it; removing it from the working tree

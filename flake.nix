@@ -115,9 +115,10 @@
 
       in home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = { 
-          inherit inputs pkgs-unstable macosUsername;
-        };
+         extraSpecialArgs = { 
+           inherit inputs pkgs-unstable macosUsername;
+           gitIdentity = "work";
+         };
         modules = [
            inputs.sops-nix.homeManagerModules.sops
            ./home/vii/home-darwin.nix

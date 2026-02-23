@@ -32,6 +32,7 @@
     inherit (config._module.specialArgs) pkgs-unstable;
     inherit inputs;
     inherit macosUsername;
+    gitIdentity = "work";
   };
   home-manager.sharedModules = [
     inputs.sops-nix.homeManagerModules.sops

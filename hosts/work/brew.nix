@@ -13,23 +13,26 @@
     # Brew: terminal tools and packages. Check for further brew options: https://nix-darwin.github.io/nix-darwin/manual/#opt-homebrew.brews
     brews = [
       "neovim"
-      #"pnpm"
       "docker-compose"    # Check installation instructions: https://formulae.brew.sh/formula/docker-compose#default
       "opencode"
+      #"pnpm"
     ];
 
     # Cask: macOS GUI applications
     casks = [
+      
       # UTILS ###################################################
+      
       #"visual-studio-code"  # TODO: Check if auto-updates work with brew version
       #"obsidian"         # TODO: Check if auto-updates work with brew version
       #"bitwarden"        # TODO: Check if auto-updates work with brew version
       #"spotify"
+      
       "drawio"
       "kap"               # GIF recorder
       "rectangle"         # Window Management // Alternative: tiles
       "soundanchor"       # Pin sound output
-      #"karabiner-elements"# Keyboard remapping
+      #"karabiner-elements"# Keyboard remapping // not working due to low leves driver
       "shortcat"          # Control macOS with the keyboard
       #"rocket"           # Emoji picker  // Not needed as done with leader-key and raycast
       "aldente"           # Optimize battery health (80% charge limit) - Alternative: battery (Does not work well with managed MacOS)
@@ -43,6 +46,7 @@
       #"linearmouse"    
       
       # DEV #####################################################
+      
       "kitty"             # Terminal emulator
       "ghostty"
       "bruno"             # API client / Alternative: insomnio
