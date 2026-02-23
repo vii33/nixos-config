@@ -81,7 +81,10 @@ in
     shellAbbrs = {
       # Terminal
       tree = "eza --tree --level 2 --git-ignore";
+      ezatree = "eza -T -a -L 2 --icons";
+      ezal = "eza -lah --icons --git --group-directories-first --header";
       zz = "zellij attach -c main";
+      zellijkill = "zellij kill-all-sessions -y; zellij delete-all-sessions -y";
       
       # NixOS
       nodry = "nh os dry-run ~/nixos-config/flake.nix -H laptop";
@@ -323,6 +326,43 @@ in
       set -l insert_path (string escape -- "$file")
       commandline -i $insert_path
       commandline -f repaint
+    '';
+
+    # Zellij: change copilot's working directory in both tiled panes.
+    # Run from a floating pane: ccd <directory>
+    functions.ccd.body = ''
+      if test (count $argv) -eq 0
+        echo "Usage: ccd <directory>"
+        return 1
+      end
+
+      set -l target_dir $argv[1]
+
+      if not test -d "$target_dir"
+        echo "Error: $target_dir is not a directory"
+        return 1
+      end
+
+      set target_dir (realpath "$target_dir")
+
+      # Hide floating pane → focus moves to tiled layer
+      zellij action toggle-floating-panes
+      sleep 0.3
+
+      for i in 1 2
+        # Send /cwd to change copilot's working directory without restarting
+        zellij action write-chars "/cwd $target_dir"
+        zellij action write 13
+
+        if test $i -lt 2
+          sleep 0.3
+          zellij action focus-next-pane
+        end
+      end
+
+      sleep 0.3
+      # Restore floating pane
+      zellij action toggle-floating-panes
     '';
   };
 }

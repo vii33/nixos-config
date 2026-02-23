@@ -13,6 +13,7 @@ These shell abbreviations are configured in `modules/home/fish-shell.nix`.
 | `nosearch` | `nh search` | Fast package search |
 | `workbuild` | `home-manager switch --flake ~/repos/nixos-config/.#work --impure` | macOS user-level update |
 | `workswitch` | `cd ~/repos/nixos-config; and darwin-rebuild build --flake .#work --impure; and sudo env "PATH=$PATH" ./result/activate` | macOS system rebuild (build+activate) |
+| `zellijkill` | `zellij kill-all-sessions -y; zellij delete-all-sessions -y` | Kill + delete all Zellij sessions (non-interactive) |
 
 ## Fish Shell Keyboard Shortcuts
 
