@@ -101,8 +101,8 @@ in
       bs = "pybonsai -w 0.04";
 
       # Mac OS
-      # Rebuild and detach Zellij so reattach picks up the new config
-      hmswitch = "home-manager switch --flake ~/repos/nixos-config/.#work --impure; and zellij action detach";
+      # Rebuild Home Manager and end the current Zellij session so the next attach starts fresh.
+      hmswitch = "home-manager switch --flake ~/repos/nixos-config/.#work --impure; and if set -q ZELLIJ_SESSION_NAME; zellij delete-session -f $ZELLIJ_SESSION_NAME; else; zellij delete-session -f main; end";
       workswitch = "cd ~/repos/nixos-config; and darwin-rebuild build --flake .#work --impure; and sudo env \"PATH=$PATH\" ./result/activate";
       proxyrestart = "launchctl kickstart -k -p \"gui/$(id -u)/cc.colorto.proxydetox\"";
 

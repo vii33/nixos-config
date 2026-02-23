@@ -50,6 +50,7 @@
       ../../modules/home/nixvim/lazyvim.nix
       ../../modules/home/kde.nix
       ../../modules/home/yazi.nix
+      ../../modules/home/zellij.nix
 
       ../../modules/home/onedriver.nix
 
