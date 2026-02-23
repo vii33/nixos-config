@@ -4,7 +4,7 @@
 
 let
   copilotAgentArgs =
-    "--allow-tool write --allow-tool 'shell(bun:*)' --allow-tool 'shell(bunx:*)' --allow-tool 'shell(nix:flake check*)' --allow-tool 'shell(sleep)' --allow-tool 'shell(ls)' --allow-tool 'shell(mkdir)' --allow-tool 'shell(sed:*)'";
+    "--allow-tool write --allow-tool 'shell(bun:*)' --allow-tool 'shell(bunx:*)' --allow-tool 'shell(nix:*)' --allow-tool 'shell(sleep)' --allow-tool 'shell(ls)' --allow-tool 'shell(mkdir)' --allow-tool 'shell(sed:*)'";
 
   mkCopilotCmd = dir: extraArgs: "cd ${dir} && copilot ${extraArgs}";
 in
@@ -40,23 +40,29 @@ in
        }
 
         keybinds {
-         normal {
-            bind "Alt t" { NewTab; }
-            bind "Alt w" { CloseTab; }
-            bind "Alt a" { GoToNextTab; }
-            bind "Alt j" { MoveFocus "Down"; }
-            bind "Alt k" { MoveFocus "Up"; }
-            bind "Alt 1" { GoToTab 1; }
-            bind "Alt 2" { GoToTab 2; }
-            bind "Alt 3" { GoToTab 3; }
+          normal {
+             bind "Alt t" { NewTab; }
+             bind "Alt w" { CloseTab; }
+             bind "Alt a" { GoToNextTab; }
+             bind "Alt f" { ToggleFloatingPanes; }
+             bind "Alt j" { MoveFocus "Down"; }
+             bind "Alt k" { MoveFocus "Up"; }
+             bind "Alt 1" { GoToTab 1; }
+             bind "Alt 2" { GoToTab 2; }
+             bind "Alt 3" { GoToTab 3; }
             bind "Alt 4" { GoToTab 4; }
            bind "Alt 5" { GoToTab 5; }
           }
           locked {
-            // Allow tab switching even in locked mode (so Ctrl-based shell bindings keep working).
+            // Allow tab switching and pane navigation even in locked mode (so Ctrl-based shell bindings keep working).
             bind "Alt t" { NewTab; }
             bind "Alt w" { CloseTab; }
             bind "Alt a" { GoToNextTab; }
+            bind "Alt f" { ToggleFloatingPanes; }
+            bind "Alt h" { MoveFocus "Left"; }
+            bind "Alt j" { MoveFocus "Down"; }
+            bind "Alt k" { MoveFocus "Up"; }
+            bind "Alt l" { MoveFocus "Right"; }
             bind "Alt 1" { GoToTab 1; }
             bind "Alt 2" { GoToTab 2; }
             bind "Alt 3" { GoToTab 3; }
@@ -217,6 +223,10 @@ in
           pane command="yazi"
         }
 
+        tab name="nvim" {
+          pane command="nvim"
+        }
+
         tab name="agent" {
           pane command="${pkgs.fish}/bin/fish" {
             args "-c" "${mkCopilotCmd "~/repos/nixos-config" copilotAgentArgs}"
@@ -233,10 +243,6 @@ in
           pane name="opus 4.6" command="${pkgs.fish}/bin/fish" {
             args "-c" "${mkCopilotCmd "~/repos/ask" "--model claude-opus-4.6"}"
           }
-        }
-
-        tab name="nvim" {
-          pane command="nvim"
         }
 
         tab name="nixos" {

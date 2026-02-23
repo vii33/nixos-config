@@ -1,6 +1,6 @@
 ## Neovim/LazyVim Shortcuts
 
-Back to the main shortcuts list: see [docs/shortcuts.md](docs/shortcuts.md).
+Back to the main shortcuts list: see [docs/shortcuts.md](../shortcuts.md).
 
 ### Basic Vim Commands
 
