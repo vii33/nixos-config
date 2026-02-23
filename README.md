@@ -175,6 +175,18 @@ This copies all `.lua` files from `modules/home/nixvim/lua-specs/` to `~/.config
 
 The script skips files that already exist, preserving any manual customizations you've made.
 
+##### Zellij: Reloading Config After Rebuild
+
+Zellij doesn't support hot-reloading its configuration. After a Home Manager rebuild, keybindings may stop working because the running session still holds the old (now stale) config. Use the `hmswitch` alias to rebuild and auto-detach:
+
+```bash
+# Rebuild Home Manager and detach from Zellij
+hmswitch
+
+# Then reattach — Zellij reloads the fresh config
+zz
+```
+
 ##### Reloading LaunchAgents
 
 After running `home-manager switch`, some services (like key remapping) need to be reloaded:

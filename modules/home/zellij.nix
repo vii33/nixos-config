@@ -2,6 +2,12 @@
 # Zellij terminal multiplexer configuration (startup layout)
 { pkgs, ... }:
 
+let
+  copilotAgentArgs =
+    "--allow-tool write --allow-tool 'shell(bun:*)' --allow-tool 'shell(bunx:*)' --allow-tool 'shell(nix:flake check*)' --allow-tool 'shell(sleep)' --allow-tool 'shell(ls)' --allow-tool 'shell(mkdir)'";
+
+  mkCopilotCmd = dir: extraArgs: "cd ${dir} && copilot ${extraArgs}";
+in
 {
   # Needed for standalone Home Manager activation (flake homeConfigurations.work).
   home.packages = [
@@ -14,6 +20,8 @@
       default_layout "startup"
       theme "tokyo-night-dark-white"
       default_shell "${pkgs.fish}/bin/fish"
+      // Start in lock mode (toggle with Ctrl+g).
+      default_mode "locked"
 
       ui {
         pane_frames {
@@ -22,6 +30,26 @@
           hide_session_name true
         }
       }
+
+       keybinds {
+         normal {
+           bind "Alt t" { NewTab; }
+           bind "Alt w" { CloseTab; }
+           bind "Alt a" { GoToNextTab; }
+           bind "Alt j" { MoveFocus "Down"; }
+           bind "Alt k" { MoveFocus "Up"; }
+           bind "Alt 1" { GoToTab 1; }
+           bind "Alt 2" { GoToTab 2; }
+           bind "Alt 3" { GoToTab 3; }
+           bind "Alt 4" { GoToTab 4; }
+          bind "Alt 5" { GoToTab 5; }
+         }
+         shared_except "locked" {
+           // Swap-layout navigation: use umlaut keys instead of [ and ].
+           bind "Alt ö" { PreviousSwapLayout; }
+            bind "Alt ä" { NextSwapLayout; }
+          }
+        }
 
       // Based on Zellij's built-in tokyo-night-dark theme, but with pure white text.
       themes {
@@ -148,28 +176,8 @@
           }
         }
       }
-
-       keybinds {
-         normal {
-           bind "Alt t" { NewTab; }
-           bind "Alt w" { CloseTab; }
-           bind "Alt a" { GoToNextTab; }
-           bind "Alt j" { MoveFocus "Down"; }
-           bind "Alt k" { MoveFocus "Up"; }
-           bind "Alt 1" { GoToTab 1; }
-           bind "Alt 2" { GoToTab 2; }
-           bind "Alt 3" { GoToTab 3; }
-           bind "Alt 4" { GoToTab 4; }
-          bind "Alt 5" { GoToTab 5; }
-         }
-         shared_except "locked" {
-           // Swap-layout navigation: use umlaut keys instead of [ and ].
-           bind "Alt ö" { PreviousSwapLayout; }
-           bind "Alt ä" { NextSwapLayout; }
-         }
-       }
-     '';
-   };
+      '';
+    };
 
   home.file.".config/zellij/layouts/startup.kdl" = {
     force = true;
@@ -192,10 +200,10 @@
 
         tab name="agent" {
           pane command="${pkgs.fish}/bin/fish" {
-            args "-c" "cd ~/repos/nixos-config && copilot --allow-tool \"write\" --allow-tool \"bunx\" --allow-tool \"sleep\" --allow-tool \"ls\" --allow-tool \"mkdir\""
+            args "-c" "${mkCopilotCmd "~/repos/nixos-config" copilotAgentArgs}"
           }
           pane command="${pkgs.fish}/bin/fish" {
-            args "-c" "cd ~/repos/nixos-config && copilot --allow-tool \"write\" --allow-tool \"bunx\" --allow-tool \"sleep\" --allow-tool \"ls\" --allow-tool \"mkdir\""
+            args "-c" "${mkCopilotCmd "~/repos/nixos-config" copilotAgentArgs}"
           }
         }
 
@@ -205,10 +213,19 @@
 
         tab name="ask" {
           pane name="gpt 5.2" command="${pkgs.fish}/bin/fish" {
-            args "-c" "cd ~/repos/ask && copilot --model gpt-5.2"
+            args "-c" "${mkCopilotCmd "~/repos/ask" "--model gpt-5.2"}"
           }
           pane name="opus 4.6" command="${pkgs.fish}/bin/fish" {
-            args "-c" "cd ~/repos/ask && copilot --model claude-opus-4.6"
+            args "-c" "${mkCopilotCmd "~/repos/ask" "--model claude-opus-4.6"}"
+          }
+        }
+
+        tab name="nixos" {
+          pane command="${pkgs.fish}/bin/fish" {
+            args "-c" "${mkCopilotCmd "~/repos/nixos-config" copilotAgentArgs}"
+          }
+          pane command="${pkgs.fish}/bin/fish" {
+            args "-c" "${mkCopilotCmd "~/repos/nixos-config" copilotAgentArgs}"
           }
         }
       }

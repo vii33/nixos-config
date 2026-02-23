@@ -101,7 +101,8 @@ in
       bs = "pybonsai -w 0.04";
 
       # Mac OS
-      workbuild = "home-manager switch --flake ~/repos/nixos-config/.#work --impure";
+      # Rebuild and detach Zellij so reattach picks up the new config
+      hmswitch = "home-manager switch --flake ~/repos/nixos-config/.#work --impure; and zellij action detach";
       workswitch = "cd ~/repos/nixos-config; and darwin-rebuild build --flake .#work --impure; and sudo env \"PATH=$PATH\" ./result/activate";
       proxyrestart = "launchctl kickstart -k -p \"gui/$(id -u)/cc.colorto.proxydetox\"";
 
