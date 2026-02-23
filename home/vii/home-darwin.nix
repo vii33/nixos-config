@@ -19,6 +19,11 @@ in
   home.username = macosUsername;
   home.homeDirectory = lib.mkForce "/Users/${macosUsername}";
 
+  # Bun (user-level installs and binaries)
+  home.sessionPath = lib.mkBefore [
+    "$HOME/.bun/bin"
+  ];
+
   # Add home-manager CLI to PATH
   home.packages = with pkgs; [
     home-manager
@@ -30,6 +35,7 @@ in
     CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1";
     DISABLE_COST_WARNINGS = "1";
     COPILOT_CUSTOM_INSTRUCTIONS_DIRS = "$HOME/.copilot/global-instructions";
+    MACOS_USERNAME = macosUsername;
   };
 
   # Secrets (sops-nix)
@@ -43,7 +49,6 @@ in
     # Per-user age key (create via docs/secrets.md)
     age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
     secrets = {
-      macos_username = { };
       x_api_key = { };
       x_api_key_secret = { };
       claude_api_key = { };
@@ -53,8 +58,6 @@ in
   home.file = lib.mkIf haveSecretsFile {
     ".config/fish/conf.d/90-sops-secrets.fish".text = ''
       # Export secrets via sops-nix managed files (avoid putting values in the Nix store).
-      set -gx MACOS_USERNAME (string trim < ${config.sops.secrets.macos_username.path})
-
       # Claude Code:
       set -gx X_API_KEY (string trim < ${config.sops.secrets.x_api_key.path})
       set -gx X_API_KEY_SECRET (string trim < ${config.sops.secrets.x_api_key_secret.path})
