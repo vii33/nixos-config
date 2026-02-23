@@ -226,10 +226,6 @@ in
           }
         }
 
-        tab name="nvim" {
-          pane command="nvim"
-        }
-
         tab name="ask" {
           pane name="gpt 5.2" command="${pkgs.fish}/bin/fish" {
             args "-c" "${mkCopilotCmd "~/repos/ask" "--model gpt-5.2"}"
@@ -237,6 +233,10 @@ in
           pane name="opus 4.6" command="${pkgs.fish}/bin/fish" {
             args "-c" "${mkCopilotCmd "~/repos/ask" "--model claude-opus-4.6"}"
           }
+        }
+
+        tab name="nvim" {
+          pane command="nvim"
         }
 
         tab name="nixos" {
