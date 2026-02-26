@@ -59,14 +59,14 @@
     [filetype]
     rules = [
       # Code files - Blue
-      { mime = "text/x-python", fg = "#7FB4CA" },
-      { mime = "text/javascript", fg = "#7FB4CA" },
-      { mime = "text/x-rust", fg = "#7FB4CA" },
-      { name = "*.ipynb", fg = "#7FB4CA" },
-      { name = "*.nix", fg = "#7FB4CA" },
-      { name = "*.ts", fg = "#7FB4CA" },
-      { name = "*.tsx", fg = "#7FB4CA" },
-      { name = "*.jsx", fg = "#7FB4CA" },
+      { mime = "text/x-python", fg = "#8CCFE0" },
+      { mime = "text/javascript", fg = "#8CCFE0" },
+      { mime = "text/x-rust", fg = "#8CCFE0" },
+      { name = "*.ipynb", fg = "#8CCFE0" },
+      { name = "*.nix", fg = "#8CCFE0" },
+      { name = "*.ts", fg = "#8CCFE0" },
+      { name = "*.tsx", fg = "#8CCFE0" },
+      { name = "*.jsx", fg = "#8CCFE0" },
       
       # Config files - Yellow
       { name = "*.json", fg = "#FFA066" },
@@ -75,26 +75,26 @@
       { name = "*.yml", fg = "#FFA066" },
       
       # Images - Magenta
-      { mime = "image/*", fg = "#9c81c6" },
-      
+      { mime = "image/*", fg = "#B19BF0" },
+       
       # Videos - Magenta (darker)
-      { mime = "video/*", fg = "#8666b8" },
-      
+      { mime = "video/*", fg = "#9C82D8" },
+       
       # Archives - Green
-      { mime = "application/zip", fg = "#98BB6C" },
-      { mime = "application/x-tar", fg = "#98BB6C" },
-      { name = "*.rar", fg = "#98BB6C" },
-      { name = "*.7z", fg = "#98BB6C" },
-      
+      { mime = "application/zip", fg = "#AEDA78" },
+      { mime = "application/x-tar", fg = "#AEDA78" },
+      { name = "*.rar", fg = "#AEDA78" },
+      { name = "*.7z", fg = "#AEDA78" },
+       
       # Documents - Cyan
-      { mime = "application/pdf", fg = "#7AA89F" },
-      { name = "*.md", fg = "#7AA89F" },
-      { name = "*.doc*", fg = "#7AA89F" },
-      { name = "*.xls*", fg = "#7AA89F" },
-      
+      { mime = "application/pdf", fg = "#8FD6C5" },
+      { name = "*.md", fg = "#8FD6C5" },
+      { name = "*.doc*", fg = "#8FD6C5" },
+      { name = "*.xls*", fg = "#8FD6C5" },
+       
       # Executables - Red
-      { name = "*.sh", fg = "#E46876" },
-      { name = "*.fish", fg = "#E46876" },
+      { name = "*.sh", fg = "#F27E89" },
+      { name = "*.fish", fg = "#F27E89" },
     ]
   '';
   
@@ -102,6 +102,15 @@
   home.file.".config/yazi/keymap.toml".text = ''
     [mgr]
     prepend_keymap = [   # Higher priority than default keymap
+      # Smart enter: enter directories, open files (see https://yazi-rs.github.io/docs/tips/)
+      { on = [ "<Enter>" ], run = "plugin smart-enter", desc = "Enter directory / open file" },
+      { on = [ "p" ], run = "plugin smart-paste", desc = "Paste into hovered directory or CWD" },
+
+      # Swap default open keys:
+      # - `o` opens the "open with" context menu
+      # - `O` opens directly with default opener
+      { on = [ "o" ], run = "open --interactive", desc = "Open with..." },
+      { on = [ "O" ], run = "open", desc = "Open" },
       { on = [ "z" ], run = "plugin zoxide", desc = "Jump to a directory using zoxide" },
       { on = [ "Z" ], run = "plugin fzf", desc = "Jump to a directory or reveal a file using fzf" },
       
@@ -120,7 +129,39 @@
       { on = [ "g", "p" ], run = 'cd "~/OneDrive - BMW Group/Capgemini/Capgemini POs"', desc = "Go to Capgemini POs" },     
     ]
   '';
-  
+
+  # Plugins
+  home.file.".config/yazi/plugins/smart-enter.yazi/main.lua".text = ''
+    --- @since 25.5.31
+    --- @sync entry
+    
+    local function setup(self, opts) self.open_multi = opts.open_multi end
+    
+    local function entry(self)
+    	local h = cx.active.current.hovered
+    	ya.emit(h and h.cha.is_dir and "enter" or "open", { hovered = not self.open_multi })
+    end
+    
+    return { entry = entry, setup = setup }
+  '';
+
+  home.file.".config/yazi/plugins/smart-paste.yazi/main.lua".text = ''
+    --- @since 25.5.31
+    --- @sync entry
+    return {
+    	entry = function()
+    		local h = cx.active.current.hovered
+    		if h and h.cha.is_dir then
+    			ya.emit("enter", {})
+    			ya.emit("paste", {})
+    			ya.emit("leave", {})
+    		else
+    			ya.emit("paste", {})
+    		end
+    	end,
+    }
+  '';
+
   # Custom linemode with MM-DD HH:MM for recent files, YYYY-MM-DD for older
   home.file.".config/yazi/init.lua".text = ''
     -- Custom date formatting function
@@ -144,5 +185,8 @@
     function Linemode:btime()
       return strip_date_year(self._file.cha.btime)
     end
+
+    -- Preserve default "open selected" behavior when multiple entries are selected.
+    require("smart-enter"):setup { open_multi = true }
   '';
 }
