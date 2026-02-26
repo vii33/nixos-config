@@ -51,14 +51,14 @@ yazi ~/path   # Open in specific directory
 ### Copy, Cut, Paste
 - `y` — Yank (copy) selected files
 - `x` — Yank (cut) selected files
-- `p` — Paste files
+- `p` — Paste into hovered directory or CWD (smart-paste)
 - `P` — Paste files (overwrite)
 - `Y` or `X` — Cancel the yank status
 
 ### File Management
-- `o` — Open file with default application
-- `O` — Open file interactively (choose application)
-- `Enter` — Open selected files
+- `o` — Open file interactively (choose application)
+- `O` — Open file with default application
+- `Enter` — Enter directory / open file (smart-enter)
 - `Shift+Enter` — Open selected files interactively (some terminals don't support)
 - `Tab` — Show file information
 - `r` — Rename file

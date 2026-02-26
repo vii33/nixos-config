@@ -103,9 +103,13 @@
       "shift+alt+2" = "no_op";
 
       # Easy copy / paste
-
+ 
       "ctrl+c" = "copy_or_interrupt";
       "ctrl+v" = "paste_from_clipboard";
+
+      # Ensure Ctrl+Left/Right reach the shell (word-wise movement) and don't get translated to Esc+b/Esc+f.
+      "ctrl+left" = "send_text all \\x1b[1;5D";
+      "ctrl+right" = "send_text all \\x1b[1;5C";
 
       # Tab management
       "ctrl+shift+t" = "new_tab";

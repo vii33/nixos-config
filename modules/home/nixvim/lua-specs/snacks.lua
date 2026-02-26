@@ -6,6 +6,7 @@ return {
     "folke/snacks.nvim",
     keys = {
       { "<C-<>", function() Snacks.terminal() end, desc = "Toggle Terminal" }, -- Ctrl + <
+      { "<leader>fD", function() require("snacks").dashboard.open() end, desc = "Dashboard" },
     },
   },
 }

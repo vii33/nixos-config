@@ -83,7 +83,8 @@ in
       tree = "eza --tree --level 2 --git-ignore";
       ezatree = "eza -T -a -L 2 --icons";
       ezal = "eza -lah --icons --git --group-directories-first --header";
-      zz = "zellij attach -c main";
+      # Auto-run pane commands when resurrecting a session.
+      zz = "zellij attach -cf main";
       zellijkill = "zellij kill-all-sessions -y; zellij delete-all-sessions -y";
       
       # NixOS
@@ -108,6 +109,10 @@ in
 
       # Kitty
       kittyreload = "kitty @ load-config";
+    };
+
+    shellAliases = {
+      opensops = "env SOPS_AGE_KEY_FILE=\"$HOME/.config/sops/age/keys.txt\" nix shell nixpkgs#sops -c sops \"$HOME/repos/nixos-config/secrets/secrets.yaml\"";
     };
 
     # ShellInit use for fast and non-output things (e.g. path vars)
@@ -245,6 +250,11 @@ in
         bind ctrl-o fun_fzf_file_open
         bind -M insert ctrl-o fun_fzf_file_open
         bind -M visual ctrl-o fun_fzf_file_open
+
+      # Ctrl+E -> fuzzy pick an environment variable and insert "$VARNAME".
+      bind ctrl-e fun_fzf_env_var_insert
+      bind -M insert ctrl-e fun_fzf_env_var_insert
+      bind -M visual ctrl-e fun_fzf_env_var_insert
         '';
 
     # Custom helper function: fzf_bindings
@@ -272,6 +282,33 @@ in
         # Optionally: parse key + command
         # echo "$selection" | read -l key rest; echo "Key: $key"; echo "Command: $rest"
       end
+    '';
+
+    # Custom helper function: Ctrl+E launches an environment variable picker and inserts "$VARNAME".
+    functions.fun_fzf_env_var_insert.body = ''
+      if not type -q fzf
+        echo "fzf not found in PATH (required for fun_fzf_env_var_insert)" >&2
+        return 127
+      end
+
+      if not type -q printenv
+        echo "printenv not found in PATH (required for fun_fzf_env_var_insert)" >&2
+        return 127
+      end
+
+      set -l var_name (command env | string replace -r '=.*' "" | sort -u | fzf \
+        --prompt="env> " \
+        --height=60% \
+        --reverse \
+        --border \
+        --exit-0 \
+        --preview 'printenv {} 2>/dev/null | head -c 2000' \
+        --preview-window=right,60%:wrap )
+
+      test -n "$var_name"; or return 0
+
+      commandline -i "\$$var_name"
+      commandline -f repaint
     '';
 
     # Custom helper function: copy current command line buffer to the clipboard (Wayland/X11/macOS)

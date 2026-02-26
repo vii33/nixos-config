@@ -3,6 +3,7 @@
 This repo keeps shortcut references in `docs/keyboard-shortcuts/`:
 
 - Fish: [docs/keyboard-shortcuts/fish-shell-shortcuts.md](keyboard-shortcuts/fish-shell-shortcuts.md)
+  - Includes custom pickers like `Ctrl + E` for environment variables.
 - Kitty: [docs/keyboard-shortcuts/kitty-shortcuts.md](keyboard-shortcuts/kitty-shortcuts.md)
 - Ghostty: [docs/keyboard-shortcuts/ghostty-shortcuts.md](keyboard-shortcuts/ghostty-shortcuts.md)
 - Neovim/LazyVim: [docs/keyboard-shortcuts/neovim-shortcuts.md](keyboard-shortcuts/neovim-shortcuts.md)

@@ -23,6 +23,7 @@ These keyboard shortcuts are configured in `modules/home/fish-shell.nix`. Some r
 |---|---|---|
 | `Alt + C` | change to directory | Uses `fzf` to select directory |
 | `Ctrl + O` | fuzzy pick file and insert path | Works in insert/normal/visual mode |
+| `Ctrl + E` | fuzzy pick env var and insert `$VARNAME` | Custom picker; requires `fzf` |
 | `Ctrl + F` | fzf directory  |  |
 | `Ctrl + B` | Key Bindings | Custom function; requires `fzf` |
 | `Ctrl + P` | Processes  | requires `fzf` |

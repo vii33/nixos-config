@@ -35,6 +35,10 @@ in
     keybind = performable:ctrl+c=copy_to_clipboard
     keybind = ctrl+v=paste_from_clipboard
 
+    # Ensure Ctrl+Left/Right reach the shell (word-wise movement) and don't get translated to Esc+b/Esc+f.
+    keybind = ctrl+left=csi:1;5D
+    keybind = ctrl+right=csi:1;5C
+
     # Tab management
     # Note: Zellij is configured to use Alt+... for tabs/panes, so keep Alt+... unbound in Ghostty.
     keybind = ctrl+shift+t=new_tab
@@ -81,7 +85,7 @@ in
     background-image = "${bgImage}"
     background-image-fit = cover
     background-image-position = center
-    background-image-opacity = 0.04
+    background-image-opacity = 0.03
 
     # Transparency (optional; macOS requires restart)
     #background-opacity = 0.96

@@ -37,15 +37,27 @@ You can find other scrolling keybindings in the Neovim documentation by running 
 | `Ctrl + a` | Increment the number under the cursor | "Add" mnemonic; accepts counts (e.g. `5<C-a>` to add 5) |
 | `Ctrl + x` | Decrement the number under the cursor | "Cross out" mnemonic; accepts counts (e.g. `3<C-x>` to subtract 3) |
 
+### Open URL Under Cursor
+
+| Key | Action | Notes |
+|---|---|---|
+| `gx` | Open URL under cursor in default browser | Built-in Neovim mapping; works in normal mode |
+
 ### Outline
 
 | Key | Action | Notes |
 |---|---|---|
 | `Space + c + s` | Toggle Outline | `<leader>cs` - Shows code symbols/structure |
 
+### Dashboard (Home)
+
+| Key | Action | Notes |
+|---|---|---|
+| `Space + f + D` | Open Dashboard / Home | `<leader>fD` (`Snacks.dashboard.open()`) |
+
 ### Harpoon2
 
-These keyboard shortcuts are configured in `modules/home/nixvim/lua-specs/harpoon2.lua`.
+These keyboard shortcuts are configured in `modules/home/nixvim/lua-specs/harpoon2-config.lua`.
 
 | Key | Action | Notes |
 |---|---|---|
