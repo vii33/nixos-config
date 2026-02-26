@@ -27,7 +27,6 @@
       #"obsidian"         # TODO: Check if auto-updates work with brew version
       #"bitwarden"        # TODO: Check if auto-updates work with brew version
       #"spotify"
-      
       "drawio"
       "kap"               # GIF recorder
       "rectangle"         # Window Management // Alternative: tiles
@@ -51,9 +50,9 @@
       "ghostty"
       "bruno"             # API client / Alternative: insomnio
       "docker-desktop"
-      "cyberduck"         # FTP/S3 client
       "copilot-cli"
-      "claude-code"
+      #"cyberduck"         # FTP/S3 client
+      #"claude-code"
     ];
   };
 }  
