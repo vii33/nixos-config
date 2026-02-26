@@ -1,8 +1,12 @@
 # ./hosts/work/configuration-nix-darwin.nix
 # Basic nix-darwin configuration for macOS work host
 # Settings: https://nix-darwin.github.io/nix-darwin/manual/index.html
-{ config, pkgs, macosUsername, ... }:
+{ config, pkgs, lib, macosUsername, ... }:
 
+let
+  secretsFile = ../../secrets/secrets.yaml;
+  haveSecretsFile = builtins.pathExists secretsFile;
+in
 {
   # Set the system architecture for this macOS host
   nixpkgs.hostPlatform = "aarch64-darwin";  # Apple Silicon (change to "x86_64-darwin" for Intel)
@@ -34,6 +38,12 @@
     options = "--delete-older-than 5d";
   };
 
+  sops = lib.mkIf haveSecretsFile {
+    defaultSopsFile = secretsFile;
+    age.keyFile = "/Users/${macosUsername}/.config/sops/age/keys.txt";
+    secrets.no_proxy = { };
+  };
+
 
   # Set proxy environment variables for Nix daemon
   launchd.daemons.nix-daemon.environment = {
@@ -47,11 +57,10 @@
     HTTP_PROXY = "http://localhost:3128";       # Set proxy for user environment (for Homebrew and other tools)
     HTTPS_PROXY = "http://localhost:3128";
     ALL_PROXY = "http://localhost:3128";        # Universal proxy setting (used by curl, Homebrew, etc.)
-    no_proxy = "localhost,127.0.0.1";           # Don't proxy local connections
     
     # Homebrew settings
     HOMEBREW_AUTO_UPDATE_SECS = "864000";       # How often Homebrew auto-update runs (seconds). Example: 86400 = 1 day
-    #HOMEBREW_NO_AUTO_UPDATE = "1";              # disable auto-update during operations, do it manually via    brew update --auto-update
+    HOMEBREW_NO_AUTO_UPDATE = "1";              # disable auto-update during operations, do it manually via    brew update --auto-update
     #HOMEBREW_NO_INSTALL_CLEANUP = "1";          # Skip cleanup after install (can hang with proxy)
     #HOMEBREW_CASK_OPTS = "--no-quarantine";     # Skip quarantine verification for casks (can timeout with proxy)
     #HOMEBREW_NO_VERIFY_ATTESTATIONS = "1";      # Skip cryptographic verification (requires network)
@@ -167,6 +176,28 @@
   system.defaults.trackpad = {
     #TrackpadThreeFingerVertSwipeGesture = 2;  # Enable three-finger vertical swipe for App Exposé
     TrackpadThreeFingerDrag = true;  # Enable three-finger drag for window management 
+  };
+
+  system.activationScripts.noProxyFromSops = lib.mkIf haveSecretsFile {
+    deps = [ "nix-daemon" ];
+    text = ''
+      NO_PROXY_VALUE="$(/bin/cat ${config.sops.secrets.no_proxy.path} | /usr/bin/tr -d '\n' | /usr/bin/xargs)"
+      DAEMON_PLIST="/Library/LaunchDaemons/org.nixos.nix-daemon.plist"
+
+      if [ -f "$DAEMON_PLIST" ]; then
+        if ! /usr/libexec/PlistBuddy -c "Print :EnvironmentVariables" "$DAEMON_PLIST" >/dev/null 2>&1; then
+          /usr/libexec/PlistBuddy -c "Add :EnvironmentVariables dict" "$DAEMON_PLIST"
+        fi
+
+        if ! /usr/libexec/PlistBuddy -c "Set :EnvironmentVariables:NO_PROXY $NO_PROXY_VALUE" "$DAEMON_PLIST" >/dev/null 2>&1; then
+          /usr/libexec/PlistBuddy -c "Add :EnvironmentVariables:NO_PROXY string $NO_PROXY_VALUE" "$DAEMON_PLIST"
+        fi
+
+        if ! /usr/libexec/PlistBuddy -c "Set :EnvironmentVariables:no_proxy $NO_PROXY_VALUE" "$DAEMON_PLIST" >/dev/null 2>&1; then
+          /usr/libexec/PlistBuddy -c "Add :EnvironmentVariables:no_proxy string $NO_PROXY_VALUE" "$DAEMON_PLIST"
+        fi
+      fi
+    '';
   };
 
   # System-wide network proxy settings (for GUI apps like Raycast)

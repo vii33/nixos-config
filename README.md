@@ -77,6 +77,10 @@ On macOS (Homebrew cask), `ghostty` may not be on your `PATH`. To list the bundl
 /Applications/Ghostty.app/Contents/MacOS/ghostty +list-themes
 ```
 
+### Ghostty: Fix "would like to access data from other apps" popup
+
+On macOS, Ghostty triggers a permission popup every time Neovim's file picker accesses files. To fix this permanently, go to **System Settings → Privacy & Security → Full Disk Access** and enable **Ghostty**. Restart Ghostty afterward.
+
 
 
 ## Usage

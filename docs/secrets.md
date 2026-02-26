@@ -36,7 +36,7 @@ This repo (and sops-nix config) uses `~/.config/sops/age/keys.txt`, so either:
 
 ```bash
 # Use the repo key location explicitly (works in fish/bash/zsh)
-env SOPS_AGE_KEY_FILE=$HOME/.config/sops/age/keys.txt sops secrets/secrets.yaml
+env SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt" sops "$HOME/repos/nixos-config/secrets/secrets.yaml"
 ```
 
 or create a symlink to the macOS default location:
@@ -84,7 +84,7 @@ nix shell nixpkgs#sops -c sops secrets/secrets.yaml
 If you see an error like “failed to load age identities”, point `sops` at your age key file:
 
 ```bash
-env SOPS_AGE_KEY_FILE=$HOME/.config/sops/age/keys.txt nix shell nixpkgs#sops -c sops secrets/secrets.yaml
+env SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt" nix shell nixpkgs#sops -c sops "$HOME/repos/nixos-config/secrets/secrets.yaml"
 ```
 
 ## Adding a new machine / rekeying

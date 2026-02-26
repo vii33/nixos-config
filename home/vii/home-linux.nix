@@ -36,6 +36,10 @@ in
         x_api_key = { };
         x_api_key_secret = { };
         claude_api_key = { };
+        atc_confluence_token = { };
+        atc_jira_token = { };
+        cc_jira_api_token = { };
+        no_proxy = { };
       }
       // lib.optionalAttrs (gitIdentity == "work") {
         git_work_gitconfig = { };
@@ -51,6 +55,13 @@ in
       set -gx X_API_KEY_SECRET (string trim < ${config.sops.secrets.x_api_key_secret.path})
       set -gx CLAUDE_API_KEY (string trim < ${config.sops.secrets.claude_api_key.path})
       set -gx ANTHROPIC_AUTH_TOKEN (string trim < ${config.sops.secrets.claude_api_key.path})
+      set -gx ATC_CONFLUENCE_TOKEN (string trim < ${config.sops.secrets.atc_confluence_token.path})
+      set -gx ATC_JIRA_TOKEN (string trim < ${config.sops.secrets.atc_jira_token.path})
+      set -gx CC_JIRA_API_TOKEN (string trim < ${config.sops.secrets.cc_jira_api_token.path})
+      set -gx JIRA_API_TOKEN $CC_JIRA_API_TOKEN
+      set -l _no_proxy (string trim < ${config.sops.secrets.no_proxy.path})
+      set -gx NO_PROXY $_no_proxy
+      set -gx no_proxy $_no_proxy
     '';
   };
 
