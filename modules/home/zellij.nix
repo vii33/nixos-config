@@ -3,10 +3,28 @@
 { pkgs, ... }:
 
 let
-  copilotAgentArgs =
-    "--allow-tool write --allow-tool 'shell(bun:*)' --allow-tool 'shell(bunx:*)' --allow-tool 'shell(nix:*)' --allow-tool 'shell(sleep)' --allow-tool 'shell(ls)' --allow-tool 'shell(mkdir)' --allow-tool 'shell(sed:*)'";
+  copilotAgentArgs = builtins.concatStringsSep " " [
+    "--allow-tool write"
+    "--allow-tool copilot"
+    "--allow-tool 'shell(bun:*)'"
+    "--allow-tool 'shell(bunx:*)'"
+    "--allow-tool 'shell(nix:*)'"
+    "--allow-tool 'shell(nix-shell:*)'"
+    "--allow-tool 'shell(zellij:*)'"
+    "--allow-tool 'shell(sleep)'"
+    "--allow-tool 'shell(ls)'"
+    "--allow-tool 'shell(mkdir)'"
+    "--allow-tool 'shell(printf)'"
+    "--allow-tool 'shell(sed:*)'"
+  ];
 
   mkCopilotCmd = dir: extraArgs: "cd ${dir} && copilot ${extraArgs}";
+
+  zenCmd =
+    "if type -q pybonsai; while true; clear; "
+    + "pybonsai -x 31 -y 40 -S 9 -L 2 -l 5 -f -w 3.5; "
+    + "sleep 86400; end; else; echo 'Just stay calm.'; "
+    + "while true; sleep 3600; end; end";
 in
 {
   # Needed for standalone Home Manager activation (flake homeConfigurations.work).
@@ -40,29 +58,29 @@ in
        }
 
         keybinds {
-          normal {
-             bind "Alt t" { NewTab; }
-             bind "Alt w" { CloseTab; }
-             bind "Alt a" { GoToNextTab; }
-             bind "Alt f" { ToggleFloatingPanes; }
-             bind "Alt j" { MoveFocus "Down"; }
-             bind "Alt k" { MoveFocus "Up"; }
-             bind "Alt 1" { GoToTab 1; }
-             bind "Alt 2" { GoToTab 2; }
+           normal {
+              bind "Alt t" { NewTab; }
+              bind "Alt w" { CloseTab; }
+              bind "Alt a" { GoToNextTab; }
+              bind "Alt f" { ToggleFloatingPanes; }
+              bind "Alt j" { MoveFocus "Down"; }
+              bind "Alt k" { MoveFocus "Up"; }
+              bind "Alt 1" { GoToTab 1; }
+              bind "Alt 2" { GoToTab 2; }
              bind "Alt 3" { GoToTab 3; }
             bind "Alt 4" { GoToTab 4; }
            bind "Alt 5" { GoToTab 5; }
           }
-          locked {
-            // Allow tab switching and pane navigation even in locked mode (so Ctrl-based shell bindings keep working).
-            bind "Alt t" { NewTab; }
-            bind "Alt w" { CloseTab; }
-            bind "Alt a" { GoToNextTab; }
-            bind "Alt f" { ToggleFloatingPanes; }
-            bind "Alt h" { MoveFocus "Left"; }
-            bind "Alt j" { MoveFocus "Down"; }
-            bind "Alt k" { MoveFocus "Up"; }
-            bind "Alt l" { MoveFocus "Right"; }
+           locked {
+             // Allow tab switching and pane navigation even in locked mode (so Ctrl-based shell bindings keep working).
+             bind "Alt t" { NewTab; }
+             bind "Alt w" { CloseTab; }
+             bind "Alt a" { GoToNextTab; }
+             bind "Alt f" { ToggleFloatingPanes; }
+             bind "Alt h" { MoveFocus "Left"; }
+             bind "Alt j" { MoveFocus "Down"; }
+             bind "Alt k" { MoveFocus "Up"; }
+             bind "Alt l" { MoveFocus "Right"; }
             bind "Alt 1" { GoToTab 1; }
             bind "Alt 2" { GoToTab 2; }
             bind "Alt 3" { GoToTab 3; }
@@ -219,7 +237,12 @@ in
         }
 
         tab name="User" focus=true {
-          pane name="terminal" focus=true
+          pane split_direction="Vertical" {
+            pane name="terminal" command="${pkgs.fish}/bin/fish" focus=true size="80%"
+            pane name="zen" command="${pkgs.fish}/bin/fish" size="20%" {
+              args "-c" "${zenCmd}"
+            }
+          }
           pane command="yazi"
         }
 
@@ -227,23 +250,23 @@ in
           pane command="nvim"
         }
 
-        tab name="agent" {
+        tab name="codex" {
           pane command="${pkgs.fish}/bin/fish" {
-            args "-c" "${mkCopilotCmd "~/repos/nixos-config" copilotAgentArgs}"
+            args "-c" "${mkCopilotCmd "~/repos/agent-general" copilotAgentArgs}"
           }
           pane command="${pkgs.fish}/bin/fish" {
-            args "-c" "${mkCopilotCmd "~/repos/nixos-config" copilotAgentArgs}"
+            args "-c" "${mkCopilotCmd "~/repos/agent-general" copilotAgentArgs}"
           }
         }
 
-        tab name="ask" {
-          pane name="gpt 5.2" command="${pkgs.fish}/bin/fish" {
-            args "-c" "${mkCopilotCmd "~/repos/ask" "--model gpt-5.2"}"
-          }
-          pane name="opus 4.6" command="${pkgs.fish}/bin/fish" {
-            args "-c" "${mkCopilotCmd "~/repos/ask" "--model claude-opus-4.6"}"
-          }
-        }
+         tab name="ask" {
+           pane name="gpt 5.2" command="${pkgs.fish}/bin/fish" {
+            args "-c" "${mkCopilotCmd "~/repos/agent-general" "--model gpt-5.2 ${copilotAgentArgs}"}"
+           }
+           pane name="opus 4.6" command="${pkgs.fish}/bin/fish" {
+            args "-c" "${mkCopilotCmd "~/repos/agent-general" "--model claude-opus-4.6 ${copilotAgentArgs}"}"
+           }
+         }
 
         tab name="nixos" {
           pane command="${pkgs.fish}/bin/fish" {
