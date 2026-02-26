@@ -25,6 +25,11 @@ We cannot use the standard `~/.config/nvim/lua/plugins/` directory because `~/.c
 
 Instead, we store Lua configuration files in `modules/home/nixvim/lua-specs/` within the repository. `lazyvim.nix` adds this directory to Neovim's `package.path`, allowing us to `require` these files directly.
 
+## Host Differences
+
+- **laptop**: LazyVim specs are managed by Home Manager via `lazyvim.nix` (read-only symlinks from Nix store). Edit files in this repo and rebuild.
+- **work (macOS)**: NixVim/lazyvim.nix is **not enabled**. Lua specs live directly in `~/.config/nvim/lua/plugins/` as writable files. Changes should be occasionally backed up to `modules/home/nixvim/lua-specs/` in this repo.
+
 ## Directory Structure
 
 ```
