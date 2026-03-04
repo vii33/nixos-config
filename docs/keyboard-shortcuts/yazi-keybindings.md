@@ -41,7 +41,7 @@ yazi ~/path   # Open in specific directory
 ## File Operations
 
 ### Selection
-- `Space` — Toggle selection for current file
+- `Tab` — Toggle selection for current file
 - `v` — Enter visual mode (selection mode)
 - `V` — Enter visual mode (unset mode)
 - `Ctrl+a` — Select all files
@@ -60,7 +60,8 @@ yazi ~/path   # Open in specific directory
 - `O` — Open file with default application
 - `Enter` — Enter directory / open file (smart-enter)
 - `Shift+Enter` — Open selected files interactively (some terminals don't support)
-- `Tab` — Show file information
+- `Space` — Preview with Quick Look (macOS)
+- `+` — Peek / show file properties
 - `r` — Rename file
 - `a` — Create file (has to end with ´/´ for directories)
 - `d` — Trash selected files
