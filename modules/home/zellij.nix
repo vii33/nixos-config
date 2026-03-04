@@ -21,8 +21,8 @@ let
   mkCopilotCmd = dir: extraArgs: "cd ${dir} && copilot ${extraArgs}";
 
   zenCmd =
-    "if type -q pybonsai; while true; clear; "
-    + "pybonsai -x 31 -y 40 -S 9 -L 2 -l 5 -f -w 3.5; "
+    "if type -q pybonsai; sleep 1; while true; clear; "
+    + "pybonsai -x 33 -y 39 -S 10 -L 2 -l 5 -f -w 3.5; "
     + "sleep 86400; end; else; echo 'Just stay calm.'; "
     + "while true; sleep 3600; end; end";
 in
@@ -62,21 +62,25 @@ in
               bind "Alt t" { NewTab; }
               bind "Alt w" { CloseTab; }
               bind "Alt a" { GoToNextTab; }
-              bind "Alt f" { ToggleFloatingPanes; }
+              bind "Alt p" { ToggleFloatingPanes; }
               bind "Alt j" { MoveFocus "Down"; }
               bind "Alt k" { MoveFocus "Up"; }
               bind "Alt 1" { GoToTab 1; }
               bind "Alt 2" { GoToTab 2; }
              bind "Alt 3" { GoToTab 3; }
             bind "Alt 4" { GoToTab 4; }
-           bind "Alt 5" { GoToTab 5; }
+               bind "Alt 5" { GoToTab 5; }
+               bind "Alt 6" { GoToTab 6; }
+               bind "Alt 7" { GoToTab 7; }
+               bind "Alt 8" { GoToTab 8; }
+               bind "Alt 9" { GoToTab 9; }
           }
            locked {
              // Allow tab switching and pane navigation even in locked mode (so Ctrl-based shell bindings keep working).
              bind "Alt t" { NewTab; }
              bind "Alt w" { CloseTab; }
              bind "Alt a" { GoToNextTab; }
-             bind "Alt f" { ToggleFloatingPanes; }
+              bind "Alt p" { ToggleFloatingPanes; }
              bind "Alt h" { MoveFocus "Left"; }
              bind "Alt j" { MoveFocus "Down"; }
              bind "Alt k" { MoveFocus "Up"; }
@@ -85,7 +89,11 @@ in
             bind "Alt 2" { GoToTab 2; }
             bind "Alt 3" { GoToTab 3; }
             bind "Alt 4" { GoToTab 4; }
-            bind "Alt 5" { GoToTab 5; }
+             bind "Alt 5" { GoToTab 5; }
+             bind "Alt 6" { GoToTab 6; }
+             bind "Alt 7" { GoToTab 7; }
+             bind "Alt 8" { GoToTab 8; }
+             bind "Alt 9" { GoToTab 9; }
           }
           shared_except "locked" {
             // Swap-layout navigation: use umlaut keys instead of [ and ].
@@ -237,20 +245,25 @@ in
         }
 
         tab name="User" focus=true {
-          pane split_direction="Vertical" {
+          pane split_direction="Vertical" size="60%" {
             pane name="terminal" command="${pkgs.fish}/bin/fish" focus=true size="80%"
             pane name="zen" command="${pkgs.fish}/bin/fish" size="20%" {
               args "-c" "${zenCmd}"
             }
           }
-          pane command="yazi"
+          pane command="yazi" size="40%"
         }
 
         tab name="nvim" {
           pane command="nvim"
         }
 
-        tab name="codex" {
+        tab name="opencode" {
+          pane command="opencode"
+          pane command="opencode"
+        }
+
+        tab name="copilot" {
           pane command="${pkgs.fish}/bin/fish" {
             args "-c" "${mkCopilotCmd "~/repos/agent-general" copilotAgentArgs}"
           }
