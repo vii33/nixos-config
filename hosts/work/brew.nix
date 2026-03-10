@@ -29,6 +29,7 @@
       #"spotify"
       "drawio"
       "kap"               # GIF recorder
+      "handy"             # Speech to Text
       "rectangle"         # Window Management // Alternative: tiles
       "soundanchor"       # Pin sound output
       #"karabiner-elements"# Keyboard remapping // not working due to low leves driver
