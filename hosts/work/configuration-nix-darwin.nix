@@ -119,7 +119,7 @@ in
 
       # Trackpad
       "com.apple.trackpad.scaling" = 0.875;  # Standard trackpad speed (range typically 0-3)
-      "com.apple.swipescrolldirection" = false;  # Natural scrolling (false = reverse/traditional scrolling)
+      "com.apple.swipescrolldirection" = true;  # Natural scrolling enabled
       
       # Panels
       PMPrintingExpandedStateForPrint = true;  # Use expanded print panel by default

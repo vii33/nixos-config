@@ -20,10 +20,15 @@ let
 
   mkCopilotCmd = dir: extraArgs: "cd ${dir} && copilot ${extraArgs}";
 
+  # Fish one-liner: block until the opencode server responds on a given port.
+  waitForPort = port:
+    "while not curl -sf http://localhost:${toString port} >/dev/null 2>&1; sleep 1; end";
+
   zenCmd =
     "if type -q pybonsai; sleep 1; while true; clear; "
-    + "pybonsai -x 33 -y 39 -S 10 -L 2 -l 5 -f -w 3.5; "
-    + "sleep 86400; end; else; echo 'Just stay calm.'; "
+    + "pybonsai -x 30 -y 39 -S 10 -L 2 -l 5 -f -w 3.5; "
+    + "${pkgs.python3}/bin/python3 -c 'import select, sys; ready, _, _ = select.select([sys.stdin], [], [], 86400); ready and sys.stdin.readline()'; "
+    + "end; else; echo 'Just stay calm.'; "
     + "while true; sleep 3600; end; end";
 in
 {
@@ -254,39 +259,37 @@ in
           pane command="yazi" size="40%"
         }
 
+        tab name="opencode" {
+          pane command="${pkgs.fish}/bin/fish" {
+            args "-c" "cd ~/repos; opencode"
+          }
+          pane command="${pkgs.fish}/bin/fish" {
+            args "-c" "cd ~/repos; opencode"
+          }
+        }
+
         tab name="nvim" {
           pane command="nvim"
         }
 
-        tab name="opencode" {
-          pane command="opencode"
-          pane command="opencode"
-        }
-
-        tab name="copilot" {
-          pane command="${pkgs.fish}/bin/fish" {
-            args "-c" "${mkCopilotCmd "~/repos/agent-general" copilotAgentArgs}"
+        tab name="server" {
+          pane name="server" command="${pkgs.fish}/bin/fish" size="5%" {
+            args "-c" "cd ~/repos; opencode serve --port 3010"
           }
-          pane command="${pkgs.fish}/bin/fish" {
-            args "-c" "${mkCopilotCmd "~/repos/agent-general" copilotAgentArgs}"
+          pane name="ask" command="${pkgs.fish}/bin/fish" focus=true {
+            args "-c" "cd ~/repos; sleep 4; opencode attach http://localhost:3010"
+          }
+          pane name="ask (2)" command="${pkgs.fish}/bin/fish" {
+            args "-c" "cd ~/repos; sleep 4; opencode attach http://localhost:3010"
           }
         }
-
-         tab name="ask" {
-           pane name="gpt 5.2" command="${pkgs.fish}/bin/fish" {
-            args "-c" "${mkCopilotCmd "~/repos/agent-general" "--model gpt-5.2 ${copilotAgentArgs}"}"
-           }
-           pane name="opus 4.6" command="${pkgs.fish}/bin/fish" {
-            args "-c" "${mkCopilotCmd "~/repos/agent-general" "--model claude-opus-4.6 ${copilotAgentArgs}"}"
-           }
-         }
 
         tab name="nixos" {
           pane command="${pkgs.fish}/bin/fish" {
-            args "-c" "${mkCopilotCmd "~/repos/nixos-config" copilotAgentArgs}"
+            args "-c" "cd ~/repos/nixos-config; opencode"
           }
           pane command="${pkgs.fish}/bin/fish" {
-            args "-c" "${mkCopilotCmd "~/repos/nixos-config" copilotAgentArgs}"
+            args "-c" "cd ~/repos/nixos-config; opencode"
           }
         }
       }
