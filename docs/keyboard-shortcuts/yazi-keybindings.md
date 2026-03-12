@@ -53,7 +53,8 @@ yazi ~/path   # Open in specific directory
 - `x` — Yank (cut) selected files
 - `p` — Paste into hovered directory or CWD (smart-paste)
 - `P` — Paste files (overwrite)
-- `Y` or `X` — Cancel the yank status
+- `Y` — Copy file to macOS clipboard (paste in Finder, Outlook, etc.)
+- `X` — Cancel the yank status
 
 ### File Management
 - `o` — Open file interactively (choose application)

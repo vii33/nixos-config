@@ -46,7 +46,7 @@ in
 
         yamlls = {
           # enable          = true;
-          settings = {
+          config = {
             yaml.schemas = {
               kubernetes = "*.yaml";
               "http://json.schemastore.org/github-workflow" = ".github/workflows/*";

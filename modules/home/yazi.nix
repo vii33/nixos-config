@@ -19,6 +19,7 @@
     [mgr]
     ratio = [ 2, 5, 3 ]   # Ratio of the 3 panes 
     linemode = "mtime"    # Show modified time with custom format (see init.lua below)
+    use_trash = true      # Move deleted files to macOS Trash instead of permanent delete
     sort_by = "natural"
     sort_sensitive = false
     sort_reverse = false
@@ -104,7 +105,6 @@
     prepend_keymap = [   # Higher priority than default keymap
       # Smart enter: enter directories, open files (see https://yazi-rs.github.io/docs/tips/)
       { on = [ "<Enter>" ], run = "plugin smart-enter", desc = "Enter directory / open file" },
-      { on = [ "p" ], run = "plugin smart-paste", desc = "Paste into hovered directory or CWD" },
 
       # Swap default open keys:
       # - `o` opens the "open with" context menu
@@ -117,8 +117,11 @@
       # Quick Look with space bar, Tab for selection, = for peek/properties
       { on = [ "<Space>" ], run = "shell 'qlmanage -p \"$0\" > /dev/null 2>&1' --orphan", desc = "Preview with Quick Look (macOS)" },
       { on = [ "<Tab>" ], run = "toggle", desc = "Toggle selection" },
-      { on = [ "=" ], run = "peek", desc = "Peek (show properties)" },
+      { on = [ "+" ], run = "peek", desc = "Peek (show properties)" },
       
+      # Copy file to macOS clipboard (paste in Finder, Outlook, etc.)
+      { on = [ "Y" ], run = "shell 'osascript -e \"set the clipboard to (POSIX file \\\"%h\\\")\"'", desc = "Copy file to macOS clipboard" },
+
       # Custom "g" shortcuts for quick directory access
       { on = [ "g", "r" ], run = 'cd "~/repos"', desc = "Go to repos" },
       { on = [ "g", "a" ], run = 'cd "~/OneDrive - BMW Group/_FG-464 Gruppe/ADPnext"', desc = "Go to ADP.next" },
@@ -143,23 +146,6 @@
     end
     
     return { entry = entry, setup = setup }
-  '';
-
-  home.file.".config/yazi/plugins/smart-paste.yazi/main.lua".text = ''
-    --- @since 25.5.31
-    --- @sync entry
-    return {
-    	entry = function()
-    		local h = cx.active.current.hovered
-    		if h and h.cha.is_dir then
-    			ya.emit("enter", {})
-    			ya.emit("paste", {})
-    			ya.emit("leave", {})
-    		else
-    			ya.emit("paste", {})
-    		end
-    	end,
-    }
   '';
 
   # Custom linemode with MM-DD HH:MM for recent files, YYYY-MM-DD for older
