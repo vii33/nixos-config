@@ -41,6 +41,10 @@ in
   sops = lib.mkIf haveSecretsFile {
     defaultSopsFile = secretsFile;
     age.keyFile = "/Users/${macosUsername}/.config/sops/age/keys.txt";
+    age.sshKeyPaths = [];
+    # Prevent sops-nix from falling back to Linux-style SSH host keys like
+    # /etc/ssh/ssh_host_rsa_key, which do not exist on macOS.
+    gnupg.sshKeyPaths = [];
     secrets.no_proxy = { };
   };
 
@@ -75,7 +79,7 @@ in
       tilesize = 36;
       orientation = "bottom";
       # Hot Corners
-      wvous-tr-corner = 12;   # enum: Show open apps
+      wvous-tr-corner = null; # disable top-right hot corner
       wvous-br-corner = 2;    # enum: Mission control 
     };
 

@@ -53,6 +53,9 @@ in
     # macOS doesn't have SSH host keys — disable them so sops-nix
     # only uses the age key file above.
     age.sshKeyPaths = [];
+    # Also disable the gnupg SSH fallback, otherwise sops-nix still probes
+    # /etc/ssh/ssh_host_rsa_key during activation on macOS.
+    gnupg.sshKeyPaths = [];
     secrets =
       {
         x_api_key = { };
