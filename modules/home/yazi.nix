@@ -120,7 +120,7 @@
       { on = [ "+" ], run = "peek", desc = "Peek (show properties)" },
       
       # Copy file to macOS clipboard (paste in Finder, Outlook, etc.)
-      { on = [ "Y" ], run = "shell 'osascript -e \"set the clipboard to (POSIX file \\\"%h\\\")\"'", desc = "Copy file to macOS clipboard" },
+      { on = [ "Y" ], run = "shell 'osascript -e \"on run argv\" -e \"set the clipboard to {((POSIX file (item 1 of argv)) as alias)}\" -e \"end run\" -- \"$0\"' --confirm", desc = "Copy file to macOS clipboard" },
 
       # Custom "g" shortcuts for quick directory access
       { on = [ "g", "r" ], run = 'cd "~/repos"', desc = "Go to repos" },

@@ -62,8 +62,11 @@ in
     # keybind = alt+k=goto_split:up
 
     # Font size
-    # Note: "equal" is the "+" key on most layouts when used with Shift.
+    # Bind both the physical US keys and the printable characters so the
+    # shortcuts work across keyboard layouts.
+    keybind = ctrl++=increase_font_size:1
     keybind = ctrl+shift+equal=increase_font_size:1
+    keybind = ctrl+-=decrease_font_size:1
     keybind = ctrl+shift+minus=decrease_font_size:1
     keybind = ctrl+shift+0=reset_font_size
 

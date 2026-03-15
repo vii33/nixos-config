@@ -37,6 +37,9 @@ These keyboard shortcuts are configured in `modules/home/ghostty.nix`.
 
 | Key | Action |
 |---|---|
-| `Ctrl + Shift + +` | increase font size |
-| `Ctrl + Shift + -` | decrease font size |
+| `Ctrl + +` | increase font size |
+| `Ctrl + -` | decrease font size |
 | `Ctrl + Shift + 0` | reset font size |
+
+On US-style layouts, Ghostty also keeps the physical-key variants `Ctrl + Shift + =`
+and `Ctrl + Shift + -` bound so the shortcuts still work there.
