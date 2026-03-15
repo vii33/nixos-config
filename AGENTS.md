@@ -140,6 +140,15 @@ nixos-rebuild --dry-run --flake .#<host>
 nix flake check --no-build
 ```
 
+## Verification
+
+- Before handoff, run `nix flake check --no-build` for every change in this repo.
+- Before any `darwin-rebuild build --flake .#work --impure` or `darwin-rebuild switch --flake .#work`, ask the user first; macOS rebuilds take a long time.
+- For `hosts/work/`, `home/vii/home-darwin.nix`, or shared Home Manager modules used on macOS, also run `darwin-rebuild build --flake .#work --impure` after user approval.
+- For Linux host changes, run the narrowest relevant host check, for example `nixos-rebuild --dry-run --flake .#laptop` or `nixos-rebuild --dry-run --flake .#home-server`.
+- For shared cross-platform modules, prefer `nix flake check --no-build` plus the relevant host build/dry-run for each affected platform.
+- If a verification command cannot run, say exactly which command was skipped and why.
+
 ## Safety & Workflow
 
 - Never commit real secrets — `secrets/` holds only encrypted files.
