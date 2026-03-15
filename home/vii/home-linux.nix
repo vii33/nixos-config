@@ -40,6 +40,7 @@ in
         atc_jira_token = { };
         cc_jira_api_token = { };
         no_proxy = { };
+        opencode_server_password = { };
       }
       // lib.optionalAttrs (gitIdentity == "work") {
         git_work_gitconfig = { };
@@ -62,6 +63,7 @@ in
       set -l _no_proxy (string trim < ${config.sops.secrets.no_proxy.path})
       set -gx NO_PROXY $_no_proxy
       set -gx no_proxy $_no_proxy
+      set -gx OPENCODE_SERVER_PASSWORD (string trim < ${config.sops.secrets.opencode_server_password.path})
     '';
   };
 

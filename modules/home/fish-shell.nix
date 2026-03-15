@@ -17,8 +17,10 @@ in
     VISUAL = "nvim";
   };
 
-  # Add Homebrew to PATH on macOS
-  home.sessionPath = lib.optionals isDarwin [
+  # Add user and platform-specific binaries to PATH
+  home.sessionPath = [
+    "$HOME/.local/bin"
+  ] ++ lib.optionals isDarwin [
     "/opt/homebrew/bin"
     "/opt/homebrew/sbin"
     "/Applications/Ghostty.app/Contents/MacOS" # Ghostty CLI (e.g. `ghostty +list-themes`)
@@ -93,12 +95,15 @@ in
       noclean1 = "nh clean all --keep-since 3d --keep 3";
       noclean2 = "sudo nix-collect-garbage";
       nosearch = "nh search ";
+      sopsedit = "env SOPS_AGE_KEY_FILE=\"$HOME/.config/sops/age/keys.txt\" nix shell nixpkgs#sops -c sops \"$HOME/repos/nixos-config/secrets/secrets.yaml\"";
       
       # Applications
       nv = "nvim";
+      lg = "lazygit";
       cop = "copilot";
       coclaude = "copilot --model claude-sonnet-4.5";
       cocodex = "copilot --model gpt-5.3-codex";
+      ocs = "if test -n \"$OPENCODE_SERVER_PASSWORD\"; opencode web --hostname 0.0.0.0 --port 8080; else; echo \"OPENCODE_SERVER_PASSWORD is not set\"; end";
       bs = "pybonsai -w 0.04";
 
       # Mac OS
@@ -118,6 +123,9 @@ in
     # ShellInit use for fast and non-output things (e.g. path vars)
     shellInit = ''
       # (Interactive-only variables like fish_greeting & fish_escape_delay_ms moved to interactiveShellInit)
+      if not contains -- "$HOME/.local/bin" $PATH
+        set -gx PATH "$HOME/.local/bin" $PATH
+      end
     '';
 
     interactiveShellInit = ''
