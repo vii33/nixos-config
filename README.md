@@ -161,6 +161,23 @@ home-manager --flake .#work switch --impure
 
 **Note:** For system-level changes (packages installed via nix-darwin, Homebrew apps, system settings), you still need to use `darwin-rebuild switch`.
 
+##### GitHub Desktop and `~/.gitconfig`
+
+Home Manager keeps the declarative Git config in `~/.config/git/config`, but GUI tools like GitHub Desktop still write legacy global settings to `~/.gitconfig`.
+
+The shared Git module now fixes this automatically during activation:
+- Removes an old Home Manager symlink at `~/.gitconfig` if one exists.
+- Creates a regular writable `~/.gitconfig` with an `[include]` for `~/.config/git/config`.
+- Preserves any extra settings already written by GUI tools and only appends the include when it is missing.
+
+If GitHub Desktop reports `could not lock config file ~/.gitconfig: Permission denied`, rebuild and verify:
+
+```bash
+cd ~/repos/nixos-config
+sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
+git config --global --list --show-origin
+```
+
 ##### Syncing LazyVim Plugin Specs (Manual LazyVim Setup)
 
 If you're using manual LazyVim installation (with nixvim modules disabled), sync your plugin specs from the repo to your LazyVim config:

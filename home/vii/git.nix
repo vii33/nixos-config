@@ -7,14 +7,29 @@ let
     && lib.hasAttrByPath [ "sops" "secrets" "git_work_gitconfig" ] config;
 in
 {
-  # Home Manager configures Git via XDG (~/.config/git/config). Keep ~/.gitconfig neutral so it
-  # doesn't override the declarative config (and so the work identity can win on the work host).
-  home.file.".gitconfig" = {
-    force = true;
-    text = ''
-      # Managed by Home Manager. Git config lives in ~/.config/git/config.
-    '';
-  };
+  # Home Manager configures Git via XDG (~/.config/git/config).
+  # Keep ~/.gitconfig unmanaged so GUI tools like GitHub Desktop can still
+  # use `git config --global` and write their legacy global settings.
+  home.activation.ensureWritableGitConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    gitconfig="$HOME/.gitconfig"
+    gitconfig_include="path = ~/.config/git/config"
+
+    if [ -L "$gitconfig" ]; then
+      $VERBOSE_ECHO "Removing read-only $gitconfig symlink"
+      rm "$gitconfig"
+    fi
+
+    if [ ! -e "$gitconfig" ]; then
+      $VERBOSE_ECHO "Creating writable $gitconfig include stub"
+      cat > "$gitconfig" <<'EOF'
+[include]
+	path = ~/.config/git/config
+EOF
+    elif ! grep -Fq "$gitconfig_include" "$gitconfig"; then
+      $VERBOSE_ECHO "Adding XDG Git include to $gitconfig"
+      printf '\n[include]\n\tpath = ~/.config/git/config\n' >> "$gitconfig"
+    fi
+  '';
 
   programs.git = {
     enable = true;
