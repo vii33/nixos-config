@@ -15,6 +15,7 @@
   environment.systemPackages = with pkgs; [
     python3
     uv
+    nodejs        # Node runtime for npm-installed CLIs like playwright-cli
     bun           # Bun runtime with npm compatibility (needed for Mason)
     tree-sitter   # Tree-sitter CLI (required by nvim-treesitter)
     imagemagick   # Image manipulation tool

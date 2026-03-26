@@ -21,6 +21,7 @@ in
 
   # Bun (user-level installs and binaries)
   home.sessionPath = lib.mkBefore [
+    "$HOME/.npm-global/bin"
     "$HOME/.bun/bin"
     "$HOME/Applications/proxydetox/bin"
   ];
