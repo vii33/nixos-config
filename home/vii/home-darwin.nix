@@ -19,12 +19,36 @@ in
   home.username = macosUsername;
   home.homeDirectory = lib.mkForce "/Users/${macosUsername}";
 
-  # Bun (user-level installs and binaries)
+  # User-level runtime binaries
   home.sessionPath = lib.mkBefore [
     "$HOME/.npm-global/bin"
     "$HOME/.bun/bin"
     "$HOME/Applications/proxydetox/bin"
   ];
+
+  home.file = {
+    ".npmrc".text = ''
+      prefix=${config.home.homeDirectory}/.npm-global
+    '';
+  } // lib.optionalAttrs haveSecretsFile {
+    ".config/fish/conf.d/90-sops-secrets.fish".text = ''
+      # Export secrets via sops-nix managed files (avoid putting values in the Nix store).
+      # Claude Code:
+      # Make `sops secrets/secrets.yaml` work on macOS (sops otherwise defaults elsewhere).
+      set -gx SOPS_AGE_KEY_FILE $HOME/.config/sops/age/keys.txt
+      set -gx X_API_KEY (string trim < ${config.sops.secrets.x_api_key.path})
+      set -gx X_API_KEY_SECRET (string trim < ${config.sops.secrets.x_api_key_secret.path})
+      set -gx CLAUDE_API_KEY (string trim < ${config.sops.secrets.claude_api_key.path})
+      set -gx ANTHROPIC_AUTH_TOKEN (string trim < ${config.sops.secrets.claude_api_key.path})
+      set -gx ATC_CONFLUENCE_TOKEN (string trim < ${config.sops.secrets.atc_confluence_token.path})
+      set -gx ATC_JIRA_TOKEN (string trim < ${config.sops.secrets.atc_jira_token.path})
+      set -gx CC_JIRA_API_TOKEN (string trim < ${config.sops.secrets.cc_jira_api_token.path})
+      set -gx JIRA_API_TOKEN $CC_JIRA_API_TOKEN
+      set -l _no_proxy (string trim < ${config.sops.secrets.no_proxy.path})
+      set -gx NO_PROXY $_no_proxy
+      set -gx no_proxy $_no_proxy
+    '';
+  };
 
   # Add home-manager CLI to PATH
   home.packages = with pkgs; [
@@ -54,9 +78,6 @@ in
     # macOS doesn't have SSH host keys — disable them so sops-nix
     # only uses the age key file above.
     age.sshKeyPaths = [];
-    # Also disable the gnupg SSH fallback, otherwise sops-nix still probes
-    # /etc/ssh/ssh_host_rsa_key during activation on macOS.
-    gnupg.sshKeyPaths = [];
     secrets =
       {
         x_api_key = { };
@@ -70,26 +91,6 @@ in
       // lib.optionalAttrs (gitIdentity == "work") {
         git_work_gitconfig = { };
       };
-  };
-
-  home.file = lib.mkIf haveSecretsFile {
-    ".config/fish/conf.d/90-sops-secrets.fish".text = ''
-      # Export secrets via sops-nix managed files (avoid putting values in the Nix store).
-      # Claude Code:
-      # Make `sops secrets/secrets.yaml` work on macOS (sops otherwise defaults elsewhere).
-      set -gx SOPS_AGE_KEY_FILE $HOME/.config/sops/age/keys.txt
-      set -gx X_API_KEY (string trim < ${config.sops.secrets.x_api_key.path})
-      set -gx X_API_KEY_SECRET (string trim < ${config.sops.secrets.x_api_key_secret.path})
-      set -gx CLAUDE_API_KEY (string trim < ${config.sops.secrets.claude_api_key.path})
-      set -gx ANTHROPIC_AUTH_TOKEN (string trim < ${config.sops.secrets.claude_api_key.path})
-      set -gx ATC_CONFLUENCE_TOKEN (string trim < ${config.sops.secrets.atc_confluence_token.path})
-      set -gx ATC_JIRA_TOKEN (string trim < ${config.sops.secrets.atc_jira_token.path})
-      set -gx CC_JIRA_API_TOKEN (string trim < ${config.sops.secrets.cc_jira_api_token.path})
-      set -gx JIRA_API_TOKEN $CC_JIRA_API_TOKEN
-      set -l _no_proxy (string trim < ${config.sops.secrets.no_proxy.path})
-      set -gx NO_PROXY $_no_proxy
-      set -gx no_proxy $_no_proxy
-    '';
   };
 
   # Configure user-level programs
