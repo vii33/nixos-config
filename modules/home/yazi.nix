@@ -20,6 +20,7 @@
     ratio = [ 2, 5, 3 ]   # Ratio of the 3 panes 
     linemode = "mtime"    # Show modified time with custom format (see init.lua below)
     use_trash = true      # Move deleted files to macOS Trash instead of permanent delete
+    show_hidden = true    # Show and search hidden files (dotfiles)
     sort_by = "natural"
     sort_sensitive = false
     sort_reverse = false
@@ -118,6 +119,10 @@
       { on = [ "<Space>" ], run = "shell 'qlmanage -p \"$0\" > /dev/null 2>&1' --orphan", desc = "Preview with Quick Look (macOS)" },
       { on = [ "<Tab>" ], run = "toggle", desc = "Toggle selection" },
       { on = [ "+" ], run = "peek", desc = "Peek (show properties)" },
+
+      # Sorting tweaks: use lowercase `m` for reverse mtime sort.
+      { on = [ ",", "m" ], run = [ "sort mtime --reverse=yes", "linemode mtime" ], desc = "Sort by modified time (reverse)" },
+      { on = [ ",", "M" ], run = [ "sort mtime --reverse=no", "linemode mtime" ], desc = "Sort by modified time" },
       
       # Copy file to macOS clipboard (paste in Finder, Outlook, etc.)
       { on = [ "Y" ], run = "shell 'osascript -e \"on run argv\" -e \"set the clipboard to {((POSIX file (item 1 of argv)) as alias)}\" -e \"end run\" -- \"$0\"' --confirm", desc = "Copy file to macOS clipboard" },

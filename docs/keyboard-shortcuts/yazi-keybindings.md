@@ -119,7 +119,8 @@ yazi ~/path   # Open in specific directory
 
 ### Sorting
 Press `,` (comma) followed by:
-- `m` — Sort by modified time
+- `m` — Sort by modified time (descending, custom)
+- `M` — Sort by modified time (ascending, custom)
 - `b` — Sort by birth time
 - `e` — Sort by file extension
 - `a` — Sort alphabetically
@@ -127,7 +128,7 @@ Press `,` (comma) followed by:
 - `s` — Sort by size
 - `r` — Sort randomly
 
-Use capital letters (e.g., `M`, `B`, `E`) for reverse sorting.
+Use capital letters for reverse sorting, except your custom mtime mapping: `m` is reverse and `M` is normal.
 
 ### Line Mode (Display Info)
 - `M` (Shift+m) — Cycle through line modes:
