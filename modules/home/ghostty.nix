@@ -70,12 +70,6 @@ in
     keybind = ctrl+shift+minus=decrease_font_size:1
     keybind = ctrl+shift+0=reset_font_size
 
-    # Window layout (columns/rows)
-    window-width = 120
-    window-height = 41
-    window-padding-x = 8
-    window-padding-y = 8
-
     # Font configuration
     font-family = "FiraCode Nerd Font"
     #font-family-bold = "JetBrainsMono Nerd Font Bold"
@@ -83,6 +77,12 @@ in
     #font-family-bold-italic = "JetBrainsMono Nerd Font Bold Italic"
     font-size = 12
     adjust-cell-height = 10%
+
+    # Window layout (columns/rows)
+    window-width = 120
+    window-height = 41
+    window-padding-x = 8
+    window-padding-y = 8
  
     # Background image (PNG/JPEG)
     background-image = "${bgImage}"
