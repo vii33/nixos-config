@@ -99,6 +99,7 @@ in
       
       # Applications
       nv = "nvim";
+      oc = "opencode";
       lg = "lazygit";
       cop = "copilot";
       coclaude = "copilot --model claude-sonnet-4.5";
