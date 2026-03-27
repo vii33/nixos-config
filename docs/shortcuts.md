@@ -21,4 +21,4 @@ Configured in `modules/home/zellij.nix` (default mode: `locked`, toggle with `Ct
 | `Alt + a` | Next tab |
 | `Alt + 1..9` | Go to tab 1..9 |
 | `Alt + h/j/k/l` | Move focus (left/down/up/right) |
-| `Alt + f` | Toggle floating panes |
+| `Alt + p` | Toggle floating panes |
