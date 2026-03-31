@@ -73,13 +73,13 @@ in
               bind "Alt k" { MoveFocus "Up"; }
               bind "Alt 1" { GoToTab 1; }
               bind "Alt 2" { GoToTab 2; }
-             bind "Alt 3" { GoToTab 3; }
-            bind "Alt 4" { GoToTab 4; }
-               bind "Alt 5" { GoToTab 5; }
-               bind "Alt 6" { GoToTab 6; }
-               bind "Alt 7" { GoToTab 7; }
-               bind "Alt 8" { GoToTab 8; }
-               bind "Alt 9" { GoToTab 9; }
+              bind "Alt 3" { GoToTab 3; }
+              bind "Alt 4" { GoToTab 4; }
+              bind "Alt 5" { GoToTab 5; }
+              bind "Alt 6" { GoToTab 6; }
+              bind "Alt 7" { GoToTab 7; }
+              bind "Alt 8" { GoToTab 8; }
+              bind "Alt 9" { GoToTab 9; }
           }
            locked {
              // Allow tab switching and pane navigation even in locked mode (so Ctrl-based shell bindings keep working).
@@ -91,10 +91,10 @@ in
              bind "Alt j" { MoveFocus "Down"; }
              bind "Alt k" { MoveFocus "Up"; }
              bind "Alt l" { MoveFocus "Right"; }
-            bind "Alt 1" { GoToTab 1; }
-            bind "Alt 2" { GoToTab 2; }
-            bind "Alt 3" { GoToTab 3; }
-            bind "Alt 4" { GoToTab 4; }
+             bind "Alt 1" { GoToTab 1; }
+             bind "Alt 2" { GoToTab 2; }
+             bind "Alt 3" { GoToTab 3; }
+             bind "Alt 4" { GoToTab 4; }
              bind "Alt 5" { GoToTab 5; }
              bind "Alt 6" { GoToTab 6; }
              bind "Alt 7" { GoToTab 7; }
@@ -104,7 +104,7 @@ in
           shared_except "locked" {
             // Swap-layout navigation: use umlaut keys instead of [ and ].
             bind "Alt ö" { PreviousSwapLayout; }
-             bind "Alt ä" { NextSwapLayout; }
+            bind "Alt ä" { NextSwapLayout; }
            }
          }
 
@@ -260,7 +260,17 @@ in
           pane command="yazi" size="40%"
         }
 
-        tab name="opencode" {
+        tab name="oc new" {
+          pane command="${pkgs.fish}/bin/fish" size="60%" {
+            args "-c" "cd ~/repos; opencode"
+          }
+          pane split_direction="Horizontal" size="40%" {
+            pane command="nvim"
+            pane command="${pkgs.fish}/bin/fish"
+          }
+        }
+
+        tab name="oc 2" {
           pane command="${pkgs.fish}/bin/fish" {
             args "-c" "cd ~/repos; opencode"
           }
