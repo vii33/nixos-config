@@ -34,13 +34,14 @@
       "drawio"
       "kap"               # GIF recorder
       "handy"             # Speech to Text
+      "dockdoor"          # Dock previews and window switching
       "rectangle"         # Window Management // Alternative: tiles
       "soundanchor"       # Pin sound output
       #"karabiner-elements"# Keyboard remapping // not working due to low leves driver
       #"shortcat"         # Control macOS with the keyboard
       #"rocket"           # Emoji picker  // Not needed as done with leader-key and raycast
       "aldente"           # Optimize battery health (80% charge limit) - Alternative: battery (Does not work well with managed MacOS)
-      "jordanbaird-ice"   # Hide menu bar items // Alternative: vanilla (needs screen recording permission .-/)
+      "thaw"              # Menu bar manager
       "nikitabobko/tap/aerospace"  # Tiling window manager // Alternative: paneru (via nixos!812320)
       "leader-key"        # vim like keybindings - https://github.com/mikker/LeaderKey
       "raycast"           # Spotlight replacement // Alternative: alfred
