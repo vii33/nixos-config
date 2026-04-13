@@ -356,11 +356,38 @@ in
     # - Future idea: launch nvim when no editor was given in command
     functions.fun_fzf_file_open.body = ''
       # Build file list command (fd preferred)
+      # Exclude heavy/generated dirs for snappy startup
       set -l list_cmd ""
       if type -q fd
-        set list_cmd "fd --type f --hidden --follow --exclude .git"
+        set list_cmd "fd --type f --hidden --follow \
+          --exclude .git \
+          --exclude node_modules \
+          --exclude .direnv \
+          --exclude result \
+          --exclude .cache \
+          --exclude __pycache__ \
+          --exclude .venv \
+          --exclude venv \
+          --exclude target \
+          --exclude .next \
+          --exclude dist \
+          --exclude build \
+          --exclude .nix-defexpr"
       else
-        set list_cmd "find . -type f -not -path '*/.git/*'"
+        set list_cmd "find . -type f \
+          -not -path '*/.git/*' \
+          -not -path '*/node_modules/*' \
+          -not -path '*/.direnv/*' \
+          -not -path '*/result/*' \
+          -not -path '*/.cache/*' \
+          -not -path '*/__pycache__/*' \
+          -not -path '*/.venv/*' \
+          -not -path '*/venv/*' \
+          -not -path '*/target/*' \
+          -not -path '*/.next/*' \
+          -not -path '*/dist/*' \
+          -not -path '*/build/*' \
+          -not -path '*/.nix-defexpr/*'"
       end
 
       # Invoke picker with smart preview (images via chafa, text via bat)
