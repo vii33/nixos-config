@@ -411,41 +411,89 @@ in
       commandline -f repaint
     '';
 
-    # Zellij: change copilot's working directory in both tiled panes.
-    # Run from a floating pane: ccd <directory>
+    # Zellij: switch all panes in current oc tab to a new directory.
+    # Run from a floating pane — opens an fzf directory picker, then
+    # quits and restarts opencode, nvim, and yazi in the selected folder.
+    # Only works on oc1/oc2 tabs (guarded).
     functions.ccd.body = ''
-      if test (count $argv) -eq 0
-        echo "Usage: ccd <directory>"
+      # ── 0. Guard: only run on oc1/oc2 tabs ────────────────────────
+      set -l current_tab (zellij action dump-layout 2>/dev/null | string match -r 'tab name="([^"]*)" focus=true' | tail -1)
+      if not string match -q 'oc*' "$current_tab"
+        echo "ccd: only works on oc1/oc2 tabs (current: $current_tab)"
+        sleep 2
         return 1
       end
 
-      set -l target_dir $argv[1]
+      # ── 1. Pick a directory with fzf ──────────────────────────────
+      set -l fd_cmd "fd --type d --max-depth 3 --exclude node_modules --exclude .cache --exclude __pycache__ --exclude .venv --exclude target --exclude Library --exclude .Trash --exclude .npm --exclude .bun -- . $HOME"
+
+      set -l target (eval $fd_cmd | fzf \
+        --prompt="Choose Directory> " \
+        --height=80% \
+        --reverse \
+        --border \
+        --exit-0 \
+        --preview 'ls -1 {} 2>/dev/null | head -60' \
+        --preview-window=right,40%:wrap )
+
+      test -n "$target"; or return 0
+      set -l target_dir (realpath "$target")
 
       if not test -d "$target_dir"
         echo "Error: $target_dir is not a directory"
         return 1
       end
 
-      set target_dir (realpath "$target_dir")
+      echo "Switching workspace → $target_dir"
 
-      # Hide floating pane → focus moves to tiled layer
+      # ── 2. Hide floating pane → focus moves to tiled layer ────────
       zellij action toggle-floating-panes
       sleep 0.3
 
-      for i in 1 2
-        # Send /cwd to change copilot's working directory without restarting
-        zellij action write-chars "/cwd $target_dir"
-        zellij action write 13
-
-        if test $i -lt 2
-          sleep 0.3
-          zellij action focus-next-pane
-        end
-      end
-
+      # ── 3. OpenCode pane (top) ────────────────────────────────────
+      zellij action move-focus "Up"
+      sleep 0.15
+      # Ctrl+C twice to quit opencode (or harmless at shell prompt)
+      zellij action write 3
       sleep 0.3
-      # Restore floating pane
-      zellij action toggle-floating-panes
+      zellij action write 3
+      sleep 0.5
+      # Clear any leftover text (Ctrl+U) then cd + restart
+      zellij action write 21
+      sleep 0.1
+      zellij action write-chars "cd $target_dir; opencode"
+      zellij action write 13
+
+      # ── 4. Neovim pane (bottom-left) ──────────────────────────────
+      sleep 0.3
+      zellij action move-focus "Down"
+      sleep 0.15
+      zellij action move-focus "Left"
+      sleep 0.15
+      # Escape → normal mode, then :qa! to force-quit nvim
+      zellij action write 27
+      sleep 0.15
+      zellij action write-chars ":qa!"
+      zellij action write 13
+      sleep 0.5
+      # Clear line, cd + restart
+      zellij action write 21
+      sleep 0.1
+      zellij action write-chars "cd $target_dir; nvim"
+      zellij action write 13
+
+      # ── 5. Yazi pane (bottom-right) ───────────────────────────────
+      sleep 0.3
+      zellij action move-focus "Right"
+      sleep 0.15
+      # q quits yazi (harmless at shell — just types "q" + enter not sent)
+      zellij action write-chars "q"
+      sleep 0.5
+      # Clear line, cd + restart
+      zellij action write 21
+      sleep 0.1
+      zellij action write-chars "cd $target_dir; yazi"
+      zellij action write 13
     '';
   };
 }

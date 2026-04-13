@@ -64,14 +64,15 @@ in
 
         keybinds {
            normal {
-              bind "Alt t" { NewTab; }
-              bind "Alt w" { CloseTab; }
-              bind "Alt a" { GoToNextTab; }
-              // Keep Alt+f free: macOS/Ghostty Option+Right becomes Meta-f (forward-word).
-              bind "Alt p" { ToggleFloatingPanes; }
-              bind "Alt j" { MoveFocus "Down"; }
-              bind "Alt k" { MoveFocus "Up"; }
-              bind "Alt 1" { GoToTab 1; }
+               bind "Alt t" { NewTab; }
+               bind "Alt w" { CloseTab; }
+               bind "Alt a" { GoToNextTab; }
+               // Keep Alt+f free: macOS/Ghostty Option+Right becomes Meta-f (forward-word).
+               bind "Alt p" { ToggleFloatingPanes; }
+               bind "Alt j" { MoveFocus "Down"; }
+               bind "Alt k" { MoveFocus "Up"; }
+               bind "Alt c" { Run "fish" "-c" "ccd" { name "Choose Directory"; floating true; close_on_exit true; }; }
+               bind "Alt 1" { GoToTab 1; }
               bind "Alt 2" { GoToTab 2; }
               bind "Alt 3" { GoToTab 3; }
               bind "Alt 4" { GoToTab 4; }
@@ -86,12 +87,13 @@ in
              bind "Alt t" { NewTab; }
              bind "Alt w" { CloseTab; }
              bind "Alt a" { GoToNextTab; }
-             bind "Alt p" { ToggleFloatingPanes; }
-             bind "Alt h" { MoveFocus "Left"; }
-             bind "Alt j" { MoveFocus "Down"; }
-             bind "Alt k" { MoveFocus "Up"; }
-             bind "Alt l" { MoveFocus "Right"; }
-             bind "Alt 1" { GoToTab 1; }
+              bind "Alt p" { ToggleFloatingPanes; }
+              bind "Alt h" { MoveFocus "Left"; }
+              bind "Alt j" { MoveFocus "Down"; }
+              bind "Alt k" { MoveFocus "Up"; }
+              bind "Alt l" { MoveFocus "Right"; }
+              bind "Alt c" { Run "fish" "-c" "ccd" { name "Choose Directory"; floating true; close_on_exit true; }; }
+              bind "Alt 1" { GoToTab 1; }
              bind "Alt 2" { GoToTab 2; }
              bind "Alt 3" { GoToTab 3; }
              bind "Alt 4" { GoToTab 4; }
@@ -269,22 +271,30 @@ in
         }
 
         tab name="oc1" split_direction="Horizontal" {
-          pane command="${pkgs.fish}/bin/fish" size="60%" {
-            args "-c" "cd ~/repos; opencode"
+          pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" {
+            args "-c" "cd ~/repos; opencode; exec fish -i"
           }
           pane split_direction="Vertical" size="40%" {
-            pane command="nvim"
-            pane command="yazi"
+            pane name="nvim" command="${pkgs.fish}/bin/fish" {
+              args "-c" "cd ~/repos; nvim; exec fish -i"
+            }
+            pane name="yazi" command="${pkgs.fish}/bin/fish" {
+              args "-c" "cd ~/repos; yazi; exec fish -i"
+            }
           }
         }
 
         tab name="oc2" split_direction="Horizontal" {
-          pane command="${pkgs.fish}/bin/fish" size="60%" {
-            args "-c" "cd ~/repos; opencode"
+          pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" {
+            args "-c" "cd ~/repos; opencode; exec fish -i"
           }
           pane split_direction="Vertical" size="40%" {
-            pane command="nvim"
-            pane command="yazi"
+            pane name="nvim" command="${pkgs.fish}/bin/fish" {
+              args "-c" "cd ~/repos; nvim; exec fish -i"
+            }
+            pane name="yazi" command="${pkgs.fish}/bin/fish" {
+              args "-c" "cd ~/repos; yazi; exec fish -i"
+            }
           }
         }
 
