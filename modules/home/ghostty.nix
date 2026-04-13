@@ -53,6 +53,9 @@ in
     # keybind = alt+4=goto_tab:4
     # keybind = alt+5=goto_tab:5
 
+    # Unbind Cmd+D (Ghostty default: new_split:right) — use Zellij instead
+    keybind = super+d=unbind
+
     # Split management (Kitty calls these "windows") (disabled; superseded by Zellij)
     # keybind = ctrl+shift+enter=new_split:auto
     # keybind = ctrl+shift+w=close_surface
