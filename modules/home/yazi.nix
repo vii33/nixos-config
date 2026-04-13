@@ -36,6 +36,9 @@
     code = [
       { run = 'open -a "Visual Studio Code" "$@"', desc = "Open in VS Code", orphan = true },
     ]
+    code-folder = [
+      { run = 'open -a "Visual Studio Code" %d1', desc = "Open folder in VS Code", orphan = true },
+    ]
     # Default text editor
     edit = [
       { run = '$EDITOR "$@"', block = true, desc = "Edit in $EDITOR" },
@@ -44,11 +47,11 @@
     [open]   # Wiring of openers to mime types
     # Prepend our custom rules but keep defaults for images, videos, etc.
     prepend_rules = [
-      { mime = "text/*", use = ["code", "edit"] },
-      { mime = "application/json", use = ["code", "edit"] },
-      { mime = "application/javascript", use = ["code", "edit"] },
-      { name = "*.yaml", use = ["code", "edit"] },
-      { name = "*.yml", use = ["code", "edit"] },
+      { mime = "text/*", use = ["code", "code-folder", "edit"] },
+      { mime = "application/json", use = ["code", "code-folder", "edit"] },
+      { mime = "application/javascript", use = ["code", "code-folder", "edit"] },
+      { url = "*.yaml", use = ["code", "code-folder", "edit"] },
+      { url = "*.yml", use = ["code", "code-folder", "edit"] },
     ]
   '';
   

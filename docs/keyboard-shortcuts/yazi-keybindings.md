@@ -183,8 +183,9 @@ Then use `ya` instead of `yazi` to automatically cd to the directory when you qu
 - Useful for pasting paths in terminal commands
 
 ### Open in External Editor
-- `o` — Open with default editor (usually `$EDITOR`)
-- `O` — Choose application to open with
+- `o` — Open with the configured chooser menu
+- `O` — Open with the default opener
+- In the chooser menu for code/text files, `Open folder in VS Code` opens the file's parent folder in Visual Studio Code
 
 ## Configuration Location
 
