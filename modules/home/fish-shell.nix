@@ -425,7 +425,7 @@ in
       end
 
       # ── 1. Pick a directory with fzf ──────────────────────────────
-      set -l fd_cmd "fd --type d --max-depth 3 --exclude node_modules --exclude .cache --exclude __pycache__ --exclude .venv --exclude target --exclude Library --exclude .Trash --exclude .npm --exclude .bun -- . $HOME"
+      set -l fd_cmd "fd --type d --max-depth 3 --no-ignore-vcs --exclude node_modules --exclude .cache --exclude __pycache__ --exclude .venv --exclude target --exclude Library --exclude .Trash --exclude .npm --exclude .bun -- . $HOME $HOME/Library/CloudStorage"
 
       set -l target (eval $fd_cmd | fzf \
         --prompt="Choose Directory> " \
