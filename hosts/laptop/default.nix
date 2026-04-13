@@ -71,7 +71,7 @@
       pkgs-unstable.brave
       pkgs-unstable.obsidian
       pkgs-unstable.bitwarden-desktop
-      pkgs-unstable.signal-desktop-bin
+      pkgs-unstable.signal-desktop
       thunderbird
       vlc
       pkgs-unstable.vscode
