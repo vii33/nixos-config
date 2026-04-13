@@ -187,6 +187,14 @@ in
             emphasis_2 158 206 106
             emphasis_3 187 154 247
           }
+          frame_unselected {
+            base 78 86 125
+            background 0
+            emphasis_0 255 158 100
+            emphasis_1 42 195 222
+            emphasis_2 187 154 247
+            emphasis_3 0
+          }
           frame_selected {
             base 158 206 106
             background 0
@@ -260,22 +268,23 @@ in
           pane command="yazi" size="40%"
         }
 
-        tab name="oc new" {
+        tab name="oc1" split_direction="Horizontal" {
           pane command="${pkgs.fish}/bin/fish" size="60%" {
             args "-c" "cd ~/repos; opencode"
           }
-          pane split_direction="Horizontal" size="40%" {
+          pane split_direction="Vertical" size="40%" {
             pane command="nvim"
-            pane command="${pkgs.fish}/bin/fish"
+            pane command="yazi"
           }
         }
 
-        tab name="oc 2" {
-          pane command="${pkgs.fish}/bin/fish" {
+        tab name="oc2" split_direction="Horizontal" {
+          pane command="${pkgs.fish}/bin/fish" size="60%" {
             args "-c" "cd ~/repos; opencode"
           }
-          pane command="${pkgs.fish}/bin/fish" {
-            args "-c" "cd ~/repos; opencode"
+          pane split_direction="Vertical" size="40%" {
+            pane command="nvim"
+            pane command="yazi"
           }
         }
 
@@ -283,17 +292,17 @@ in
           pane command="nvim"
         }
 
-        tab name="server" {
-          pane name="server" command="${pkgs.fish}/bin/fish" size="5%" {
-            args "-c" "cd ~/repos; opencode serve --port 3010"
-          }
-          pane name="ask" command="${pkgs.fish}/bin/fish" focus=true {
-            args "-c" "cd ~/repos; sleep 4; opencode attach http://localhost:3010"
-          }
-          pane name="ask (2)" command="${pkgs.fish}/bin/fish" {
-            args "-c" "cd ~/repos; sleep 4; opencode attach http://localhost:3010"
-          }
-        }
+        // tab name="server" {
+        //   pane name="server" command="${pkgs.fish}/bin/fish" size="5%" {
+        //     args "-c" "cd ~/repos; opencode serve --port 3010"
+        //   }
+        //   pane name="ask" command="${pkgs.fish}/bin/fish" focus=true {
+        //     args "-c" "cd ~/repos; sleep 4; opencode attach http://localhost:3010"
+        //   }
+        //   pane name="ask (2)" command="${pkgs.fish}/bin/fish" {
+        //     args "-c" "cd ~/repos; sleep 4; opencode attach http://localhost:3010"
+        //   }
+        // }
 
         tab name="nixos" {
           pane command="${pkgs.fish}/bin/fish" {

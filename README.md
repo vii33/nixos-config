@@ -198,7 +198,7 @@ The script skips files that already exist, preserving any manual customizations 
 
 ##### Zellij: Reloading Config After Rebuild
 
-Zellij doesn't support hot-reloading its configuration. After a Home Manager rebuild, keybindings may stop working because the running session still holds the old (now stale) config. Use the `hmswitch` alias to rebuild and auto-detach:
+Zellij doesn't support hot-reloading its configuration. After a Home Manager rebuild, keybindings may stop working because the running session still holds the old (now stale) config. Use the `hmswitch` alias to rebuild, auto-detach, and let a background helper remove the current session:
 
 ```bash
 # Rebuild Home Manager and end the current Zellij session (so next attach is fresh)
