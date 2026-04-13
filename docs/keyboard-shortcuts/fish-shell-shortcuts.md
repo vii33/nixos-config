@@ -12,6 +12,7 @@ These shell abbreviations are configured in `modules/home/fish-shell.nix`.
 | `noclean` | `nh clean all --keep-since 3d --keep 3` | Cleanup old generations |
 | `nosearch` | `nh search` | Fast package search |
 | `workbuild` | `home-manager switch --flake ~/repos/nixos-config/.#work --impure` | macOS user-level update |
+| `hmswitch` | rebuilds Home Manager, detaches Zellij, then removes the current session via a background helper | Fresh Zellij session on next `zz` |
 | `workswitch` | `cd ~/repos/nixos-config; and darwin-rebuild build --flake .#work --impure; and sudo env "PATH=$PATH" ./result/activate` | macOS system rebuild (build+activate) |
 | `zellijkill` | `zellij kill-all-sessions -y; zellij delete-all-sessions -y` | Kill + delete all Zellij sessions (non-interactive) |
 
@@ -22,7 +23,7 @@ These keyboard shortcuts are configured in `modules/home/fish-shell.nix`. Some r
 | Key | Action | Notes |
 |---|---|---|
 | `Alt + C` | change to directory | Uses `fzf` to select directory |
-| `Ctrl + O` | fuzzy pick file and insert path | Works in insert/normal/visual mode |
+| `Ctrl + Shift + O` | fuzzy pick file and insert path | Works in insert/normal/visual mode |
 | `Ctrl + E` | fuzzy pick env var and insert `$VARNAME` | Custom picker; requires `fzf` |
 | `Ctrl + F` | fzf directory  |  |
 | `Ctrl + B` | Key Bindings | Custom function; requires `fzf` |

@@ -108,8 +108,17 @@ in
       bs = "pybonsai -w 0.04";
 
       # Mac OS
-      # Rebuild Home Manager and end the current Zellij session so the next attach starts fresh.
-      hmswitch = "home-manager switch --flake ~/repos/nixos-config/.#work --impure; and if set -q ZELLIJ_SESSION_NAME; zellij delete-session -f $ZELLIJ_SESSION_NAME; else; zellij delete-session -f main; end";
+      # Rebuild Home Manager, then detach and let a helper process remove the
+      # current Zellij session so the next attach starts fresh.
+      hmswitch =
+        "home-manager switch --flake ~/repos/nixos-config/.#work --impure; and begin; "
+        + "set -l session_name main; "
+        + "if set -q ZELLIJ_SESSION_NAME; set session_name $ZELLIJ_SESSION_NAME; "
+        + "nohup fish -c \"sleep 1; zellij kill-session '$session_name' >/dev/null 2>&1; "
+        + "sleep 1; zellij delete-session '$session_name' >/dev/null 2>&1\" "
+        + "</dev/null >/dev/null 2>&1 &; disown; zellij action detach; "
+        + "else; zellij kill-session $session_name; sleep 1; "
+        + "zellij delete-session $session_name; end; end";
       workswitch = "cd ~/repos/nixos-config; and darwin-rebuild build --flake .#work --impure; and sudo env \"PATH=$PATH\" ./result/activate";
       proxyrestart = "launchctl kickstart -k -p \"gui/$(id -u)/cc.colorto.proxydetox\"";
 
@@ -255,10 +264,10 @@ in
       # Vim-like yy in normal (default) mode
       bind -M default 'yy' 'fun_copy_commandline_to_clipboard'
 
-      # Ctrl+O -> fuzzy pick a file and insert (works in normal/insert/visual).
-        bind ctrl-o fun_fzf_file_open
-        bind -M insert ctrl-o fun_fzf_file_open
-        bind -M visual ctrl-o fun_fzf_file_open
+      # Ctrl+Shift+O -> fuzzy pick a file and insert (works in normal/insert/visual).
+        bind ctrl-shift-o fun_fzf_file_open
+        bind -M insert ctrl-shift-o fun_fzf_file_open
+        bind -M visual ctrl-shift-o fun_fzf_file_open
 
       # Ctrl+E -> fuzzy pick an environment variable and insert "$VARNAME".
       bind ctrl-e fun_fzf_env_var_insert
@@ -341,7 +350,7 @@ in
       end
     '';
 
-    # Custom helper function: Ctrl+O launches a file picker and inserts the selected file path at cursor.
+    # Custom helper function: Ctrl+Shift+O launches a file picker and inserts the selected file path at cursor.
     # - Uses fd if available (respects .gitignore); falls back to find.
     # - Shows preview with bat for text files and chafa for images.
     # - Future idea: launch nvim when no editor was given in command
