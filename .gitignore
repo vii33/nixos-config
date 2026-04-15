@@ -24,3 +24,7 @@ shell.nix
 # Symlink to nvim-local (user runtime config)
 nvim-local/
 CLAUDE.md
+
+# Local Zellij CCDR debugging artifacts
+scripts/test-zellij-ccdr.sh
+.harness-logs/

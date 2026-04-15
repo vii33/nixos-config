@@ -1,6 +1,6 @@
 # modules/home/zellij.nix
 # Zellij terminal multiplexer configuration (startup layout)
-{ pkgs, ... }:
+{ pkgs, pkgs-unstable, ... }:
 
 let
   copilotAgentArgs = builtins.concatStringsSep " " [
@@ -34,7 +34,7 @@ in
 {
   # Needed for standalone Home Manager activation (flake homeConfigurations.work).
   home.packages = [
-    pkgs.zellij
+    pkgs-unstable.zellij
   ];
 
   home.file.".config/zellij/config.kdl" = {
@@ -71,7 +71,7 @@ in
                bind "Alt p" { ToggleFloatingPanes; }
                bind "Alt j" { MoveFocus "Down"; }
                bind "Alt k" { MoveFocus "Up"; }
-               bind "Alt c" { Run "fish" "-c" "ccd" { name "Choose Directory"; floating true; close_on_exit true; }; }
+                bind "Alt c" { Run "fish" "-c" "ccdr" { name "Choose Directory"; floating true; close_on_exit true; }; }
                bind "Alt 1" { GoToTab 1; }
               bind "Alt 2" { GoToTab 2; }
               bind "Alt 3" { GoToTab 3; }
@@ -92,7 +92,7 @@ in
               bind "Alt j" { MoveFocus "Down"; }
               bind "Alt k" { MoveFocus "Up"; }
               bind "Alt l" { MoveFocus "Right"; }
-              bind "Alt c" { Run "fish" "-c" "ccd" { name "Choose Directory"; floating true; close_on_exit true; }; }
+               bind "Alt c" { Run "fish" "-c" "ccdr" { name "Choose Directory"; floating true; close_on_exit true; }; }
               bind "Alt 1" { GoToTab 1; }
              bind "Alt 2" { GoToTab 2; }
              bind "Alt 3" { GoToTab 3; }
@@ -298,6 +298,20 @@ in
           }
         }
 
+        tab name="oc3" split_direction="Horizontal" {
+          pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" {
+            args "-c" "cd ~/repos; opencode; exec fish -i"
+          }
+          pane split_direction="Vertical" size="40%" {
+            pane name="nvim" command="${pkgs.fish}/bin/fish" {
+              args "-c" "cd ~/repos; nvim; exec fish -i"
+            }
+            pane name="yazi" command="${pkgs.fish}/bin/fish" {
+              args "-c" "cd ~/repos; yazi; exec fish -i"
+            }
+          }
+        }
+
         tab name="nvim" {
           pane command="nvim"
         }
@@ -320,6 +334,37 @@ in
           }
           pane command="${pkgs.fish}/bin/fish" {
             args "-c" "cd ~/repos/nixos-config; opencode"
+          }
+        }
+      }
+    '';
+  };
+
+  home.file.".config/zellij/layouts/oc-tab.kdl" = {
+    force = true;
+    text = ''
+      layout {
+        default_tab_template {
+          pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+          }
+          children
+          pane size=1 borderless=true {
+            plugin location="compact-bar"
+          }
+        }
+
+        tab split_direction="Horizontal" {
+          pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" {
+            args "-c" "opencode; exec fish -i"
+          }
+          pane split_direction="Vertical" size="40%" {
+            pane name="nvim" command="${pkgs.fish}/bin/fish" {
+              args "-c" "nvim; exec fish -i"
+            }
+            pane name="yazi" command="${pkgs.fish}/bin/fish" {
+              args "-c" "yazi; exec fish -i"
+            }
           }
         }
       }

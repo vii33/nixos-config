@@ -7,6 +7,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-fish-good.url = "github:NixOS/nixpkgs/e9f278faa1d0c2fc835bd331d4666b59b505a410";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
         url = "github:nix-community/home-manager/release-25.11";
@@ -39,7 +40,7 @@
 
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, 
+  outputs = { self, nixpkgs, nixpkgs-fish-good, nixpkgs-unstable, home-manager,
               nix-darwin, nixvim, sops-nix, niri, paneru, kanagawa-yazi, ... }@inputs:
   let
     macosUsername =
@@ -47,6 +48,19 @@
           home = builtins.getEnv "HOME";
           homeUser = if home != "" then builtins.baseNameOf home else "";
       in if u != "" then u else if homeUser != "" then homeUser else "vii";
+    darwinSystem = "aarch64-darwin";
+    fishOverlayDarwin =
+      let
+        fishPkgsDarwin = import nixpkgs-fish-good {
+          system = darwinSystem;
+          config.allowUnfree = true;
+        };
+      in
+      final: prev: {
+        # Fish from the latest nixpkgs snapshot hangs on macOS after startup.
+        # TODO: Remove this override once nixpkgs fixes fish on Darwin.
+        fish = fishPkgsDarwin.fish;
+      };
   in {
     nixosConfigurations = {
 
@@ -83,17 +97,20 @@
 
     darwinConfigurations = {
       work = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";  # Apple silicon
+        system = darwinSystem;  # Apple silicon
         specialArgs = { 
           inherit inputs;
           inherit macosUsername;
           pkgs-unstable = import nixpkgs-unstable {
-            system = "aarch64-darwin";
+            system = darwinSystem;
             config.allowUnfree = true;
           };
         };
         modules = [
           inputs.sops-nix.darwinModules.sops
+          {
+            nixpkgs.overlays = [ fishOverlayDarwin ];
+          }
           ./hosts/work/default.nix
         ];
       };
@@ -103,10 +120,11 @@
     homeConfigurations = {
       work = 
       let
-        system = "aarch64-darwin";
+        system = darwinSystem;
         pkgs = import nixpkgs {
           inherit system;
           config.allowUnfree = true;
+          overlays = [ fishOverlayDarwin ];
         };
         pkgs-unstable = import nixpkgs-unstable {
           inherit system;

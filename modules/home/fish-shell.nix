@@ -9,6 +9,89 @@ let
   vscode-cli = pkgs.writeShellScriptBin "code" ''
     open -a "Visual Studio Code" "$@"
   '';
+
+  zellij-ccdr-finalize = pkgs.writeShellScriptBin "zellij-ccdr-finalize" ''
+    set -eu
+
+    if [ "$#" -ne 4 ]; then
+      echo "usage: zellij-ccdr-finalize <session> <old-tab-id> <new-tab-id> <final-name>" >&2
+      exit 2
+    fi
+
+    session_name="$1"
+    old_tab_id="$2"
+    new_tab_id="$3"
+    final_name="$4"
+    log_dir="$HOME/repos/nixos-config/.harness-logs"
+    mkdir -p "$log_dir"
+    log_file="$log_dir/zellij-ccdr-finalize-''${session_name}-''${old_tab_id}-''${new_tab_id}.log"
+
+    log() {
+      printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*" >> "$log_file"
+    }
+
+    list_tabs_json() {
+      zellij -s "$session_name" action list-tabs --json
+    }
+
+    dump_tabs() {
+      log "tabs: $(list_tabs_json | tr '\n' ' ')"
+    }
+
+    tab_has_name() {
+      local tab_id="$1"
+      local expected_name="$2"
+      list_tabs_json | python3 -c '
+import json, sys
+tab_id = int(sys.argv[1])
+expected = sys.argv[2]
+tabs = json.load(sys.stdin)
+match = next((t for t in tabs if t["tab_id"] == tab_id), None)
+raise SystemExit(0 if match and match["name"] == expected else 1)
+' "$tab_id" "$expected_name"
+    }
+
+    tab_exists() {
+      local tab_id="$1"
+      list_tabs_json | python3 -c '
+import json, sys
+tab_id = int(sys.argv[1])
+tabs = json.load(sys.stdin)
+raise SystemExit(0 if any(t["tab_id"] == tab_id for t in tabs) else 1)
+' "$tab_id"
+    }
+
+    log "start session=$session_name old_tab_id=$old_tab_id new_tab_id=$new_tab_id final_name=$final_name"
+    dump_tabs
+
+    log "rename-tab-by-id $new_tab_id $final_name"
+    zellij -s "$session_name" action rename-tab-by-id "$new_tab_id" "$final_name"
+    for _ in 1 2 3 4 5 6 7 8 9 10; do
+      if tab_has_name "$new_tab_id" "$final_name"; then
+        log "rename verified"
+        break
+      fi
+      sleep 0.1
+    done
+    tab_has_name "$new_tab_id" "$final_name"
+    dump_tabs
+
+    log "close-tab-by-id $old_tab_id"
+    zellij -s "$session_name" action close-tab-by-id "$old_tab_id"
+    for _ in 1 2 3 4 5 6 7 8 9 10; do
+      if ! tab_exists "$old_tab_id"; then
+        log "close verified"
+        dump_tabs
+        exit 0
+      fi
+      sleep 0.1
+    done
+
+    dump_tabs
+    echo "zellij-ccdr-finalize: old tab $old_tab_id still exists" >&2
+    log "failure: old tab still exists"
+    exit 1
+  '';
 in
 {
   # Set environment variables for the session
@@ -35,6 +118,7 @@ in
 
   home.packages = with pkgs; [
     chafa                       # terminal image viewer (works on Linux & macOS)
+    zellij-ccdr-finalize
   ] ++ lib.optionals isLinux [
     wl-clipboard                # for Wayland clipboard access (used by fun_copy_commandline_to_clipboard)
   ] ++ lib.optionals isDarwin [
@@ -494,6 +578,127 @@ in
       sleep 0.1
       zellij action write-chars "cd $target_dir; yazi"
       zellij action write 13
+    '';
+
+    # Zellij: safely rebuild the current oc tab in a new directory.
+    # Unlike ccd, this does not send control keys into running TUIs.
+    # Requires Zellij >= 0.44 for stable tab-id actions.
+    functions.ccdr.body = ''
+      set -l log_dir "$HOME/repos/nixos-config/.harness-logs"
+      mkdir -p "$log_dir"
+      set -l run_id (date +%Y%m%d-%H%M%S)-$fish_pid
+      set -l log_file "$log_dir/ccdr-$run_id.log"
+
+      function _ccdr_log
+        printf '[%s] %s\n' (date '+%Y-%m-%d %H:%M:%S') "$argv" >> "$log_file"
+      end
+
+      set -l current_tab ""
+      set -l current_tab_id ""
+      set -l current_position ""
+      set -l tab_count (count (zellij action query-tab-names 2>/dev/null))
+      set -l tab_info_json (zellij action current-tab-info --json 2>/dev/null)
+      set -l tab_info (printf '%s\n' "$tab_info_json" | python3 -c 'import json,sys; d=json.load(sys.stdin); print(d["name"]); print(d["tab_id"]); print(d["position"])')
+
+      if test (count $tab_info) -ge 3
+        set current_tab $tab_info[1]
+        set current_tab_id $tab_info[2]
+        set current_position $tab_info[3]
+      end
+
+      _ccdr_log "start run_id=$run_id"
+      _ccdr_log "tab_info_json=$tab_info_json"
+      _ccdr_log "current_tab=$current_tab current_tab_id=$current_tab_id current_position=$current_position tab_count=$tab_count"
+      _ccdr_log "tabs_before="(zellij action list-tabs --json 2>/dev/null | string collect)
+
+      if test -z "$current_tab"; or test -z "$current_tab_id"; or test -z "$current_position"
+        _ccdr_log "error: could not determine current tab info"
+        echo "ccdr: could not determine current tab info"
+        return 1
+      end
+
+      if not string match -q 'oc*' "$current_tab"
+        _ccdr_log "error: current tab not oc* ($current_tab)"
+        echo "ccdr: only works on oc tabs (current: $current_tab)"
+        sleep 2
+        return 1
+      end
+
+      if not set -q ZELLIJ_SESSION_NAME
+        _ccdr_log "error: missing ZELLIJ_SESSION_NAME"
+        echo "ccdr: missing ZELLIJ_SESSION_NAME"
+        return 1
+      end
+
+      set -l fd_cmd "fd --type d --max-depth 3 --no-ignore-vcs --exclude node_modules --exclude .cache --exclude __pycache__ --exclude .venv --exclude target --exclude Library --exclude .Trash --exclude .npm --exclude .bun -- . $HOME $HOME/Library/CloudStorage"
+
+      set -l target (eval $fd_cmd | fzf \
+        --prompt="Choose Directory> " \
+        --height=80% \
+        --reverse \
+        --border \
+        --exit-0 \
+        --preview 'ls -1 {} 2>/dev/null | head -60' \
+        --preview-window=right,40%:wrap )
+
+      test -n "$target"; or return 0
+      set -l target_dir (realpath "$target")
+      _ccdr_log "target=$target target_dir=$target_dir"
+
+      if not test -d "$target_dir"
+        _ccdr_log "error: target is not a directory"
+        echo "Error: $target_dir is not a directory"
+        return 1
+      end
+
+      set -l layout_path "$HOME/.config/zellij/layouts/oc-tab.kdl"
+      if not test -f "$layout_path"
+        _ccdr_log "error: missing layout $layout_path"
+        echo "ccdr: missing layout $layout_path"
+        return 1
+      end
+
+      set -l temp_tab_name "$current_tab-reload-"(random)
+      set -l moves_left (math "$tab_count - $current_position - 1")
+      _ccdr_log "temp_tab_name=$temp_tab_name moves_left=$moves_left layout_path=$layout_path session=$ZELLIJ_SESSION_NAME"
+
+      zellij action hide-floating-panes --tab-id "$current_tab_id" >/dev/null 2>&1
+      _ccdr_log "hide-floating-panes tab_id=$current_tab_id"
+      sleep 0.2
+
+      # One visible switch: the new tab is created focused, then moved by stable
+      # tab-id into the original slot. The old tab is closed by id, so there is
+      # no need to switch back to it.
+      set -l new_tab_id (zellij action new-tab --layout "$layout_path" --cwd "$target_dir" --name "$temp_tab_name")
+      _ccdr_log "new_tab_id=$new_tab_id"
+      if test -z "$new_tab_id"
+        _ccdr_log "error: failed to create replacement tab"
+        echo "ccdr: failed to create replacement tab"
+        return 1
+      end
+
+      _ccdr_log "tabs_after_new_tab="(zellij action list-tabs --json 2>/dev/null | string collect)
+
+      sleep 0.3
+      while test $moves_left -gt 0
+        _ccdr_log "move-tab left new_tab_id=$new_tab_id remaining=$moves_left"
+        zellij action move-tab --tab-id "$new_tab_id" left
+        sleep 0.1
+        set moves_left (math "$moves_left - 1")
+      end
+
+      _ccdr_log "tabs_after_reorder="(zellij action list-tabs --json 2>/dev/null | string collect)
+
+      # We are still running inside a floating pane on the old tab. Closing that
+      # tab would kill this process before the rename happens, so the final steps
+      # must run from a detached helper against the session by stable tab IDs.
+      # Keep the helper/file logging for now even though the UI debug text is
+      # gone; it gives us post-mortem evidence if Alt+C regresses again.
+      set -l session_name "$ZELLIJ_SESSION_NAME"
+      _ccdr_log "launch_helper session=$session_name old_tab_id=$current_tab_id new_tab_id=$new_tab_id final_name=$current_tab"
+      nohup zellij-ccdr-finalize "$session_name" "$current_tab_id" "$new_tab_id" "$current_tab" </dev/null >/dev/null 2>&1 &
+      disown
+      _ccdr_log "helper_launched"
     '';
   };
 }
