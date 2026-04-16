@@ -170,7 +170,7 @@ in
       ezatree = "eza -T -a -L 2 --icons";
       ezal = "eza -lah --icons --git --group-directories-first --header";
       # Auto-run pane commands when resurrecting a session.
-      zz = "zellij attach -cf main";
+      zz = "zellij attach -c --forget main";
       zellijkill = "zellij kill-all-sessions -y; zellij delete-all-sessions -y";
       
       # NixOS
