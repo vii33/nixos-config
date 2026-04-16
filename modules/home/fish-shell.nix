@@ -172,6 +172,7 @@ in
       # Auto-run pane commands when resurrecting a session.
       zz = "zellij attach -c --forget main";
       zellijkill = "zellij kill-all-sessions -y; zellij delete-all-sessions -y";
+      zzk = "zellij kill-all-sessions -y; zellij delete-all-sessions -y";
       
       # NixOS
       nodry = "nh os dry-run ~/nixos-config/flake.nix -H laptop";
