@@ -67,6 +67,8 @@ in
                bind "Alt t" { NewTab; }
                bind "Alt w" { CloseTab; }
                bind "Alt a" { GoToNextTab; }
+               bind "Ctrl ö" { MoveTab "Left"; }
+               bind "Ctrl ä" { MoveTab "Right"; }
                // Keep Alt+f free: macOS/Ghostty Option+Right becomes Meta-f (forward-word).
                bind "Alt p" { ToggleFloatingPanes; }
                bind "Alt j" { MoveFocus "Down"; }
@@ -87,6 +89,8 @@ in
              bind "Alt t" { NewTab; }
              bind "Alt w" { CloseTab; }
              bind "Alt a" { GoToNextTab; }
+             bind "Ctrl ö" { MoveTab "Left"; }
+             bind "Ctrl ä" { MoveTab "Right"; }
               bind "Alt p" { ToggleFloatingPanes; }
               bind "Alt h" { MoveFocus "Left"; }
               bind "Alt j" { MoveFocus "Down"; }
