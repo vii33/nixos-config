@@ -19,6 +19,7 @@ Configured in `modules/home/zellij.nix` (default mode: `locked`, toggle with `Ct
 | `Alt + t` | New tab |
 | `Alt + w` | Close tab |
 | `Alt + a` | Next tab |
+| `Ctrl + ö/ä` | Move current tab left/right |
 | `Alt + 1..9` | Go to tab 1..9 |
 | `Alt + h/j/k/l` | Move focus (left/down/up/right) |
 | `Alt + c` | Rebuild current `oc` tab in a chosen directory |
