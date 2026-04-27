@@ -20,9 +20,8 @@ let
 
   mkCopilotCmd = dir: extraArgs: "cd ${dir} && copilot ${extraArgs}";
 
-  # Fish one-liner: block until the opencode server responds on a given port.
-  waitForPort = port:
-    "while not curl -sf http://localhost:${toString port} >/dev/null 2>&1; sleep 1; end";
+  # `opencode attach` still races with simple port probes; a short fixed delay is reliable.
+  waitForOpencodeAttach = "sleep 4";
 
   zenCmd =
     "if type -q pybonsai; sleep 1; while true; clear; "
@@ -274,27 +273,13 @@ in
           pane command="yazi" size="40%" start_suspended=false
         }
 
-        tab name="oc1" split_direction="Horizontal" {
-          pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" start_suspended=false {
-            args "-c" "cd ~/repos; opencode; exec fish -i"
-          }
-          pane split_direction="Vertical" size="40%" {
-            pane name="nvim" command="${pkgs.fish}/bin/fish" start_suspended=false {
-              args "-c" "cd ~/repos; nvim; exec fish -i"
-            }
-            pane name="yazi" command="${pkgs.fish}/bin/fish" start_suspended=false {
-              args "-c" "cd ~/repos; yazi; exec fish -i"
-            }
-          }
-        }
-
         tab name="oc2" split_direction="Horizontal" {
           pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" start_suspended=false {
             args "-c" "cd ~/repos; opencode; exec fish -i"
           }
           pane split_direction="Vertical" size="40%" {
-            pane name="nvim" command="${pkgs.fish}/bin/fish" start_suspended=false {
-              args "-c" "cd ~/repos; nvim; exec fish -i"
+            pane command="${pkgs.fish}/bin/fish" start_suspended=false {
+              args "-c" "cd ~/repos; ${waitForOpencodeAttach}; opencode attach http://localhost:4096; exec fish -i"
             }
             pane name="yazi" command="${pkgs.fish}/bin/fish" start_suspended=false {
               args "-c" "cd ~/repos; yazi; exec fish -i"
@@ -307,17 +292,13 @@ in
             args "-c" "cd ~/repos; opencode; exec fish -i"
           }
           pane split_direction="Vertical" size="40%" {
-            pane name="nvim" command="${pkgs.fish}/bin/fish" start_suspended=false {
-              args "-c" "cd ~/repos; nvim; exec fish -i"
+            pane command="${pkgs.fish}/bin/fish" start_suspended=false {
+              args "-c" "cd ~/repos; ${waitForOpencodeAttach}; opencode attach http://localhost:4096; exec fish -i"
             }
             pane name="yazi" command="${pkgs.fish}/bin/fish" start_suspended=false {
               args "-c" "cd ~/repos; yazi; exec fish -i"
             }
           }
-        }
-
-        tab name="nvim" {
-          pane command="nvim" start_suspended=false
         }
 
         // tab name="server" {
@@ -332,12 +313,12 @@ in
         //   }
         // }
 
-        tab name="nixos" {
-          pane command="${pkgs.fish}/bin/fish" start_suspended=false {
-            args "-c" "cd ~/repos/nixos-config; opencode"
+        tab name="nixos" split_direction="Horizontal" {
+          pane name="server" command="${pkgs.fish}/bin/fish" size="10%" start_suspended=false {
+            args "-c" "cd ~/repos/nixos-config; opencode serve --hostname 0.0.0.0 --port 4096"
           }
-          pane command="${pkgs.fish}/bin/fish" start_suspended=false {
-            args "-c" "cd ~/repos/nixos-config; opencode"
+          pane name="attach" command="${pkgs.fish}/bin/fish" focus=true start_suspended=false {
+            args "-c" "cd ~/repos/nixos-config; ${waitForOpencodeAttach}; opencode attach http://localhost:4096"
           }
         }
       }
