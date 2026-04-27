@@ -57,8 +57,8 @@ yazi ~/path   # Open in specific directory
 - `X` — Cancel the yank status
 
 ### File Management
-- `o` — Open file interactively (choose application)
-- `O` — Open file with default application
+- `o` — Open interactively (choose application; on directories offers "Open folder in VS Code")
+- `O` — Open with default application
 - `Enter` — Enter directory / open file (smart-enter)
 - `Shift+Enter` — Open selected files interactively (some terminals don't support)
 - `Space` — Preview with Quick Look (macOS)

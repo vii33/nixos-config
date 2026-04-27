@@ -39,6 +39,10 @@
     code-folder = [
       { run = 'open -a "Visual Studio Code" %d1', desc = "Open folder in VS Code", orphan = true },
     ]
+    # VS Code opener for directories (passes the directory itself, not its parent)
+    code-dir = [
+      { run = 'open -a "Visual Studio Code" "$@"', desc = "Open folder in VS Code", orphan = true },
+    ]
     # Default text editor
     edit = [
       { run = '$EDITOR "$@"', block = true, desc = "Edit in $EDITOR" },
@@ -47,11 +51,16 @@
     [open]   # Wiring of openers to mime types
     # Prepend our custom rules but keep defaults for images, videos, etc.
     prepend_rules = [
+      # Directories — offer to open in VS Code
+      { mime = "inode/directory", use = ["code-dir"] },
+      # Code / text files — VS Code as primary, plus folder & editor
       { mime = "text/*", use = ["code", "code-folder", "edit"] },
       { mime = "application/json", use = ["code", "code-folder", "edit"] },
       { mime = "application/javascript", use = ["code", "code-folder", "edit"] },
       { url = "*.yaml", use = ["code", "code-folder", "edit"] },
       { url = "*.yml", use = ["code", "code-folder", "edit"] },
+      # All other files — system open first, but always offer "Open folder in VS Code"
+      { mime = "*/*", use = ["open", "code-folder", "reveal"] },
     ]
   '';
   
