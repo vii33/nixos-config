@@ -266,77 +266,77 @@ in
 
         tab name="User" focus=true {
           pane split_direction="Vertical" size="60%" {
-            pane name="terminal" command="${pkgs.fish}/bin/fish" focus=true size="80%"
-            pane name="zen" command="${pkgs.fish}/bin/fish" size="20%" {
+            pane name="terminal" command="${pkgs.fish}/bin/fish" focus=true size="80%" start_suspended=false
+            pane name="zen" command="${pkgs.fish}/bin/fish" size="20%" start_suspended=false {
               args "-c" "${zenCmd}"
             }
           }
-          pane command="yazi" size="40%"
+          pane command="yazi" size="40%" start_suspended=false
         }
 
         tab name="oc1" split_direction="Horizontal" {
-          pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" {
+          pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" start_suspended=false {
             args "-c" "cd ~/repos; opencode; exec fish -i"
           }
           pane split_direction="Vertical" size="40%" {
-            pane name="nvim" command="${pkgs.fish}/bin/fish" {
+            pane name="nvim" command="${pkgs.fish}/bin/fish" start_suspended=false {
               args "-c" "cd ~/repos; nvim; exec fish -i"
             }
-            pane name="yazi" command="${pkgs.fish}/bin/fish" {
+            pane name="yazi" command="${pkgs.fish}/bin/fish" start_suspended=false {
               args "-c" "cd ~/repos; yazi; exec fish -i"
             }
           }
         }
 
         tab name="oc2" split_direction="Horizontal" {
-          pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" {
+          pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" start_suspended=false {
             args "-c" "cd ~/repos; opencode; exec fish -i"
           }
           pane split_direction="Vertical" size="40%" {
-            pane name="nvim" command="${pkgs.fish}/bin/fish" {
+            pane name="nvim" command="${pkgs.fish}/bin/fish" start_suspended=false {
               args "-c" "cd ~/repos; nvim; exec fish -i"
             }
-            pane name="yazi" command="${pkgs.fish}/bin/fish" {
+            pane name="yazi" command="${pkgs.fish}/bin/fish" start_suspended=false {
               args "-c" "cd ~/repos; yazi; exec fish -i"
             }
           }
         }
 
         tab name="oc3" split_direction="Horizontal" {
-          pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" {
+          pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" start_suspended=false {
             args "-c" "cd ~/repos; opencode; exec fish -i"
           }
           pane split_direction="Vertical" size="40%" {
-            pane name="nvim" command="${pkgs.fish}/bin/fish" {
+            pane name="nvim" command="${pkgs.fish}/bin/fish" start_suspended=false {
               args "-c" "cd ~/repos; nvim; exec fish -i"
             }
-            pane name="yazi" command="${pkgs.fish}/bin/fish" {
+            pane name="yazi" command="${pkgs.fish}/bin/fish" start_suspended=false {
               args "-c" "cd ~/repos; yazi; exec fish -i"
             }
           }
         }
 
         tab name="nvim" {
-          pane command="nvim"
+          pane command="nvim" start_suspended=false
         }
 
         // tab name="server" {
-        //   pane name="server" command="${pkgs.fish}/bin/fish" size="5%" {
+        //   pane name="server" command="${pkgs.fish}/bin/fish" size="5%" start_suspended=false {
         //     args "-c" "cd ~/repos; opencode serve --port 3010"
         //   }
-        //   pane name="ask" command="${pkgs.fish}/bin/fish" focus=true {
+        //   pane name="ask" command="${pkgs.fish}/bin/fish" focus=true start_suspended=false {
         //     args "-c" "cd ~/repos; sleep 4; opencode attach http://localhost:3010"
         //   }
-        //   pane name="ask (2)" command="${pkgs.fish}/bin/fish" {
+        //   pane name="ask (2)" command="${pkgs.fish}/bin/fish" start_suspended=false {
         //     args "-c" "cd ~/repos; sleep 4; opencode attach http://localhost:3010"
         //   }
         // }
 
         tab name="nixos" {
-          pane command="${pkgs.fish}/bin/fish" {
+          pane command="${pkgs.fish}/bin/fish" start_suspended=false {
             args "-c" "cd ~/repos/nixos-config; opencode"
           }
-          pane command="${pkgs.fish}/bin/fish" {
+          pane command="${pkgs.fish}/bin/fish" start_suspended=false {
             args "-c" "cd ~/repos/nixos-config; opencode"
           }
         }
@@ -359,14 +359,14 @@ in
         }
 
         tab split_direction="Horizontal" {
-          pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" {
+          pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" start_suspended=false {
             args "-c" "opencode; exec fish -i"
           }
           pane split_direction="Vertical" size="40%" {
-            pane name="nvim" command="${pkgs.fish}/bin/fish" {
+            pane name="nvim" command="${pkgs.fish}/bin/fish" start_suspended=false {
               args "-c" "nvim; exec fish -i"
             }
-            pane name="yazi" command="${pkgs.fish}/bin/fish" {
+            pane name="yazi" command="${pkgs.fish}/bin/fish" start_suspended=false {
               args "-c" "yazi; exec fish -i"
             }
           }
