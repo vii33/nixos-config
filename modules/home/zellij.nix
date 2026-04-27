@@ -72,7 +72,7 @@ in
                bind "Alt p" { ToggleFloatingPanes; }
                bind "Alt j" { MoveFocus "Down"; }
                bind "Alt k" { MoveFocus "Up"; }
-                bind "Alt c" { Run "fish" "-c" "ccdr" { name "Choose Directory"; floating true; close_on_exit true; }; }
+                 bind "Alt c" { Run "fish" "-c" "ccd" { name "Choose Directory"; floating true; close_on_exit true; }; }
                bind "Alt 1" { GoToTab 1; }
               bind "Alt 2" { GoToTab 2; }
               bind "Alt 3" { GoToTab 3; }
@@ -83,19 +83,19 @@ in
               bind "Alt 8" { GoToTab 8; }
               bind "Alt 9" { GoToTab 9; }
           }
-           locked {
-             // Allow tab switching and pane navigation even in locked mode (so Ctrl-based shell bindings keep working).
-             bind "Alt t" { NewTab; }
-             bind "Alt w" { CloseTab; }
-             bind "Alt a" { GoToNextTab; }
+          locked {
+            // Allow tab switching and pane navigation even in locked mode (so Ctrl-based shell bindings keep working).
+            bind "Alt t" { NewTab; }
+            bind "Alt w" { CloseTab; }
+            bind "Alt a" { GoToNextTab; }
              bind "Ctrl ö" { MoveTab "Left"; }
              bind "Ctrl ä" { MoveTab "Right"; }
-              bind "Alt p" { ToggleFloatingPanes; }
-              bind "Alt h" { MoveFocus "Left"; }
-              bind "Alt j" { MoveFocus "Down"; }
-              bind "Alt k" { MoveFocus "Up"; }
-              bind "Alt l" { MoveFocus "Right"; }
-               bind "Alt c" { Run "fish" "-c" "ccdr" { name "Choose Directory"; floating true; close_on_exit true; }; }
+               bind "Alt p" { ToggleFloatingPanes; }
+               bind "Alt h" { MoveFocus "Left"; }
+               bind "Alt j" { MoveFocus "Down"; }
+               bind "Alt k" { MoveFocus "Up"; }
+               bind "Alt l" { MoveFocus "Right"; }
+                bind "Alt c" { Run "fish" "-c" "ccd" { name "Choose Directory"; floating true; close_on_exit true; }; }
               bind "Alt 1" { GoToTab 1; }
              bind "Alt 2" { GoToTab 2; }
              bind "Alt 3" { GoToTab 3; }
@@ -302,57 +302,27 @@ in
         }
 
         // tab name="server" {
-        //   pane name="server" command="${pkgs.fish}/bin/fish" size="5%" start_suspended=false {
+          //   pane name="server" command="${pkgs.fish}/bin/fish" size="5%" start_suspended=false {
         //     args "-c" "cd ~/repos; opencode serve --port 3010"
         //   }
-        //   pane name="ask" command="${pkgs.fish}/bin/fish" focus=true start_suspended=false {
+          //   pane name="ask" command="${pkgs.fish}/bin/fish" focus=true start_suspended=false {
         //     args "-c" "cd ~/repos; sleep 4; opencode attach http://localhost:3010"
         //   }
-        //   pane name="ask (2)" command="${pkgs.fish}/bin/fish" start_suspended=false {
+          //   pane name="ask (2)" command="${pkgs.fish}/bin/fish" start_suspended=false {
         //     args "-c" "cd ~/repos; sleep 4; opencode attach http://localhost:3010"
         //   }
         // }
 
         tab name="nixos" split_direction="Horizontal" {
           pane name="server" command="${pkgs.fish}/bin/fish" size="10%" start_suspended=false {
-            args "-c" "cd ~/repos/nixos-config; opencode serve --hostname 0.0.0.0 --port 4096"
+            args "-c" "cd ~/repos/nixos-config; opencode serve --hostname 0.0.0.0 --port 4096; exec fish -i"
           }
           pane name="attach" command="${pkgs.fish}/bin/fish" focus=true start_suspended=false {
-            args "-c" "cd ~/repos/nixos-config; ${waitForOpencodeAttach}; opencode attach http://localhost:4096"
+            args "-c" "cd ~/repos/nixos-config; ${waitForOpencodeAttach}; opencode attach http://localhost:4096; exec fish -i"
           }
         }
       }
     '';
   };
 
-  home.file.".config/zellij/layouts/oc-tab.kdl" = {
-    force = true;
-    text = ''
-      layout {
-        default_tab_template {
-          pane size=1 borderless=true {
-            plugin location="zellij:tab-bar"
-          }
-          children
-          pane size=1 borderless=true {
-            plugin location="compact-bar"
-          }
-        }
-
-        tab split_direction="Horizontal" {
-          pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" start_suspended=false {
-            args "-c" "opencode; exec fish -i"
-          }
-          pane split_direction="Vertical" size="40%" {
-            pane name="nvim" command="${pkgs.fish}/bin/fish" start_suspended=false {
-              args "-c" "nvim; exec fish -i"
-            }
-            pane name="yazi" command="${pkgs.fish}/bin/fish" start_suspended=false {
-              args "-c" "yazi; exec fish -i"
-            }
-          }
-        }
-      }
-    '';
-  };
 }

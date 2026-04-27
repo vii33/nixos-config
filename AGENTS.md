@@ -83,6 +83,12 @@ in
 - `modules/home/` — Home Manager (alacritty, fish, mouse, nixvim, …).
 - Modules are imported directly by hosts — no intermediate profile layer.
 
+## Zellij
+
+- Shared Zellij config lives in `modules/home/zellij.nix`.
+- For layout work, prefer explicit `split_direction="Vertical"` / `"Horizontal"` on tabs and pane containers so pane placement stays predictable. Be aware: split=vertical is a left/right slip, and vice versa.
+- `start_suspended` is a per-pane layout property, not a global Zellij config option. To avoid the `<ENTER> run` prompt, set `start_suspended=false` on command panes in the layout.
+
 ## Neovim / LazyVim (`modules/home/nixvim/`)
 
 Hybrid approach: **NixVim** generates the base Neovim config (read-only `~/.config/nvim/`); **LazyVim** manages plugins dynamically.
