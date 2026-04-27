@@ -77,7 +77,7 @@ in
     # Enable GitHub Copilot
     #plugins.copilot-lsp.enable = true;
     plugins.copilot-lua = {
-      enable = true;
+      enable = false;
       settings = {
         suggestion = {
           enabled = true;

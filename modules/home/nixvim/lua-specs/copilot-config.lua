@@ -2,6 +2,7 @@
 return {
   {
     "zbirenbaum/copilot.lua",
+    enabled = false,
     cmd = "Copilot",
     event = "InsertEnter",
     opts = {
@@ -30,6 +31,7 @@ return {
   -- Optional: Copilot chat integration
   {
     "CopilotC-Nvim/CopilotChat.nvim",
+    enabled = false,
     branch = "canary",
     dependencies = {
       { "zbirenbaum/copilot.lua" },
