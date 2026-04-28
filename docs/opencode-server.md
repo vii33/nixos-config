@@ -15,6 +15,35 @@ TUI clients to attach to the same session via `opencode attach`.
 | `opencode web --port <N>` | Start server **with** web UI (opens browser) |
 | `opencode attach http://localhost:<N>` | Attach a TUI client to a running server |
 
+## Authentication
+
+When binding OpenCode to `0.0.0.0`, set `OPENCODE_SERVER_PASSWORD` so the
+server is not exposed without auth.
+
+In this repo, the password is exported from `~/.config/fish/conf.d/90-sops-secrets.fish`.
+Zellij server panes started with `fish -c` should explicitly source that file
+before running `opencode serve`, because non-interactive Fish startup does not
+reliably populate the secret env for the pane command.
+
+Recommended pattern for a network-exposed server pane:
+
+```fish
+if test -f ~/.config/fish/conf.d/90-sops-secrets.fish
+  source ~/.config/fish/conf.d/90-sops-secrets.fish
+end
+
+if test -z "$OPENCODE_SERVER_PASSWORD"
+  echo "OPENCODE_SERVER_PASSWORD is not set; refusing to start network-exposed OpenCode server."
+  exit 1
+end
+
+opencode serve --hostname 0.0.0.0 --port 4096
+```
+
+Attached sessions inherit the server working directory by default. In this repo,
+the shared Zellij server pane starts from `~/repos` so plain `opencode attach`
+lands there unless a client passes `--dir`.
+
 ## Zellij Layout (what works)
 
 Three panes in a tab:

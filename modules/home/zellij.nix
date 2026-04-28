@@ -315,7 +315,7 @@ in
 
         tab name="nixos" split_direction="Horizontal" {
           pane name="server" command="${pkgs.fish}/bin/fish" size="10%" start_suspended=false {
-            args "-c" "cd ~/repos/nixos-config; opencode serve --hostname 0.0.0.0 --port 4096; exec fish -i"
+            args "-c" "cd ~/repos; if test -f ~/.config/fish/conf.d/90-sops-secrets.fish; source ~/.config/fish/conf.d/90-sops-secrets.fish; end; if test -z \"$OPENCODE_SERVER_PASSWORD\"; echo 'OPENCODE_SERVER_PASSWORD is not set; refusing to start network-exposed OpenCode server.'; exec fish -i; end; opencode serve --hostname 0.0.0.0 --port 4096; exec fish -i"
           }
           pane name="attach" command="${pkgs.fish}/bin/fish" focus=true start_suspended=false {
             args "-c" "cd ~/repos/nixos-config; ${waitForOpencodeAttach}; opencode attach http://localhost:4096; exec fish -i"
