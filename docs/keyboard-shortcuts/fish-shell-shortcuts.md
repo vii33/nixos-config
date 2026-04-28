@@ -22,7 +22,7 @@ These keyboard shortcuts are configured in `modules/home/fish-shell.nix`. Some r
 
 | Key | Action | Notes |
 |---|---|---|
-| `Alt + C` | change to directory | Uses `fzf` to select directory |
+| `Alt + C` | change oc tab workspace | Uses `fzf` to select a directory, restarts panes there, and reattaches OpenCode with `--dir` |
 | `Ctrl + Shift + O` | fuzzy pick file and insert path | Works in insert/normal/visual mode |
 | `Ctrl + E` | fuzzy pick env var and insert `$VARNAME` | Custom picker; requires `fzf` |
 | `Ctrl + F` | fzf directory  |  |

@@ -497,14 +497,16 @@ in
     '';
 
     # Zellij: switch all panes in current oc tab to a new directory.
-    # Run from a floating pane — opens an fzf directory picker, then
-    # quits and restarts opencode, nvim, and yazi in the selected folder.
-    # Only works on oc1/oc2 tabs (guarded).
+    # Run from a floating pane: opens an fzf directory picker, then
+    # restarts the current oc layout (opencode, attach, yazi) in that folder.
     functions.ccd.body = ''
-      # ── 0. Guard: only run on oc1/oc2 tabs ────────────────────────
-      set -l current_tab (zellij action dump-layout 2>/dev/null | string match -r 'tab name="([^"]*)" focus=true' | tail -1)
+      # ── 0. Guard: only run on oc tabs ──────────────────────────────
+      set -l current_tab (zellij action dump-layout 2>/dev/null \
+        | string match -r 'tab name="[^"]*" focus=true' \
+        | tail -1 \
+        | string replace -r '.*tab name="([^"]*)" focus=true.*' '$1')
       if not string match -q 'oc*' "$current_tab"
-        echo "ccd: only works on oc1/oc2 tabs (current: $current_tab)"
+        echo "ccd: only works on oc tabs (current: $current_tab)"
         sleep 2
         return 1
       end
@@ -523,6 +525,7 @@ in
 
       test -n "$target"; or return 0
       set -l target_dir (realpath "$target")
+      set -l target_dir_escaped (string escape -- "$target_dir")
 
       if not test -d "$target_dir"
         echo "Error: $target_dir is not a directory"
@@ -535,8 +538,8 @@ in
       zellij action toggle-floating-panes
       sleep 0.3
 
-      # ── 3. OpenCode pane (top) ────────────────────────────────────
-      zellij action move-focus "Up"
+      # ── 3. OpenCode pane (left) ───────────────────────────────────
+      zellij action move-focus "Left"
       sleep 0.15
       # Ctrl+C twice to quit opencode (or harmless at shell prompt)
       zellij action write 3
@@ -546,30 +549,29 @@ in
       # Clear any leftover text (Ctrl+U) then cd + restart
       zellij action write 21
       sleep 0.1
-      zellij action write-chars "cd $target_dir; opencode"
+      zellij action write-chars "cd $target_dir_escaped; opencode"
       zellij action write 13
 
-      # ── 4. Neovim pane (bottom-left) ──────────────────────────────
+      # ── 4. Attach pane (top-right) ────────────────────────────────
       sleep 0.3
-      zellij action move-focus "Down"
+      zellij action move-focus "Right"
       sleep 0.15
-      zellij action move-focus "Left"
+      zellij action move-focus "Up"
       sleep 0.15
-      # Escape → normal mode, then :qa! to force-quit nvim
-      zellij action write 27
-      sleep 0.15
-      zellij action write-chars ":qa!"
-      zellij action write 13
+      # Ctrl+C twice to quit attach (or harmless at shell prompt)
+      zellij action write 3
+      sleep 0.3
+      zellij action write 3
       sleep 0.5
-      # Clear line, cd + restart
+      # Clear line, then reattach with the selected remote working directory.
       zellij action write 21
       sleep 0.1
-      zellij action write-chars "cd $target_dir; nvim"
+      zellij action write-chars "cd $target_dir_escaped; sleep 4; opencode attach http://localhost:4096 --dir $target_dir_escaped"
       zellij action write 13
 
       # ── 5. Yazi pane (bottom-right) ───────────────────────────────
       sleep 0.3
-      zellij action move-focus "Right"
+      zellij action move-focus "Down"
       sleep 0.15
       # q quits yazi (harmless at shell — just types "q" + enter not sent)
       zellij action write-chars "q"
@@ -577,7 +579,7 @@ in
       # Clear line, cd + restart
       zellij action write 21
       sleep 0.1
-      zellij action write-chars "cd $target_dir; yazi"
+      zellij action write-chars "cd $target_dir_escaped; yazi"
       zellij action write 13
     '';
 
