@@ -25,6 +25,11 @@ Zellij server panes started with `fish -c` should explicitly source that file
 before running `opencode serve`, because non-interactive Fish startup does not
 reliably populate the secret env for the pane command.
 
+For shell-driven attach workflows, prefer passing the password explicitly via
+`opencode attach -p "$OPENCODE_SERVER_PASSWORD" ...`. The `occ` fish
+abbreviation does this and also passes `--dir "$PWD"` so the attached client
+starts in the current project instead of the server pane's default directory.
+
 Recommended pattern for a network-exposed server pane:
 
 ```fish

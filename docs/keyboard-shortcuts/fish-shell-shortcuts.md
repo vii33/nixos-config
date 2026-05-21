@@ -7,6 +7,7 @@ These shell abbreviations are configured in `modules/home/fish-shell.nix`.
 | Abbreviation | Expands To | Notes |
 |---|---|---|
 | `nv` | `nvim` | Declared via `shellAbbrs` |
+| `occ` | sources the OpenCode secret if needed, then runs `opencode attach http://localhost:4096 --password "$OPENCODE_SERVER_PASSWORD" --dir "$PWD"` | Attaches current directory to the shared OpenCode server |
 | `nodry` | `nh os dry-run --flake .#laptop` | Preview changes without building |
 | `noswitch` | `nh os switch --flake .#laptop` | Apply changes & set as default boot |
 | `noclean` | `nh clean all --keep-since 3d --keep 3` | Cleanup old generations |

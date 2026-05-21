@@ -102,6 +102,12 @@ in
       # Applications
       nv = "nvim";
       oc = "opencode";
+      occ =
+        "if test -f \"$HOME/.config/fish/conf.d/90-sops-secrets.fish\"; "
+        + "source \"$HOME/.config/fish/conf.d/90-sops-secrets.fish\"; end; "
+        + "if test -n \"$OPENCODE_SERVER_PASSWORD\"; "
+        + "opencode attach http://localhost:4096 --password \"$OPENCODE_SERVER_PASSWORD\" --dir \"$PWD\"; "
+        + "else; echo \"OPENCODE_SERVER_PASSWORD is not set\"; end";
       lg = "lazygit";
       cop = "copilot";
       coclaude = "copilot --model claude-sonnet-4.5";
