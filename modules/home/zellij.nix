@@ -79,9 +79,6 @@ in
               bind "Alt 4" { GoToTab 4; }
               bind "Alt 5" { GoToTab 5; }
               bind "Alt 6" { GoToTab 6; }
-              bind "Alt 7" { GoToTab 7; }
-              bind "Alt 8" { GoToTab 8; }
-              bind "Alt 9" { GoToTab 9; }
           }
           locked {
             // Allow tab switching and pane navigation even in locked mode (so Ctrl-based shell bindings keep working).
