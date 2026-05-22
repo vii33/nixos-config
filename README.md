@@ -178,6 +178,29 @@ sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .
 git config --global --list --show-origin
 ```
 
+##### DockDoor Settings Backup
+
+DockDoor saves its settings automatically in the standard macOS preferences file:
+
+```bash
+~/Library/Preferences/com.ethanbills.DockDoor.plist
+```
+
+To back up the current settings:
+
+```bash
+cp ~/Library/Preferences/com.ethanbills.DockDoor.plist ~/Downloads/DockDoor-settings-backup.plist
+
+# or export via defaults
+defaults export com.ethanbills.DockDoor ~/Downloads/DockDoor-settings-backup.plist
+```
+
+To restore them later, quit DockDoor first, then import the backup and reopen the app:
+
+```bash
+defaults import com.ethanbills.DockDoor ~/Downloads/DockDoor-settings-backup.plist
+```
+
 ##### Syncing LazyVim Plugin Specs (Manual LazyVim Setup)
 
 If you're using manual LazyVim installation (with nixvim modules disabled), sync your plugin specs from the repo to your LazyVim config:
