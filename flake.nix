@@ -29,10 +29,6 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    paneru = {
-      url = "github:karinushka/paneru";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     kanagawa-yazi = { # Yazi color theme
       url = "github:dangooddd/kanagawa.yazi";
       flake = false;
@@ -41,7 +37,7 @@
   };
 
   outputs = { self, nixpkgs, nixpkgs-fish-good, nixpkgs-unstable, home-manager,
-              nix-darwin, nixvim, sops-nix, niri, paneru, kanagawa-yazi, ... }@inputs:
+              nix-darwin, nixvim, sops-nix, niri, kanagawa-yazi, ... }@inputs:
   let
     macosUsername =
       let u = builtins.getEnv "MACOS_USERNAME";
