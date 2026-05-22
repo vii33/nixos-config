@@ -17,6 +17,7 @@ Configured in `modules/home/zellij.nix` (default mode: `locked`, toggle with `Ct
 | Key | Action |
 |---|---|
 | `Alt + t` | New tab |
+| `Alt + Shift + t` | New opencode workspace tab |
 | `Alt + w` | Close tab |
 | `Alt + a` | Next tab |
 | `Ctrl + ö/ä` | Move current tab left/right |

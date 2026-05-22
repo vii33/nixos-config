@@ -23,6 +23,44 @@ let
   # `opencode attach` still races with simple port probes; a short fixed delay is reliable.
   waitForOpencodeAttach = "sleep 4";
 
+  defaultTabChrome = ''
+    default_tab_template {
+      pane size=1 borderless=true {
+        plugin location="zellij:tab-bar"
+      }
+      children
+      pane size=1 borderless=true {
+        plugin location="compact-bar"
+      }
+    }
+  '';
+
+  opencodeWorkspaceTabTemplate = ''
+    tab_template name="opencode-workspace" split_direction="Horizontal" {
+      pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" start_suspended=false {
+        args "-c" "cd ~/repos; opencode; exec fish -i"
+      }
+      pane split_direction="Vertical" size="40%" {
+        pane command="${pkgs.fish}/bin/fish" start_suspended=false {
+          args "-c" "cd ~/repos; ${waitForOpencodeAttach}; opencode attach http://localhost:4096; exec fish -i"
+        }
+        pane name="yazi" command="${pkgs.fish}/bin/fish" start_suspended=false {
+          args "-c" "cd ~/repos; yazi; exec fish -i"
+        }
+      }
+    }
+  '';
+
+  opencodeWorkspaceLayout = ''
+    layout {
+      ${defaultTabChrome}
+
+      ${opencodeWorkspaceTabTemplate}
+
+      opencode-workspace
+    }
+  '';
+
   zenCmd =
     "if type -q pybonsai; sleep 1; while true; clear; "
     + "pybonsai -x 30 -y 39 -S 10 -L 2 -l 5 -f -w 3.5; "
@@ -62,12 +100,17 @@ in
        }
 
         keybinds {
-           normal {
-               bind "Alt t" { NewTab; }
-               bind "Alt w" { CloseTab; }
-               bind "Alt a" { GoToNextTab; }
-               bind "Ctrl ö" { MoveTab "Left"; }
-               bind "Ctrl ä" { MoveTab "Right"; }
+          normal {
+                bind "Alt t" { NewTab; }
+                bind "Alt Shift t" {
+                  NewTab {
+                    layout "opencode-workspace"
+                  }
+                }
+                bind "Alt w" { CloseTab; }
+                bind "Alt a" { GoToNextTab; }
+                bind "Ctrl ö" { MoveTab "Left"; }
+                bind "Ctrl ä" { MoveTab "Right"; }
                // Keep Alt+f free: macOS/Ghostty Option+Right becomes Meta-f (forward-word).
                bind "Alt p" { ToggleFloatingPanes; }
                bind "Alt j" { MoveFocus "Down"; }
@@ -79,14 +122,19 @@ in
               bind "Alt 4" { GoToTab 4; }
               bind "Alt 5" { GoToTab 5; }
               bind "Alt 6" { GoToTab 6; }
-          }
+           }
           locked {
-            // Allow tab switching and pane navigation even in locked mode (so Ctrl-based shell bindings keep working).
-            bind "Alt t" { NewTab; }
-            bind "Alt w" { CloseTab; }
-            bind "Alt a" { GoToNextTab; }
-             bind "Ctrl ö" { MoveTab "Left"; }
-             bind "Ctrl ä" { MoveTab "Right"; }
+             // Allow tab switching and pane navigation even in locked mode (so Ctrl-based shell bindings keep working).
+             bind "Alt t" { NewTab; }
+             bind "Alt Shift t" {
+               NewTab {
+                 layout "opencode-workspace"
+               }
+             }
+             bind "Alt w" { CloseTab; }
+             bind "Alt a" { GoToNextTab; }
+              bind "Ctrl ö" { MoveTab "Left"; }
+              bind "Ctrl ä" { MoveTab "Right"; }
                bind "Alt p" { ToggleFloatingPanes; }
                bind "Alt h" { MoveFocus "Left"; }
                bind "Alt j" { MoveFocus "Down"; }
@@ -99,10 +147,7 @@ in
              bind "Alt 4" { GoToTab 4; }
              bind "Alt 5" { GoToTab 5; }
              bind "Alt 6" { GoToTab 6; }
-             bind "Alt 7" { GoToTab 7; }
-             bind "Alt 8" { GoToTab 8; }
-             bind "Alt 9" { GoToTab 9; }
-          }
+           }
           shared_except "locked" {
             // Swap-layout navigation: use umlaut keys instead of [ and ].
             bind "Alt ö" { PreviousSwapLayout; }
@@ -250,15 +295,9 @@ in
     force = true;
     text = ''
       layout {
-        default_tab_template {
-          pane size=1 borderless=true {
-            plugin location="zellij:tab-bar"
-          }
-          children
-          pane size=1 borderless=true {
-            plugin location="compact-bar"
-          }
-        }
+        ${opencodeWorkspaceTabTemplate}
+
+        ${defaultTabChrome}
 
         tab name="User" focus=true {
           pane split_direction="Vertical" size="60%" {
@@ -270,33 +309,9 @@ in
           pane command="yazi" size="40%" start_suspended=false
         }
 
-        tab name="oc2" split_direction="Horizontal" {
-          pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" start_suspended=false {
-            args "-c" "cd ~/repos; opencode; exec fish -i"
-          }
-          pane split_direction="Vertical" size="40%" {
-            pane command="${pkgs.fish}/bin/fish" start_suspended=false {
-              args "-c" "cd ~/repos; ${waitForOpencodeAttach}; opencode attach http://localhost:4096; exec fish -i"
-            }
-            pane name="yazi" command="${pkgs.fish}/bin/fish" start_suspended=false {
-              args "-c" "cd ~/repos; yazi; exec fish -i"
-            }
-          }
-        }
+        opencode-workspace name="oc2"
 
-        tab name="oc3" split_direction="Horizontal" {
-          pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" start_suspended=false {
-            args "-c" "cd ~/repos; opencode; exec fish -i"
-          }
-          pane split_direction="Vertical" size="40%" {
-            pane command="${pkgs.fish}/bin/fish" start_suspended=false {
-              args "-c" "cd ~/repos; ${waitForOpencodeAttach}; opencode attach http://localhost:4096; exec fish -i"
-            }
-            pane name="yazi" command="${pkgs.fish}/bin/fish" start_suspended=false {
-              args "-c" "cd ~/repos; yazi; exec fish -i"
-            }
-          }
-        }
+        opencode-workspace name="oc3"
 
         // tab name="server" {
           //   pane name="server" command="${pkgs.fish}/bin/fish" size="5%" start_suspended=false {
@@ -320,6 +335,11 @@ in
         }
       }
     '';
+  };
+
+  home.file.".config/zellij/layouts/opencode-workspace.kdl" = {
+    force = true;
+    text = opencodeWorkspaceLayout;
   };
 
 }
