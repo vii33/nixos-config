@@ -468,7 +468,7 @@ in
       zellij action write 3
       sleep 0.3
       zellij action write 3
-      sleep 0.5
+      sleep 1.1
       # Clear any leftover text (Ctrl+U) then cd + restart
       zellij action write 21
       sleep 0.1
@@ -485,7 +485,7 @@ in
       zellij action write 3
       sleep 0.3
       zellij action write 3
-      sleep 0.5
+      sleep 1.1
       # Clear line, then reattach with the selected remote working directory.
       zellij action write 21
       sleep 0.1
