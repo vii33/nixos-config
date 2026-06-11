@@ -40,7 +40,6 @@
     #inputs.nixvim.homeManagerModules.nixvim
   
     ../../modules/home/fish-shell.nix
-    ../../modules/home/kitty.nix
     ../../modules/home/ghostty.nix
     ../../modules/home/yazi.nix
     ../../modules/home/zellij.nix

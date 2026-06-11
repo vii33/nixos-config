@@ -52,7 +52,6 @@
       
       # DEV #####################################################
       
-      "kitty"             # Terminal emulator
       "ghostty"
       "bruno"             # API client / Alternative: insomnio
       "docker-desktop"
