@@ -93,6 +93,7 @@ in
       
       # NixOS
       nodry = "nh os dry-run ~/nixos-config/flake.nix -H laptop";
+      laptopbuild = "sudo nixos-rebuild switch --flake /home/vii/nixos-config#laptop";
       noswitch = "nh os switch ~/nixos-config/ -H laptop";
       noclean1 = "nh clean all --keep-since 3d --keep 3";
       noclean2 = "sudo nix-collect-garbage";
