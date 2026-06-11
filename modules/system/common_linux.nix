@@ -20,7 +20,7 @@
   programs.nh = {
     enable = true;
     clean.enable = true;
-    clean.extraArgs = "--keep-since 4d --keep 3";
+    clean.extraArgs = "--keep-since 30d --keep 10";
     flake = "/home/vii/nixos-config";
   };
 
@@ -47,7 +47,7 @@
   users.users.vii = {
     isNormalUser = true;
     description = "vii";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.fish;
   };
   

@@ -30,6 +30,7 @@
   ];
   environment.localBinInPath = true;
   virtualisation.docker.enable = true;
+  users.users.vii.extraGroups = [ "docker" ];
 
   # Fonts
   fonts.packages = with pkgs; [
