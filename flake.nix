@@ -2,7 +2,7 @@
   description = "NixOS config flake for various hosts including macOS";
 
   nixConfig = {
-    allowDirty = true;  # no build warnings even with uncommitted changes
+    allowDirty = true; # no build warnings even with uncommitted changes
   };
 
   inputs = {
@@ -28,7 +28,8 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    kanagawa-yazi = { # Yazi color theme
+    kanagawa-yazi = {
+      # Yazi color theme
       url = "github:dangooddd/kanagawa.yazi";
       flake = false;
     };
@@ -55,7 +56,12 @@
           home = builtins.getEnv "HOME";
           homeUser = if home != "" then builtins.baseNameOf home else "";
         in
-        if u != "" then u else if homeUser != "" then homeUser else "vii";
+        if u != "" then
+          u
+        else if homeUser != "" then
+          homeUser
+        else
+          "vii";
       darwinSystem = "aarch64-darwin";
     in
     {
@@ -100,7 +106,7 @@
 
       darwinConfigurations = {
         work = nix-darwin.lib.darwinSystem {
-          system = darwinSystem;  # Apple silicon
+          system = darwinSystem; # Apple silicon
           specialArgs = {
             inherit inputs;
             inherit macosUsername;
@@ -114,6 +120,11 @@
             ./hosts/work/default.nix
           ];
         };
+      };
+
+      formatter = {
+        x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
+        aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-rfc-style;
       };
 
       # Standalone Home Manager configuration for macOS, no sudo needed
@@ -152,5 +163,5 @@
             ];
           };
       };
-  };
+    };
 }

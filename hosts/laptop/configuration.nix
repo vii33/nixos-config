@@ -18,8 +18,10 @@ boot.loader.efi.canTouchEfiVariables = true;
 boot.loader.efi.efiSysMountPoint = "/boot/efi";
 boot.loader.timeout = 5;
 
+# HIBERNATION
 boot.resumeDevice = "/dev/disk/by-uuid/13694fb1-8976-433c-bd9a-6d7822d109f6";
 
+# NETWORK
 networking.hostName = "laptop2"; # Define your hostname.
 
 # Configure network proxy if necessary

@@ -148,6 +148,7 @@ nix flake check --no-build
 
 ## Verification
 
+- Run `nix fmt` after changing `.nix` files, before final checks.
 - Before handoff, run `nix flake check --no-build` for substantive changes in this repo.
 - Tiny literal-only tweaks can skip `nix flake check --no-build`, for example changing an integer, RGB value, or other scalar setting without changing option paths, imports, structure, or platform conditionals.
 - Before any `darwin-rebuild build --flake .#work --impure` or `darwin-rebuild switch --flake .#work`, ask the user first; macOS rebuilds take a long time.
