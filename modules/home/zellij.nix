@@ -36,25 +36,31 @@ let
   '';
 
   opencodeWorkspaceTabTemplate = ''
-    tab_template name="opencode-workspace" split_direction="Horizontal" {
-      pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" start_suspended=false {
-        args "-c" "cd ~/repos; opencode; exec fish -i"
+    tab_template name="opencode-workspace" {
+      pane size=1 borderless=true {
+        plugin location="zellij:tab-bar"
       }
-      pane split_direction="Vertical" size="40%" {
-        pane command="${pkgs.fish}/bin/fish" start_suspended=false {
-          args "-c" "cd ~/repos; ${waitForOpencodeAttach}; opencode attach http://localhost:4096; exec fish -i"
+      pane split_direction="Horizontal" {
+        pane name="opencode" command="${pkgs.fish}/bin/fish" size="60%" start_suspended=false {
+          args "-c" "cd ~/repos; opencode; exec fish -i"
         }
-        pane name="yazi" command="${pkgs.fish}/bin/fish" start_suspended=false {
-          args "-c" "cd ~/repos; yazi; exec fish -i"
+        pane split_direction="Vertical" size="40%" {
+          pane command="${pkgs.fish}/bin/fish" start_suspended=false {
+            args "-c" "cd ~/repos; ${waitForOpencodeAttach}; opencode attach http://localhost:4096; exec fish -i"
+          }
+          pane name="yazi" command="${pkgs.fish}/bin/fish" start_suspended=false {
+            args "-c" "cd ~/repos; yazi; exec fish -i"
+          }
         }
+      }
+      pane size=1 borderless=true {
+        plugin location="compact-bar"
       }
     }
   '';
 
   opencodeWorkspaceLayout = ''
     layout {
-      ${defaultTabChrome}
-
       ${opencodeWorkspaceTabTemplate}
 
       opencode-workspace
@@ -82,6 +88,7 @@ in
       default_shell "${pkgs.fish}/bin/fish"
       // Start in lock mode (toggle with Ctrl+g).
       default_mode "locked"
+      visual_bell true
 
        ui {
          pane_frames {
@@ -102,6 +109,7 @@ in
         keybinds {
           normal {
                 bind "Alt t" { NewTab; }
+                bind "Alt r" { SwitchToMode "RenameTab"; TabNameInput 0; }
                 bind "Alt Shift t" {
                   NewTab {
                     layout "opencode-workspace"
@@ -124,11 +132,12 @@ in
               bind "Alt 6" { GoToTab 6; }
            }
           locked {
-             // Allow tab switching and pane navigation even in locked mode (so Ctrl-based shell bindings keep working).
-             bind "Alt t" { NewTab; }
-             bind "Alt Shift t" {
-               NewTab {
-                 layout "opencode-workspace"
+              // Allow tab switching and pane navigation even in locked mode (so Ctrl-based shell bindings keep working).
+              bind "Alt t" { NewTab; }
+              bind "Alt r" { SwitchToMode "RenameTab"; TabNameInput 0; }
+              bind "Alt Shift t" {
+                NewTab {
+                  layout "opencode-workspace"
                }
              }
              bind "Alt w" { CloseTab; }
