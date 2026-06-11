@@ -1,50 +1,33 @@
-# Agent Instructions — NixOS Configuration Repository
+# Agent Instructions
 
-This is a personal, flake-based NixOS configuration repo. Primary user: `vii`.
+Personal flake-based NixOS/nix-darwin repo. Primary user: `vii`.
 
-## Repository Layout
+## Repo Shape
 
-```
-flake.nix              # Entry point — nixpkgs pinned to nixos-25.05, matching Home Manager
-hosts/
-  laptop/              # Desktop/laptop — GUI, NVIDIA drivers, NBFC fan control
-  home-server/         # Headless server (mockup for now)
-  work/                # macOS nix-darwin — headless dev environment
-modules/
-  system/              # Shared system modules (users, timezone, services)
-  home/                # Shared Home Manager modules (alacritty, fish, nixvim, …)
-    nixvim/
-      lazyvim.nix      # NixVim + LazyVim hybrid config
-      lua-specs/       # Lua plugin specs injected into Neovim runtime
-home/vii/              # Per-user Home Manager config
-secrets/               # SOPS-encrypted secrets (Age-based)
-docs/                  # Documentation (shortcuts.md, secrets.md, …)
-```
+- `flake.nix`: entry point. Keep nixpkgs/HM/nix-darwin/NixVim releases aligned.
+- Linux: `nixosConfigurations`: `laptop`, `home-server`.
+- macOS: `darwinConfigurations`: `work`.
+- Host composition: `hosts/<host>/default.nix`.
+- Linux host config: `hosts/<host>/configuration.nix`.
+- Darwin host config: `hosts/work/configuration-nix-darwin.nix`.
+- User HM config: `home/vii/home-linux.nix`, `home/vii/home-darwin.nix`.
+- Shared modules: `modules/system/`, `modules/home/`.
+- Do not edit `hardware-configuration.nix` unless hardware was re-detected.
 
-### Per-host key files
+## Nix Style
 
-| File | Purpose |
-|---|---|
-| `default.nix` | Host config — imports modules, inlines common settings |
-| `configuration.nix` | Host-specific NixOS / nix-darwin configuration |
-| `hardware-configuration.nix` | Auto-generated hardware detection (**do not edit** unless re-detected) |
-| `home.nix` | Host-specific Home Manager entry for user packages |
-
-## Code Style (`.nix` files)
-
-- **2-space indentation**, lines ≤ 100 chars.
-- Comment non-obvious choices and hardware tweaks.
+- 2-space indent, lines <= 100 chars.
+- Comment only non-obvious choices/hardware tweaks.
 - Group related attributes (services, users, packages).
-- Keep modules small and composable; use `{ config, pkgs, ... }:` signatures.
-- Don't hardcode usernames or absolute paths — use `specialArgs` / parameters.
-- Don't mix system-level and user-level config in the same file.
+- Small composable modules; use `{ config, pkgs, ... }:` signatures.
+- Avoid hardcoded usernames/absolute paths; use `specialArgs`/params.
+- Keep system config and user config separate.
 
-## Cross-Platform Modules (NixOS + nix-darwin)
+## Cross-Platform
 
-Use `lib.optionalAttrs` (not `lib.mkIf`) when an **option path might not exist** on a platform:
+Use `lib.optionalAttrs` when an option path may not exist on a platform:
 
 ```nix
-# Good — only adds the subtree on Linux
 let
   isLinux = builtins.match ".*-linux" (builtins.currentSystem or "") != null;
 in
@@ -53,14 +36,13 @@ in
 }
 ```
 
-`lib.mkIf` is fine when the option exists on all target platforms.
+`lib.mkIf` is fine only when the option exists on all target platforms.
 
-## Flake (`flake.nix`)
+## Flake
 
-- `nixpkgs` → `nixos-25.05`; Home Manager follows via `follows`.
-- Hosts are `nixosConfigurations`: `laptop`, `home-server`, `work`.
 - Wire new inputs via `specialArgs = { inherit inputs; }`.
-- New hosts: add entry under `nixosConfigurations` + create `hosts/<name>/`.
+- New Linux host: `nixosConfigurations` + `hosts/<name>/`.
+- New macOS host: `darwinConfigurations` + `hosts/<name>/`.
 
 ## Hosts
 
@@ -68,98 +50,87 @@ in
 |---|---|---|
 | `laptop` | NixOS (Linux) | NVIDIA GPU, NBFC fan control, full desktop |
 | `home-server` | NixOS (Linux) | Minimal headless server (WIP) |
-| `work` | nix-darwin (macOS) | MacOS M3 laptop |
+| `work` | nix-darwin (macOS) | macOS M3 laptop |
 
-### Modification guidelines
+### Edits
 
 - Add shared config to `modules/system/` or `modules/home/` and import from `default.nix`.
-- Host-specific services go in `configuration.nix`.
-- User-level changes go in the host's `home.nix` or `home/vii/`.
-- **Never** change `system.stateVersion` without an intentional upgrade plan.
-
-## Modules (`modules/`)
-
-- `modules/system/` — system-level (users, timezone, system services).
-- `modules/home/` — Home Manager (alacritty, fish, mouse, nixvim, …).
-- Modules are imported directly by hosts — no intermediate profile layer.
+- Host-specific services: host config file.
+- User-level changes: `home/vii/` or `modules/home/`.
+- Never change `system.stateVersion` without upgrade plan.
 
 ## Zellij
 
-- Shared Zellij config lives in `modules/home/zellij.nix`.
-- For layout work, prefer explicit `split_direction="Vertical"` / `"Horizontal"` on tabs and pane containers so pane placement stays predictable. Be aware: split=vertical is a left/right slip, and vice versa.
-- `start_suspended` is a per-pane layout property, not a global Zellij config option. To avoid the `<ENTER> run` prompt, set `start_suspended=false` on command panes in the layout.
+- Config: `modules/home/zellij.nix`.
+- Layouts: use explicit `split_direction="Vertical"` / `"Horizontal"`.
+- Zellij split=vertical means left/right, and vice versa.
+- `start_suspended` is per-pane, not global. For command panes use
+  `start_suspended=false` to avoid `<ENTER> run`.
 
 ## Neovim / LazyVim (`modules/home/nixvim/`)
 
-Hybrid approach: **NixVim** generates the base Neovim config (read-only `~/.config/nvim/`); **LazyVim** manages plugins dynamically.
+Hybrid: NixVim base config, LazyVim dynamic plugins.
 
-- Lua spec files live in `modules/home/nixvim/lua-specs/` and are injected into the runtime path.
-- **Laptop**: specs managed by Home Manager (read-only symlinks). Edit in this repo → rebuild.
-- **Work (macOS)**: NixVim is disabled. Specs live directly in `~/.config/nvim/lua/plugins/` (writable). Back up to `lua-specs/` periodically.
-- **LSPs are Nix-managed** (`programs.nixvim.lsp.servers`). Mason is present but disabled for auto-install. Don't use Mason for LSPs on NixOS.
-- **File naming**: use `-config.lua` suffix to avoid colliding with plugin `require()` names (e.g. `render-markdown-config.lua`, **not** `render-markdown.lua`).
+- Lua specs: `modules/home/nixvim/lua-specs/`, injected into runtime path.
+- Laptop: specs HM-managed/read-only. Edit repo, rebuild.
+- Work/macOS: NixVim disabled. Specs writable in `~/.config/nvim/lua/plugins/`.
+  Back up to `lua-specs/`.
+- LSPs are Nix-managed: `programs.nixvim.lsp.servers`. Do not use Mason for LSPs.
+- Lua spec files: use `-config.lua` suffix to avoid plugin `require()` collisions.
 - Mason repo is `mason-org/mason.nvim` (not `williamboman/mason.nvim`).
 
-## Fish Shell
+## Fish
 
-Fish is the default shell. It **does not support heredocs**.
+- Default shell is fish. No heredocs.
+- In `modules/home/fish-shell.nix`, use clear text shortcuts, not escapes.
 
 ```fish
-# Bad
-cat > file.txt << 'EOF' ...
-
-# Good
 printf '%s\n' 'line 1' 'line 2' > file.txt
 ```
 
-In `modules/home/fish.nix`: use **clear text** keyboard shortcuts, not escaped sequences.
-
 ## Secrets (SOPS + Age)
 
-Secrets are SOPS-encrypted in `secrets/secrets.yaml`. Always run from repo root.
+Secrets: SOPS Age in `secrets/secrets.yaml`. Run from repo root.
 
 ```bash
-# Set a key (in-place)
 env SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt" \
   sops --set '["key_name"] "value"' -i secrets/secrets.yaml
 
-# Validate
 env SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt" \
   sops decrypt --extract '["key_name"]' secrets/secrets.yaml
 ```
 
-**Rules**: use `sops --set … -i` (not `sops set`), don't edit temp copies outside `secrets/`, don't redirect stdout back into the file.
+Use `sops --set ... -i`, not `sops set`. Do not edit temp copies outside
+`secrets/`. Do not redirect stdout back into the file.
 
-## Rebuild Commands
+## Build Commands
 
 ```bash
-# NixOS hosts
-nixos-rebuild switch --flake .#laptop
-nixos-rebuild switch --flake .#home-server
-
-# macOS (work) — must use full path with sudo
-darwin-rebuild build --flake .#work --impure
-sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
-
-# Dry-run / check
+# Verification
 nixos-rebuild --dry-run --flake .#<host>
+# Ask before running this; macOS builds take a long time.
+darwin-rebuild build --flake .#work --impure
 nix flake check --no-build
+
+# Activation, only when intentionally switching
+nixos-rebuild switch --flake .#<host>
+sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
 ```
 
 ## Verification
 
-- Run `nix fmt` after changing `.nix` files, before final checks.
-- Before handoff, run `nix flake check --no-build` for substantive changes in this repo.
-- Tiny literal-only tweaks can skip `nix flake check --no-build`, for example changing an integer, RGB value, or other scalar setting without changing option paths, imports, structure, or platform conditionals.
-- Before any `darwin-rebuild build --flake .#work --impure` or `darwin-rebuild switch --flake .#work`, ask the user first; macOS rebuilds take a long time.
-- For `hosts/work/`, `home/vii/home-darwin.nix`, or shared Home Manager modules used on macOS, also run `darwin-rebuild build --flake .#work --impure` after user approval.
-- For Linux host changes, run the narrowest relevant host check, for example `nixos-rebuild --dry-run --flake .#laptop` or `nixos-rebuild --dry-run --flake .#home-server`.
-- For shared cross-platform modules, prefer `nix flake check --no-build` plus the relevant host build/dry-run for each affected platform.
-- If a verification command cannot run, say exactly which command was skipped and why.
+- After `.nix` edits: `nix fmt`.
+- Substantive changes: `nix flake check --no-build`.
+- Tiny scalar-only tweaks may skip flake check.
+- Ask before Darwin build/switch; slow.
+- macOS paths/modules: after approval, run `darwin-rebuild build --flake .#work --impure`.
+- Linux host edits: narrow dry-run, e.g. `.#laptop` or `.#home-server`.
+- Cross-platform shared modules: flake check + relevant host checks.
+- If skipped/cannot run, say command and why.
 
 ## Safety & Workflow
 
-- Never commit real secrets — `secrets/` holds only encrypted files.
+- Never commit real secrets. `secrets/` holds encrypted files only.
 - Test with `--dry-run` before switching.
 - Make small, incremental commits for easy rollbacks.
-- When adding/modifying keyboard shortcuts (Fish, Kitty, Neovim), update `docs/shortcuts.md`.
+- Keyboard shortcuts changed? Update `docs/shortcuts.md`.
