@@ -15,6 +15,7 @@
 
       # Direct module imports
       ../../modules/system/niri.nix
+      ./swap.nix
       # Enable after creating and validating ~/.config/nbfc.json for this laptop.
       # ./nbfc.nix
     ];

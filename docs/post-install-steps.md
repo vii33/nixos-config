@@ -33,8 +33,27 @@ Then ensure service is active after rebuild:
 systemctl status nbfc_service
 ```
 
-### 4. Create swapfile & set hibernation offset (`laptop` host)
-`hosts/laptop/swap.nix` assumes an existing `/swapfile` and a correct `resume_offset`:
+### 4. Optional swapfile hibernation setup (`laptop` host)
+The current `laptop` host uses a swap partition from `hosts/laptop/hardware-configuration.nix`.
+Only use this recipe if you intentionally switch back to a swapfile-based hibernation setup.
+
+Old swapfile settings that used to live in `hosts/laptop/swap.nix`:
+
+```nix
+swapDevices = [
+  {
+    device = "/swapfile";
+    size = 12 * 1024;
+    priority = 100;
+  }
+];
+
+boot.resumeDevice = "/dev/disk/by-uuid/89a00461-4909-46da-ae07-1e17e5032e2b";
+boot.kernelParams = [ "resume_offset=18022400" ];
+```
+
+Create the swapfile and calculate the correct `resume_offset`:
+
 ```
 sudo dd if=/dev/zero of=/swapfile bs=1M count=12288 status=progress
 sudo chmod 600 /swapfile
@@ -42,7 +61,7 @@ sudo mkswap /swapfile
 sudo swapon /swapfile
 filefrag -v /swapfile | awk '{ if($1=="0:"){print $4} }' | sed 's/..$//'   # capture number for resume_offset
 ```
-Update `boot.kernelParams = ["resume_offset=<NUMBER>"];` and `boot.resumeDevice` (UUID of underlying partition) in `swap.nix`, then:
+Update `boot.kernelParams = [ "resume_offset=<NUMBER>" ];` and `boot.resumeDevice` (UUID of the underlying partition), then:
 ```
 sudo nixos-rebuild switch --flake .#laptop
 sudo systemctl hibernate   # test once
