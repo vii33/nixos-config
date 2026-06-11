@@ -13,5 +13,5 @@
 - [ ] Use alternate niri bar (noctua shell).
 - [ ] Cleanup overall structure.
 - [ ] Update inputs from 25.11 to 26.05?
-- [ ] Check if `nixpkgs-fish-good.url` can be removed.
+- [x] Remove `nixpkgs-fish-good.url`.
 - [ ] Decide whether to generally use the unstable channel.
