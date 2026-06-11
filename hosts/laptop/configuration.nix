@@ -3,12 +3,24 @@
 
 {
 # Bootloader
-boot.loader.systemd-boot.enable = true;
-boot.loader.systemd-boot.graceful = true; # Ignore EFI variable errors (corrupted NVRAM workaround)
-boot.loader.efi.canTouchEfiVariables = false; # Disabled due to corrupted NVRAM
-boot.loader.systemd-boot.configurationLimit = 10; 
+boot.loader.systemd-boot.enable = false;
 
-networking.hostName = "laptop"; # Define your hostname.
+boot.loader.grub = {
+  enable = true;
+  efiSupport = true;
+  device = "nodev";
+  useOSProber = true;
+  configurationLimit = 10;
+  copyKernels = true;
+};
+
+boot.loader.efi.canTouchEfiVariables = true;
+boot.loader.efi.efiSysMountPoint = "/boot/efi";
+boot.loader.timeout = 5;
+
+boot.resumeDevice = "/dev/disk/by-uuid/13694fb1-8976-433c-bd9a-6d7822d109f6";
+
+networking.hostName = "laptop2"; # Define your hostname.
 
 # Configure network proxy if necessary
 # networking.proxy.default = "http://user:password@proxy:port/";
@@ -17,7 +29,6 @@ networking.hostName = "laptop"; # Define your hostname.
 # NetworkManager Configuration
 networking.networkmanager = {
   enable = true;
-  wifi.backend = "iwd";
   plugins = with pkgs; [
     networkmanager-openvpn
   ];
@@ -28,21 +39,6 @@ networking.networkmanager = {
 
 # Enable the X11 windowing system.
 services.xserver.enable = true;
-
-services.xserver.videoDrivers = [ "nvidia" ];
-
-hardware.nvidia = {
-  open = false;
-  # Modesetting is required for Wayland and recommended for X11
-  modesetting.enable = true;
-  # Enable power management (required for Dynamic Power Management)
-  powerManagement.enable = true;
-  # This installs the nvidia-settings utility
-  nvidiaSettings = true;
-  # This selects the proprietary package set.
-  # It's the default, but good to be explicit.
-  package = config.boot.kernelPackages.nvidiaPackages.stable;
-};
 
 hardware.graphics.enable = true;
 

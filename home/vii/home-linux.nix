@@ -10,7 +10,8 @@ in
   # Import user specific packages
   imports = [
     ./git.nix
-    ../../modules/home/pybonsai.nix
+    # Disabled until the upstream fixed-output hash is updated.
+    # ../../modules/home/pybonsai.nix
   ];
 
   # Set user and home directory (required on NixOS)

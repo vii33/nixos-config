@@ -15,14 +15,15 @@
 
       # Direct module imports
       ../../modules/system/niri.nix
-      ./swap.nix
-      ./nbfc.nix
+      # Enable after creating and validating ~/.config/nbfc.json for this laptop.
+      # ./nbfc.nix
     ];
 
   # Development system packages
   environment.systemPackages = with pkgs; [
     python3
     uv
+    pkgs-unstable.codex
     docker
     docker-compose
   ];
@@ -48,6 +49,7 @@
       inputs.sops-nix.homeManagerModules.sops
       inputs.nixvim.homeModules.nixvim
       ../../modules/home/kitty.nix
+      ../../modules/home/ghostty.nix
       ../../modules/home/fish-shell.nix
       ../../modules/home/nixvim/nixvim.nix
       ../../modules/home/nixvim/lazyvim.nix
@@ -75,6 +77,7 @@
       thunderbird
       vlc
       pkgs-unstable.vscode
+      pkgs-unstable.ghostty
       pkgs-unstable.opencode
       pkgs-unstable.github-copilot-cli
     ];
