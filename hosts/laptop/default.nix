@@ -2,6 +2,11 @@
 { config, pkgs, inputs, pkgs-unstable, ... }:
 
 {
+  nixpkgs.config.permittedInsecurePackages = [
+    # Bitwarden Desktop 2026.5.0 currently depends on Electron 39 in nixpkgs.
+    "electron-39.8.10"
+  ];
+
   imports =
     [ 
       # Only System level modules here! Home manager further down. Home Manager modules must be imported at user level, not system 
@@ -25,11 +30,14 @@
     python3
     uv
     pkgs-unstable.codex
-    docker
+    docker_29
     docker-compose
   ];
   environment.localBinInPath = true;
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    package = pkgs.docker_29;
+  };
   users.users.vii.extraGroups = [ "docker" ];
 
   # Fonts
@@ -81,7 +89,6 @@
       pkgs-unstable.vscode
       pkgs-unstable.ghostty
       pkgs-unstable.opencode
-      pkgs-unstable.github-copilot-cli
     ];
   };
 

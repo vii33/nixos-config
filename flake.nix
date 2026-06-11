@@ -66,7 +66,13 @@
           inherit inputs;
           pkgs-unstable = import nixpkgs-unstable {
             system = "x86_64-linux";
-            config.allowUnfree = true;
+            config = {
+              allowUnfree = true;
+              permittedInsecurePackages = [
+                # Bitwarden Desktop 2026.5.0 currently depends on Electron 39.
+                "electron-39.8.10"
+              ];
+            };
           };
         };
         modules = [
