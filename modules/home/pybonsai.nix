@@ -10,8 +10,8 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "Ben-Edwards44";
       repo = "PyBonsai";
-      rev = "main";
-      sha256 = "sha256-lq11e0RDyXDfBhfMcuywmCFMPie+AihlJT5SUwZGxUs=";
+      rev = "4e6546e6953f86b6a0494a85fd22714f11dc0e40";
+      sha256 = "sha256-mJbH0NTqeufQ9VBbLIZemlYOkFoNof+zJWdPTA3ZMzg=";
     };
 
     buildInputs = [ pkgs.python3 ];
