@@ -53,6 +53,7 @@
   home-manager.extraSpecialArgs = {
     inherit (config._module.specialArgs) pkgs-unstable inputs;
     gitIdentity = "personal";
+    zellijDefaultLayout = "laptop";
   };
   home-manager.sharedModules =  # Home Manager modules shared between all users
     [

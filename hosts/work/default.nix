@@ -34,6 +34,7 @@
     inherit inputs;
     inherit macosUsername;
     gitIdentity = "work";
+    zellijDefaultLayout = "startup";
   };
   home-manager.sharedModules = [
     inputs.sops-nix.homeManagerModules.sops

@@ -1,6 +1,6 @@
 # modules/home/zellij.nix
-# Zellij terminal multiplexer configuration (startup layout)
-{ pkgs, pkgs-unstable, ... }:
+# Zellij terminal multiplexer configuration
+{ pkgs, pkgs-unstable, zellijDefaultLayout ? "startup", ... }:
 
 let
   copilotAgentArgs = builtins.concatStringsSep " " [
@@ -83,7 +83,7 @@ in
   home.file.".config/zellij/config.kdl" = {
     force = true;
     text = ''
-      default_layout "startup"
+      default_layout "${zellijDefaultLayout}"
       theme "tokyo-night-dark-white"
       default_shell "${pkgs.fish}/bin/fish"
       // Start in lock mode (toggle with Ctrl+g).
@@ -340,6 +340,27 @@ in
           }
           pane name="attach" command="${pkgs.fish}/bin/fish" focus=true start_suspended=false {
             args "-c" "cd ~/repos/nixos-config; ${waitForOpencodeAttach}; opencode attach http://localhost:4096; exec fish -i"
+          }
+        }
+      }
+    '';
+  };
+
+  home.file.".config/zellij/layouts/laptop.kdl" = {
+    force = true;
+    text = ''
+      layout {
+        ${opencodeWorkspaceTabTemplate}
+
+        ${defaultTabChrome}
+
+        tab name="main" focus=true {
+          pane command="${pkgs.fish}/bin/fish" focus=true start_suspended=false
+        }
+
+        tab name="nixos" {
+          pane command="${pkgs.fish}/bin/fish" focus=true start_suspended=false {
+            args "-c" "cd /home/vii/nixos-config; exec fish -i"
           }
         }
       }
