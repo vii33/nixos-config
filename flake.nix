@@ -7,11 +7,10 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
-    nixpkgs-fish-good.url = "github:NixOS/nixpkgs/e9f278faa1d0c2fc835bd331d4666b59b505a410";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
-        url = "github:nix-community/home-manager/release-25.11";
-        inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/home-manager/release-25.11";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
@@ -36,123 +35,122 @@
 
   };
 
-  outputs = { self, nixpkgs, nixpkgs-fish-good, nixpkgs-unstable, home-manager,
-              nix-darwin, nixvim, sops-nix, niri, kanagawa-yazi, ... }@inputs:
-  let
-    macosUsername =
-      let u = builtins.getEnv "MACOS_USERNAME";
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-unstable,
+      home-manager,
+      nix-darwin,
+      nixvim,
+      sops-nix,
+      niri,
+      kanagawa-yazi,
+      ...
+    }@inputs:
+    let
+      macosUsername =
+        let
+          u = builtins.getEnv "MACOS_USERNAME";
           home = builtins.getEnv "HOME";
           homeUser = if home != "" then builtins.baseNameOf home else "";
-      in if u != "" then u else if homeUser != "" then homeUser else "vii";
-    darwinSystem = "aarch64-darwin";
-    fishOverlayDarwin =
-      let
-        fishPkgsDarwin = import nixpkgs-fish-good {
-          system = darwinSystem;
-          config.allowUnfree = true;
-        };
-      in
-      final: prev: {
-        # Fish from the latest nixpkgs snapshot hangs on macOS after startup.
-        # TODO: Remove this override once nixpkgs fixes fish on Darwin.
-        fish = fishPkgsDarwin.fish;
-      };
-  in {
-    nixosConfigurations = {
+        in
+        if u != "" then u else if homeUser != "" then homeUser else "vii";
+      darwinSystem = "aarch64-darwin";
+    in
+    {
+      nixosConfigurations = {
 
-      laptop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { 
-          inherit inputs;
-          pkgs-unstable = import nixpkgs-unstable {
-            system = "x86_64-linux";
-            config = {
-              allowUnfree = true;
-              permittedInsecurePackages = [
-                # Bitwarden Desktop 2026.5.0 currently depends on Electron 39.
-                "electron-39.8.10"
-              ];
+        laptop = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs;
+            pkgs-unstable = import nixpkgs-unstable {
+              system = "x86_64-linux";
+              config = {
+                allowUnfree = true;
+                permittedInsecurePackages = [
+                  # Bitwarden Desktop 2026.5.0 currently depends on Electron 39.
+                  "electron-39.8.10"
+                ];
+              };
             };
           };
+          modules = [
+            inputs.sops-nix.nixosModules.sops
+            ./hosts/laptop/default.nix
+          ];
         };
-        modules = [
-          inputs.sops-nix.nixosModules.sops
-          ./hosts/laptop/default.nix
-        ];
-      };
 
-      home-server = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { 
-          inherit inputs;
-          pkgs-unstable = import nixpkgs-unstable {
-            system = "x86_64-linux";
-            config.allowUnfree = true;
+        home-server = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs;
+            pkgs-unstable = import nixpkgs-unstable {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
           };
+          modules = [
+            inputs.sops-nix.nixosModules.sops
+            ./hosts/home-server/default.nix
+          ];
         };
-        modules = [
-          inputs.sops-nix.nixosModules.sops
-          ./hosts/home-server/default.nix
-        ];
       };
-    };
 
-    darwinConfigurations = {
-      work = nix-darwin.lib.darwinSystem {
-        system = darwinSystem;  # Apple silicon
-        specialArgs = { 
-          inherit inputs;
-          inherit macosUsername;
-          pkgs-unstable = import nixpkgs-unstable {
+      darwinConfigurations = {
+        work = nix-darwin.lib.darwinSystem {
+          system = darwinSystem;  # Apple silicon
+          specialArgs = {
+            inherit inputs;
+            inherit macosUsername;
+            pkgs-unstable = import nixpkgs-unstable {
+              system = darwinSystem;
+              config.allowUnfree = true;
+            };
+          };
+          modules = [
+            inputs.sops-nix.darwinModules.sops
+            ./hosts/work/default.nix
+          ];
+        };
+      };
+
+      # Standalone Home Manager configuration for macOS, no sudo needed
+      homeConfigurations = {
+        work =
+          let
             system = darwinSystem;
-            config.allowUnfree = true;
+            pkgs = import nixpkgs {
+              inherit system;
+              config.allowUnfree = true;
+            };
+            pkgs-unstable = import nixpkgs-unstable {
+              inherit system;
+              config.allowUnfree = true;
+            };
+
+          in
+          home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
+            extraSpecialArgs = {
+              inherit inputs pkgs-unstable macosUsername;
+              gitIdentity = "work";
+            };
+            modules = [
+              inputs.sops-nix.homeManagerModules.sops
+              ./home/vii/home-darwin.nix
+
+              ./modules/home/fish-shell.nix
+              ./modules/home/ghostty.nix
+              ./modules/home/yazi.nix
+              ./modules/home/zellij.nix
+              ./modules/home/darwin/capslock-to-f18.nix
+              ./modules/home/darwin/aldente-autostart.nix
+              #./modules/home/darwin/paneru.nix
+              #../../modules/home/warpd.nix
+            ];
           };
-        };
-        modules = [
-          inputs.sops-nix.darwinModules.sops
-          {
-            nixpkgs.overlays = [ fishOverlayDarwin ];
-          }
-          ./hosts/work/default.nix
-        ];
       };
-    };
-
-    # Standalone Home Manager configuration for macOS, no sudo needed 
-    homeConfigurations = {
-      work = 
-      let
-        system = darwinSystem;
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-          overlays = [ fishOverlayDarwin ];
-        };
-        pkgs-unstable = import nixpkgs-unstable {
-          inherit system;
-          config.allowUnfree = true;
-        };
-
-      in home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-         extraSpecialArgs = { 
-           inherit inputs pkgs-unstable macosUsername;
-           gitIdentity = "work";
-         };
-        modules = [
-           inputs.sops-nix.homeManagerModules.sops
-           ./home/vii/home-darwin.nix
-  
-           ./modules/home/fish-shell.nix
-           ./modules/home/ghostty.nix
-           ./modules/home/yazi.nix
-           ./modules/home/zellij.nix
-           ./modules/home/darwin/capslock-to-f18.nix
-           ./modules/home/darwin/aldente-autostart.nix
-            #./modules/home/darwin/paneru.nix
-            #../../modules/home/warpd.nix
-         ];
-       };
-    };
   };
 }
