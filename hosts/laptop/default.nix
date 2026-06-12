@@ -62,6 +62,7 @@
       ../../modules/home/kitty.nix
       ../../modules/home/ghostty.nix
       ../../modules/home/fish-shell.nix
+      ../../modules/home/fish-keep-awake.nix
       ../../modules/home/nixvim/nixvim.nix
       ../../modules/home/nixvim/lazyvim.nix
       ../../modules/home/kde.nix
