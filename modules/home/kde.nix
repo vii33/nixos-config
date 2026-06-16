@@ -40,6 +40,20 @@
       --group Touchpad --key NaturalScroll true
     "$kwriteconfig" --file "$kcminputrc" --group Libinput --group Defaults \
       --group Touchpad --key ScrollFactor 0.5
+
+    while IFS= read -r groupLine; do
+      inner="''${groupLine#\[}"
+      inner="''${inner%\]}"
+      readarray -t groups < <(printf '%s\n' "$inner" | sed 's/]\[/\n/g')
+
+      groupArgs=()
+      for group in "''${groups[@]}"; do
+        groupArgs+=(--group "$group")
+      done
+
+      "$kwriteconfig" --file "$kcminputrc" "''${groupArgs[@]}" --key NaturalScroll true
+      "$kwriteconfig" --file "$kcminputrc" "''${groupArgs[@]}" --key ScrollFactor 0.5
+    done < <(grep -E '^\[Libinput\].*\[Touchpad\]$' "$kcminputrc" || true)
   '';
 
   # Configure mouse pointer speed for high DPI mice (e.g., Logitech Pro)
