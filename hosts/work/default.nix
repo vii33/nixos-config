@@ -4,7 +4,7 @@
 
 {
   imports = [  
-    # Only System level modules here! Home manager further down. Home Manager modules must be imported at user level
+    # Only system-level modules here. Home Manager modules are imported at user level.
     inputs.home-manager.darwinModules.home-manager
     ./configuration-nix-darwin.nix
     ./brew.nix
@@ -22,7 +22,6 @@
     lazygit        # Terminal UI for git commands
     #cargo         # Rust package manager // needed for panerau installation
     #rustc         # Rust compiler // needed for panerau installation
-    #warpd         # Modal keyboard-driven mouse pointer control
   ];
 
   # Home Manager wiring
@@ -48,7 +47,6 @@
     ../../modules/home/darwin/aldente-autostart.nix
     #../../modules/home/nixvim/nixvim.nix
     #../../modules/home/nixvim/lazyvim.nix
-    #../../modules/home/warpd.nix
     #../../modules/home/darwin/paneru.nix
   ];
   
@@ -57,6 +55,6 @@
     ../../home/vii/home-darwin.nix 
   ];
 
-  system.stateVersion = 6; # Used to pin darwin configuration versions to avoid breaking changes.
-                           # Updated from time to time. See https://nix-darwin.github.io/nix-darwin/manual/index.html#opt-system.stateVersion
+  # Pin nix-darwin configuration defaults; do not change without an upgrade plan.
+  system.stateVersion = 6;
 }

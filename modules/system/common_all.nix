@@ -5,7 +5,7 @@
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Enable fish shell system-wide //TODO can this be moved somewhere else?
+  # Enable fish shell system-wide.
   programs.fish.enable = true;
 
   environment.systemPackages = with pkgs; [
