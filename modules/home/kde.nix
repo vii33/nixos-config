@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   # Enable KDE Wallet for credential storage (VS Code, GitHub Copilot, etc.)
@@ -13,19 +18,36 @@
     Enabled=true
     First Use=false
     Default Wallet=kdewallet
-    
+
     [org.freedesktop.secrets]
     apiEnabled=true
   '';
 
   services.kdeconnect.enable = true;
 
+  # Natural scrolling and reduced scroll speed for touchpad (libinput) in KDE Plasma
+  home.activation.configureKdeTouchpad = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    kcminputrc="$HOME/.config/kcminputrc"
+    kwriteconfig="${pkgs.kdePackages.kconfig}/bin/kwriteconfig6"
+
+    if [ -L "$kcminputrc" ]; then
+      $VERBOSE_ECHO "Removing read-only $kcminputrc symlink"
+      rm "$kcminputrc"
+    fi
+
+    mkdir -p "$HOME/.config"
+    "$kwriteconfig" --file "$kcminputrc" --group Libinput --group Defaults \
+      --group Touchpad --key NaturalScroll true
+    "$kwriteconfig" --file "$kcminputrc" --group Libinput --group Defaults \
+      --group Touchpad --key ScrollFactor 0.5
+  '';
+
   # Configure mouse pointer speed for high DPI mice (e.g., Logitech Pro)
   # These settings work with libinput on Wayland (KDE Plasma)
   home.packages = with pkgs; [
-    libinput  # For debugging: libinput list-devices, libinput debug-events
-    libsecret  # Required for VS Code/apps to store secrets in KDE Wallet via Secret Service API
-    kdePackages.kwalletmanager  # GUI to manage KDE Wallet (create wallet with empty password for auto-unlock)
+    libinput # For debugging: libinput list-devices, libinput debug-events
+    libsecret # Required for VS Code/apps to store secrets in KDE Wallet via Secret Service API
+    kdePackages.kwalletmanager # GUI to manage KDE Wallet (create wallet with empty password for auto-unlock)
   ];
 
   # Create libinput configuration file to target only external mice (not touchpad)
