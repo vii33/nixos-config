@@ -4,8 +4,8 @@
 - [ ] Check Intel graphics.
 - [ ] Update NBFC.
 - [ ] Check which files to add to Home Manager.
-- [ ] Update Yazi config from Darwin?
-- [ ] Remove warpd.
+- [x] Update Yazi config from Darwin?
+- [x] Remove warpd.
 - [x] Update Nix generations to 10 and keep last 30 days.
 - [ ] Swap touchpad scroll direction.
 - [ ] Check fingerprint usefulness.
