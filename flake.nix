@@ -70,6 +70,15 @@
         else
           "vii";
       darwinSystem = "aarch64-darwin";
+      herdrFor =
+        system:
+        inputs.herdr.packages.${system}.default.overrideAttrs (_oldAttrs: {
+          cargoDeps = _oldAttrs.cargoDeps.overrideAttrs (_oldCargoAttrs: {
+            vendorStaging = _oldCargoAttrs.vendorStaging.overrideAttrs (_oldVendorAttrs: {
+              outputHash = "sha256-yRT31RnfjSQy5bxFXVvM9zRM59WAPrBozu3S2tag6s8=";
+            });
+          });
+        });
     in
     {
       nixosConfigurations = {
@@ -78,6 +87,7 @@
           system = "x86_64-linux";
           specialArgs = {
             inherit inputs;
+            herdr = herdrFor "x86_64-linux";
             pkgs-unstable = import nixpkgs-unstable {
               system = "x86_64-linux";
               config = {
@@ -118,6 +128,7 @@
           specialArgs = {
             inherit inputs;
             inherit macosUsername;
+            herdr = herdrFor darwinSystem;
             pkgs-unstable = import nixpkgs-unstable {
               system = darwinSystem;
               config.allowUnfree = true;
@@ -154,6 +165,7 @@
             inherit pkgs;
             extraSpecialArgs = {
               inherit inputs pkgs-unstable macosUsername;
+              herdr = herdrFor system;
               gitIdentity = "work";
             };
             modules = [

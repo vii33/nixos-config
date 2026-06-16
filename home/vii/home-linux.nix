@@ -12,13 +12,6 @@
 let
   secretsFile = ../../secrets/secrets.yaml;
   haveSecretsFile = builtins.pathExists secretsFile;
-  herdr = inputs.herdr.packages.${pkgs.system}.default.overrideAttrs (_oldAttrs: {
-    cargoDeps = _oldAttrs.cargoDeps.overrideAttrs (_oldCargoAttrs: {
-      vendorStaging = _oldCargoAttrs.vendorStaging.overrideAttrs (_oldVendorAttrs: {
-        outputHash = "sha256-yRT31RnfjSQy5bxFXVvM9zRM59WAPrBozu3S2tag6s8=";
-      });
-    });
-  });
 in
 {
   # Import user specific packages
@@ -35,11 +28,6 @@ in
   # Configure user-level programs
   programs.fish.enable = true;
   programs.direnv.enable = true;
-
-  services.handy.enable = true;
-  home.packages = [
-    herdr
-  ];
 
   # Secrets (sops-nix)
   #
