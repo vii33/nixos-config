@@ -28,6 +28,10 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    handy = {
+      url = "github:cjpais/Handy";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     kanagawa-yazi = {
       # Yazi color theme
       url = "github:dangooddd/kanagawa.yazi";
@@ -46,6 +50,7 @@
       nixvim,
       sops-nix,
       niri,
+      handy,
       kanagawa-yazi,
       ...
     }@inputs:
@@ -84,6 +89,7 @@
           };
           modules = [
             inputs.sops-nix.nixosModules.sops
+            inputs.handy.nixosModules.default
             ./hosts/laptop/default.nix
           ];
         };
