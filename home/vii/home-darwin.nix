@@ -2,7 +2,14 @@
 # Home Manager configuration for macOS (nix-darwin)
 # TODO Merge this with the home-linux.nix
 
-{ config, pkgs, lib, macosUsername, gitIdentity ? "personal", ... }:
+{
+  config,
+  pkgs,
+  lib,
+  macosUsername,
+  gitIdentity ? "personal",
+  ...
+}:
 
 let
   secretsFile = ../../secrets/secrets.yaml;
@@ -30,7 +37,8 @@ in
     ".npmrc".text = ''
       prefix=${config.home.homeDirectory}/.npm-global
     '';
-  } // lib.optionalAttrs haveSecretsFile {
+  }
+  // lib.optionalAttrs haveSecretsFile {
     ".config/fish/conf.d/90-sops-secrets.fish".text = ''
       # Export secrets via sops-nix managed files (avoid putting values in the Nix store).
       # Claude Code:
@@ -51,8 +59,15 @@ in
     '';
   };
 
-  # Add home-manager CLI to PATH
+  # User-level tools
   home.packages = with pkgs; [
+    python3
+    uv
+    nodejs
+    bun
+    tree-sitter
+    imagemagick
+    lazygit
     home-manager
   ];
 
@@ -78,21 +93,20 @@ in
 
     # macOS doesn't have SSH host keys — disable them so sops-nix
     # only uses the age key file above.
-    age.sshKeyPaths = [];
-    secrets =
-      {
-        x_api_key = { };
-        x_api_key_secret = { };
-        claude_api_key = { };
-        atc_confluence_token = { };
-        atc_jira_token = { };
-        cc_jira_api_token = { };
-        no_proxy = { };
-        opencode_server_password = { };
-      }
-      // lib.optionalAttrs (gitIdentity == "work") {
-        git_work_gitconfig = { };
-      };
+    age.sshKeyPaths = [ ];
+    secrets = {
+      x_api_key = { };
+      x_api_key_secret = { };
+      claude_api_key = { };
+      atc_confluence_token = { };
+      atc_jira_token = { };
+      cc_jira_api_token = { };
+      no_proxy = { };
+      opencode_server_password = { };
+    }
+    // lib.optionalAttrs (gitIdentity == "work") {
+      git_work_gitconfig = { };
+    };
   };
 
   # Configure user-level programs
@@ -108,5 +122,5 @@ in
   # Ensures configuration doesn't break on updates. Keep version static after first config.
   # You can update Home Manager without changing this value. See the Home Manager release
   # notes for a list of state version changes in each release.
-  home.stateVersion = "25.05";   
+  home.stateVersion = "25.05";
 }

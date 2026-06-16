@@ -1,10 +1,16 @@
 # ./hosts/work/default.nix
 # macOS (darwin) host composition
-{ config, pkgs, inputs, macosUsername, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  macosUsername,
+  ...
+}:
 
 {
-  imports = [  
-    # Only system-level modules here. Home Manager modules are imported at user level.
+  imports = [
+    # Only System level modules here! Home manager further down. Home Manager modules must be imported at user level
     inputs.home-manager.darwinModules.home-manager
     ./configuration-nix-darwin.nix
     ./brew.nix
@@ -12,23 +18,14 @@
     ../../modules/system/common_all.nix
   ];
 
-  environment.systemPackages = with pkgs; [
-    python3
-    uv
-    nodejs        # Node runtime for npm-installed CLIs like playwright-cli
-    bun           # Bun runtime with npm compatibility (needed for Mason)
-    tree-sitter   # Tree-sitter CLI (required by nvim-treesitter)
-    imagemagick   # Image manipulation tool
-    lazygit        # Terminal UI for git commands
-    #cargo         # Rust package manager // needed for panerau installation
-    #rustc         # Rust compiler // needed for panerau installation
-  ];
+  # Add packages here only when scripts outside the active user session need them.
+  environment.systemPackages = with pkgs; [ ];
 
   # Home Manager wiring
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";
-  home-manager.extraSpecialArgs = { 
+  home-manager.extraSpecialArgs = {
     inherit (config._module.specialArgs) pkgs-unstable;
     inherit inputs;
     inherit macosUsername;
@@ -38,7 +35,7 @@
   home-manager.sharedModules = [
     inputs.sops-nix.homeManagerModules.sops
     #inputs.nixvim.homeManagerModules.nixvim
-  
+
     ../../modules/home/fish-shell.nix
     ../../modules/home/ghostty.nix
     ../../modules/home/yazi.nix
@@ -49,12 +46,13 @@
     #../../modules/home/nixvim/lazyvim.nix
     #../../modules/home/darwin/paneru.nix
   ];
-  
+
   # Home Manager imports for main user
-  home-manager.users.${macosUsername}.imports = [ 
-    ../../home/vii/home-darwin.nix 
+  home-manager.users.${macosUsername}.imports = [
+    ../../home/vii/home-darwin.nix
   ];
 
-  # Pin nix-darwin configuration defaults; do not change without an upgrade plan.
   system.stateVersion = 6;
+  # Used to pin darwin configuration versions to avoid breaking changes.
+  # Updated from time to time. See https://nix-darwin.github.io/nix-darwin/manual/index.html#opt-system.stateVersion
 }
