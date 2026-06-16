@@ -1,10 +1,24 @@
 # /etc/nixos/home/vii/home-linux.nix
 # Home Manager configuration for Linux (NixOS)
-{ config, pkgs, lib, gitIdentity ? "personal", ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  gitIdentity ? "personal",
+  ...
+}:
 
 let
   secretsFile = ../../secrets/secrets.yaml;
   haveSecretsFile = builtins.pathExists secretsFile;
+  herdr = inputs.herdr.packages.${pkgs.system}.default.overrideAttrs (_oldAttrs: {
+    cargoDeps = _oldAttrs.cargoDeps.overrideAttrs (_oldCargoAttrs: {
+      vendorStaging = _oldCargoAttrs.vendorStaging.overrideAttrs (_oldVendorAttrs: {
+        outputHash = "sha256-yRT31RnfjSQy5bxFXVvM9zRM59WAPrBozu3S2tag6s8=";
+      });
+    });
+  });
 in
 {
   # Import user specific packages
@@ -23,6 +37,9 @@ in
   programs.direnv.enable = true;
 
   services.handy.enable = true;
+  home.packages = [
+    herdr
+  ];
 
   # Secrets (sops-nix)
   #
@@ -34,20 +51,19 @@ in
 
     # Per-user age key (create via docs/secrets.md)
     age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
-    secrets =
-      {
-        x_api_key = { };
-        x_api_key_secret = { };
-        claude_api_key = { };
-        atc_confluence_token = { };
-        atc_jira_token = { };
-        cc_jira_api_token = { };
-        no_proxy = { };
-        opencode_server_password = { };
-      }
-      // lib.optionalAttrs (gitIdentity == "work") {
-        git_work_gitconfig = { };
-      };
+    secrets = {
+      x_api_key = { };
+      x_api_key_secret = { };
+      claude_api_key = { };
+      atc_confluence_token = { };
+      atc_jira_token = { };
+      cc_jira_api_token = { };
+      no_proxy = { };
+      opencode_server_password = { };
+    }
+    // lib.optionalAttrs (gitIdentity == "work") {
+      git_work_gitconfig = { };
+    };
   };
 
   home.file = lib.mkIf haveSecretsFile {
@@ -83,5 +99,5 @@ in
   # Ensures configuration doesn't break on updates. Keep version static after first config.
   # You can update Home Manager without changing this value. See the Home Manager release
   # notes for a list of state version changes in each release.
-  home.stateVersion = "25.05";   
+  home.stateVersion = "25.05";
 }

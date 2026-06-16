@@ -31,6 +31,8 @@
     handy = {
       url = "github:cjpais/Handy";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
+    herdr = {
+      url = "github:ogulcancelik/herdr/v0.6.4";
     };
     kanagawa-yazi = {
       # Yazi color theme
