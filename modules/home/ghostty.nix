@@ -6,7 +6,6 @@ let
   bgImage = "${config.home.homeDirectory}/Documents/bmw-terminal-small.jpg";
 in
 {
-  
 
   xdg.configFile."ghostty/config".text = ''
     # Managed by Home Manager (modules/home/ghostty.nix)
@@ -14,7 +13,7 @@ in
 
     # Shell
     command = "${pkgs.fish}/bin/fish"
-    
+
     # TERM (full color support)
     # Note: if you hit SSH/ncurses issues on remote hosts (missing terminfo), switch to "xterm-256color".
     term = "xterm-ghostty"
@@ -25,7 +24,7 @@ in
     # Theme 
     theme = Monokai Pro Spectrum
     # others: Ayu, TokyoNight, MonokaiProSpectrum
-    
+
     # Force pure white default text (override theme foreground)
     foreground = ffffff
 
@@ -40,7 +39,26 @@ in
     keybind = ctrl+right=csi:1;5C
 
     # Tab management
-    # Note: Zellij is configured to use Alt+... for tabs/panes, so keep Alt+... unbound in Ghostty.
+    # Keep Herdr/Zellij tab chords free for the multiplexer.
+    keybind = ctrl+tab=unbind
+    keybind = ctrl+shift+tab=unbind
+    keybind = alt+1=unbind
+    keybind = alt+2=unbind
+    keybind = alt+3=unbind
+    keybind = alt+4=unbind
+    keybind = alt+5=unbind
+    keybind = alt+6=unbind
+    keybind = alt+7=unbind
+    keybind = alt+8=unbind
+    keybind = alt+9=unbind
+    keybind = alt+digit_1=unbind
+    keybind = alt+digit_2=unbind
+    keybind = alt+digit_3=unbind
+    keybind = alt+digit_4=unbind
+    keybind = alt+digit_5=unbind
+    keybind = alt+digit_6=unbind
+    keybind = alt+digit_7=unbind
+    keybind = alt+digit_8=unbind
     keybind = ctrl+shift+t=new_tab
     keybind = ctrl+shift+q=close_tab
     # keybind = alt+t=new_tab
@@ -78,7 +96,7 @@ in
     #font-family-bold = "JetBrainsMono Nerd Font Bold"
     #font-family-italic = "JetBrainsMono Nerd Font Italic"
     #font-family-bold-italic = "JetBrainsMono Nerd Font Bold Italic"
-    font-size = 12
+    font-size = 10
     adjust-cell-height = 10%
 
     # Window layout (columns/rows)
@@ -86,7 +104,7 @@ in
     window-height = 41
     window-padding-x = 8
     window-padding-y = 8
- 
+
     # Background image (PNG/JPEG)
     background-image = "${bgImage}"
     background-image-fit = cover

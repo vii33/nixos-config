@@ -3,8 +3,8 @@
 These keyboard shortcuts are configured in `modules/home/ghostty.nix`.
 
 > macOS: Ghostty is configured with `macos-option-as-alt = left` so **Left Option** acts as `Alt`.
-> In this repo, Zellij is configured to use `Alt + ...` for tabs/panes, so Ghostty keeps `Alt + ...`
-> unbound to let Zellij receive those keypresses.
+> In this repo, Herdr/Zellij own multiplexer navigation, so Ghostty explicitly unbinds
+> `Ctrl + Tab`, `Ctrl + Shift + Tab`, and `Alt + 1-9`.
 > Split keybindings in Ghostty are disabled (commented out) because Zellij handles panes.
 
 ## Tab Management
@@ -13,7 +13,9 @@ These keyboard shortcuts are configured in `modules/home/ghostty.nix`.
 |---|---|
 | `Ctrl + Shift + T` | new tab |
 | `Ctrl + Shift + Q` | close tab |
-| `Alt + 1-5` | Zellij: jump to tab 1-5 |
+| `Ctrl + Tab` | unbound for Herdr |
+| `Ctrl + Shift + Tab` | unbound for Herdr |
+| `Alt + 1-9` | unbound for multiplexer tab navigation |
 
 ## Split Management (Kitty "Windows")
 
