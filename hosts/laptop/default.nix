@@ -1,5 +1,12 @@
 # ./hosts/laptop/default.nix
-{ config, pkgs, inputs, pkgs-unstable, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  pkgs-unstable,
+  herdr,
+  ...
+}:
 
 {
   nixpkgs.config.permittedInsecurePackages = [
@@ -7,23 +14,22 @@
     "electron-39.8.10"
   ];
 
-  imports =
-    [ 
-      # Only System level modules here! Home manager further down. Home Manager modules must be imported at user level, not system 
-      inputs.home-manager.nixosModules.home-manager
-      ./configuration.nix
-      ./hardware-configuration.nix
+  imports = [
+    # Only System level modules here! Home manager further down. Home Manager modules must be imported at user level, not system
+    inputs.home-manager.nixosModules.home-manager
+    ./configuration.nix
+    ./hardware-configuration.nix
 
-      # Common configuration
-      ../../modules/system/common_all.nix
-      ../../modules/system/common_linux.nix
+    # Common configuration
+    ../../modules/system/common_all.nix
+    ../../modules/system/common_linux.nix
 
-      # Direct module imports
-      ../../modules/system/niri.nix
-      ./swap.nix
-      # Enable after creating and validating ~/.config/nbfc.json for this laptop.
-      # ./nbfc.nix
-    ];
+    # Direct module imports
+    ../../modules/system/niri.nix
+    ./swap.nix
+    # Enable after creating and validating ~/.config/nbfc.json for this laptop.
+    # ./nbfc.nix
+  ];
 
   # Development system packages
   environment.systemPackages = with pkgs; [
@@ -33,7 +39,6 @@
     docker_29
     docker-compose
   ];
-  environment.localBinInPath = true;
   virtualisation.docker = {
     enable = true;
     package = pkgs.docker_29;
@@ -62,20 +67,22 @@
 
   # Fonts
   fonts.packages = with pkgs; [
-    nerd-fonts.meslo-lg          # Used by Fish Shell / Alacritty
+    nerd-fonts.meslo-lg # Used by Fish Shell / Alacritty
     nerd-fonts.jetbrains-mono
   ];
+
+  environment.localBinInPath = true;
 
   # Home Manager wiring for this host
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
-  home-manager.backupFileExtension = "backup";   # backup existing dotfiles before overwriting
+  home-manager.backupFileExtension = "backup"; # backup existing dotfiles before overwriting
   home-manager.extraSpecialArgs = {
     inherit (config._module.specialArgs) pkgs-unstable inputs;
     gitIdentity = "personal";
     zellijDefaultLayout = "laptop";
   };
-  home-manager.sharedModules =  # Home Manager modules shared between all users
+  home-manager.sharedModules = # Home Manager modules shared between all users
     [
       inputs.sops-nix.homeManagerModules.sops
       inputs.handy.homeManagerModules.default
@@ -101,7 +108,7 @@
     ];
   home-manager.users.vii = {
     imports = [ ../../home/vii/home-linux.nix ];
-    
+
     # Host-specific packages for laptop
     home.packages = with pkgs; [
       pkgs-unstable.brave
@@ -111,6 +118,8 @@
       pkgs-unstable.vscode
       pkgs-unstable.ghostty
       pkgs-unstable.opencode
+      herdr
+      lazygit
       thunderbird
       vlc
     ];

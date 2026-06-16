@@ -5,6 +5,7 @@
   pkgs,
   inputs,
   macosUsername,
+  herdr,
   ...
 }:
 
@@ -36,12 +37,13 @@
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "backup";
   home-manager.extraSpecialArgs = {
-    inherit (config._module.specialArgs) pkgs-unstable;
+    inherit (config._module.specialArgs) pkgs-unstable herdr;
     inherit inputs;
     inherit macosUsername;
     gitIdentity = "work";
     zellijDefaultLayout = "startup";
   };
+  
   home-manager.sharedModules = [
     inputs.sops-nix.homeManagerModules.sops
     #inputs.nixvim.homeManagerModules.nixvim
@@ -57,10 +59,16 @@
     #../../modules/home/darwin/paneru.nix
   ];
 
-  # Home Manager imports for main user
-  home-manager.users.${macosUsername}.imports = [
-    ../../home/vii/home-darwin.nix
-  ];
+  # Home Manager config for main user
+  home-manager.users.${macosUsername} = {
+    imports = [
+      ../../home/vii/home-darwin.nix
+    ];
+
+    home.packages = [
+      herdr
+    ];
+  };
 
   system.stateVersion = 6;
   # Used to pin darwin configuration versions to avoid breaking changes.
