@@ -1,15 +1,20 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  pkgs-unstable,
+  lib,
+  ...
+}:
 
 {
   # Configure onedriver to automatically mount on login via systemd
   # Reference: https://github.com/jstaf/onedriver#multiple-drives-and-starting-onedrive-on-login-via-systemd
 
   home.packages = with pkgs; [
-    onedriver
+    pkgs-unstable.onedriver
   ];
 
-  # Enable and start onedriver service on user login
-  # The service will create the mount point at ~/OneDrive
+  # Enable and start onedriver service on user login.
   systemd.user.services.onedriver-onedrive = {
     Unit = {
       Description = "OneDriver service for OneDrive";
@@ -19,9 +24,9 @@
 
     Service = {
       Type = "simple";
-      # Mount point is ~/OneDrive, expand via systemd
-      ExecStart = "${pkgs.onedriver}/bin/onedriver %h/OneDrive";
-      Restart = "on-failure";
+      ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p %h/OneDrive";
+      ExecStart = "${pkgs-unstable.onedriver}/bin/onedriver %h/OneDrive";
+      Restart = "on-abnormal";
       RestartSec = "10s";
     };
 
@@ -30,9 +35,8 @@
     };
   };
 
-  # Notes on the mount point:
-  # - onedriver will create and mount OneDrive at ~/OneDrive
-  # - Use this systemd service to automatically mount on login
+  # Notes:
+  # - Use this systemd service to automatically mount OneDrive at ~/OneDrive
   # - To debug, run: journalctl --user -u onedriver-onedrive --since today
   # - To mount/unmount manually: systemctl --user start/stop onedriver-onedrive
 }
