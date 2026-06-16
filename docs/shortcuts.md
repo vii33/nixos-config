@@ -4,11 +4,18 @@ This repo keeps shortcut references in `docs/keyboard-shortcuts/`:
 
 - Fish: [docs/keyboard-shortcuts/fish-shell-shortcuts.md](keyboard-shortcuts/fish-shell-shortcuts.md)
   - Includes custom pickers like `Ctrl + E` for environment variables.
+- Herdr: [docs/keyboard-shortcuts/herdr-shortcuts.md](keyboard-shortcuts/herdr-shortcuts.md)
 - Kitty: [docs/keyboard-shortcuts/kitty-shortcuts.md](keyboard-shortcuts/kitty-shortcuts.md)
 - Ghostty: [docs/keyboard-shortcuts/ghostty-shortcuts.md](keyboard-shortcuts/ghostty-shortcuts.md)
 - Neovim/LazyVim: [docs/keyboard-shortcuts/neovim-shortcuts.md](keyboard-shortcuts/neovim-shortcuts.md)
 - Niri: [docs/keyboard-shortcuts/niri-shortcuts.md](keyboard-shortcuts/niri-shortcuts.md)
 - Yazi: [docs/keyboard-shortcuts/yazi-keybindings.md](keyboard-shortcuts/yazi-keybindings.md)
+
+## Global
+
+| Key | Action |
+|---|---|
+| `Caps Lock` | Emits `F15` on the laptop via `services.keyd`; used as Herdr prefix |
 
 ## Zellij
 
