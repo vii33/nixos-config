@@ -41,6 +41,8 @@ in
 ## Flake
 
 - Wire new inputs via `specialArgs = { inherit inputs; }`.
+- Local `builtins.getFlake "git+file://$PWD"` eval probes need `--impure`
+  because the working tree flake reference is unlocked.
 - New Linux host: `nixosConfigurations` + `hosts/<name>/`.
 - New macOS host: `darwinConfigurations` + `hosts/<name>/`.
 
