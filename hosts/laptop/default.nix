@@ -89,6 +89,7 @@
       ../../modules/home/kde.nix
       ../../modules/home/yazi.nix
       ../../modules/home/zellij.nix
+      ../../modules/home/helix.nix
 
       ../../modules/home/onedriver.nix
 
@@ -107,11 +108,11 @@
       pkgs-unstable.obsidian
       pkgs-unstable.bitwarden-desktop
       pkgs-unstable.signal-desktop
-      thunderbird
-      vlc
       pkgs-unstable.vscode
       pkgs-unstable.ghostty
       pkgs-unstable.opencode
+      thunderbird
+      vlc
     ];
   };
 
