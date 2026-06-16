@@ -19,6 +19,7 @@
   ];
 
   # Add packages here only when scripts outside the active user session need them.
+  # Home Manager user packages should go in the home configuration (home.nix)
   environment.systemPackages = with pkgs; [ ];
 
   # Home Manager wiring
