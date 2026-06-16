@@ -10,6 +10,7 @@ These keyboard shortcuts are configured in `modules/home/niri/niri.nix`.
 |---|---|
 | `Super + Return` | launch terminal (kitty) |
 | `Super + D` | launch application launcher (fuzzel) |
+| `Right Super + AltGr` | toggle Handy transcription |
 
 ## Window Management (Focus)
 

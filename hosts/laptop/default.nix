@@ -38,7 +38,27 @@
     enable = true;
     package = pkgs.docker_29;
   };
-  users.users.vii.extraGroups = [ "docker" ];
+  users.users.vii.extraGroups = [
+    "docker"
+    "input"
+  ];
+
+  programs.handy.enable = true;
+
+  services.keyd = {
+    enable = true;
+    keyboards.default = {
+      ids = [ "*" ];
+      settings = {
+        global = {
+          chord_timeout = 100;
+        };
+        main = {
+          "rightmeta+rightalt" = "f20";
+        };
+      };
+    };
+  };
 
   # Fonts
   fonts.packages = with pkgs; [
@@ -58,6 +78,7 @@
   home-manager.sharedModules =  # Home Manager modules shared between all users
     [
       inputs.sops-nix.homeManagerModules.sops
+      inputs.handy.homeManagerModules.default
       inputs.nixvim.homeModules.nixvim
       ../../modules/home/kitty.nix
       ../../modules/home/ghostty.nix

@@ -81,6 +81,7 @@
         # Mod key (Super/Windows key)
         "Mod+Return".action.spawn = "kitty";
         "Mod+D".action.spawn = "fuzzel";
+        "F20".action.spawn = [ "handy" "--toggle-transcription" ];
         
         # Window management
         "Mod+Q".action.close-window = {};
@@ -196,6 +197,7 @@
     wl-clipboard   # Clipboard utilities
     brightnessctl  # Brightness control
     pavucontrol    # Audio control GUI
+    wtype          # Wayland text injection for Handy transcriptions
     xwayland-satellite # X11 compatibility layer (Crucial for newer Niri)
     xdg-desktop-portal-gnome # Needed for file pickers etc in Electron apps
     polkit_gnome   # Authentication agent
