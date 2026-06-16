@@ -59,15 +59,8 @@ in
     '';
   };
 
-  # User-level tools
+  # Add home-manager CLI to PATH
   home.packages = with pkgs; [
-    python3
-    uv
-    nodejs
-    bun
-    tree-sitter
-    imagemagick
-    lazygit
     home-manager
   ];
 

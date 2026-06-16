@@ -18,9 +18,18 @@
     ../../modules/system/common_all.nix
   ];
 
-  # Add packages here only when scripts outside the active user session need them.
-  # Home Manager user packages should go in the home configuration (home.nix)
-  environment.systemPackages = with pkgs; [ ];
+  environment.systemPackages = with pkgs; [
+    python3
+    uv
+    nodejs # Node runtime for npm-installed CLIs like playwright-cli
+    bun # Bun runtime with npm compatibility (needed for Mason)
+    tree-sitter # Tree-sitter CLI (required by nvim-treesitter)
+    imagemagick # Image manipulation tool
+    lazygit # Terminal UI for git commands
+    #cargo         # Rust package manager // needed for panerau installation
+    #rustc         # Rust compiler // needed for panerau installation
+    #warpd         # Modal keyboard-driven mouse pointer control
+  ];
 
   # Home Manager wiring
   home-manager.useGlobalPkgs = true;
