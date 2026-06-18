@@ -56,21 +56,9 @@
     done < <(grep -E '^\[Libinput\].*\[Touchpad\]$' "$kcminputrc" || true)
   '';
 
-  # Configure mouse pointer speed for high DPI mice (e.g., Logitech Pro)
-  # These settings work with libinput on Wayland (KDE Plasma)
   home.packages = with pkgs; [
     libinput # For debugging: libinput list-devices, libinput debug-events
     libsecret # Required for VS Code/apps to store secrets in KDE Wallet via Secret Service API
     kdePackages.kwalletmanager # GUI to manage KDE Wallet (create wallet with empty password for auto-unlock)
   ];
-
-  # Create libinput configuration file to target only external mice (not touchpad)
-  xdg.configFile."libinput/local-overrides.quirks".text = ''
-    [Logitech G Pro Mouse]
-    MatchName=*Logitech G Pro*     # glob pattern, * is wildcard
-    MatchIsPointer=true
-    MatchIsTouchpad=false
-    AttrPointerAcceleration=-1.0   # -1.0 (slow) to 1.0 (fast), 0 is default
-    #AttrAccelProfileFlat=1
-  '';
 }
