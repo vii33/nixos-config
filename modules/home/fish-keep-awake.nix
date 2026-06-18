@@ -4,7 +4,7 @@
 lib.mkIf pkgs.stdenv.isLinux {
   programs.fish = {
     shellAbbrs = {
-      ka = "keepawake";
+      keepawake = "keepawake";
     };
 
     functions.keepawake = {
