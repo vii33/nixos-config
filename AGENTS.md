@@ -111,7 +111,7 @@ Use `sops --set ... -i`, not `sops set`. Do not edit temp copies outside
 
 ```bash
 # Verification
-nixos-rebuild --dry-run --flake .#<host>
+nixos-rebuild dry-run --flake .#<host>
 # Ask before running this; macOS builds take a long time.
 darwin-rebuild build --flake .#work --impure
 nix flake check --no-build
@@ -123,7 +123,8 @@ sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .
 
 ## Verification
 
-- After `.nix` edits: `nix fmt`.
+- After `.nix` edits: run `nix fmt -- <changed-files>`. Avoid bare `nix fmt`;
+  with the current flake formatter it may call `nixfmt-rfc-style` on empty stdin.
 - Substantive changes: `nix flake check --no-build`.
 - Tiny scalar-only tweaks may skip flake check.
 - Ask before Darwin build/switch; slow.
@@ -135,6 +136,6 @@ sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .
 ## Safety & Workflow
 
 - Never commit real secrets. `secrets/` holds encrypted files only.
-- Test with `--dry-run` before switching.
+- Test with `nixos-rebuild dry-run --flake .#<host>` before switching.
 - Make small, incremental commits for easy rollbacks.
 - Keyboard shortcuts changed? Update `docs/shortcuts.md`.
