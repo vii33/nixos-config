@@ -36,7 +36,9 @@
     ];
   };
 
-  # WIREGUARD HAS TO BE DONE BY SCRIPT OR UI:  nmcli connection import type wireguard file my-wg-config.conf
+  # WIREGUARD HAS TO BE DONE BY SCRIPT OR UI:
+  # nmcli connection import type wireguard file my-wg-config.conf
+  # Set the imported profile's interface name to wg0 so SSH is reachable over VPN.
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -127,11 +129,14 @@
   # SERVICES
   #services.onedrive.enable = true;
 
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  # Enable SSH for phone/remote access over WireGuard.
+  services.openssh = {
+    enable = true;
+    openFirewall = false;
+  };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  # Open SSH only on the WireGuard interface.
+  networking.firewall.interfaces.wg0.allowedTCPPorts = [ 22 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

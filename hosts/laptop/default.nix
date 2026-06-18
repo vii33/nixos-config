@@ -38,6 +38,7 @@
     pkgs-unstable.codex
     docker_29
     docker-compose
+    wireguard-tools
   ];
   virtualisation.docker = {
     enable = true;
