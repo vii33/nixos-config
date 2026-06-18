@@ -68,12 +68,45 @@ sudo systemctl hibernate   # test once
 ```
 
 ### 5. WireGuard VPN import (laptop)
-Currently manually done in KDE.
-Alternative: `hosts/laptop/configuration.nix`:
+Currently manually done in KDE/NetworkManager. Keep the imported interface name
+as `wg0`; `hosts/laptop/configuration.nix` opens SSH only on that interface.
+
 ```
 nmcli connection import type wireguard file my-wg-config.conf
+nmcli connection modify <connection-name> connection.interface-name wg0
+nmcli connection up <connection-name>
 ```
+
 Optional future: declarative via `networking.wg-quick.interfaces`.
+
+### 5a. Android/Termux SSH over WireGuard to laptop Herdr
+On Android, connect to the same WireGuard network first (usually via the
+WireGuard app). In Termux:
+
+```
+pkg update
+pkg install openssh
+ssh-keygen -t ed25519 -C "termux-phone"
+cat ~/.ssh/id_ed25519.pub
+```
+
+Add that public key to `~/.ssh/authorized_keys` for `vii` on the laptop, then:
+
+```
+ssh vii@<laptop-wireguard-ip>
+herdr
+```
+
+For a shortcut, add this to `~/.ssh/config` in Termux:
+
+```
+Host laptop-herdr
+  HostName <laptop-wireguard-ip>
+  User vii
+  IdentityFile ~/.ssh/id_ed25519
+```
+
+Then connect with `ssh laptop-herdr`.
 
 ### 6. Clipboard provider choice
 Wayland: `wl-clipboard` is already included. For X11 switch to `xclip` in `modules/home/neovim.nix` and rebuild.
