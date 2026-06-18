@@ -16,3 +16,4 @@
 - [ ] Update inputs from 25.11 to 26.05?
 - [x] Remove `nixpkgs-fish-good.url`.
 - [ ] Decide whether to generally use the unstable channel.
+- [ ] Connect Synology NAS

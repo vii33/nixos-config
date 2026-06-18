@@ -106,6 +106,18 @@
   };
 
   # NETWORK SHARES #########################################################
+  fileSystems."/mnt/windows" = {
+    device = "/dev/disk/by-uuid/4242702242701D3B";
+    fsType = "ntfs3";
+    options = [
+      "nofail"
+      "x-systemd.automount"
+      "uid=1000"
+      "gid=100"
+      "umask=022"
+    ];
+  };
+
   #fileSystems."/mnt/nas-nfs" = {
   #    device = "192.168.1.200:/volume1/spiele";    # <NAS_IP>:/volumeX/<ShareName> :contentReference[oaicite:12]{index=12}
   #    fsType = "nfs";
