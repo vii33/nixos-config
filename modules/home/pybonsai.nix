@@ -17,19 +17,19 @@ let
     buildInputs = [ pkgs.python3 ];
 
     installPhase = ''
-      mkdir -p $out/bin
-      mkdir -p $out/share/pybonsai
+            mkdir -p $out/bin
+            mkdir -p $out/share/pybonsai
 
-      # Copy all Python files to share directory
-      cp -r *.py $out/share/pybonsai/
+            # Copy all Python files to share directory
+            cp -r *.py $out/share/pybonsai/
 
-      # Create wrapper script
-      cat > $out/bin/pybonsai <<EOF
-#!/bin/sh
-exec ${pkgs.python3}/bin/python3 $out/share/pybonsai/main.py "\$@"
-EOF
+            # Create wrapper script
+            cat > $out/bin/pybonsai <<EOF
+      #!/bin/sh
+      exec ${pkgs.python3}/bin/python3 $out/share/pybonsai/main.py "\$@"
+      EOF
 
-      chmod +x $out/bin/pybonsai
+            chmod +x $out/bin/pybonsai
     '';
 
     meta = with pkgs.lib; {

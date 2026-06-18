@@ -1,7 +1,12 @@
 # modules/system/niri.nix
 # System-level configuration for niri Wayland compositor
 # This makes niri available as a session option alongside KDE
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [
@@ -20,7 +25,7 @@
   };
 
   # XWayland support
-#  programs.xwayland-satellite.enable = true;  # not existing setting - remove?
+  #  programs.xwayland-satellite.enable = true;  # not existing setting - remove?
 
   # XDG Desktop Portal for file pickers, screen sharing, etc.
   xdg.portal = {
@@ -32,6 +37,6 @@
   # Ensure essential Wayland environment
   environment.systemPackages = with pkgs; [
     wl-clipboard
-    nautilus  # Required for GNOME portal file picker
+    nautilus # Required for GNOME portal file picker
   ];
 }

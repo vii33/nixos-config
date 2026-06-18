@@ -1,4 +1,10 @@
-{ pkgs, config, nixvim, lib, ...}:
+{
+  pkgs,
+  config,
+  nixvim,
+  lib,
+  ...
+}:
 {
 
   imports = [
@@ -10,43 +16,48 @@
   '';
 
   programs.nixvim = {
-    enable    = true;
-    viAlias   = true;
-    vimAlias  = true;
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
 
     clipboard.register = "unnamedplus";
 
     colorschemes.catppuccin = {
-      enable 	              = true;
-
+      enable = true;
 
       settings = {
         transparent_background = true;
         flavour = "mocha";
         integrations = {
-          barbar      = true;
-          cmp         = true;
-          gitsigns    = true;
-          noice       = true;
-          notify      = true;
-          nvimtree    = true;
-          treesitter  = true;
+          barbar = true;
+          cmp = true;
+          gitsigns = true;
+          noice = true;
+          notify = true;
+          nvimtree = true;
+          treesitter = true;
         };
       };
     };
 
     highlight = {
-      DapBP         = { fg = "#7bcc40";};
-      DapST         = { fg = "#f47722"; };
-      VisualNonText = { fg = "#2be6d2"; };
+      DapBP = {
+        fg = "#7bcc40";
+      };
+      DapST = {
+        fg = "#f47722";
+      };
+      VisualNonText = {
+        fg = "#2be6d2";
+      };
     };
 
     opts = {
-      number          = true;
-      relativenumber  = true;
-      expandtab       = true;
-      tabstop	        = 2;
-      shiftwidth      = 2;
+      number = true;
+      relativenumber = true;
+      expandtab = true;
+      tabstop = 2;
+      shiftwidth = 2;
     };
 
     extraPlugins = with pkgs.vimPlugins; [
@@ -69,14 +80,14 @@
 
     lsp = {
       servers = {
-        bashls.enable     = true;
-        dockerls.enable   = true;
-        helm-ls.enable    = true;
-        html.enable       = true;
-        jsonls.enable     = true;
-        lua_ls.enable     = true;
-        nixd.enable       = true;
-        yamlls.enable     = lib.mkForce true;
+        bashls.enable = true;
+        dockerls.enable = true;
+        helm-ls.enable = true;
+        html.enable = true;
+        jsonls.enable = true;
+        lua_ls.enable = true;
+        nixd.enable = true;
+        yamlls.enable = lib.mkForce true;
 
         yamlls = {
           # enable          = true;
@@ -92,37 +103,39 @@
               "http://json.schemastore.org/chart" = "Chart.{yml,yaml}";
               "https://json.schemastore.org/dependabot-v2" = ".github/dependabot.{yml,yaml}";
               "https://json.schemastore.org/gitlab-ci" = "*gitlab-ci*.{yml,yaml}";
-              "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json" = "*api*.{yml,yaml}";
-              "https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json" = "*docker-compose*.{yml,yaml}";
-              "https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json" = "*flow*.{yml,yaml}";
+              "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json" =
+                "*api*.{yml,yaml}";
+              "https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json" =
+                "*docker-compose*.{yml,yaml}";
+              "https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json" =
+                "*flow*.{yml,yaml}";
             };
           };
         };
       };
     };
 
-
     plugins = {
-      barbar.enable             = true;
-      telescope.enable          = true;
-      lsp.enable                = true;
-      blink-cmp.enable          = true;
-      airline.enable            = true;
-      dap.enable                = true;
-      diffview.enable           = true;
-      fugitive.enable           = true;
-      gitsigns.enable           = true;
-      indent-blankline.enable   = true;
-      lualine.enable            = true;
-      luasnip.enable            = true;
-      markview.enable           = true;
-      neotest.enable            = true;
-      notify.enable             = true;
+      barbar.enable = true;
+      telescope.enable = true;
+      lsp.enable = true;
+      blink-cmp.enable = true;
+      airline.enable = true;
+      dap.enable = true;
+      diffview.enable = true;
+      fugitive.enable = true;
+      gitsigns.enable = true;
+      indent-blankline.enable = true;
+      lualine.enable = true;
+      luasnip.enable = true;
+      markview.enable = true;
+      neotest.enable = true;
+      notify.enable = true;
       rainbow-delimiters.enable = true;
-      toggleterm.enable         = true;
-      whitespace.enable  = true;
-      web-devicons.enable       = true;
-      which-key.enable          = true;
+      toggleterm.enable = true;
+      whitespace.enable = true;
+      web-devicons.enable = true;
+      which-key.enable = true;
 
       barbar = {
         settings.animation = true;
@@ -137,8 +150,18 @@
 
       dap = {
         signs = {
-          dapBreakpoint =  { text="◉"; texthl="DapBP"; linehl=""; numhl=""; };
-          dapStopped =  { text="◉"; texthl="DapST"; linehl="DapST"; numhl="DapST"; };
+          dapBreakpoint = {
+            text = "◉";
+            texthl = "DapBP";
+            linehl = "";
+            numhl = "";
+          };
+          dapStopped = {
+            text = "◉";
+            texthl = "DapST";
+            linehl = "DapST";
+            numhl = "DapST";
+          };
         };
       };
 
@@ -160,15 +183,21 @@
         };
         extensions = {
           file-browser.enable = true;
-          fzf-native.enable   = true;
+          fzf-native.enable = true;
         };
       };
 
       blink-cmp = {
         settings = {
           keymap = {
-            "<Tab>" = [ "select_next" "fallback" ];
-            "<S-Tab>" = [ "select_prev" "fallback" ];
+            "<Tab>" = [
+              "select_next"
+              "fallback"
+            ];
+            "<S-Tab>" = [
+              "select_prev"
+              "fallback"
+            ];
             "<A-CR>" = [ "select_and_accept" ];
             "<C-j>" = [ "scroll_documentation_down" ];
             "<C-k>" = [ "scroll_documentation_up" ];
@@ -184,7 +213,12 @@
             };
           };
 
-          sources.default = [ "lsp" "path" "snippets" "buffer" ];
+          sources.default = [
+            "lsp"
+            "path"
+            "snippets"
+            "buffer"
+          ];
         };
       };
 
@@ -199,53 +233,160 @@
 
     keymaps = [
       # Navigation
-      { mode = "n"; action = "<cmd>b#<cr>"; key="<C-b>"; }
+      {
+        mode = "n";
+        action = "<cmd>b#<cr>";
+        key = "<C-b>";
+      }
 
       # Nvim-tree
-      { mode = "n"; action = "<cmd>NvimTreeToggle<cr>"; key = "<C-M-b>"; }
+      {
+        mode = "n";
+        action = "<cmd>NvimTreeToggle<cr>";
+        key = "<C-M-b>";
+      }
 
       # Telescope
-      { mode = "n"; action = "<cmd>Telescope find_files<cr>"; key = "<C-M-p>"; }
-      { mode = "n"; action = "<cmd>Telescope live_grep<cr>"; key="<leader>lg"; }
+      {
+        mode = "n";
+        action = "<cmd>Telescope find_files<cr>";
+        key = "<C-M-p>";
+      }
+      {
+        mode = "n";
+        action = "<cmd>Telescope live_grep<cr>";
+        key = "<leader>lg";
+      }
 
       # Terminal
-      { mode = "t"; action = "<C-\\><C-n>"; key = "<esc>"; }
-      { mode = ["t" "n"]; action = "<cmd>ToggleTerm<cr>"; key = "<C-M-k>"; }
+      {
+        mode = "t";
+        action = "<C-\\><C-n>";
+        key = "<esc>";
+      }
+      {
+        mode = [
+          "t"
+          "n"
+        ];
+        action = "<cmd>ToggleTerm<cr>";
+        key = "<C-M-k>";
+      }
 
       # Barbar
-      { mode = ["n" "i"]; action = "<cmd>BufferPrevious<cr>"; key = "<A-h>"; }
-      { mode = ["n" "i"]; action = "<cmd>BufferNext<cr>"; key = "<A-l>"; }
-      { mode = ["n" "i"]; action = "<cmd>BufferClose<cr>"; key = "<C-A-w>"; }
+      {
+        mode = [
+          "n"
+          "i"
+        ];
+        action = "<cmd>BufferPrevious<cr>";
+        key = "<A-h>";
+      }
+      {
+        mode = [
+          "n"
+          "i"
+        ];
+        action = "<cmd>BufferNext<cr>";
+        key = "<A-l>";
+      }
+      {
+        mode = [
+          "n"
+          "i"
+        ];
+        action = "<cmd>BufferClose<cr>";
+        key = "<C-A-w>";
+      }
 
       # LSP
-      { mode = "n"; action = "<cmd>lua vim.lsp.buf.definition()<cr>"; key = "<C-D>"; }
-      { mode = "n"; action = "<cmd>lua vim.diagnostic.open_float()<cr>"; key = "<C-l>"; }
-      { mode = "n"; action = "<cmd>lua vim.lsp.buf.rename()<cr>"; key="<F2>"; }
-      { mode = "n"; action = "<cmd>lua vim.lsp.buf.hover()<cr>"; key="<leader>h"; }
-      { mode = "n"; action = "<cmd>lua vim.diagnostic.open_float()<cr>"; key="<leader>D"; }
+      {
+        mode = "n";
+        action = "<cmd>lua vim.lsp.buf.definition()<cr>";
+        key = "<C-D>";
+      }
+      {
+        mode = "n";
+        action = "<cmd>lua vim.diagnostic.open_float()<cr>";
+        key = "<C-l>";
+      }
+      {
+        mode = "n";
+        action = "<cmd>lua vim.lsp.buf.rename()<cr>";
+        key = "<F2>";
+      }
+      {
+        mode = "n";
+        action = "<cmd>lua vim.lsp.buf.hover()<cr>";
+        key = "<leader>h";
+      }
+      {
+        mode = "n";
+        action = "<cmd>lua vim.diagnostic.open_float()<cr>";
+        key = "<leader>D";
+      }
 
       # Rust
-      { mode = "n"; action = "<cmd>lua vim.cmd.RustLsp('debuggables')<cr>"; key="<leader>Rd"; }
-      { mode = "n"; action = "<cmd>lua vim.cmd.RustLsp{ 'hover', 'actions' }<cr>"; key="<leader>Rh"; }
-      { mode = "n"; action = "<cmd>lua vim.cmd.RustLsp('codeAction')<cr>"; key="<leader>Ra"; }
+      {
+        mode = "n";
+        action = "<cmd>lua vim.cmd.RustLsp('debuggables')<cr>";
+        key = "<leader>Rd";
+      }
+      {
+        mode = "n";
+        action = "<cmd>lua vim.cmd.RustLsp{ 'hover', 'actions' }<cr>";
+        key = "<leader>Rh";
+      }
+      {
+        mode = "n";
+        action = "<cmd>lua vim.cmd.RustLsp('codeAction')<cr>";
+        key = "<leader>Ra";
+      }
 
       # Git
-      { mode = "n"; action = "<cmd>DiffviewOpen<cr>"; key = "<F3>"; }
-      { mode = "n"; action = "<cmd>DiffviewClose<cr>"; key = "<F4>"; }
-      { mode = "n"; action = "<cmd>Flog<cr>"; key = "<F5>"; }
+      {
+        mode = "n";
+        action = "<cmd>DiffviewOpen<cr>";
+        key = "<F3>";
+      }
+      {
+        mode = "n";
+        action = "<cmd>DiffviewClose<cr>";
+        key = "<F4>";
+      }
+      {
+        mode = "n";
+        action = "<cmd>Flog<cr>";
+        key = "<F5>";
+      }
 
       # WhichKey
-      { mode = "n"; action = "<cmd>WhichKey<cr>"; key = "<C-k>"; }
+      {
+        mode = "n";
+        action = "<cmd>WhichKey<cr>";
+        key = "<C-k>";
+      }
 
       # Misc
-      { mode = "n"; action = "<cmd>lua require('whitespace-nvim').trim()<cr>"; key="<leader>tw"; }
+      {
+        mode = "n";
+        action = "<cmd>lua require('whitespace-nvim').trim()<cr>";
+        key = "<leader>tw";
+      }
     ];
 
-    autoCmd = [{
-      event = ["BufEnter" "CursorHold" "CursorHoldI" "FocusGained" ];
-      pattern = [ "*" ];
-      command = "if mode() != 'c' | checktime | endif";
-    }];
+    autoCmd = [
+      {
+        event = [
+          "BufEnter"
+          "CursorHold"
+          "CursorHoldI"
+          "FocusGained"
+        ];
+        pattern = [ "*" ];
+        command = "if mode() != 'c' | checktime | endif";
+      }
+    ];
   };
 
 }

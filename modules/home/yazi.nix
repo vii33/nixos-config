@@ -1,6 +1,11 @@
 # modules/home/yazi.nix
 # Yazi terminal file manager configuration
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   # Install yazi package
@@ -8,12 +13,12 @@
     yazi
     #poppler_utils      # PDF previews (pdftoppm)
   ];
-  
+
   # Install the Kanagawa flavor declaratively
   home.file.".config/yazi/flavors/kanagawa.yazi" = {
     source = inputs.kanagawa-yazi;
   };
-  
+
   # Configure Yazi settings
   home.file.".config/yazi/yazi.toml".text = ''
     [mgr]
@@ -30,7 +35,7 @@
     tab_size = 2
     max_width = 600
     max_height = 900
-    
+
     [opener]  # Programs to open files with specific mime types
     # VS Code opener
     code = [
@@ -47,7 +52,7 @@
     edit = [
       { run = '$EDITOR "$@"', block = true, desc = "Edit in $EDITOR" },
     ]
-    
+
     [open]   # Wiring of openers to mime types
     # Prepend our custom rules but keep defaults for images, videos, etc.
     prepend_rules = [
@@ -63,12 +68,12 @@
       { mime = "*/*", use = ["open", "code-folder", "reveal"] },
     ]
   '';
-  
+
   # Configure Yazi to use the Kanagawa theme
   home.file.".config/yazi/theme.toml".text = ''
     [flavor]
     dark = "kanagawa"
-    
+
     # Custom file type colors
     [filetype]
     rules = [
@@ -111,7 +116,7 @@
       { name = "*.fish", fg = "#F27E89" },
     ]
   '';
-  
+
   # Custom keybindings
   home.file.".config/yazi/keymap.toml".text = ''
     [mgr]
@@ -154,14 +159,14 @@
   home.file.".config/yazi/plugins/smart-enter.yazi/main.lua".text = ''
     --- @since 25.5.31
     --- @sync entry
-    
+
     local function setup(self, opts) self.open_multi = opts.open_multi end
-    
+
     local function entry(self)
     	local h = cx.active.current.hovered
     	ya.emit(h and h.cha.is_dir and "enter" or "open", { hovered = not self.open_multi })
     end
-    
+
     return { entry = entry, setup = setup }
   '';
 
@@ -178,12 +183,12 @@
         return os.date("%Y-%m-%d", time)
       end
     end
-    
+
     -- Override mtime linemode
     function Linemode:mtime()
       return strip_date_year(self._file.cha.mtime)
     end
-    
+
     -- Override btime linemode (birth time)
     function Linemode:btime()
       return strip_date_year(self._file.cha.btime)

@@ -12,35 +12,35 @@
     extraConfig = ''
       foreground #ffffff
     '';
-    
+
     # Shell configuration
     shellIntegration.enableFishIntegration = true;
-    
+
     settings = {
       # Shell
       shell = "${pkgs.fish}/bin/fish";
-      
+
       # Window layout
       initial_window_width = "120c";
       initial_window_height = "41c";
       window_padding_width = 8;
       remember_window_size = false;
-      
-       # Font configuration
-       #font_family = "MesloLGS Nerd Font Mono";
-       #bold_font = "MesloLGS Nerd Font Mono Bold";
-       #italic_font = "MesloLGS Nerd Font Mono Italic";
-       #bold_italic_font = "MesloLGS Nerd Font Mono Bold Italic";
-       font_family = "FiraCode Nerd Font"; # Match Ghostty
-       #font_family = "JetBrainsMono Nerd Font";  # Using JetBrains as it has ligature support (neovim)
-       
-       font_size = "12.0";
-       disable_ligatures = "never";
 
-      # Better line spacing 
+      # Font configuration
+      #font_family = "MesloLGS Nerd Font Mono";
+      #bold_font = "MesloLGS Nerd Font Mono Bold";
+      #italic_font = "MesloLGS Nerd Font Mono Italic";
+      #bold_italic_font = "MesloLGS Nerd Font Mono Bold Italic";
+      font_family = "FiraCode Nerd Font"; # Match Ghostty
+      #font_family = "JetBrainsMono Nerd Font";  # Using JetBrains as it has ligature support (neovim)
+
+      font_size = "12.0";
+      disable_ligatures = "never";
+
+      # Better line spacing
       modify_font = "cell_height 5px";
       modify_font_baseline = "1px";
-      
+
       # macOS settings (see https://sw.kovidgoyal.net/kitty/conf/#os-specific-tweaks)
       macos_option_as_alt = "yes";
       macos_quit_when_last_window_closed = "yes";
@@ -56,27 +56,27 @@
       # Show: tab index, current directory (last path segment), and current title (usually active app/command)
       tab_title_template = "{index}: {title} /{tab.tive_wd.split('/')[-1]}";
       active_tab_title_template = "{index}: {title} /{tab.active_wd.split('/')[-1]}";
-      
+
       # Performance tuning
       repaint_delay = 10;
       input_delay = 3;
       sync_to_monitor = true;
-      
+
       # Scrollback
       scrollback_lines = 10000;
 
       cursor_trail = 1;
-      
+
       # Mouse
       url_style = "curly";
-      
+
       # Cursor
       cursor_shape = "block";
-      cursor_blink_interval = 0;  # Disable cursor blink
-      
+      cursor_blink_interval = 0; # Disable cursor blink
+
       # Window
-      confirm_os_window_close = 1;  # Ask for confirmation when closing windows with running processes
-      
+      confirm_os_window_close = 1; # Ask for confirmation when closing windows with running processes
+
       # Background image
       background_image = "${config.home.homeDirectory}/Documents/bmw-terminal-small.jpg";
       background_image_layout = "cscaled";
@@ -87,7 +87,7 @@
       #background_blur = 6;
 
       # Notifications
-      notify_on_cmd_finish = "unfocused 30.0";  # Notify only when window unfocused and command takes >30s
+      notify_on_cmd_finish = "unfocused 30.0"; # Notify only when window unfocused and command takes >30s
       enable_audio_bell = false;
       visual_bell_duration = 0;
 
@@ -96,14 +96,14 @@
       listen_on = "unix:/tmp/kitty-${config.home.username}";
 
     };
-    
+
     # Kitty keyboard shortcuts (optional - can be customized)
     keybindings = {
       # Disable @ shortcut (interferes with typing)
       "shift+alt+2" = "no_op";
 
       # Easy copy / paste
- 
+
       "ctrl+c" = "copy_or_interrupt";
       "ctrl+v" = "paste_from_clipboard";
 
@@ -117,35 +117,36 @@
       # Keep Alt+... unbound so apps like Zellij can use it for their own keybinds.
       "ctrl+shift+l" = "next_tab";
       "ctrl+shift+h" = "previous_tab";
-       
+
       # Jump to specific tabs (leave Alt+1.. for Zellij)
       "ctrl+shift+1" = "goto_tab 1";
       "ctrl+shift+2" = "goto_tab 2";
       "ctrl+shift+3" = "goto_tab 3";
       "ctrl+shift+4" = "goto_tab 4";
       "ctrl+shift+5" = "goto_tab 5";
-      
+
       # Window management
       "ctrl+shift+enter" = "new_window_with_cwd";
       "ctrl+shift+w" = "close_window";
-      
+
       # Window navigation (German keyboard: ö/ä for cycling)
       "ctrl+shift+ä" = "next_window";
       "ctrl+shift+ö" = "previous_window";
-      
+
       # Window navigation (vim-style)
       #"alt+h" = "neighboring_window left";
       "ctrl+shift+j" = "neighboring_window down";
       "ctrl+shift+k" = "neighboring_window up";
       #"alt+l" = "neighboring_window right";
-      
+
       # Font size
       "ctrl+shift+plus" = "change_font_size all +1.0";
       "ctrl+shift+minus" = "change_font_size all -1.0";
       "ctrl+shift+0" = "change_font_size all 0";
 
       # Shortcuts overlay (like which-key)
-      "ctrl+shift+#" = "launch --type=overlay ${pkgs.bash}/bin/bash ${config.home.homeDirectory}/repos/nixos-config/modules/home/kitty-shortcuts.sh";
+      "ctrl+shift+#" =
+        "launch --type=overlay ${pkgs.bash}/bin/bash ${config.home.homeDirectory}/repos/nixos-config/modules/home/kitty-shortcuts.sh";
     };
   };
 

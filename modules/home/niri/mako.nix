@@ -12,7 +12,7 @@
     text-color = "#f8f8f2";
     border-color = "#bd93f9";
     progress-color = "over #44475a";
-    
+
     # Layout
     width = 400;
     height = 150;
@@ -20,15 +20,15 @@
     padding = "15";
     borderSize = 2;
     borderRadius = 8;
-    
+
     # Behavior
-    max-visible = 5;         # Amount
-    default-timeout = 5000;  # Duration
+    max-visible = 5; # Amount
+    default-timeout = 5000; # Duration
     ignore-timeout = false;
-    
+
     # Position
     anchor = "top-right";
-    
+
     # Icons
     iconPath = "${pkgs.papirus-icon-theme}/share/icons/Papirus-Dark";
     maxIconSize = 64;

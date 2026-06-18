@@ -43,7 +43,7 @@
     gitIdentity = "work";
     zellijDefaultLayout = "startup";
   };
-  
+
   home-manager.sharedModules = [
     inputs.sops-nix.homeManagerModules.sops
     #inputs.nixvim.homeManagerModules.nixvim

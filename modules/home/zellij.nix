@@ -1,6 +1,11 @@
 # modules/home/zellij.nix
 # Zellij terminal multiplexer configuration
-{ pkgs, pkgs-unstable, zellijDefaultLayout ? "startup", ... }:
+{
+  pkgs,
+  pkgs-unstable,
+  zellijDefaultLayout ? "startup",
+  ...
+}:
 
 let
   copilotAgentArgs = builtins.concatStringsSep " " [
@@ -297,8 +302,8 @@ in
           }
         }
       }
-      '';
-    };
+    '';
+  };
 
   home.file.".config/zellij/layouts/startup.kdl" = {
     force = true;

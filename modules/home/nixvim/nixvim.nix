@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   specsDir = ./lua-specs;
 in
@@ -12,37 +17,37 @@ in
 
     # Required packages for treesitter and plugin building
     extraPackages = with pkgs; [
-      gcc          # C compiler for treesitter parsers
-      gnumake      # Build tool
-      tree-sitter  # Tree-sitter CLI
-      unzip        # Required by Mason for extracting packages
-      
+      gcc # C compiler for treesitter parsers
+      gnumake # Build tool
+      tree-sitter # Tree-sitter CLI
+      unzip # Required by Mason for extracting packages
+
       # Rust toolchain (for Mason-built Rust packages)
-      rustc        # Rust compiler
-      cargo        # Rust package manager
-      
+      rustc # Rust compiler
+      cargo # Rust package manager
+
       # Snacks.nvim dependencies
-      imagemagick  # For 'magick' command (image conversion)
-      ghostscript  # For 'gs' command (PDF rendering)
-      nodePackages.mermaid-cli  # For 'mmdc' command (Mermaid diagrams)
-      
+      imagemagick # For 'magick' command (image conversion)
+      ghostscript # For 'gs' command (PDF rendering)
+      nodePackages.mermaid-cli # For 'mmdc' command (Mermaid diagrams)
+
       # Linters and formatters
       #markdownlint-cli2  # Markdown linter
-      statix       # Nix linter (used by nvim-lint)
+      statix # Nix linter (used by nvim-lint)
       # NOTE: ruff is dynamically linked in nixpkgs, use pyright instead for Python diagnostics
     ];
 
     # LSPs are installed with nix (not mason), due to dynamic linking issues
     lsp = {
       servers = {
-        bashls.enable     = true;
-        dockerls.enable   = true;
-        html.enable       = true;
-        jsonls.enable     = true;
-        lua_ls.enable     = true;
-        nixd.enable       = true;  # Nix LSP (using nixd instead of nil)
-        pyright.enable    = true;  # Python LSP (type checking)
-        yamlls.enable     = true;
+        bashls.enable = true;
+        dockerls.enable = true;
+        html.enable = true;
+        jsonls.enable = true;
+        lua_ls.enable = true;
+        nixd.enable = true; # Nix LSP (using nixd instead of nil)
+        pyright.enable = true; # Python LSP (type checking)
+        yamlls.enable = true;
 
         yamlls = {
           # enable          = true;
@@ -58,21 +63,22 @@ in
               "http://json.schemastore.org/chart" = "Chart.{yml,yaml}";
               "https://json.schemastore.org/dependabot-v2" = ".github/dependabot.{yml,yaml}";
               "https://json.schemastore.org/gitlab-ci" = "*gitlab-ci*.{yml,yaml}";
-              "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json" = "*api*.{yml,yaml}";
-              "https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json" = "*docker-compose*.{yml,yaml}";
-              "https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json" = "*flow*.{yml,yaml}";
+              "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json" =
+                "*api*.{yml,yaml}";
+              "https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json" =
+                "*docker-compose*.{yml,yaml}";
+              "https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json" =
+                "*flow*.{yml,yaml}";
             };
           };
         };
       };
     };
-    
 
     # Enable lazy.nvim plugin manager
     plugins.lazy.enable = true;
-    
-    # blink-cmp: Autompletion menu 
 
+    # blink-cmp: Autompletion menu
 
     # Enable GitHub Copilot
     #plugins.copilot-lsp.enable = true;
@@ -115,7 +121,7 @@ in
         { import = "lazyvim.plugins.extras.lang.python" },
         -- { import = "lazyvim.plugins.extras.ui.mini-starter" },
       }
-      
+
       -- Your custom plugins/overrides (writable at runtime)
       -- Load user specs directly instead of using lazy's import
       local ok, user_specs = pcall(require, "init")

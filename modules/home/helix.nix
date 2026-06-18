@@ -29,9 +29,19 @@
         };
 
         statusline = {
-          left = [ "mode" "spinner" "file-name" "file-modification-indicator" ];
+          left = [
+            "mode"
+            "spinner"
+            "file-name"
+            "file-modification-indicator"
+          ];
           center = [ "position-percentage" ];
-          right = [ "selections" "diagnostics" "version-control" "register" ];
+          right = [
+            "selections"
+            "diagnostics"
+            "version-control"
+            "register"
+          ];
           mode.normal = "NOR";
           mode.insert = "INS";
           mode.select = "SEL";
@@ -49,8 +59,14 @@
       };
 
       keys.normal.space.space = "file_picker";
-      keys.normal.space.w = [ ":w" "write" ];
-      keys.normal.space.q = [ ":q" "close" ];
+      keys.normal.space.w = [
+        ":w"
+        "write"
+      ];
+      keys.normal.space.q = [
+        ":q"
+        "close"
+      ];
     };
 
     extraPackages = with pkgs; [

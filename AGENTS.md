@@ -60,6 +60,8 @@ in
 - Host-specific services: host config file.
 - User-level changes: `home/vii/` or `modules/home/`.
 - Never change `system.stateVersion` without upgrade plan.
+- Keep `onedriver` as a package only. Do not add Nix/Home Manager-managed
+  systemd/autostart services for it; auth should be set up manually per machine.
 
 ## Zellij
 

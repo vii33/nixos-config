@@ -14,9 +14,24 @@
         height = 30;
         spacing = 3;
 
-        modules-left = [ "niri/workspaces" "niri/window" ];
+        modules-left = [
+          "niri/workspaces"
+          "niri/window"
+        ];
         modules-center = [ "clock" ];
-        modules-right = [ "network" "custom/separator" "cpu" "memory" "temperature" "custom/separator" "battery" "pulseaudio" "custom/power-profile" "tray" "custom/power" ];
+        modules-right = [
+          "network"
+          "custom/separator"
+          "cpu"
+          "memory"
+          "temperature"
+          "custom/separator"
+          "battery"
+          "pulseaudio"
+          "custom/power-profile"
+          "tray"
+          "custom/power"
+        ];
 
         # Separator
         "custom/separator" = {
@@ -26,7 +41,7 @@
 
         # Workspaces
         "niri/workspaces" = {
-          format = "{name}";  # Use "{index}" to show numbers, or "{index}: {name}" for both
+          format = "{name}"; # Use "{index}" to show numbers, or "{index}: {name}" for both
           all-outputs = false;
         };
 
@@ -66,7 +81,11 @@
           interval = 10;
           critical-threshold = 80;
           format = "{icon} {temperatureC}°C";
-          format-icons = [ "" "" "" ];
+          format-icons = [
+            ""
+            ""
+            ""
+          ];
         };
 
         # Battery
@@ -81,7 +100,13 @@
           format-charging = " {capacity}%";
           format-plugged = " {capacity}%";
           format-alt = "{icon} {time}";
-          format-icons = [ "" "" "" "" "" ];
+          format-icons = [
+            ""
+            ""
+            ""
+            ""
+            ""
+          ];
         };
 
         # Network
@@ -105,7 +130,11 @@
             phone = "";
             portable = "";
             car = "";
-            default = [ "" "" "" ];
+            default = [
+              ""
+              ""
+              ""
+            ];
           };
           on-click = "pavucontrol";
         };
@@ -127,7 +156,7 @@
           interval = 30;
           on-click = "${pkgs.writeShellScript "toggle-power-profile" ''
             current=$(${pkgs.power-profiles-daemon}/bin/powerprofilesctl get)
-            
+
             case "$current" in
               "power-saver")
                 ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set balanced
@@ -149,7 +178,7 @@
           tooltip = false;
           on-click = "${pkgs.writeShellScript "power-menu" ''
             choice=$(echo -e "🔒 Lock\n🔄 Restart\n⏻ Shutdown\n🛌 Hibernate\n💤 Suspend" | ${pkgs.fuzzel}/bin/fuzzel --dmenu --prompt="Power: ")
-            
+
             case "$choice" in
               "🔒 Lock") ${pkgs.systemd}/bin/loginctl lock-session ;;
               "🔄 Restart") ${pkgs.systemd}/bin/systemctl reboot ;;

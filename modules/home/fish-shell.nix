@@ -1,10 +1,15 @@
 # modules/home-manager/fish-shell.nix
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   isLinux = pkgs.stdenv.isLinux;
   isDarwin = pkgs.stdenv.isDarwin;
-  
+
   # Create a 'code' wrapper script for VS Code CLI
   vscode-cli = pkgs.writeShellScriptBin "code" ''
     open -a "Visual Studio Code" "$@"
@@ -21,7 +26,8 @@ in
   # Add user and platform-specific binaries to PATH
   home.sessionPath = [
     "$HOME/.local/bin"
-  ] ++ lib.optionals isDarwin [
+  ]
+  ++ lib.optionals isDarwin [
     "/opt/homebrew/bin"
     "/opt/homebrew/sbin"
     "/Applications/Ghostty.app/Contents/MacOS" # Ghostty CLI (e.g. `ghostty +list-themes`)
@@ -34,13 +40,17 @@ in
     enableFishIntegration = true;
   };
 
-  home.packages = with pkgs; [
-    chafa                       # terminal image viewer (works on Linux & macOS)
-  ] ++ lib.optionals isLinux [
-    wl-clipboard                # for Wayland clipboard access (used by fun_copy_commandline_to_clipboard)
-  ] ++ lib.optionals isDarwin [
-    vscode-cli                  # 'code' command for opening VS Code
-  ];
+  home.packages =
+    with pkgs;
+    [
+      chafa # terminal image viewer (works on Linux & macOS)
+    ]
+    ++ lib.optionals isLinux [
+      wl-clipboard # for Wayland clipboard access (used by fun_copy_commandline_to_clipboard)
+    ]
+    ++ lib.optionals isDarwin [
+      vscode-cli # 'code' command for opening VS Code
+    ];
 
   # Plugin settings ---------------------------------------------
   # Sponge: set false command purge after 5 commands
@@ -70,9 +80,10 @@ in
       }
       {
         name = "fzf-fish";
-        src = (pkgs.fishPlugins.fzf-fish.overrideAttrs (oldAttrs: {
-          doCheck = false;  # Skip tests due to missing fishtape dependency
-        })).src;
+        src =
+          (pkgs.fishPlugins.fzf-fish.overrideAttrs (oldAttrs: {
+            doCheck = false; # Skip tests due to missing fishtape dependency
+          })).src;
       }
       {
         name = "colored-man-pages";
@@ -90,7 +101,7 @@ in
       zz = "zellij attach -c --forget main";
       zellijkill = "zellij kill-all-sessions -y; zellij delete-all-sessions -y";
       zzk = "zellij kill-all-sessions -y; zellij delete-all-sessions -y";
-      
+
       # NixOS
       nodry = "nh os dry-run ~/nixos-config/flake.nix -H laptop";
       noswitch = "nh os switch ~/nixos-config/ -H laptop";
@@ -98,7 +109,7 @@ in
       noclean2 = "sudo nix-collect-garbage";
       nosearch = "nh search ";
       sopsedit = "env SOPS_AGE_KEY_FILE=\"$HOME/.config/sops/age/keys.txt\" nix shell nixpkgs#sops -c sops \"$HOME/repos/nixos-config/secrets/secrets.yaml\"";
-      
+
       # Applications
       nv = "nvim";
       oc = "opencode";
@@ -155,7 +166,7 @@ in
 
       # ESC key delay tweak (only matters with human input & vi bindings)
       set -g fish_escape_delay_ms 500
-      
+
       # Alternative keybinding sequence for sudope plugin (ALT+S)
       set -g sudope_sequence \es
 
@@ -281,7 +292,7 @@ in
       bind ctrl-e fun_fzf_env_var_insert
       bind -M insert ctrl-e fun_fzf_env_var_insert
       bind -M visual ctrl-e fun_fzf_env_var_insert
-        '';
+    '';
 
     # Custom helper function: fzf_bindings
     functions.fun_fzf_bindings.body = ''
@@ -505,7 +516,6 @@ in
       zellij action write-chars "cd $target_dir_escaped; yazi"
       zellij action write 13
     '';
-
 
   };
 }

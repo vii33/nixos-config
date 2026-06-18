@@ -1,6 +1,11 @@
 # modules/home/darwin/flameshot.nix
 # Flameshot screenshot tool with auto-start via launchd
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   home.packages = with pkgs; [
