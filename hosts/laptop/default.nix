@@ -97,6 +97,7 @@
       ../../modules/home/kde.nix
       ../../modules/home/yazi.nix
       ../../modules/home/zellij.nix
+      ../../modules/home/herdr.nix
       ../../modules/home/helix.nix
 
       ../../modules/home/onedriver.nix
