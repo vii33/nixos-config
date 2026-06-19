@@ -1,0 +1,48 @@
+theme = "monokai_pro_spectrum"
+
+[editor]
+line-number = "relative"
+auto-pairs = true
+auto-completion = false
+idle-timeout = 200
+color-modes = true
+true-color = true
+bufferline = "always"
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.soft-wrap]
+enable = true
+max-wrap = 8
+
+[editor.lsp]
+display-messages = true
+display-inlay-hints = true
+
+[editor.statusline]
+left = ["mode", "spinner", "file-name", "file-modification-indicator"]
+center = ["position-percentage"]
+right = ["selections", "diagnostics", "version-control", "register"]
+
+[editor.statusline.mode]
+normal = "NOR"
+insert = "INS"
+select = "SEL"
+
+[editor.whitespace.render]
+space = "none"
+tab = "none"
+newline = "none"
+
+[editor.indent-guides]
+render = true
+character = "│"
+skip-levels = 1
+
+[keys.normal.space]
+space = "file_picker"
+w = ":w"
+q = ":q"
