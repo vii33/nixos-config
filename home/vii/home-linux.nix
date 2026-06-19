@@ -12,6 +12,7 @@
 let
   secretsFile = ../../secrets/secrets.yaml;
   haveSecretsFile = builtins.pathExists secretsFile;
+  opencodeConfigDir = "${config.home.homeDirectory}/repos/agent-general";
 in
 {
   # Import user specific packages
@@ -53,8 +54,15 @@ in
       git_work_gitconfig = { };
     };
   };
-
-  home.file = lib.mkIf haveSecretsFile {
+  
+  home.file = {
+    # Link agent files / Opencode
+    ".config/opencode/AGENTS.md".source =
+      config.lib.file.mkOutOfStoreSymlink "${opencodeConfigDir}/AGENTS.md";
+    ".config/opencode/opencode.json".source =
+      config.lib.file.mkOutOfStoreSymlink "${opencodeConfigDir}/opencode.json";
+  }
+  // lib.optionalAttrs haveSecretsFile {
     ".config/fish/conf.d/90-sops-secrets.fish".text = ''
       # Export secrets via sops-nix managed files (avoid putting values in the Nix store).
       # Point sops at our age key location (macOS default differs, but safe on Linux too).
