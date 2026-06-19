@@ -113,6 +113,8 @@ in
       # Applications
       nv = "nvim";
       oc = "opencode";
+      ocg = "opencode -m openai/gpt-5.5";
+      ocp = "opencode -m opencode/big-pickle";
       occ =
         "if test -f \"$HOME/.config/fish/conf.d/90-sops-secrets.fish\"; "
         + "source \"$HOME/.config/fish/conf.d/90-sops-secrets.fish\"; end; "
