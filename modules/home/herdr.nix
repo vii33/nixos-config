@@ -42,6 +42,8 @@
 
       cycle_pane_next = ["prefix+tab", "prefix+ä"]
       cycle_pane_previous = ["prefix+shift+tab", "prefix+ö"]
+      next_agent = "prefix+ü"
+      previous_agent = "prefix+p"
 
       split_vertical = "prefix+v"
       split_horizontal = "prefix+minus"
@@ -50,13 +52,13 @@
       open_notification_target = "prefix+o"
 
       [ui.toast]
-      delivery = "herdr"
+      # delivery = "herdr"
 
       [ui.sound]
       enabled = false
 
       [experimental]
-      pane_history = false
+      pane_history = true
 
       [ui]
       agent_panel_scope = "all"
