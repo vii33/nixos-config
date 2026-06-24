@@ -6,18 +6,18 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-darwin = {
-      url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
+      url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
-      url = "github:nix-community/nixvim/nixos-25.11";
+      url = "github:nix-community/nixvim/nixos-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
@@ -37,7 +37,7 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     herdr = {
-      url = "github:ogulcancelik/herdr/v0.6.4";
+      url = "github:ogulcancelik/herdr/v0.7.1";
     };
     kanagawa-yazi = {
       # Yazi color theme
@@ -76,15 +76,7 @@
         else
           "vii";
       darwinSystem = "aarch64-darwin";
-      herdrFor =
-        system:
-        inputs.herdr.packages.${system}.default.overrideAttrs (_oldAttrs: {
-          cargoDeps = _oldAttrs.cargoDeps.overrideAttrs (_oldCargoAttrs: {
-            vendorStaging = _oldCargoAttrs.vendorStaging.overrideAttrs (_oldVendorAttrs: {
-              outputHash = "sha256-yRT31RnfjSQy5bxFXVvM9zRM59WAPrBozu3S2tag6s8=";
-            });
-          });
-        });
+      herdrFor = system: inputs.herdr.packages.${system}.default;
     in
     {
       nixosConfigurations = {
@@ -148,8 +140,8 @@
       };
 
       formatter = {
-        x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
-        aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-rfc-style;
+        x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
+        aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt;
       };
 
       # Standalone Home Manager configuration for macOS, no sudo needed

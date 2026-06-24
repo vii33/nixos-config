@@ -29,7 +29,7 @@ in
       # Snacks.nvim dependencies
       imagemagick # For 'magick' command (image conversion)
       ghostscript # For 'gs' command (PDF rendering)
-      nodePackages.mermaid-cli # For 'mmdc' command (Mermaid diagrams)
+      mermaid-cli # For 'mmdc' command (Mermaid diagrams)
 
       # Linters and formatters
       #markdownlint-cli2  # Markdown linter
