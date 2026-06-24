@@ -2,6 +2,9 @@
 # Home Manager configuration for niri Wayland compositor
 { config, pkgs, lib, ... }:
 
+let
+  noctaliaShell = lib.getExe config.programs.noctalia-shell.package;
+in
 {
   programs.niri = {
     settings = {
@@ -19,9 +22,8 @@
         # Mako notification daemon
         { command = [ "systemctl" "--user" "reset-failed" "mako.service" ]; }
         { command = [ "systemctl" "--user" "start" "mako.service" ]; }
-        # Reset waybar service
-        { command = [ "systemctl" "--user" "reset-failed" "waybar.service" ]; }
-        { command = [ "systemctl" "--user" "start" "waybar.service" ]; }
+        # Noctalia Shell replaces Waybar for the Niri panel and desktop shell.
+        { command = [ noctaliaShell ]; }
         # XWayland Satellite for X11 apps (REQUIRED for Niri >= 0.1.10)
         { command = [ "${lib.getExe pkgs.xwayland-satellite}" ]; }
         # Polkit Agent
