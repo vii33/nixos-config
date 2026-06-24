@@ -6,15 +6,20 @@ These keyboard shortcuts are configured in `modules/home/ghostty.nix`.
 > In this repo, Herdr/Zellij own multiplexer navigation, so Ghostty explicitly unbinds
 > `Ctrl + Tab`, `Ctrl + Shift + Tab`, and `Alt + 1-9`.
 > Split keybindings in Ghostty are disabled (commented out) because Zellij handles panes.
+> `Ctrl + Shift + j` is also unbound so terminal apps can use it for half-page down.
+> `Ctrl + j/k` are temporarily bound to terminal-level line scrolling for opencode testing.
 
 ## Tab Management
 
 | Key | Action |
 |---|---|
-| `Ctrl + Shift + T` | new tab |
-| `Ctrl + Shift + Q` | close tab |
+| `Ctrl + Shift + t` | new tab |
+| `Ctrl + Shift + q` | close tab |
 | `Ctrl + Tab` | unbound for Herdr |
 | `Ctrl + Shift + Tab` | unbound for Herdr |
+| `Ctrl + j` | scroll down one line |
+| `Ctrl + k` | scroll up one line |
+| `Ctrl + Shift + j` | unbound for terminal apps |
 | `Alt + 1-9` | unbound for multiplexer tab navigation |
 
 ## Split Management (Kitty "Windows")
@@ -22,18 +27,18 @@ These keyboard shortcuts are configured in `modules/home/ghostty.nix`.
 | Key | Action |
 |---|---|
 | `Ctrl + Shift + Enter` | new split (auto direction) |
-| `Ctrl + Shift + W` | close split |
-| `Ctrl + Shift + Ä` | next split |
-| `Ctrl + Shift + Ö` | previous split |
-| `Alt + J` | split down |
-| `Alt + K` | split up |
+| `Ctrl + Shift + w` | close split |
+| `Ctrl + Shift + ä` | next split |
+| `Ctrl + Shift + ö` | previous split |
+| `Alt + j` | split down |
+| `Alt + k` | split up |
 
 ## Copy & Paste
 
 | Key | Action |
 |---|---|
-| `Ctrl + C` | copy (if selection) or interrupt |
-| `Ctrl + V` | paste from clipboard |
+| `Ctrl + c` | copy (if selection) or interrupt |
+| `Ctrl + v` | paste from clipboard |
 
 ## Font Size
 

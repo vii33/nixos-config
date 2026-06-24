@@ -29,8 +29,8 @@ in
     foreground = ffffff
 
     # Keybindings (Kitty parity)
-    # - "performable:" makes Ctrl+C behave like Kitty's "copy_or_interrupt"
-    #   (copy only when there is a selection; otherwise let Ctrl+C reach the shell)
+    # - "performable:" makes Ctrl+c behave like Kitty's "copy_or_interrupt"
+    #   (copy only when there is a selection; otherwise let Ctrl+c reach the shell)
     keybind = performable:ctrl+c=copy_to_clipboard
     keybind = ctrl+v=paste_from_clipboard
 
@@ -61,6 +61,11 @@ in
     keybind = alt+digit_8=unbind
     keybind = ctrl+shift+t=new_tab
     keybind = ctrl+shift+q=close_tab
+    # Test terminal-level line scrolling with Vim-style movement keys.
+    keybind = ctrl+j=scroll_page_lines:1
+    keybind = ctrl+k=scroll_page_lines:-1
+    # Let terminal apps (opencode, less, fzf, etc.) receive half-page navigation.
+    keybind = ctrl+shift+j=unbind
     # keybind = alt+t=new_tab
     # keybind = alt+w=close_tab
     # keybind = alt+h=previous_tab
@@ -71,7 +76,7 @@ in
     # keybind = alt+4=goto_tab:4
     # keybind = alt+5=goto_tab:5
 
-    # Unbind Cmd+D (Ghostty default: new_split:right) — use Zellij instead
+    # Unbind Cmd+d (Ghostty default: new_split:right) — use Zellij instead
     keybind = super+d=unbind
 
     # Split management (Kitty calls these "windows") (disabled; superseded by Zellij)
