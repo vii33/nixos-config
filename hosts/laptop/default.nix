@@ -87,6 +87,7 @@
     [
       inputs.sops-nix.homeManagerModules.sops
       inputs.handy.homeManagerModules.default
+      inputs.noctalia.homeModules.default
       inputs.nixvim.homeModules.nixvim
       ../../modules/home/kitty.nix
       ../../modules/home/ghostty.nix
@@ -103,7 +104,9 @@
       ../../modules/home/onedriver.nix
 
       ../../modules/home/niri/niri.nix
-      ../../modules/home/niri/waybar.nix
+      # Waybar is replaced by Noctalia Shell. Keep the module around for rollback.
+      # ../../modules/home/niri/waybar.nix
+      ../../modules/home/niri/noctalia.nix
       ../../modules/home/niri/fuzzel.nix
       ../../modules/home/niri/mako.nix
       ../../modules/home/niri/power-menu.nix
