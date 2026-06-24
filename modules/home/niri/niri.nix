@@ -82,7 +82,7 @@ in
         # Mod key (Super/Windows key)
         "Mod+Return".action.spawn = "kitty";
         "Mod+D".action.spawn = "fuzzel";
-        "F20".action.spawn = [ "handy" "--toggle-transcription" ];
+        "F12".action.spawn = [ "handy" "--toggle-transcription" ];
         
         # Window management
         "Mod+Q".action.close-window = {};

@@ -60,7 +60,7 @@
           chord_timeout = 100;
         };
         main = {
-          "rightmeta+rightalt" = "f20";
+          "rightmeta+rightalt" = "f12";
         };
       };
     };

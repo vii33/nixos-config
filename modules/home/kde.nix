@@ -6,6 +6,12 @@
 }:
 
 {
+  xdg.desktopEntries.handy-toggle-transcription = {
+    name = "Handy Toggle Transcription";
+    exec = "handy --toggle-transcription";
+    noDisplay = true;
+  };
+
   # Enable KDE Wallet for credential storage (VS Code, GitHub Copilot, etc.)
   # NOTE: If auto-login is enabled, PAM cannot auto-unlock the wallet.
   # With auto-login disabled (default), the wallet will auto-unlock on login.
@@ -54,6 +60,20 @@
       "$kwriteconfig" --file "$kcminputrc" "''${groupArgs[@]}" --key NaturalScroll true
       "$kwriteconfig" --file "$kcminputrc" "''${groupArgs[@]}" --key ScrollFactor 0.5
     done < <(grep -E '^\[Libinput\].*\[Touchpad\]$' "$kcminputrc" || true)
+  '';
+
+  home.activation.configureKdeHandyShortcut = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    shortcutsrc="$HOME/.config/kglobalshortcutsrc"
+    kwriteconfig="${pkgs.kdePackages.kconfig}/bin/kwriteconfig6"
+
+    mkdir -p "$HOME/.config"
+
+    # keyd maps right Meta + right Alt/AltGr to F12 for app compatibility.
+    "$kwriteconfig" --file "$shortcutsrc" --group kmix --key mic_mute \
+      'none,Microphone Mute\tMeta+Volume Mute,Mute Microphone'
+    "$kwriteconfig" --file "$shortcutsrc" --group services \
+      --group handy-toggle-transcription.desktop --key _launch \
+      'F12,F12,Toggle Handy transcription'
   '';
 
   home.packages = with pkgs; [
