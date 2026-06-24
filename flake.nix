@@ -28,6 +28,10 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nirimod = {
+      url = "github:srinivasr/nirimod";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     noctalia = {
       url = "github:noctalia-dev/noctalia/legacy-v4";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -57,6 +61,7 @@
       nixvim,
       sops-nix,
       niri,
+      nirimod,
       noctalia,
       handy,
       kanagawa-yazi,
