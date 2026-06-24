@@ -19,9 +19,6 @@ in
       spawn-at-startup = [
         # Background wallpaper
         { command = [ "${pkgs.swaybg}/bin/swaybg" "-i" "~/Bilder/desktop.png" "-m" "fill" ]; }
-        # Mako notification daemon
-        { command = [ "systemctl" "--user" "reset-failed" "mako.service" ]; }
-        { command = [ "systemctl" "--user" "start" "mako.service" ]; }
         # Noctalia Shell replaces Waybar for the Niri panel and desktop shell.
         { command = [ noctaliaShell ]; }
         # XWayland Satellite for X11 apps (REQUIRED for Niri >= 0.1.10)
@@ -81,7 +78,8 @@ in
       binds = {
         # Mod key (Super/Windows key)
         "Mod+Return".action.spawn = "kitty";
-        "Mod+D".action.spawn = "fuzzel";
+        # Noctalia Shell provides the launcher.
+        # "Mod+D".action.spawn = "fuzzel";
         "F12".action.spawn = [ "handy" "--toggle-transcription" ];
         
         # Window management

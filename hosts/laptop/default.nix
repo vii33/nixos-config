@@ -107,9 +107,10 @@
       # Waybar is replaced by Noctalia Shell. Keep the module around for rollback.
       # ../../modules/home/niri/waybar.nix
       ../../modules/home/niri/noctalia.nix
-      ../../modules/home/niri/fuzzel.nix
-      ../../modules/home/niri/mako.nix
-      ../../modules/home/niri/power-menu.nix
+      # Noctalia Shell replaces the standalone launcher, notifications, and power menu.
+      # ../../modules/home/niri/fuzzel.nix
+      # ../../modules/home/niri/mako.nix
+      # ../../modules/home/niri/power-menu.nix
     ];
   home-manager.users.vii = {
     imports = [ ../../home/vii/home-linux.nix ];
