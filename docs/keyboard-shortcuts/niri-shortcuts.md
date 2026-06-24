@@ -10,6 +10,11 @@ These keyboard shortcuts are configured in `modules/home/niri/niri.nix`.
 |---|---|
 | `Super + Return` | launch terminal (kitty) |
 | `Super + D` | launch application launcher (fuzzel) |
+| `Super + Shift + N` | launch NiriMod config manager |
+| `Alt + Tab` | show NiriSwitcher applications |
+| `Alt + Shift + Tab` | show NiriSwitcher applications in reverse |
+| `Alt + Grave` | show NiriSwitcher workspaces |
+| `Alt + Shift + Grave` | show NiriSwitcher workspaces in reverse |
 | `Right Super + AltGr` | toggle Handy transcription |
 
 ## Window Management (Focus)

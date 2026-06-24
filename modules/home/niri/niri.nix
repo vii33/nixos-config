@@ -1,6 +1,6 @@
 # modules/home/niri/niri.nix
 # Home Manager configuration for niri Wayland compositor
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 let
   noctaliaShell = lib.getExe config.programs.noctalia-shell.package;
@@ -30,6 +30,8 @@ in
         { command = [ "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1" ]; }
         # NetworkManager Applet
         { command = [ "${pkgs.networkmanagerapplet}/bin/nm-applet" ]; }
+        # NiriSwitcher daemon for Alt-Tab application switching.
+        { command = [ "${lib.getExe pkgs.niriswitcher}" ]; }
       ];
 
       # Input configuration
@@ -82,8 +84,53 @@ in
         # Mod key (Super/Windows key)
         "Mod+Return".action.spawn = "kitty";
         "Mod+D".action.spawn = "fuzzel";
+        "Mod+Shift+N".action.spawn = "nirimod";
+        "Alt+Tab".action.spawn = [
+          "${lib.getExe' pkgs.glib "gdbus"}"
+          "call"
+          "--session"
+          "--dest"
+          "io.github.isaksamsten.Niriswitcher"
+          "--object-path"
+          "/io/github/isaksamsten/Niriswitcher"
+          "--method"
+          "io.github.isaksamsten.Niriswitcher.application"
+        ];
+        "Alt+Shift+Tab".action.spawn = [
+          "${lib.getExe' pkgs.glib "gdbus"}"
+          "call"
+          "--session"
+          "--dest"
+          "io.github.isaksamsten.Niriswitcher"
+          "--object-path"
+          "/io/github/isaksamsten/Niriswitcher"
+          "--method"
+          "io.github.isaksamsten.Niriswitcher.application"
+        ];
+        "Alt+Grave".action.spawn = [
+          "${lib.getExe' pkgs.glib "gdbus"}"
+          "call"
+          "--session"
+          "--dest"
+          "io.github.isaksamsten.Niriswitcher"
+          "--object-path"
+          "/io/github/isaksamsten/Niriswitcher"
+          "--method"
+          "io.github.isaksamsten.Niriswitcher.workspace"
+        ];
+        "Alt+Shift+Grave".action.spawn = [
+          "${lib.getExe' pkgs.glib "gdbus"}"
+          "call"
+          "--session"
+          "--dest"
+          "io.github.isaksamsten.Niriswitcher"
+          "--object-path"
+          "/io/github/isaksamsten/Niriswitcher"
+          "--method"
+          "io.github.isaksamsten.Niriswitcher.workspace"
+        ];
         "F20".action.spawn = [ "handy" "--toggle-transcription" ];
-        
+
         # Window management
         "Mod+Q".action.close-window = {};
         "Mod+Left".action.focus-column-left = {};
@@ -94,7 +141,7 @@ in
         "Mod+L".action.focus-column-right = {};
         "Mod+K".action.focus-window-up = {};
         "Mod+J".action.focus-window-down = {};
-        
+
         # Move windows
         "Mod+Shift+Left".action.move-column-left = {};
         "Mod+Shift+Right".action.move-column-right = {};
@@ -104,29 +151,29 @@ in
         "Mod+Shift+L".action.move-column-right = {};
         "Mod+Shift+K".action.move-window-up = {};
         "Mod+Shift+J".action.move-window-down = {};
-        
+
         # Move windows between monitors
         "Mod+Ctrl+Alt+Left".action.move-column-to-monitor-left = {};
         "Mod+Ctrl+Alt+Right".action.move-column-to-monitor-right = {};
         "Mod+Ctrl+Alt+H".action.move-column-to-monitor-left = {};
         "Mod+Ctrl+Alt+L".action.move-column-to-monitor-right = {};
-        
+
         # Workspaces
         "Mod+1".action.focus-workspace = 1;
         "Mod+2".action.focus-workspace = 2;
         "Mod+3".action.focus-workspace = 3;
-      
+
         # Move window to workspace
         "Mod+Shift+1".action.move-column-to-workspace = 1;
         "Mod+Shift+2".action.move-column-to-workspace = 2;
         "Mod+Shift+3".action.move-column-to-workspace = 3;
-        
+
         # Column width
         "Mod+R".action.switch-preset-column-width = {};
         "Mod+Shift+R".action.reset-window-height = {};
         "Mod+F".action.maximize-column = {};
         "Mod+Shift+F".action.fullscreen-window = {};
-        
+
         # Misc
         "Mod+Shift+Slash".action.show-hotkey-overlay = {};
         "Mod+Shift+E".action.quit = {};
@@ -148,11 +195,11 @@ in
         # Column merging (Consume/Expel) with ö/ä
         "Mod+odiaeresis".action.consume-or-expel-window-left = {};
         "Mod+adiaeresis".action.consume-or-expel-window-right = {};
-        
+
         # Screenshots
         "Print".action.spawn = ["sh" "-c" "grim -g \"$(slurp)\" - | wl-copy"];
         "Shift+Print".action.spawn = ["sh" "-c" "grim - | wl-copy"];
-        
+
         # Volume/Brightness keys
         "XF86AudioRaiseVolume".action.spawn = ["sh" "-c" "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"];
         "XF86AudioLowerVolume".action.spawn = ["sh" "-c" "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"];
@@ -192,6 +239,8 @@ in
 
   # Required packages for niri functionality
   home.packages = with pkgs; [
+    inputs.nirimod.packages.${pkgs.system}.default
+    niriswitcher # Niri application/workspace switcher
     swaybg         # Background/wallpaper utility
     grim           # Screenshot tool
     slurp          # Region selector
