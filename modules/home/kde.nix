@@ -68,12 +68,12 @@
 
     mkdir -p "$HOME/.config"
 
-    # keyd maps right Meta + right Alt/AltGr to F12 for app compatibility.
+    # keyd maps right Meta + right Alt/AltGr to F11 for app compatibility.
     "$kwriteconfig" --file "$shortcutsrc" --group kmix --key mic_mute \
       'none,Microphone Mute\tMeta+Volume Mute,Mute Microphone'
     "$kwriteconfig" --file "$shortcutsrc" --group services \
       --group handy-toggle-transcription.desktop --key _launch \
-      'F12,F12,Toggle Handy transcription'
+      'F11,F11,Toggle Handy transcription'
   '';
 
   home.packages = with pkgs; [
