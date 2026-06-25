@@ -92,6 +92,9 @@
   # Thunderbolt
   services.hardware.bolt.enable = true;
 
+  # Fingerprint reader support. Enroll fingers manually with `fprintd-enroll`.
+  services.fprintd.enable = true;
+
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;

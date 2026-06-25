@@ -53,6 +53,7 @@ in
           tap = true;
           natural-scroll = true;
           dwt = true;
+          scroll-factor = 0.3;
         };
         mouse = {
           natural-scroll = false;
@@ -74,7 +75,7 @@ in
 
       # Layout configuration
       layout = {
-        gaps = 8;
+        gaps = 0;
         center-focused-column = "never";
         preset-column-widths = [
           { proportion = 0.33; }
@@ -98,7 +99,8 @@ in
       # Keybindings
       binds = {
         # Mod key (Super/Windows key)
-        "Mod+Return".action.spawn = "kitty";
+        "Mod+Return".action.spawn = "ghostty";
+        "Alt+Return".action.spawn = "ghostty";
         # Noctalia Shell provides the launcher.
         # "Mod+D".action.spawn = "fuzzel";
         "F11".action.spawn = [
@@ -150,6 +152,7 @@ in
         "Mod+Shift+F".action.fullscreen-window = { };
 
         # Misc
+        "Mod+question".action.show-hotkey-overlay = { };
         "Mod+Shift+Slash".action.show-hotkey-overlay = { };
         "Mod+Shift+E".action.quit = { };
         "Mod+Shift+P".action.power-off-monitors = { };
