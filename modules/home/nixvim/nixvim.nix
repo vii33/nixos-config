@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   pkgs,
   lib,
   ...
@@ -14,6 +15,9 @@ in
     enable = true;
     vimAlias = true;
     viAlias = true;
+
+    # Use NixVim's own tested nixpkgs pin for its generated package set.
+    nixpkgs.source = import (inputs.nixvim + "/nixpkgs.nix");
 
     # Required packages for treesitter and plugin building
     extraPackages = with pkgs; [
