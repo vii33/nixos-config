@@ -72,7 +72,10 @@
   services.pipewire = {
     enable = true;
     alsa.enable = true;
-    alsa.support32Bit = true;
+    # Enable only when Steam/Wine-style 32-bit ALSA apps are needed. This pulls
+    # an i686 PipeWire/FFADO stack that can force local OpenBLAS builds, which
+    # take hours on this laptop.
+    alsa.support32Bit = false;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
