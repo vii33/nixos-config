@@ -10,10 +10,11 @@
 - [x] Swap touchpad scroll direction.
 - [ ] Check fingerprint usefulness.
 - [x] Make touchpad scroll behavior slower.
-- [ ] Use alternate niri bar (noctua shell).
+- [x] Use alternate niri bar (noctua shell).
 - [ ] Cleanup overall structure.
 - [ ] Consider renaming `home/vii/` to `users/vii/` to separate user configs from reusable `modules/home/`.
-- [ ] Update inputs from 25.11 to 26.05?
+- [x] Update inputs from 25.11 to 26.05?
 - [x] Remove `nixpkgs-fish-good.url`.
-- [ ] Decide whether to generally use the unstable channel.
+- [x] Decide whether to generally use the unstable channel.
 - [ ] Connect Synology NAS
+- [ ] Check if battery charge tool can limit charging to 80%.
