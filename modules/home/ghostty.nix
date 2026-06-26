@@ -64,7 +64,12 @@ in
     # Test terminal-level line scrolling with Vim-style movement keys.
     keybind = ctrl+j=scroll_page_lines:1
     keybind = ctrl+k=scroll_page_lines:-1
-    # Let terminal apps (opencode, less, fzf, etc.) receive half-page navigation.
+    keybind = ctrl+d=scroll_page_fractional:0.5
+    keybind = ctrl+u=scroll_page_fractional:-0.5
+    keybind = ctrl+g>d=scroll_page_fractional:0.5
+    keybind = ctrl+g>t=scroll_to_top
+    keybind = ctrl+g>p=toggle_command_palette
+    # Let terminal apps (opencode, less, fzf, etc.) receive Shift variants.
     keybind = ctrl+shift+j=unbind
     # keybind = alt+t=new_tab
     # keybind = alt+w=close_tab
