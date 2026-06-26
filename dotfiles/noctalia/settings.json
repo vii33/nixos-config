@@ -648,7 +648,7 @@
     },
     "wallpaper": {
         "automationEnabled": false,
-        "directory": "/home/vii/nixos-config/assets/wallpapers",
+        "directory": "/home/vii/repos/nixos-config/assets/wallpapers",
         "enableMultiMonitorDirectories": false,
         "enabled": true,
         "favorites": [

@@ -8,8 +8,8 @@ set -l BK "$HOME/backups/$ts"
 mkdir -p $BK
 
 # Repo snapshots (optional if already pushed)
-if test -d "$HOME/nixos-config"
-  tar -czf $BK/nixos-config.tar.gz -C $HOME nixos-config
+if test -d "$HOME/repos/nixos-config"
+  tar -czf $BK/nixos-config.tar.gz -C $HOME/repos nixos-config
 end
 if test -d "$HOME/dev/neovim-config"
   tar -czf $BK/neovim-config.tar.gz -C $HOME/dev neovim-config

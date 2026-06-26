@@ -120,7 +120,7 @@ nix flake check --no-build
 # Activation, only when intentionally switching
 nixos-rebuild switch --flake .#<host>
 # Quick(er) switch using nh (supersedes nixos-rebuild switch):
-nh os switch ~/nixos-config/ -H <host>
+nh os switch ~/repos/nixos-config/ -H <host>
 sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
 ```
 

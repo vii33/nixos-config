@@ -4,7 +4,7 @@ Nix and Home Manager restore the system and most dotfiles, but some personal dat
 
 | Item | Path(s) | Why/Notes |
 |---|---|---|
-| This repo (nixos-config) | `~/nixos-config` (incl. `flake.lock`) | Preserves exact versions and config history; push to remote or archive |
+| This repo (nixos-config) | `~/repos/nixos-config` (incl. `flake.lock`) | Preserves exact versions and config history; push to remote or archive |
 | Neovim config | `~/dev/neovim-config` | Actual editor config (repo symlinked by `modules/home/neovim.nix`) |
 | Zoxide database | `${XDG_DATA_HOME:-~/.local/share}/zoxide/db` | Directory frecency learning |
 | NBFC config | `~/.config/nbfc.json` | Required by `hosts/laptop/nbfc.nix` |

@@ -3,7 +3,7 @@
 { config, ... }:
 
 let
-  dotfilesDir = "${config.home.homeDirectory}/nixos-config/dotfiles";
+  dotfilesDir = "${config.home.homeDirectory}/repos/nixos-config/dotfiles";
 in
 
 {
