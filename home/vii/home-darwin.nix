@@ -61,7 +61,9 @@ in
 
   # Add home-manager CLI to PATH
   home.packages = with pkgs; [
+    bun
     home-manager
+    nodejs
   ];
 
   # Environment variables

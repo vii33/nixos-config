@@ -54,7 +54,7 @@ in
       git_work_gitconfig = { };
     };
   };
-  
+
   home.file = {
     # Link agent files / Opencode
     ".config/opencode/AGENTS.md".source =
@@ -91,6 +91,11 @@ in
 
   # Let Home Manager manage itself
   programs.home-manager.enable = true;
+
+  home.packages = with pkgs; [
+    bun
+    nodejs
+  ];
 
   # Ensures configuration doesn't break on updates. Keep version static after first config.
   # You can update Home Manager without changing this value. See the Home Manager release
