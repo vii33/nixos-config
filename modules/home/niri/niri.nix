@@ -256,7 +256,7 @@ in
             x = 0;
             y = 0;
           };
-          scale = 1.0;
+          scale = 1.2;
         };
         "HDMI-A-2" = {
           # External monitor on the right
