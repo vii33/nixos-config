@@ -58,6 +58,7 @@ in
 
 - Add shared config to `modules/system/` or `modules/home/` and import from `default.nix`.
 - Host-specific services: host config file.
+- Before adding laptop TODOs, check `docs/TODOs_laptop_host.md` for an existing entry.
 - User-level changes: `home/vii/` or `modules/home/`.
 - Never change `system.stateVersion` without upgrade plan.
 - Keep `onedriver` as a package only. Do not add Nix/Home Manager-managed
