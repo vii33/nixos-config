@@ -53,7 +53,7 @@ in
           tap = true;
           natural-scroll = true;
           dwt = true;
-          scroll-factor = 0.3;
+          scroll-factor = 0.24;
         };
         mouse = {
           natural-scroll = false;
@@ -77,6 +77,10 @@ in
       layout = {
         gaps = 0;
         center-focused-column = "never";
+        struts = {
+          top = 4;
+          bottom = 4;
+        };
         preset-column-widths = [
           { proportion = 0.33; }
           { proportion = 0.5; }
@@ -96,13 +100,32 @@ in
       # Prefer dark theme
       prefer-no-csd = true;
 
+      overview = {
+        backdrop-color = "#101014";
+        workspace-shadow = {
+          softness = 40;
+          spread = 10;
+          offset = {
+            x = 0;
+            y = 10;
+          };
+          color = "#00000070";
+        };
+      };
+
       # Keybindings
       binds = {
         # Mod key (Super/Windows key)
         "Mod+Return".action.spawn = "ghostty";
         "Alt+Return".action.spawn = "ghostty";
         # Noctalia Shell provides the launcher.
-        # "Mod+D".action.spawn = "fuzzel";
+        "Mod+D".action.spawn = [
+          noctaliaShell
+          "ipc"
+          "call"
+          "launcher"
+          "toggle"
+        ];
         "F11".action.spawn = [
           "handy"
           "--toggle-transcription"
@@ -116,8 +139,8 @@ in
         "Mod+Down".action.focus-workspace-down = { };
         "Mod+H".action.focus-column-left = { };
         "Mod+L".action.focus-column-right = { };
-        "Mod+K".action.focus-window-up = { };
-        "Mod+J".action.focus-window-down = { };
+        "Mod+K".action.focus-workspace-up = { };
+        "Mod+J".action.focus-workspace-down = { };
 
         # Move windows
         "Mod+Shift+Left".action.move-column-left = { };
