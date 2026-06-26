@@ -4,11 +4,17 @@
   config,
   pkgs,
   lib,
+  niriWallpaper ? null,
   ...
 }:
 
 let
   noctaliaShell = lib.getExe config.programs.noctalia-shell.package;
+  wallpaper =
+    if niriWallpaper != null then
+      toString niriWallpaper
+    else
+      "${config.home.homeDirectory}/Pictures/Wallpapers/alghozy-7TfUCBVR0nI-unsplash.jpg";
 in
 {
   programs.niri = {
@@ -27,7 +33,7 @@ in
           command = [
             "${pkgs.swaybg}/bin/swaybg"
             "-i"
-            "~/Bilder/desktop.png"
+            wallpaper
             "-m"
             "fill"
           ];
