@@ -147,6 +147,8 @@
   # SERVICES
   #services.onedrive.enable = true;
 
+  services.power-profiles-daemon.enable = true;
+
   # Enable SSH for phone/remote access over WireGuard.
   services.openssh = {
     enable = true;

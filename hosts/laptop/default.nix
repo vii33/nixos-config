@@ -104,6 +104,7 @@
       ../../modules/home/onedriver.nix
 
       ../../modules/home/niri/niri.nix
+      ../../modules/home/niri/idle.nix
       # Waybar is replaced by Noctalia Shell. Keep the module around for rollback.
       # ../../modules/home/niri/waybar.nix
       ../../modules/home/niri/noctalia.nix

@@ -47,9 +47,7 @@ in
 {
   services.swayidle = {
     enable = true;
-    events.before-sleep = {
-      command = "${pkgs.systemd}/bin/loginctl lock-session";
-    };
+    events.before-sleep = "${pkgs.systemd}/bin/loginctl lock-session";
     timeouts = [
       {
         timeout = displayOffOnBatterySeconds;
