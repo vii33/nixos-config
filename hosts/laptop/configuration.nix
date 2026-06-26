@@ -1,5 +1,29 @@
 # /etc/nixos/system/configuration.nix
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+
+let
+  loginWallpaper = ../../assets/wallpapers/noctalia-login-wallpaper.jpg;
+  greetdNiriConfig = pkgs.writeText "greetd-niri.kdl" ''
+    spawn-sh-at-startup "${pkgs.regreet}/bin/regreet; ${pkgs.niri}/bin/niri msg action quit --skip-confirmation"
+
+    hotkey-overlay {
+      skip-at-startup
+    }
+
+    input {
+      keyboard {
+        xkb {
+          layout "de"
+        }
+      }
+    }
+  '';
+in
 
 {
   # Bootloader
@@ -98,8 +122,48 @@
   # Fingerprint reader support. Enroll fingers manually with `fprintd-enroll`.
   services.fprintd.enable = true;
 
+  # ReGreet provides a modern greetd login screen for both Niri and Plasma.
+  services.greetd = {
+    enable = true;
+    settings.default_session = {
+      command = "${pkgs.dbus}/bin/dbus-run-session ${pkgs.niri}/bin/niri --config ${greetdNiriConfig}";
+      user = "greeter";
+    };
+  };
+  programs.regreet = {
+    enable = true;
+    settings = {
+      GTK = {
+        application_prefer_dark_theme = lib.mkForce true;
+        font_name = lib.mkForce "JetBrainsMono Nerd Font 14";
+        theme_name = lib.mkForce "Adwaita-dark";
+      };
+      background = {
+        path = toString loginWallpaper;
+        fit = "Cover";
+      };
+      appearance.greeting_msg = "Welcome back, vii";
+      widget.clock = {
+        format = "%a %d %b  %H:%M";
+        resolution = "1s";
+      };
+    };
+    extraCss = ''
+      window {
+        background: #10121a;
+      }
+
+      box#body {
+        background: rgba(24, 26, 38, 0.86);
+        border: 1px solid rgba(169, 177, 214, 0.28);
+        border-radius: 18px;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+        padding: 32px;
+      }
+    '';
+  };
+
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
   # Disable automatic login to allow session selection (niri or KDE)
