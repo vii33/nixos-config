@@ -18,6 +18,8 @@ Personal flake-based NixOS/nix-darwin repo. Primary user: `vii`.
 
 - 2-space indent, lines <= 100 chars.
 - Comment only non-obvious choices/hardware tweaks.
+- Add an inline purpose comment when installing low-level packages, creating
+  low-level settings, or adding users to groups (for example `uinput`).
 - Group related attributes (services, users, packages).
 - Small composable modules; use `{ config, pkgs, ... }:` signatures.
 - Avoid hardcoded usernames/absolute paths; use `specialArgs`/params.

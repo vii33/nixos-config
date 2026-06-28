@@ -1,11 +1,14 @@
-- [ ] Check Intel graphics.
+# Important
 - [ ] Update NBFC.
-- [ ] Check which files to add to Home Manager.
 - [ ] Check fingerprint usefulness.
-- [ ] Cleanup overall structure.
-- [ ] Consider renaming `home/vii/` to `users/vii/` to separate user configs from reusable `modules/home/`.
-- [ ] Check if battery charge tool can limit charging to 80%.
-- [ ] yazi config error
-- [ ] is nautilus working?
 - [ ] handy text is not getting pasted.
-- [ ] keybindings to scroll terminal and to oc 1st and last message
+- [ ] Check if battery charge tool can limit charging to 80%.
+- [ ] migrate thunderbird: ~/.thunderbird
+- Screenshots funktionieren
+
+# Generic
+- Mehr Opencode Bindings
+- [ ] Consider renaming `home/vii/` to `users/vii/` to separate user configs from reusable `modules/home/`.
+- [ ] Check which files to add to Home Manager.
+- [ ] Cleanup overall structure.
+- do yolo as default mode (check permissions)
