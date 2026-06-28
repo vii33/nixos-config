@@ -2,6 +2,7 @@
 {
   config,
   pkgs,
+  lib,
   inputs,
   pkgs-unstable,
   herdr,
@@ -47,9 +48,14 @@
   users.users.vii.extraGroups = [
     "docker"
     "input"
+    "uinput" # Handy's handy_keys backend needs /dev/uinput for push-to-talk.
   ];
 
   programs.handy.enable = true;
+  programs.ydotool = {
+    enable = true;
+    group = "input";
+  };
 
   services.keyd = {
     enable = true;
@@ -60,7 +66,7 @@
           chord_timeout = 100;
         };
         main = {
-          "rightmeta+rightalt" = "f11";
+          "leftmeta+leftalt" = "C-S-M-f11";
         };
       };
     };
@@ -116,6 +122,27 @@
   home-manager.users.vii = {
     imports = [ ../../home/vii/home-linux.nix ];
 
+    services.handy.enable = true;
+    systemd.user.services.handy.Service = {
+      ExecStart = lib.mkForce "${
+        inputs.handy.packages.${pkgs.stdenv.hostPlatform.system}.handy
+      }/bin/handy --start-hidden";
+      Environment = [
+        "PATH=${
+          lib.makeBinPath (
+            with pkgs;
+            [
+              which # Handy probes Linux input helpers with `which`.
+              wl-clipboard
+              xdotool
+              ydotool
+            ]
+          )
+        }"
+        "YDOTOOL_SOCKET=/run/ydotoold/socket"
+      ];
+    };
+
     # Host-specific packages for laptop
     home.packages = with pkgs; [
       pkgs-unstable.brave
@@ -129,6 +156,7 @@
       lazygit
       thunderbird
       vlc
+      xdotool # Needed for Handy Linux text input fallback.
     ];
   };
 
