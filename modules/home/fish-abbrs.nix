@@ -9,11 +9,11 @@
   zzk = "zellij kill-all-sessions -y; zellij delete-all-sessions -y";
 
   # NixOS
-  nodry = "nh os dry-run ~/nixos-config/flake.nix -H laptop";
-  noswitch = "nh os switch ~/nixos-config/ -H laptop";
-  noclean1 = "nh clean all --keep-since 3d --keep 3";
-  noclean2 = "sudo nix-collect-garbage";
-  nosearch = "nh search ";
+  nixdry = "nh os dry-run ~/repos/nixos-config/flake.nix -H laptop";
+  nixswitch = "nh os switch ~/repos/nixos-config/ -H laptop";
+  nixclean1 = "nh clean all --keep-since 3d --keep 3";
+  nixclean2 = "sudo nix-collect-garbage";
+  nixsearch = "nh search ";
   sopsedit = "env SOPS_AGE_KEY_FILE=\"$HOME/.config/sops/age/keys.txt\" nix shell nixpkgs#sops -c sops \"$HOME/repos/nixos-config/secrets/secrets.yaml\"";
 
   # Applications
