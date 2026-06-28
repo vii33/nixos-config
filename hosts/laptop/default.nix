@@ -87,6 +87,7 @@
   home-manager.extraSpecialArgs = {
     inherit (config._module.specialArgs) pkgs-unstable inputs;
     gitIdentity = "personal";
+    niriWallpaper = ../../assets/wallpapers/noctalia-login-wallpaper.jpg;
     zellijDefaultLayout = "laptop";
   };
   home-manager.sharedModules = # Home Manager modules shared between all users
@@ -111,13 +112,9 @@
 
       ../../modules/home/niri/niri.nix
       ../../modules/home/niri/idle.nix
-      # Waybar is replaced by Noctalia Shell. Keep the module around for rollback.
-      # ../../modules/home/niri/waybar.nix
       ../../modules/home/niri/noctalia.nix
-      # Noctalia Shell replaces the standalone launcher, notifications, and power menu.
-      # ../../modules/home/niri/fuzzel.nix
-      # ../../modules/home/niri/mako.nix
-      # ../../modules/home/niri/power-menu.nix
+      # Archived replaced Noctalia Shell modules under modules/home/niri/archive/:
+      # waybar.nix, fuzzel.nix, mako.nix, power-menu.nix
     ];
   home-manager.users.vii = {
     imports = [ ../../home/vii/home-linux.nix ];

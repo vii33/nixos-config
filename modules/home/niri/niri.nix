@@ -10,6 +10,16 @@
 
 let
   noctaliaShell = lib.getExe config.programs.noctalia-shell.package;
+  keyboardBacklightCycle = pkgs.writeShellScript "keyboard-backlight-cycle" ''
+    device='tpacpi::kbd_backlight'
+    current=$(${lib.getExe pkgs.brightnessctl} --device="$device" get)
+
+    if [ "$current" -eq 0 ]; then
+      ${lib.getExe pkgs.brightnessctl} --device="$device" set 1
+    else
+      ${lib.getExe pkgs.brightnessctl} --device="$device" set 0
+    fi
+  '';
   wallpaper =
     if niriWallpaper != null then
       toString niriWallpaper
@@ -119,22 +129,22 @@ in
         };
       };
 
+      hotkey-overlay = {
+        skip-at-startup = true;
+      };
+
       # Keybindings
       binds = {
         # Mod key (Super/Windows key)
         "Mod+Return".action.spawn = "ghostty";
         "Alt+Return".action.spawn = "ghostty";
         # Noctalia Shell provides the launcher.
-        "Mod+D".action.spawn = [
+        "Mod+Space".action.spawn = [
           noctaliaShell
           "ipc"
           "call"
           "launcher"
           "toggle"
-        ];
-        "F11".action.spawn = [
-          "handy"
-          "--toggle-transcription"
         ];
 
         # Window management
@@ -246,6 +256,18 @@ in
           "-c"
           "brightnessctl set 5%-"
         ];
+        "XF86KbdBrightnessUp".action.spawn = [
+          "${keyboardBacklightCycle}"
+        ];
+        "XF86Tools".action.spawn = [
+          "${keyboardBacklightCycle}"
+        ];
+        "XF86KbdBrightnessDown".action.spawn = [
+          "${lib.getExe pkgs.brightnessctl}"
+          "--device=tpacpi::kbd_backlight"
+          "set"
+          "1-"
+        ];
 
         # Mouse/Touchpad binds
         "Mod+WheelScrollDown".action.focus-column-right = { };
@@ -264,13 +286,13 @@ in
           };
           scale = 1.2;
         };
-        "HDMI-A-2" = {
-          # External monitor on the right
-          # Note: Current Laptop HDMI limited to 60Hz at 1440p (would need DisplayPort for 120Hz+)
+        "Dell Inc. DELL S2721DGF 6RG6S83" = {
+          # External monitor on the right, matched by identity to survive DP port renumbering.
           position = {
-            x = 1920; # Width of laptop screen (1920 / 1.0 scale)
+            x = 2134; # Width of laptop screen in logical pixels: 2560 / 1.2.
             y = 0;
           };
+          focus-at-startup = true;
         };
       };
     };
