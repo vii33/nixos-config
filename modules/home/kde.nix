@@ -3,6 +3,18 @@
     enable = true;
     defaultApplications = {
       "inode/directory" = "org.gnome.Nautilus.desktop";
+
+      "image/avif" = "qimgv.desktop";
+      "image/bmp" = "qimgv.desktop";
+      "image/gif" = "qimgv.desktop";
+      "image/heic" = "qimgv.desktop";
+      "image/heif" = "qimgv.desktop";
+      "image/jpeg" = "qimgv.desktop";
+      "image/jxl" = "qimgv.desktop";
+      "image/png" = "qimgv.desktop";
+      "image/svg+xml" = "qimgv.desktop";
+      "image/tiff" = "qimgv.desktop";
+      "image/webp" = "qimgv.desktop";
     };
   };
 

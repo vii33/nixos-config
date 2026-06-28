@@ -37,6 +37,7 @@
     python3
     uv
     pkgs-unstable.codex
+    pkgs-unstable.ollama
     docker_29
     docker-compose
     wireguard-tools
@@ -151,6 +152,7 @@
       pkgs-unstable.opencode
       herdr
       lazygit
+      qimgv
       thunderbird
       vlc
       xdotool # Needed for Handy Linux text input fallback.
