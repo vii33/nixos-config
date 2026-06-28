@@ -42,26 +42,26 @@
     "bar": {
         "autoHideDelay": 500,
         "autoShowDelay": 150,
-        "backgroundOpacity": 0.93,
+        "backgroundOpacity": 0.35000000000000003,
         "barType": "simple",
-        "capsuleColorKey": "tertiary",
-        "capsuleOpacity": 0.07,
+        "capsuleColorKey": "none",
+        "capsuleOpacity": 0.54,
         "contentPadding": 4,
-        "density": "comfortable",
+        "density": "default",
         "displayMode": "always_visible",
         "enableExclusionZoneInset": true,
-        "fontScale": 1.1,
+        "fontScale": 1.1800000000000002,
         "frameRadius": 12,
         "frameThickness": 8,
         "hideOnOverview": false,
         "marginHorizontal": 4,
         "marginVertical": 4,
-        "middleClickAction": "none",
+        "middleClickAction": "controlCenter",
         "middleClickCommand": "",
         "middleClickFollowMouse": false,
         "monitors": [
         ],
-        "mouseWheelAction": "none",
+        "mouseWheelAction": "content",
         "mouseWheelWrap": true,
         "outerCorners": false,
         "position": "top",
@@ -74,7 +74,7 @@
         "showCapsule": true,
         "showOnWorkspaceSwitch": true,
         "showOutline": false,
-        "useSeparateOpacity": false,
+        "useSeparateOpacity": true,
         "widgetSpacing": 7,
         "widgets": {
             "center": [
@@ -114,25 +114,14 @@
                 {
                     "colorizeIcons": false,
                     "hideMode": "hidden",
-                    "id": "ActiveWindow",
-                    "maxWidth": 145,
-                    "scrollingMode": "hover",
-                    "showIcon": true,
-                    "showText": true,
-                    "textColor": "none",
-                    "useFixedWidth": false
-                },
-                {
-                    "colorizeIcons": false,
-                    "hideMode": "hidden",
                     "iconScale": 0.8,
                     "id": "Taskbar",
-                    "maxTaskbarWidth": 40,
+                    "maxTaskbarWidth": 35,
                     "onlyActiveWorkspaces": true,
                     "onlySameOutput": true,
                     "showPinnedApps": false,
                     "showTitle": true,
-                    "smartWidth": false,
+                    "smartWidth": true,
                     "titleWidth": 150
                 }
             ],
@@ -178,7 +167,7 @@
                 },
                 {
                     "deviceNativePath": "__default__",
-                    "displayMode": "graphic-clean",
+                    "displayMode": "graphic",
                     "hideIfIdle": false,
                     "hideIfNotDetected": true,
                     "id": "Battery",
@@ -186,17 +175,17 @@
                     "showPowerProfiles": true
                 },
                 {
-                    "displayMode": "onhover",
-                    "iconColor": "none",
-                    "id": "Volume",
-                    "middleClickCommand": "pwvucontrol || pavucontrol",
-                    "textColor": "none"
-                },
-                {
                     "applyToAllMonitors": false,
                     "displayMode": "onhover",
                     "iconColor": "none",
                     "id": "Brightness",
+                    "textColor": "none"
+                },
+                {
+                    "displayMode": "onhover",
+                    "iconColor": "none",
+                    "id": "Volume",
+                    "middleClickCommand": "pwvucontrol || pavucontrol",
                     "textColor": "none"
                 },
                 {
@@ -246,7 +235,7 @@
     },
     "colorSchemes": {
         "darkMode": true,
-        "generationMethod": "tonal-spot",
+        "generationMethod": "content",
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
         "monitorForColors": "",
@@ -293,18 +282,15 @@
                     "id": "Bluetooth"
                 },
                 {
-                    "id": "WallpaperSelector"
+                    "id": "AirplaneMode"
                 },
                 {
-                    "id": "NoctaliaPerformance"
+                    "id": "WallpaperSelector"
                 }
             ],
             "right": [
                 {
                     "id": "Notifications"
-                },
-                {
-                    "id": "PowerProfile"
                 },
                 {
                     "id": "KeepAwake"
@@ -362,11 +348,11 @@
         "animationDisabled": true,
         "animationSpeed": 1,
         "autoStartAuth": false,
-        "avatarImage": "/home/vii/.face",
+        "avatarImage": "",
         "boxRadiusRatio": 1,
         "clockFormat": "hh\\nmm",
-        "clockStyle": "custom",
-        "compactLockScreen": false,
+        "clockStyle": "analog",
+        "compactLockScreen": true,
         "dimmerOpacity": 0.2,
         "enableBlurBehind": true,
         "enableLockScreenCountdown": true,
@@ -399,14 +385,14 @@
             ]
         },
         "language": "",
-        "lockOnSuspend": true,
+        "lockOnSuspend": false,
         "lockScreenAnimations": true,
         "lockScreenBlur": 0.1,
         "lockScreenCountdownDuration": 5000,
         "lockScreenMonitors": [
         ],
         "lockScreenTint": 0,
-        "passwordChars": true,
+        "passwordChars": false,
         "radiusRatio": 1,
         "reverseScroll": false,
         "scaleRatio": 1,
@@ -435,7 +421,7 @@
     },
     "idle": {
         "customCommands": "[]",
-        "enabled": true,
+        "enabled": false,
         "fadeDuration": 5,
         "lockCommand": "",
         "lockTimeout": 660,
@@ -476,7 +462,7 @@
     "nightLight": {
         "autoSchedule": true,
         "dayTemp": "6500",
-        "enabled": true,
+        "enabled": false,
         "forced": false,
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
@@ -635,7 +621,7 @@
     "ui": {
         "boxBorderEnabled": false,
         "fontDefault": "Sans Serif",
-        "fontDefaultScale": 1.03,
+        "fontDefaultScale": 1.04,
         "fontFixed": "monospace",
         "fontFixedScale": 1,
         "panelBackgroundOpacity": 0.93,
@@ -662,18 +648,17 @@
         "overviewBlur": 0.4,
         "overviewEnabled": true,
         "overviewTint": 0.6,
-        "panelPosition": "follow_bar",
+        "panelPosition": "center",
         "randomIntervalSec": 300,
         "setWallpaperOnAllMonitors": true,
         "showHiddenFiles": false,
-        "skipStartupTransition": false,
+        "skipStartupTransition": true,
         "solidColor": "#1a1a2e",
         "sortOrder": "name",
-        "transitionDuration": 1500,
-        "transitionEdgeSmoothness": 0.05,
+        "transitionDuration": 2400,
+        "transitionEdgeSmoothness": 0.08,
         "transitionType": [
             "fade",
-            "disc",
             "stripes",
             "wipe",
             "pixelate",
