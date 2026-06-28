@@ -24,6 +24,19 @@ Prefix: `Caps Lock` emits `F15` on the laptop via `services.keyd`.
 | Split horizontal | `Prefix + -` (dash) | |
 | Copy mode | `Prefix + C` | |
 
+## Nested OpenCode
+
+OpenCode runs as a full-screen app inside Herdr, so Ghostty's terminal-level
+scrollback bindings do not scroll its messages. OpenCode's own
+`~/.config/opencode/tui.json` bindings handle message scrolling:
+
+| Action | Key |
+|---|---|
+| Messages line down | `Ctrl + J` |
+| Messages line up | `Ctrl + K` |
+| Messages half-page down | `Ctrl + D` |
+| Messages half-page up | `Ctrl + U` |
+
 ## Remaining Prefix Bindings
 
 | Action | Key(s) | Notes |

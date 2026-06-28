@@ -61,11 +61,12 @@ in
     keybind = alt+digit_8=unbind
     keybind = ctrl+shift+t=new_tab
     keybind = ctrl+shift+q=close_tab
-    # Test terminal-level line scrolling with Vim-style movement keys.
-    keybind = ctrl+j=scroll_page_lines:1
-    keybind = ctrl+k=scroll_page_lines:-1
-    keybind = ctrl+d=scroll_page_fractional:0.5
-    keybind = ctrl+u=scroll_page_fractional:-0.5
+    # Terminal-level scrolling for plain shell scrollback. OpenCode inside Herdr
+    # needs its own matching Ctrl+Alt bindings because Herdr owns the screen.
+    keybind = ctrl+alt+j=scroll_page_lines:1
+    keybind = ctrl+alt+k=scroll_page_lines:-1
+    keybind = ctrl+alt+d=scroll_page_fractional:0.5
+    keybind = ctrl+alt+u=scroll_page_fractional:-0.5
     keybind = ctrl+g>d=scroll_page_fractional:0.5
     keybind = ctrl+g>t=scroll_to_top
     keybind = ctrl+g>p=toggle_command_palette

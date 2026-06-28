@@ -7,7 +7,8 @@ These keyboard shortcuts are configured in `modules/home/ghostty.nix`.
 > `Ctrl + Tab`, `Ctrl + Shift + Tab`, and `Alt + 1-9`.
 > Split keybindings in Ghostty are disabled (commented out) because Zellij handles panes.
 > `Ctrl + Shift + j` is also unbound so terminal apps can use it for half-page down.
-> `Ctrl + j/k` are temporarily bound to terminal-level line scrolling for opencode testing.
+> `Ctrl + Alt + j/k` scroll Ghostty's own scrollback. Nested TUIs such as
+> OpenCode inside Herdr need matching app-level bindings instead.
 
 ## Tab Management
 
@@ -17,8 +18,10 @@ These keyboard shortcuts are configured in `modules/home/ghostty.nix`.
 | `Ctrl + Shift + q` | close tab |
 | `Ctrl + Tab` | unbound for Herdr |
 | `Ctrl + Shift + Tab` | unbound for Herdr |
-| `Ctrl + j` | scroll down one line |
-| `Ctrl + k` | scroll up one line |
+| `Ctrl + Alt + j` | scroll down one line |
+| `Ctrl + Alt + k` | scroll up one line |
+| `Ctrl + Alt + d` | scroll down half page |
+| `Ctrl + Alt + u` | scroll up half page |
 | `Ctrl + Shift + j` | unbound for terminal apps |
 | `Alt + 1-9` | unbound for multiplexer tab navigation |
 
