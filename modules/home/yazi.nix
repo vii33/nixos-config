@@ -81,17 +81,17 @@
       { mime = "text/x-python", fg = "#8CCFE0" },
       { mime = "text/javascript", fg = "#8CCFE0" },
       { mime = "text/x-rust", fg = "#8CCFE0" },
-      { name = "*.ipynb", fg = "#8CCFE0" },
-      { name = "*.nix", fg = "#8CCFE0" },
-      { name = "*.ts", fg = "#8CCFE0" },
-      { name = "*.tsx", fg = "#8CCFE0" },
-      { name = "*.jsx", fg = "#8CCFE0" },
+      { url = "*.ipynb", fg = "#8CCFE0" },
+      { url = "*.nix", fg = "#8CCFE0" },
+      { url = "*.ts", fg = "#8CCFE0" },
+      { url = "*.tsx", fg = "#8CCFE0" },
+      { url = "*.jsx", fg = "#8CCFE0" },
       
       # Config files - Yellow
-      { name = "*.json", fg = "#FFA066" },
-      { name = "*.toml", fg = "#FFA066" },
-      { name = "*.yaml", fg = "#FFA066" },
-      { name = "*.yml", fg = "#FFA066" },
+      { url = "*.json", fg = "#FFA066" },
+      { url = "*.toml", fg = "#FFA066" },
+      { url = "*.yaml", fg = "#FFA066" },
+      { url = "*.yml", fg = "#FFA066" },
       
       # Images - Magenta
       { mime = "image/*", fg = "#B19BF0" },
@@ -102,18 +102,18 @@
       # Archives - Green
       { mime = "application/zip", fg = "#AEDA78" },
       { mime = "application/x-tar", fg = "#AEDA78" },
-      { name = "*.rar", fg = "#AEDA78" },
-      { name = "*.7z", fg = "#AEDA78" },
+      { url = "*.rar", fg = "#AEDA78" },
+      { url = "*.7z", fg = "#AEDA78" },
        
       # Documents - Cyan
       { mime = "application/pdf", fg = "#8FD6C5" },
-      { name = "*.md", fg = "#8FD6C5" },
-      { name = "*.doc*", fg = "#8FD6C5" },
-      { name = "*.xls*", fg = "#8FD6C5" },
+      { url = "*.md", fg = "#8FD6C5" },
+      { url = "*.doc*", fg = "#8FD6C5" },
+      { url = "*.xls*", fg = "#8FD6C5" },
        
       # Executables - Red
-      { name = "*.sh", fg = "#F27E89" },
-      { name = "*.fish", fg = "#F27E89" },
+      { url = "*.sh", fg = "#F27E89" },
+      { url = "*.fish", fg = "#F27E89" },
     ]
   '';
 
