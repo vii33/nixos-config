@@ -24,7 +24,7 @@
     enable = true;
     clean.enable = true;
     clean.extraArgs = "--keep-since 30d --keep 10";
-    flake = "/home/vii/nixos-config";
+    flake = "/home/vii/repos/nixos-config";
   };
 
   # System locale, timezone, console keymap and user account

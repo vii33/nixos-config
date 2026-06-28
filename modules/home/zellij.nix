@@ -365,7 +365,7 @@ in
 
         tab name="nixos" {
           pane command="${pkgs.fish}/bin/fish" focus=true start_suspended=false {
-            args "-c" "cd /home/vii/nixos-config; exec fish -i"
+            args "-c" "cd /home/vii/repos/nixos-config; exec fish -i"
           }
         }
       }
