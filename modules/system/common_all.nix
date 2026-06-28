@@ -23,6 +23,7 @@
     bat
     git
     gh
+    jq
     sops
     age
   ];
