@@ -37,6 +37,6 @@
   # Ensure essential Wayland environment
   environment.systemPackages = with pkgs; [
     wl-clipboard
-    nautilus # Required for GNOME portal file picker
+    nautilus # Primary GUI file manager; also backs GNOME portal file picker
   ];
 }

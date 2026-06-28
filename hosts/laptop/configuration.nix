@@ -90,6 +90,9 @@ in
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Nautilus uses GVFS backends for smb:// and other network locations.
+  services.gvfs.enable = true;
+
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -165,6 +168,10 @@ in
 
   # Enable the KDE Plasma Desktop Environment.
   services.desktopManager.plasma6.enable = true;
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [
+    dolphin
+    dolphin-plugins
+  ];
 
   # Disable automatic login to allow session selection (niri or KDE)
   # To enable auto-login, set autoLogin.enable = true and specify autoLogin.user
@@ -246,6 +253,7 @@ in
 
   # Open SSH only on the WireGuard interface.
   networking.firewall.interfaces.wg0.allowedTCPPorts = [ 22 ];
+  networking.firewall.interfaces.wlp0s20f3.allowedTCPPorts = [ 4096 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
