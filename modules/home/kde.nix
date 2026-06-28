@@ -1,4 +1,11 @@
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+
+{
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
@@ -18,13 +25,6 @@
     };
   };
 
-  config,
-  pkgs,
-  lib,
-  ...
-}:
-
-{
   # Enable KDE Wallet for credential storage (VS Code, GitHub Copilot, etc.)
   # NOTE: If auto-login is enabled, PAM cannot auto-unlock the wallet.
   # With auto-login disabled (default), the wallet will auto-unlock on login.
