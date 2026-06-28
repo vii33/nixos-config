@@ -67,6 +67,7 @@ in
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
+  hardware.enableRedistributableFirmware = true;
   hardware.graphics.enable = true;
 
   # Configure keymap in X11
