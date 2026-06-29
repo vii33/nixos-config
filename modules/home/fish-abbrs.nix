@@ -17,6 +17,7 @@
   sopsedit = "env SOPS_AGE_KEY_FILE=\"$HOME/.config/sops/age/keys.txt\" nix shell nixpkgs#sops -c sops \"$HOME/repos/nixos-config/secrets/secrets.yaml\"";
 
   # Applications
+  hh = "herdr";
   nv = "nvim";
   oc = "opencode";
   ocg = "opencode -m openai/gpt-5.5";
