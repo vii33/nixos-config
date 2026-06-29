@@ -27,6 +27,7 @@
 
     # Direct module imports
     ../../modules/system/niri.nix
+    ../../modules/system/ollama.nix
     ./swap.nix
     # Enable after creating and validating ~/.config/nbfc.json for this laptop.
     # ./nbfc.nix
@@ -37,7 +38,6 @@
     python3
     uv
     pkgs-unstable.codex
-    pkgs-unstable.ollama
     docker_29
     docker-compose
     wireguard-tools
