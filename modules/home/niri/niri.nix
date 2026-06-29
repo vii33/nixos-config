@@ -284,9 +284,6 @@ in
         "XF86KbdBrightnessUp".action.spawn = [
           "${keyboardBacklightCycle}"
         ];
-        "XF86Tools".action.spawn = [
-          "${keyboardBacklightCycle}"
-        ];
         "XF86KbdBrightnessDown".action.spawn = [
           "${lib.getExe pkgs.brightnessctl}"
           "--device=tpacpi::kbd_backlight"

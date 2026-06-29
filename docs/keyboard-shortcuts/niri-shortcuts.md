@@ -89,6 +89,5 @@ These keyboard shortcuts are configured in `modules/home/niri/niri.nix`.
 | `XF86AudioMicMute` | toggle microphone mute |
 | `XF86MonBrightnessUp` | increase brightness 5% |
 | `XF86MonBrightnessDown` | decrease brightness 5% |
-| `Fn + F9` / `XF86Tools` | toggle keyboard backlight off/low |
 | `XF86KbdBrightnessUp` | toggle keyboard backlight off/low |
 | `XF86KbdBrightnessDown` | decrease keyboard backlight |
