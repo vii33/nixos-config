@@ -50,6 +50,9 @@ C-u = "page_cursor_half_up"
 C-d = "page_cursor_half_down"
 C-u = "page_cursor_half_up"
 
+[keys.insert]
+j = { j = "normal_mode" }
+
 [keys.normal.space]
 space = "file_picker"
 w = ":w"
