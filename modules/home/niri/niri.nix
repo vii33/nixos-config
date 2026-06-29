@@ -106,13 +106,13 @@ in
       # Workspace names
       workspaces = {
         "1" = {
-          name = "main";
+          name = "alpha";
         };
         "2" = {
-          name = "code";
+          name = "beta";
         };
         "3" = {
-          name = "web";
+          name = "omega";
         };
       };
 
