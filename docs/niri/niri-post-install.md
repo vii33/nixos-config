@@ -99,9 +99,9 @@ See [docs/niri-setup.md](niri-setup.md) for:
 ## 9. Screenshots
 
 Test screenshot functionality:
-- Press `Print` - Use mouse to select region
-- Press `Shift + Print` - Capture entire screen
-- Screenshots go to clipboard - paste with `Ctrl + V`
+- Press `Print` - Select a region, then annotate/crop in Swappy
+- Press `Shift + Print` - Open a full-screen screenshot in Swappy
+- Use Swappy's copy/save controls when done annotating
 
 ## 10. Enjoy!
 

@@ -20,6 +20,33 @@ let
       ${lib.getExe pkgs.brightnessctl} --device="$device" set 0
     fi
   '';
+  screenshotAnnotate = pkgs.writeShellScript "niri-screenshot-annotate" ''
+    set -eu
+
+    mode="''${1:-region}"
+    tmp="''${XDG_RUNTIME_DIR:-/tmp}/niri-screenshot-$(date +%s%N).png"
+
+    cleanup() {
+      rm -f "$tmp"
+    }
+    trap cleanup EXIT
+
+    case "$mode" in
+      region)
+        geometry="$(${lib.getExe pkgs.slurp})"
+        ${lib.getExe pkgs.grim} -g "$geometry" "$tmp"
+        ;;
+      full)
+        ${lib.getExe pkgs.grim} "$tmp"
+        ;;
+      *)
+        printf 'usage: %s [region|full]\n' "$0" >&2
+        exit 2
+        ;;
+    esac
+
+    ${lib.getExe pkgs.swappy} -f "$tmp"
+  '';
   wallpaper =
     if niriWallpaper != null then
       toString niriWallpaper
@@ -215,14 +242,12 @@ in
 
         # Screenshots
         "Print".action.spawn = [
-          "sh"
-          "-c"
-          "grim -g \"$(slurp)\" - | wl-copy"
+          "${screenshotAnnotate}"
+          "region"
         ];
         "Shift+Print".action.spawn = [
-          "sh"
-          "-c"
-          "grim - | wl-copy"
+          "${screenshotAnnotate}"
+          "full"
         ];
 
         # Volume/Brightness keys
@@ -301,9 +326,10 @@ in
   # Required packages for niri functionality
   home.packages = with pkgs; [
     swaybg # Background/wallpaper utility
-    grim # Screenshot tool
-    slurp # Region selector
-    wl-clipboard # Clipboard utilities
+    grim # Wayland screenshot capture backend
+    slurp # Interactive region selector for screenshots
+    swappy # Lightweight screenshot annotation/crop UI
+    wl-clipboard # Clipboard backend used by screenshot tools
     brightnessctl # Brightness control
     pavucontrol # Audio control GUI
     wtype # Wayland text injection for Handy transcriptions

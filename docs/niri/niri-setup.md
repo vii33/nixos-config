@@ -102,10 +102,10 @@ Niri uses a unique scrollable tiling layout:
 
 ### Screenshots
 
-- `Print` - Select region with cursor, screenshot goes to clipboard
-- `Shift + Print` - Screenshot entire screen to clipboard
+- `Print` - Select a region, then annotate/crop in Swappy
+- `Shift + Print` - Open a full-screen screenshot in Swappy for annotation/crop
 
-Requires `grim` and `slurp` (automatically included).
+Requires `grim`, `slurp`, `swappy`, and `wl-clipboard` (automatically included).
 
 ## Configuration Files
 

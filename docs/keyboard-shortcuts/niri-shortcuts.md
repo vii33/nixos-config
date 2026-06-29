@@ -76,8 +76,8 @@ These keyboard shortcuts are configured in `modules/home/niri/niri.nix`.
 | `Super + Shift + ?` | show hotkey overlay |
 | `Super + Shift + E` | exit niri |
 | `Super + Shift + P` | power off monitors |
-| `Print` | screenshot region (to clipboard) |
-| `Shift + Print` | screenshot full screen (to clipboard) |
+| `Print` | select a region, then annotate/crop in Swappy |
+| `Shift + Print` | open a full-screen screenshot in Swappy for annotation/crop |
 
 ## Media Keys
 
