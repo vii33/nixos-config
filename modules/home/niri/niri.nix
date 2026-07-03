@@ -121,6 +121,8 @@ in
         gaps = 0;
         center-focused-column = "never";
         struts = {
+          left = 4;
+          right = 1;
           top = 4;
           bottom = 4;
         };
