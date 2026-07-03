@@ -221,32 +221,6 @@ in
 
   services.power-profiles-daemon.enable = true;
 
-  # Preserve battery health by limiting Lenovo firmware charging to 85%.
-  # Disabled after it coincided with a WiFi rfkill regression in generation 30.
-  # systemd.services.battery-charge-limit = {
-  #   description = "Set battery charge limit";
-  #   wantedBy = [ "multi-user.target" ];
-  #   serviceConfig = {
-  #     Type = "oneshot";
-  #     ExecStart = pkgs.writeShellScript "set-battery-charge-limit" ''
-  #       set -eu
-  #
-  #       threshold=85
-  #       for path in \
-  #         /sys/class/power_supply/BAT0/charge_control_end_threshold \
-  #         /sys/class/power_supply/BAT0/charge_stop_threshold; do
-  #         if [ -w "$path" ]; then
-  #           printf '%s\n' "$threshold" > "$path"
-  #           exit 0
-  #         fi
-  #       done
-  #
-  #       printf '%s\n' "No writable BAT0 charge threshold found" >&2
-  #       exit 1
-  #     '';
-  #   };
-  # };
-
   # Enable SSH for phone/remote access over WireGuard.
   services.openssh = {
     enable = true;
