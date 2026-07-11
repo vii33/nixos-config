@@ -103,18 +103,19 @@ in
         };
       };
 
-      # Workspace names
-      workspaces = {
-        "1" = {
-          name = "alpha";
-        };
-        "2" = {
-          name = "beta";
-        };
-        "3" = {
-          name = "omega";
-        };
-      };
+      # Named workspaces need an explicit startup focus command, otherwise new
+      # windows can land on niri's trailing empty dynamic workspace.
+      # workspaces = {
+      #   "1" = {
+      #     name = "alpha";
+      #   };
+      #   "2" = {
+      #     name = "beta";
+      #   };
+      #   "3" = {
+      #     name = "omega";
+      #   };
+      # };
 
       # Layout configuration
       layout = {
