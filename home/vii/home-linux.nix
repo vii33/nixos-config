@@ -30,9 +30,6 @@ in
   programs.fish.enable = true;
   programs.direnv.enable = true;
 
-  # Nautilus 50 uses GTK4's file chooser setting for hidden files.
-  dconf.settings."org/gtk/gtk4/settings/file-chooser".show-hidden = true;
-
   # Secrets (sops-nix)
   #
   # IMPORTANT: Do not embed secret values in Nix options (they end up in the Nix store).

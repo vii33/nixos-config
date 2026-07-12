@@ -16,6 +16,7 @@ This repo keeps shortcut references in `docs/keyboard-shortcuts/`:
 | Key | Action |
 |---|---|
 | `Caps Lock` | Emits `F15` on the laptop via `services.keyd`; used as Herdr prefix |
+| `Ctrl + H` | Toggle hidden files in GNOME Files / Nautilus |
 
 ## Zellij
 
