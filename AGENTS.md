@@ -132,6 +132,16 @@ sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .
   with the current flake formatter it may call `nixfmt-rfc-style` on empty stdin.
 - Substantive changes: `nix flake check --no-build`.
 - Tiny scalar-only tweaks may skip flake check.
+- Recovery builds: start with
+  `nix build --dry-run .#nixosConfigurations.laptop.config.system.build.toplevel`.
+  If it would compile big uncached packages (browsers/Electron, KDE, Quickshell,
+  LLVM/Rust, kernels), stop and say it is not recovery-safe.
+- Many unrelated tiny derivations failing with `genericBuild: command not found`
+  means suspect Nix store corruption. Repair/verify the bad store path first;
+  do not start broad rebuilds.
+- If a recovery build starts compiling many uncached packages, stop early and say:
+  "This is no longer a quick recovery; it will rebuild too much. We should use
+  an existing generation, repair the store path, or make a minimal rescue config."
 - Ask before Darwin build/switch; slow.
 - macOS paths/modules: after approval, run `darwin-rebuild build --flake .#work --impure`.
 - Linux host edits: narrow dry-run, e.g. `.#laptop` or `.#home-server`.

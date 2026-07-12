@@ -28,3 +28,4 @@ CLAUDE.md
 # Local Zellij CCDR debugging artifacts
 scripts/test-zellij-ccdr.sh
 .harness-logs/
+/TODO.md
