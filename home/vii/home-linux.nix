@@ -30,8 +30,8 @@ in
   programs.fish.enable = true;
   programs.direnv.enable = true;
 
-  # Nautilus: show hidden files by default
-  dconf.settings."org/gnome/nautilus/preferences".show-hidden-files = true;
+  # Nautilus: show hidden files by default (old nautilus key is deprecated)
+  dconf.settings."org/gtk/settings/file-chooser".show-hidden = true;
 
   # Secrets (sops-nix)
   #
