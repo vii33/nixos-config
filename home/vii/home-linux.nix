@@ -30,8 +30,8 @@ in
   programs.fish.enable = true;
   programs.direnv.enable = true;
 
-  # Nautilus: show hidden files by default (old nautilus key is deprecated)
-  dconf.settings."org/gtk/settings/file-chooser".show-hidden = true;
+  # Nautilus 50 uses GTK4's file chooser setting for hidden files.
+  dconf.settings."org/gtk/gtk4/settings/file-chooser".show-hidden = true;
 
   # Secrets (sops-nix)
   #
