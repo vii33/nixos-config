@@ -30,6 +30,9 @@ in
   programs.fish.enable = true;
   programs.direnv.enable = true;
 
+  # Nautilus: show hidden files by default
+  dconf.settings."org/gnome/nautilus/preferences".show-hidden-files = true;
+
   # Secrets (sops-nix)
   #
   # IMPORTANT: Do not embed secret values in Nix options (they end up in the Nix store).
