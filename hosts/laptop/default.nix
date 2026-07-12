@@ -48,15 +48,7 @@
   };
   users.users.vii.extraGroups = [
     "docker"
-    "input"
-    "uinput" # Handy's handy_keys backend needs /dev/uinput for push-to-talk.
   ];
-
-  programs.handy.enable = true;
-  programs.ydotool = {
-    enable = true;
-    group = "input";
-  };
 
   services.keyd = {
     enable = true;
@@ -65,9 +57,6 @@
       settings = {
         global = {
           chord_timeout = 100;
-        };
-        main = {
-          "leftmeta+leftalt" = "C-S-M-f11";
         };
       };
     };
@@ -94,7 +83,6 @@
   home-manager.sharedModules = # Home Manager modules shared between all users
     [
       inputs.sops-nix.homeManagerModules.sops
-      inputs.handy.homeManagerModules.default
       inputs.noctalia.homeModules.default
       inputs.nixvim.homeModules.nixvim
       ../../modules/home/kitty.nix
@@ -120,27 +108,6 @@
   home-manager.users.vii = {
     imports = [ ../../home/vii/home-linux.nix ];
 
-    services.handy.enable = true;
-    systemd.user.services.handy.Service = {
-      ExecStart = lib.mkForce "${
-        inputs.handy.packages.${pkgs.stdenv.hostPlatform.system}.handy
-      }/bin/handy --start-hidden";
-      Environment = [
-        "PATH=${
-          lib.makeBinPath (
-            with pkgs;
-            [
-              which # Handy probes Linux input helpers with `which`.
-              wl-clipboard
-              xdotool
-              ydotool
-            ]
-          )
-        }"
-        "YDOTOOL_SOCKET=/run/ydotoold/socket"
-      ];
-    };
-
     # Host-specific packages for laptop
     home.packages = with pkgs; [
       pkgs-unstable.brave
@@ -155,7 +122,6 @@
       qimgv
       thunderbird
       vlc
-      xdotool # Needed for Handy Linux text input fallback.
     ];
   };
 

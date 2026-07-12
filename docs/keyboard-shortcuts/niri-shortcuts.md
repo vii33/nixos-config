@@ -10,7 +10,6 @@ These keyboard shortcuts are configured in `modules/home/niri/niri.nix`.
 |---|---|
 | `Super + Return` | launch terminal (kitty) |
 | `Super + Space` | launch Noctalia launcher |
-| `Left Super + Left Alt` | sends `Ctrl+Shift+Super+F11` via keyd for Handy push-to-talk |
 
 ## Window Management (Focus)
 

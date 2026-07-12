@@ -81,12 +81,8 @@
 
     mkdir -p "$HOME/.config"
 
-    # keyd maps left Meta + left Alt to Ctrl+Shift+Meta+F11 for Handy.
     "$kwriteconfig" --file "$shortcutsrc" --group kmix --key mic_mute \
       'none,Microphone Mute\tMeta+Volume Mute,Mute Microphone'
-    "$kwriteconfig" --file "$shortcutsrc" --group services \
-      --group handy-toggle-transcription.desktop --key _launch \
-      'none,none,Toggle Handy transcription'
   '';
 
   home.packages = with pkgs; [

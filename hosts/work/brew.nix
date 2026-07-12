@@ -33,7 +33,6 @@
       #"spotify"
       "drawio"
       "kap" # GIF recorder
-      "handy" # Speech to Text
       "dockdoor" # Dock previews and window switching
       "rectangle" # Window Management // Alternative: tiles
       "soundanchor" # Pin sound output

@@ -31,10 +31,6 @@
       url = "github:noctalia-dev/noctalia/legacy-v4";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    handy = {
-      url = "github:cjpais/Handy";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
     herdr = {
       url = "github:ogulcancelik/herdr/v0.7.1";
     };
@@ -57,7 +53,6 @@
       sops-nix,
       niri,
       noctalia,
-      handy,
       kanagawa-yazi,
       ...
     }@inputs:
@@ -98,7 +93,6 @@
           };
           modules = [
             inputs.sops-nix.nixosModules.sops
-            inputs.handy.nixosModules.default
             ./hosts/laptop/default.nix
           ];
         };

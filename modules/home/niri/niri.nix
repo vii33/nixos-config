@@ -332,7 +332,6 @@ in
     wl-clipboard # Clipboard backend used by screenshot tools
     brightnessctl # Brightness control
     pavucontrol # Audio control GUI
-    wtype # Wayland text injection for Handy transcriptions
     xwayland-satellite # X11 compatibility layer (Crucial for newer Niri)
     xdg-desktop-portal-gnome # Needed for file pickers etc in Electron apps
     polkit_gnome # Authentication agent
