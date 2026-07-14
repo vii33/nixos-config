@@ -168,6 +168,7 @@
               ./modules/home/yazi.nix
               ./modules/home/zellij.nix
               ./modules/home/herdr.nix
+              ./modules/home/gsd-browser.nix
               ./modules/home/helix.nix
               ./modules/home/darwin/capslock-to-f18.nix
               ./modules/home/darwin/aldente-autostart.nix
