@@ -1,6 +1,7 @@
 # modules/home/herdr.nix
 # Herdr terminal multiplexer configuration
 {
+  config,
   pkgs,
   ...
 }:
@@ -13,8 +14,13 @@
 
       onboarding = false
 
+      [terminal]
+      # Herdr otherwise follows $SHELL and falls back to /bin/sh; pin Fish for panes.
+      default_shell = "${pkgs.fish}/bin/fish"
+      shell_mode = "auto"
+
       [keys]
-      prefix = "f15"
+      prefix = "f18"
 
       new_workspace = "prefix+n"
       next_workspace = "prefix+j"
@@ -66,7 +72,7 @@
       sidebar_width = 36
       sidebar_min_width = 23
       sidebar_max_width = 36
-      confirm_close = false
+      confirm_close = true
       prompt_new_tab_name = true
 
       [session]
@@ -77,6 +83,12 @@
       type = "pane"
       command = "lazygit"
       description = "run lazygit"
+
+      [[keys.command]]
+      key = "prefix+0"
+      type = "pane"
+      command = "${config.home.homeDirectory}/repos/herdr-keybindings-tui/bin/keybindings-tui --data ${config.home.homeDirectory}/repos/herdr-keybindings-tui/keybindings.yaml"
+      description = "show keybindings"
     '';
   };
 }

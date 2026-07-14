@@ -158,6 +158,7 @@
               inherit inputs pkgs-unstable macosUsername;
               herdr = herdrFor system;
               gitIdentity = "work";
+              zellijDefaultLayout = "startup";
             };
             modules = [
               inputs.sops-nix.homeManagerModules.sops
