@@ -20,6 +20,7 @@
     brews = [
       "neovim"
       "docker-compose" # Check installation instructions: https://formulae.brew.sh/formula/docker-compose#default
+      "helix"
       "herdr"
       "anomalyco/tap/opencode"
       #"pnpm"

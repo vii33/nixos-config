@@ -19,8 +19,8 @@ in
 {
   # Set environment variables for the session
   home.sessionVariables = {
-    EDITOR = "nvim";
-    VISUAL = "nvim";
+    EDITOR = "hx";
+    VISUAL = "hx";
   };
 
   # Add user and platform-specific binaries to PATH
