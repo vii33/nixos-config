@@ -6,9 +6,11 @@
 
     onActivation = {
       #cleanup = "zap";   # Uninstalls brew packages that are no longer in this list
-      autoUpdate = true;
-      upgrade = true;
+      autoUpdate = false;
+      upgrade = false;
     };
+
+    global.autoUpdate = false;
 
     taps = [
       "anomalyco/tap"
@@ -18,6 +20,7 @@
     brews = [
       "neovim"
       "docker-compose" # Check installation instructions: https://formulae.brew.sh/formula/docker-compose#default
+      "herdr"
       "anomalyco/tap/opencode"
       #"pnpm"
     ];

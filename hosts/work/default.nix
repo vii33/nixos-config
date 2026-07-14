@@ -21,6 +21,7 @@
 
   environment.systemPackages = with pkgs; [
     python3
+    go # Go toolchain for local scheduler development.
     uv
     nodejs # Node runtime for npm-installed CLIs like playwright-cli
     bun # Bun runtime with npm compatibility (needed for Mason)
