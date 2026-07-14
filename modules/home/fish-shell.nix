@@ -269,6 +269,25 @@ in
       end
     '';
 
+    # Custom helper function: launch Yazi and cd to its final directory after quitting.
+    functions.yy.body = ''
+      if not type -q yazi
+        echo "yazi not found in PATH (required for yy)" >&2
+        return 127
+      end
+
+      set -l tmp (mktemp -t "yazi-cwd.XXXXX")
+      yazi $argv --cwd-file="$tmp"
+      set -l yazi_status $status
+
+      if set -l cwd (command cat -- "$tmp" 2>/dev/null); and test -n "$cwd"; and test "$cwd" != "$PWD"
+        cd -- "$cwd"
+      end
+
+      command rm -f -- "$tmp"
+      return $yazi_status
+    '';
+
     # Custom helper function: Ctrl+E launches an environment variable picker and inserts "$VARNAME".
     functions.fun_fzf_env_var_insert.body = ''
       if not type -q fzf

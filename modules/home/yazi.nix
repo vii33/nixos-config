@@ -42,11 +42,19 @@
       { run = 'open -a "Visual Studio Code" "$@"', desc = "Open in VS Code", orphan = true },
     ]
     code-folder = [
-      { run = 'open -a "Visual Studio Code" %d1', desc = "Open folder in VS Code", orphan = true },
+      { run = 'open -a "Visual Studio Code" %d1', desc = "Open containing folder in VS Code", orphan = true },
     ]
     # VS Code opener for directories (passes the directory itself, not its parent)
     code-dir = [
-      { run = 'open -a "Visual Studio Code" "$@"', desc = "Open folder in VS Code", orphan = true },
+      { run = 'open -a "Visual Studio Code" "$@"', desc = "Open Folder with VS Code", orphan = true },
+    ]
+    # Change Yazi's CWD to the selected directory. If Yazi was launched through a
+    # --cwd-file wrapper, quitting with `q` will then cd the parent shell there.
+    cd-dir = [
+      { run = 'ya emit cd %s1', desc = "Open folder in shell" },
+    ]
+    cd-dir-and-quit = [
+      { run = 'ya emit cd %s1; ya emit quit', desc = "Open folder in shell and quit" },
     ]
     # Default text editor
     edit = [
@@ -54,18 +62,26 @@
     ]
 
     [open]   # Wiring of openers to mime types
-    # Prepend our custom rules but keep defaults for images, videos, etc.
-    prepend_rules = [
-      # Directories — offer to open in VS Code
-      { mime = "inode/directory", use = ["code-dir"] },
-      # Code / text files — VS Code as primary, plus folder & editor
+    # Replace the defaults so directory entries don't also inherit Yazi's default
+    # editor/open/reveal actions, which caused duplicate VS Code choices.
+    rules = [
+      # Directories — only folder-specific actions
+      { url = "*/", use = ["code-dir", "cd-dir", "cd-dir-and-quit"] },
+      # Code / text files — VS Code as primary, plus containing folder & editor
       { mime = "text/*", use = ["code", "code-folder", "edit"] },
       { mime = "application/json", use = ["code", "code-folder", "edit"] },
+      { mime = "application/ndjson", use = ["code", "code-folder", "edit"] },
       { mime = "application/javascript", use = ["code", "code-folder", "edit"] },
       { url = "*.yaml", use = ["code", "code-folder", "edit"] },
       { url = "*.yml", use = ["code", "code-folder", "edit"] },
-      # All other files — system open first, but always offer "Open folder in VS Code"
-      { mime = "*/*", use = ["open", "code-folder", "reveal"] },
+      # Media and archives keep their native defaults where useful.
+      { mime = "image/*", use = ["open", "code-folder", "reveal"] },
+      { mime = "{audio,video}/*", use = ["play", "code-folder", "reveal"] },
+      { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", use = ["extract", "code-folder", "reveal"] },
+      { mime = "inode/empty", use = ["code", "code-folder", "edit"] },
+      { mime = "vfs/{absent,stale}", use = "download" },
+      # All other files — system open first, but always offer the containing folder in VS Code.
+      { url = "*", use = ["open", "code-folder", "reveal"] },
     ]
   '';
 
@@ -146,12 +162,11 @@
 
       # Custom "g" shortcuts for quick directory access
       { on = [ "g", "r" ], run = 'cd "~/repos"', desc = "Go to repos" },
-      { on = [ "g", "a" ], run = 'cd "~/OneDrive - BMW Group/_FG-464 Gruppe/ADPnext"', desc = "Go to ADP.next" },
+      { on = [ "g", "a" ], run = 'cd "~/repos/awesome-agents"', desc = "Go to awesome-agents" },
       { on = [ "g", "o" ], run = 'cd "~/OneDrive - BMW Group"', desc = "Go to OneDrive" },
       { on = [ "g", "D" ], run = 'cd "~/Documents"', desc = "Go to Documents" },    
       { on = [ "g", "s" ], run = 'cd "~/Documents/Screenshots"', desc = "Go to Screenshots" },
       { on = [ "g", "d" ], run = 'cd "~/Downloads"', desc = "Go to Downloads" }, 
-      { on = [ "g", "p" ], run = 'cd "~/OneDrive - BMW Group/Capgemini/Capgemini POs"', desc = "Go to Capgemini POs" },     
     ]
   '';
 

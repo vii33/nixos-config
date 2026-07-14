@@ -57,7 +57,7 @@ yazi ~/path   # Open in specific directory
 - `X` — Cancel the yank status
 
 ### File Management
-- `o` — Open interactively (choose application; on directories offers "Open folder in VS Code")
+- `o` — Open interactively (choose application; on directories offers "Open Folder with VS Code", "Open folder in shell", and "Open folder in shell and quit")
 - `O` — Open with default application
 - `Enter` — Enter directory / open file (smart-enter)
 - `Shift+Enter` — Open selected files interactively (some terminals don't support)
@@ -143,7 +143,7 @@ Use capital letters for reverse sorting, except your custom mtime mapping: `m` i
 To change your shell's working directory when exiting Yazi, use the wrapper function in your Fish config:
 
 ```fish
-function ya
+function yy
     set tmp (mktemp -t "yazi-cwd.XXXXX")
     yazi $argv --cwd-file="$tmp"
     if set cwd (cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
@@ -153,7 +153,9 @@ function ya
 end
 ```
 
-Then use `ya` instead of `yazi` to automatically cd to the directory when you quit.
+This wrapper is managed by the shared Fish Home Manager module. Use `yy` instead of `yazi` to automatically cd to Yazi's current directory when you quit with `q`. Do not call it `ya`; Yazi already uses `ya` for its helper CLI.
+
+When hovering a folder, press `o` and choose `Open folder in shell` to make that folder Yazi's current directory while staying in Yazi. Quit with `q`; the wrapper above then moves the parent shell there. Choose `Open folder in shell and quit` to switch the shell immediately. Use `Q` if you want to quit without updating the shell cwd.
 
 ## Bookmarks
 
@@ -185,7 +187,9 @@ Then use `ya` instead of `yazi` to automatically cd to the directory when you qu
 ### Open in External Editor
 - `o` — Open with the configured chooser menu
 - `O` — Open with the default opener
-- In the chooser menu for code/text files, `Open folder in VS Code` opens the file's parent folder in Visual Studio Code
+- In the chooser menu for code/text files, `Open containing folder in VS Code` opens the file's parent folder in Visual Studio Code
+- In the chooser menu for folders, `Open Folder with VS Code` opens the selected folder in Visual Studio Code
+- In the chooser menu for folders, `Open folder in shell and quit` exits Yazi and lands the `yy` parent shell in the selected folder
 
 ## Configuration Location
 
