@@ -56,6 +56,7 @@ in
       set -gx NO_PROXY $_no_proxy
       set -gx no_proxy $_no_proxy
       set -gx OPENCODE_SERVER_PASSWORD (string trim < ${config.sops.secrets.opencode_server_password.path})
+      set -gx OPENCODE_PASSWORD $OPENCODE_SERVER_PASSWORD
     '';
   };
 
