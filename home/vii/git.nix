@@ -38,11 +38,16 @@ in
 
   programs.git = {
     enable = true;
-    lfs.enable = true;
     includes = lib.optionals haveWorkGitSecret [
       { path = config.sops.secrets.git_work_gitconfig.path; }
     ];
     settings = {
+      filter.lfs = {
+        clean = "git-lfs clean -- %f";
+        smudge = "git-lfs smudge -- %f";
+        process = "git-lfs filter-process";
+        required = true;
+      };
       pull.rebase = true;
     }
     // lib.optionalAttrs (gitIdentity == "personal") {
@@ -52,4 +57,6 @@ in
       };
     };
   };
+
+  home.packages = [ pkgs.git-lfs ];
 }
