@@ -95,6 +95,12 @@ Hybrid: NixVim base config, LazyVim dynamic plugins.
 printf '%s\n' 'line 1' 'line 2' > file.txt
 ```
 
+## QMD
+
+- If `qmd pull` hangs at `Gathering information` behind the local proxy, run it as
+  `NODE_OPTIONS=--use-env-proxy qmd pull`; Node fetch otherwise ignores the
+  `HTTP_PROXY`/`HTTPS_PROXY` environment used by curl.
+
 ## Secrets (SOPS + Age)
 
 Secrets: SOPS Age in `secrets/secrets.yaml`. Run from repo root.
