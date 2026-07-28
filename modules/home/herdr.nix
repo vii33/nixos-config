@@ -67,7 +67,6 @@
       pane_history = true
 
       [ui]
-      agent_panel_scope = "all"
       show_agent_labels_on_pane_borders = true
       sidebar_width = 36
       sidebar_min_width = 23
