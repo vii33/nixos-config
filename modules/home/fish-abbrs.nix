@@ -2,6 +2,7 @@
   # Terminal
   tree = "eza --tree --level 2 --git-ignore";
   ezatree = "eza -T -a -L 2 --icons";
+  exx = "eza --tree --level 1 --icons=auto";
   ezal = "eza -lah --icons --git --group-directories-first --header";
   # Auto-run pane commands when resurrecting a session.
   zz = "zellij attach -c --forget main";
@@ -20,7 +21,6 @@
   hh = "herdr";
   nv = "nvim";
   oc = "opencode";
-  ocg = "opencode -m openai/gpt-5.5";
   ocp = "opencode -m opencode/big-pickle";
   oca =
     "if test -f \"$HOME/.config/fish/conf.d/90-sops-secrets.fish\"; "
