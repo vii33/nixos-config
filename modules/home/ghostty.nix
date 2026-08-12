@@ -107,7 +107,7 @@ in
     #font-family-bold = "JetBrainsMono Nerd Font Bold"
     #font-family-italic = "JetBrainsMono Nerd Font Italic"
     #font-family-bold-italic = "JetBrainsMono Nerd Font Bold Italic"
-    font-size = 10
+    font-size = 11
     adjust-cell-height = 10%
 
     # Window layout (columns/rows)
