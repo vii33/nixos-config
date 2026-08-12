@@ -31,12 +31,11 @@ yazi ~/path   # Open in specific directory
 
 ### Custom `g` Shortcuts (nixos-config)
 - `g` then `r` — Go to `~/repos`
-- `g` then `a` — Go to ADP.next (OneDrive)
+- `g` then `a` — Go to `~/repos/awesome-agents`
 - `g` then `o` — Go to OneDrive
 - `g` then `D` — Go to `~/Documents`
 - `g` then `s` — Go to `~/Documents/Screenshots`
 - `g` then `d` — Go to `~/Downloads`
-- `g` then `p` — Go to Capgemini POs (OneDrive)
 
 ## File Operations
 
@@ -57,8 +56,8 @@ yazi ~/path   # Open in specific directory
 - `X` — Cancel the yank status
 
 ### File Management
-- `o` — Open interactively (choose application; on directories offers "Open Folder with VS Code", "Open folder in shell", and "Open folder in shell and quit")
-- `O` — Open with default application
+- `o` — Open interactively. On macOS, every entry offers "Open in default app" and "Reveal in Finder"; directories also offer the VS Code and shell actions.
+- `O` — Reveal the hovered or selected entries in Finder immediately (macOS); open with the default application on Linux
 - `Enter` — Enter directory / open file (smart-enter)
 - `Shift+Enter` — Open selected files interactively (some terminals don't support)
 - `Space` — Preview with Quick Look (macOS)
@@ -185,8 +184,8 @@ When hovering a folder, press `o` and choose `Open folder in shell` to make that
 - Useful for pasting paths in terminal commands
 
 ### Open in External Editor
-- `o` — Open with the configured chooser menu
-- `O` — Open with the default opener
+- `o` — Open with the configured chooser menu; on macOS it includes "Open in default app" and "Reveal in Finder"
+- `O` — Reveal the hovered or selected entries in Finder immediately on macOS
 - In the chooser menu for code/text files, `Open containing folder in VS Code` opens the file's parent folder in Visual Studio Code
 - In the chooser menu for folders, `Open Folder with VS Code` opens the selected folder in Visual Studio Code
 - In the chooser menu for folders, `Open folder in shell and quit` exits Yazi and lands the `yy` parent shell in the selected folder

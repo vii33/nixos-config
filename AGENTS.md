@@ -154,6 +154,12 @@ sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .
 - Cross-platform shared modules: flake check + relevant host checks.
 - If skipped/cannot run, say command and why.
 
+## Keybindings
+
+- When adding, removing, or changing a shortcut, update its relevant documentation.
+- If its application is represented in `~/repos/herdr-keybindings-tui`, also update its curated
+  `keybindings.yaml` entry and run `go test ./...` in that repository.
+
 ## Safety & Workflow
 
 - Never commit real secrets. `secrets/` holds encrypted files only.

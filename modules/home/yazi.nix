@@ -2,11 +2,45 @@
 # Yazi terminal file manager configuration
 {
   config,
+  lib,
   pkgs,
   inputs,
   ...
 }:
 
+let
+  isDarwin = pkgs.stdenv.isDarwin;
+  directoryOpeners =
+    if isDarwin then
+      ''["default-app", "reveal-finder", "code-dir", "cd-dir", "cd-dir-and-quit"]''
+    else
+      ''["code-dir", "cd-dir", "cd-dir-and-quit"]'';
+  textOpeners =
+    if isDarwin then
+      ''["code", "default-app", "reveal-finder", "code-folder", "edit"]''
+    else
+      ''["code", "code-folder", "edit"]'';
+  mediaOpeners =
+    if isDarwin then
+      ''["default-app", "reveal-finder", "code-folder"]''
+    else
+      ''["open", "code-folder", "reveal"]'';
+  playableOpeners =
+    if isDarwin then
+      ''["play", "default-app", "reveal-finder", "code-folder"]''
+    else
+      ''["play", "code-folder", "reveal"]'';
+  archiveOpeners =
+    if isDarwin then
+      ''["extract", "default-app", "reveal-finder", "code-folder"]''
+    else
+      ''["extract", "code-folder", "reveal"]'';
+  defaultOpeners =
+    if isDarwin then
+      ''["default-app", "reveal-finder", "code-folder"]''
+    else
+      ''["open", "code-folder", "reveal"]'';
+in
 {
   # Install yazi package
   home.packages = with pkgs; [
@@ -60,28 +94,36 @@
     edit = [
       { run = '$EDITOR "$@"', block = true, desc = "Edit in $EDITOR" },
     ]
+    ${lib.optionalString isDarwin ''
+      default-app = [
+        { run = 'open "$@"', desc = "Open in default app", orphan = true },
+      ]
+      reveal-finder = [
+        { run = 'open -R "$@"', desc = "Reveal in Finder", orphan = true },
+      ]
+    ''}
 
     [open]   # Wiring of openers to mime types
     # Replace the defaults so directory entries don't also inherit Yazi's default
     # editor/open/reveal actions, which caused duplicate VS Code choices.
     rules = [
       # Directories — only folder-specific actions
-      { url = "*/", use = ["code-dir", "cd-dir", "cd-dir-and-quit"] },
+      { url = "*/", use = ${directoryOpeners} },
       # Code / text files — VS Code as primary, plus containing folder & editor
-      { mime = "text/*", use = ["code", "code-folder", "edit"] },
-      { mime = "application/json", use = ["code", "code-folder", "edit"] },
-      { mime = "application/ndjson", use = ["code", "code-folder", "edit"] },
-      { mime = "application/javascript", use = ["code", "code-folder", "edit"] },
-      { url = "*.yaml", use = ["code", "code-folder", "edit"] },
-      { url = "*.yml", use = ["code", "code-folder", "edit"] },
+      { mime = "text/*", use = ${textOpeners} },
+      { mime = "application/json", use = ${textOpeners} },
+      { mime = "application/ndjson", use = ${textOpeners} },
+      { mime = "application/javascript", use = ${textOpeners} },
+      { url = "*.yaml", use = ${textOpeners} },
+      { url = "*.yml", use = ${textOpeners} },
       # Media and archives keep their native defaults where useful.
-      { mime = "image/*", use = ["open", "code-folder", "reveal"] },
-      { mime = "{audio,video}/*", use = ["play", "code-folder", "reveal"] },
-      { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", use = ["extract", "code-folder", "reveal"] },
-      { mime = "inode/empty", use = ["code", "code-folder", "edit"] },
+      { mime = "image/*", use = ${mediaOpeners} },
+      { mime = "{audio,video}/*", use = ${playableOpeners} },
+      { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", use = ${archiveOpeners} },
+      { mime = "inode/empty", use = ${textOpeners} },
       { mime = "vfs/{absent,stale}", use = "download" },
       # All other files — system open first, but always offer the containing folder in VS Code.
-      { url = "*", use = ["open", "code-folder", "reveal"] },
+      { url = "*", use = ${defaultOpeners} },
     ]
   '';
 
@@ -140,11 +182,11 @@
       # Smart enter: enter directories, open files (see https://yazi-rs.github.io/docs/tips/)
       { on = [ "<Enter>" ], run = "plugin smart-enter", desc = "Enter directory / open file" },
 
-      # Swap default open keys:
-      # - `o` opens the "open with" context menu
-      # - `O` opens directly with default opener
+      # On macOS, `O` reveals in Finder; Linux keeps the default opener.
       { on = [ "o" ], run = "open --interactive", desc = "Open with..." },
-      { on = [ "O" ], run = "open", desc = "Open" },
+      { on = [ "O" ], run = "${if isDarwin then "shell --orphan -- open -R %s" else "open"}", desc = "${
+        if isDarwin then "Reveal in Finder" else "Open"
+      }" },
       { on = [ "z" ], run = "plugin zoxide", desc = "Jump to a directory using zoxide" },
       { on = [ "Z" ], run = "plugin fzf", desc = "Jump to a directory or reveal a file using fzf" },
       
