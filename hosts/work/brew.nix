@@ -31,7 +31,7 @@
 
       # UTILS ###################################################
 
-      #"visual-studio-code"  # TODO: Check if auto-updates work with brew version
+      "visual-studio-code"
       #"obsidian"         # TODO: Check if auto-updates work with brew version
       #"bitwarden"        # TODO: Check if auto-updates work with brew version
       #"spotify"
@@ -51,6 +51,7 @@
       "macs-fan-control" # Fan conrol for Mac Notebooks
       "mac-mouse-fix" # Mouse gestures
       "phoenix-slides" # Image Viewer
+      "vlc" # Media player
       #"linearmouse"
 
       # DEV #####################################################
@@ -59,6 +60,7 @@
       "bruno" # API client / Alternative: insomnio
       "docker-desktop"
       "copilot-cli"
+      "zed" # Code editor
       #"cyberduck"         # FTP/S3 client
       #"claude-code"
     ];
