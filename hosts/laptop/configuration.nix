@@ -42,8 +42,9 @@ in
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.loader.timeout = 5;
 
-  # HIBERNATION
+  # HIBERNATION: bypass the ThinkPad firmware's broken platform-S4 handoff.
   boot.resumeDevice = "/dev/disk/by-uuid/13694fb1-8976-433c-bd9a-6d7822d109f6";
+  systemd.sleep.settings.Sleep.HibernateMode = "shutdown";
 
   # NETWORK
   networking.hostName = "laptop2"; # Define your hostname.
