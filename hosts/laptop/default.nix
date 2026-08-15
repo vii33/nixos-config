@@ -113,6 +113,7 @@
     home.packages = with pkgs; [
       pkgs-unstable.brave
       pkgs-unstable.obsidian
+      anytype
       pkgs-unstable.bitwarden-desktop
       pkgs-unstable.signal-desktop
       pkgs-unstable.vscode
