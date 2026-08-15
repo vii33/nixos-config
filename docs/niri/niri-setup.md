@@ -105,6 +105,9 @@ Niri uses a unique scrollable tiling layout:
 - `Print` - Select a region, then annotate/crop in Swappy
 - `Shift + Print` - Open a full-screen screenshot in Swappy for annotation/crop
 
+When saved, annotated screenshots go directly to `~/Pictures/Screenshots`; Swappy does
+not show a file picker.
+
 Requires `grim`, `slurp`, `swappy`, and `wl-clipboard` (automatically included).
 
 ## Configuration Files

@@ -323,6 +323,11 @@ in
     };
   };
 
+  xdg.configFile."swappy/config".text = ''
+    [Default]
+    save_dir=$HOME/Pictures/Screenshots
+  '';
+
   # Required packages for niri functionality
   home.packages = with pkgs; [
     swaybg # Background/wallpaper utility
