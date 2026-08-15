@@ -2,13 +2,13 @@
 
 Configured non-declaratively in `~/.config/herdr/config.toml`.
 
-Prefix: `Caps Lock` emits `F15` on the laptop via `services.keyd`.
+Prefix: `Caps Lock` emits `F18` on the laptop via `services.keyd`.
 
 ## Custom Bindings
 
 | Action | Key(s) | Notes |
 |---|---|---|
-| Prefix | `Caps Lock`, `F15` | Laptop maps Caps Lock to F15 |
+| Prefix | `Caps Lock`, `F18` | Laptop maps Caps Lock to F18 |
 | New tab | `Prefix + T` | |
 | Next tab | `Prefix + L` | |
 | Previous tab | `Prefix + H` | |

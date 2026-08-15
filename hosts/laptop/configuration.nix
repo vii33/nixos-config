@@ -81,7 +81,7 @@ in
     enable = true;
     keyboards.default = {
       ids = [ "*" ];
-      settings.main.capslock = "f15";
+      settings.main.capslock = "f18";
     };
   };
 
