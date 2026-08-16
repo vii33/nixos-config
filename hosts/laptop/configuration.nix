@@ -47,7 +47,7 @@ in
   systemd.sleep.settings.Sleep.HibernateMode = "shutdown";
 
   # NETWORK
-  networking.hostName = "laptop2"; # Define your hostname.
+  networking.hostName = "vii-laptop"; # Define your hostname.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -256,6 +256,19 @@ in
   # Open SSH only on the WireGuard interface.
   networking.firewall.interfaces.wg0.allowedTCPPorts = [ 22 ];
   networking.firewall.interfaces.wlp0s20f3.allowedTCPPorts = [ 4096 ];
+  # KDE Connect discovers and communicates with devices on the local network.
+  networking.firewall.allowedTCPPortRanges = [
+    {
+      from = 1714;
+      to = 1764;
+    }
+  ];
+  networking.firewall.allowedUDPPortRanges = [
+    {
+      from = 1714;
+      to = 1764;
+    }
+  ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
