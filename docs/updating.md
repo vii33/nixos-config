@@ -76,8 +76,7 @@ sudo nixos-rebuild switch --flake .#home-server
 
 **For nix-darwin host:**
 ```bash
-darwin-rebuild build --flake .#work --impure
-sudo env "PATH=$PATH" ./result/activate
+sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work --impure
 ```
 
 ### Step 4: Commit Changes

@@ -206,6 +206,7 @@ in
       { on = [ "g", "r" ], run = 'cd "~/repos"', desc = "Go to repos" },
       { on = [ "g", "a" ], run = 'cd "~/repos/awesome-agents"', desc = "Go to awesome-agents" },
       { on = [ "g", "o" ], run = 'cd "~/OneDrive - BMW Group"', desc = "Go to OneDrive" },
+      { on = [ "g", "O" ], run = 'cd "~/.config/opencode"', desc = "Go to OpenCode config" },
       { on = [ "g", "D" ], run = 'cd "~/Documents"', desc = "Go to Documents" },    
       { on = [ "g", "s" ], run = 'cd "~/Documents/Screenshots"', desc = "Go to Screenshots" },
       { on = [ "g", "d" ], run = 'cd "~/Downloads"', desc = "Go to Downloads" }, 

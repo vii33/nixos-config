@@ -44,10 +44,8 @@ in
       # Claude Code:
       # Make `sops secrets/secrets.yaml` work on macOS (sops otherwise defaults elsewhere).
       set -gx SOPS_AGE_KEY_FILE $HOME/.config/sops/age/keys.txt
-      set -gx X_API_KEY (string trim < ${config.sops.secrets.x_api_key.path})
-      set -gx X_API_KEY_SECRET (string trim < ${config.sops.secrets.x_api_key_secret.path})
-      set -gx CLAUDE_API_KEY (string trim < ${config.sops.secrets.claude_api_key.path})
-      set -gx ANTHROPIC_AUTH_TOKEN (string trim < ${config.sops.secrets.claude_api_key.path})
+      set -gx LLM_API_CLIENT_ID (string trim < ${config.sops.secrets.llm_api_client_id.path})
+      set -gx LLM_API_CLIENT_SECRET (string trim < ${config.sops.secrets.llm_api_client_secret.path})
       set -gx ATC_CONFLUENCE_TOKEN (string trim < ${config.sops.secrets.atc_confluence_token.path})
       set -gx ATC_JIRA_TOKEN (string trim < ${config.sops.secrets.atc_jira_token.path})
       set -gx CC_JIRA_API_TOKEN (string trim < ${config.sops.secrets.cc_jira_api_token.path})
@@ -91,9 +89,8 @@ in
     # only uses the age key file above.
     age.sshKeyPaths = [ ];
     secrets = {
-      x_api_key = { };
-      x_api_key_secret = { };
-      claude_api_key = { };
+      llm_api_client_id = { };
+      llm_api_client_secret = { };
       atc_confluence_token = { };
       atc_jira_token = { };
       cc_jira_api_token = { };

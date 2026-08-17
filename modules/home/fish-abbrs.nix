@@ -22,6 +22,9 @@
   nv = "nvim";
   oc = "opencode";
   ocp = "opencode -m opencode/big-pickle";
+  ocl = "opencode -m github-copilot/gpt-5.6-luna";
+  oct = "opencode -m github-copilot/gpt-5.6-terra";
+  ocs = "opencode -m github-copilot/claude-sonnet-5";
   oca =
     "if test -f \"$HOME/.config/fish/conf.d/90-sops-secrets.fish\"; "
     + "source \"$HOME/.config/fish/conf.d/90-sops-secrets.fish\"; end; "
@@ -38,7 +41,7 @@
   cop = "copilot";
   coclaude = "copilot --model claude-sonnet-4.5";
   cocodex = "copilot --model gpt-5.3-codex";
-  ocs =
+  ocss =
     "if test -f \"$HOME/.config/fish/conf.d/90-sops-secrets.fish\"; "
     + "source \"$HOME/.config/fish/conf.d/90-sops-secrets.fish\"; end; "
     + "if test -n \"$OPENCODE_SERVER_PASSWORD\"; "
@@ -58,7 +61,7 @@
     + "</dev/null >/dev/null 2>&1 &; disown; zellij action detach; "
     + "else; zellij kill-session $session_name; sleep 1; "
     + "zellij delete-session $session_name; end; end";
-  workswitch = "cd ~/repos/nixos-config; and darwin-rebuild build --flake .#work --impure; and sudo env \"PATH=$PATH\" ./result/activate";
+  workswitch = "cd ~/repos/nixos-config; and sudo env \"PATH=$PATH\" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work --impure";
   proxyrestart = "launchctl kickstart -k -p \"gui/$(id -u)/cc.colorto.proxydetox\"";
 
   # Kitty

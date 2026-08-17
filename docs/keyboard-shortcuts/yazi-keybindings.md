@@ -33,6 +33,7 @@ yazi ~/path   # Open in specific directory
 - `g` then `r` — Go to `~/repos`
 - `g` then `a` — Go to `~/repos/awesome-agents`
 - `g` then `o` — Go to OneDrive
+- `g` then `Shift+o` (`O`) — Go to `~/.config/opencode`
 - `g` then `D` — Go to `~/Documents`
 - `g` then `s` — Go to `~/Documents/Screenshots`
 - `g` then `d` — Go to `~/Downloads`

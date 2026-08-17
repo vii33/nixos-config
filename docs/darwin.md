@@ -10,9 +10,8 @@
 # Build and activate the system configuration
 sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
 
-# Build first, activate separately
+# Build only (does not apply or persist the configuration)
 darwin-rebuild build --flake .#work --impure
-sudo env "PATH=$PATH" ./result/activate
 
 # Check flake outputs without building
 nix flake check --no-build
@@ -32,6 +31,19 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 darwin-rebuild build --flake .#work --impure
 sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work
 ```
+
+### Disabling macOS Finder search shortcut (for Ghostpepper)
+
+On a new Mac, `⌥⌘Space` (Option + Command + Space) opens the "Finder search window" by default. If using Ghostpepper, disable this shortcut:
+
+- **GUI**: Open **System Settings** -> **Keyboard** -> **Keyboard Shortcuts...** -> **Spotlight** -> uncheck **Show Finder search window**.
+- **CLI**:
+  ```bash
+  PLIST="$HOME/Library/Preferences/com.apple.symbolichotkeys.plist"
+  /usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:65:enabled false" "$PLIST" 2>/dev/null || \
+  /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:65:enabled bool false" "$PLIST" 2>/dev/null
+  /System/Library/CoreServices/pbs -flush
+  ```
 
 ## Home Manager only
 

@@ -231,10 +231,15 @@ in
       # Vim-like yy in normal (default) mode
       bind -M default 'yy' 'fun_copy_commandline_to_clipboard'
 
-      # Ctrl+Shift+O -> fuzzy pick a file and insert (works in normal/insert/visual).
-        bind ctrl-shift-o fun_fzf_file_open
-        bind -M insert ctrl-shift-o fun_fzf_file_open
-        bind -M visual ctrl-shift-o fun_fzf_file_open
+      # Ctrl+O -> fuzzy pick a file and open it in Helix (works in normal/insert/visual).
+      bind ctrl-o fun_fzf_file_hx
+      bind -M insert ctrl-o fun_fzf_file_hx
+      bind -M visual ctrl-o fun_fzf_file_hx
+
+      # Ctrl+Shift+O -> fuzzy pick a file and insert its path (works in all modes).
+      bind ctrl-shift-o fun_fzf_file_open
+      bind -M insert ctrl-shift-o fun_fzf_file_open
+      bind -M visual ctrl-shift-o fun_fzf_file_open
 
       # Ctrl+E -> fuzzy pick an environment variable and insert "$VARNAME".
       bind ctrl-e fun_fzf_env_var_insert
@@ -336,11 +341,11 @@ in
       end
     '';
 
-    # Custom helper function: Ctrl+Shift+O launches a file picker and inserts the selected file path at cursor.
+    # Custom helper function: file picker that prints the selected path.
     # - Uses fd if available (respects .gitignore); falls back to find.
     # - Shows preview with bat for text files and chafa for images.
     # - Future idea: launch nvim when no editor was given in command
-    functions.fun_fzf_file_open.body = ''
+    functions.fun_fzf_file_pick.body = ''
       # Build file list command (fd preferred)
       # Exclude heavy/generated dirs for snappy startup
       set -l list_cmd ""
@@ -391,10 +396,24 @@ in
 
       test -n "$file"; or return 0
 
-      # Always properly escape the path (handles spaces and special chars)
-      set -l insert_path (string escape -- "$file")
-      commandline -i $insert_path
+      printf '%s\n' "$file"
+    '';
+
+    # Custom helper function: inserts a selected file path at the cursor.
+    functions.fun_fzf_file_open.body = ''
+      set -l file (fun_fzf_file_pick)
+      test -n "$file"; or return 0
+
+      # Properly escape the path for the current shell command line.
+      commandline -i (string escape -- "$file")
       commandline -f repaint
+    '';
+
+    # Custom helper function: Ctrl+O launches a file picker and opens the selection in Helix.
+    functions.fun_fzf_file_hx.body = ''
+      set -l file (fun_fzf_file_pick)
+      test -n "$file"; or return 0
+      command hx -- "$file"
     '';
 
     # Zellij: switch all panes in current oc tab to a new directory.

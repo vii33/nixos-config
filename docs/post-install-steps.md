@@ -140,6 +140,10 @@ fprintd-verify
 ```
 Once enrolled, fingerprint works automatically for sudo, login (SDDM/KDE or niri if using greetd), and screen unlock.
 
+### 11. Disable macOS Finder search shortcut (macOS work host / Ghostpepper)
+On a new Mac, `⌥⌘Space` (Option + Command + Space) opens the "Finder search window" by default, which conflicts when using Ghostpepper.
+Disable it via **System Settings -> Keyboard -> Keyboard Shortcuts -> Spotlight -> uncheck "Show Finder search window"** (or see `docs/darwin.md` for CLI command).
+
 ## Restoring / Notes
 
 These steps are typically one-time and are not managed by the repo. Where applicable, the README links back to other docs (e.g., `docs/backup.md`) for backups and manual scripts.
