@@ -387,11 +387,15 @@ in
         --height=80% \
         --reverse \
         --border \
-        --preview 'if file --mime-type {} | grep -qE "image/(png|jpeg|jpg|gif|bmp|webp|svg)"; then
-            chafa --size="$FZF_PREVIEW_COLUMNS"x"$FZF_PREVIEW_LINES" --animate=false {} 2>/dev/null;
+        --preview 'if file --brief --mime-type -- {} | string match --regex --quiet "^image/"
+            if type --query chafa
+              chafa --size="$FZF_PREVIEW_COLUMNS"x"$FZF_PREVIEW_LINES" --animate=false {} 2>/dev/null
+            else
+              printf "Image preview requires chafa\\n"
+            end
           else
-            bat --style=numbers --color=always --line-range=:300 {} 2>/dev/null;
-          fi' \
+            bat --style=numbers --color=always --line-range=:300 {} 2>/dev/null
+          end' \
         --preview-window=right,50%:wrap )
 
       test -n "$file"; or return 0
