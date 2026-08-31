@@ -145,11 +145,11 @@ in
       { url = "*.tsx", fg = "#8CCFE0" },
       { url = "*.jsx", fg = "#8CCFE0" },
       
-      # Config files - Yellow
-      { url = "*.json", fg = "#FFA066" },
-      { url = "*.toml", fg = "#FFA066" },
-      { url = "*.yaml", fg = "#FFA066" },
-      { url = "*.yml", fg = "#FFA066" },
+      # Config files - Red
+      { url = "*.json", fg = "#F27E89" },
+      { url = "*.toml", fg = "#F27E89" },
+      { url = "*.yaml", fg = "#F27E89" },
+      { url = "*.yml", fg = "#F27E89" },
       
       # Images - Magenta
       { mime = "image/*", fg = "#B19BF0" },
