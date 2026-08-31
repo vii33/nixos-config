@@ -247,6 +247,76 @@ in
       bind -M visual ctrl-e fun_fzf_env_var_insert
     '';
 
+    # Keep Fish's directory-history menu without shadowing the CDH CLI.
+    functions.cdhist = {
+      description = "Menu based cd command";
+      body = ''
+        if set -q argv[1]
+          cd $argv
+          return
+        end
+
+        set -l all_dirs $dirprev $dirnext
+        if not set -q all_dirs[1]
+          echo "No previous directories to select. You have to cd at least once." >&2
+          return 0
+        end
+
+        set -l uniq_dirs
+        for dir in $all_dirs[-1..1]
+          if not contains $dir $uniq_dirs
+            set -a uniq_dirs $dir
+          end
+        end
+
+        set -l letters a b c d e f g h i j k l m n o p q r s t u v w x y z
+        set -l dirc (count $uniq_dirs)
+        if test $dirc -gt (count $letters)
+          echo "Too many unique directories in history." >&2
+          return 1
+        end
+
+        for i in (seq $dirc -1 1)
+          set -l dir $uniq_dirs[$i]
+          set -l label_color --reset
+          set -q fish_color_cwd
+          and set label_color $fish_color_cwd
+          set -l dir_color_reset (set_color --reset)
+          set -l dir_color
+          if test "$dir" = "$PWD"
+            set dir_color (set_color $fish_color_history_current)
+          end
+
+          set -l home_dir (string match -r "^$HOME(/.*|\$)" "$dir")
+          if set -q home_dir[2]
+            set dir "~$home_dir[2]"
+          end
+          printf '%s %s %2d) %s %s%s%s\n' (set_color $label_color) $letters[$i] $i (set_color --reset) $dir_color $dir $dir_color_reset
+        end
+
+        read -l -p "echo 'Select directory by letter or number: '" choice
+        if test -z "$choice"
+          return 0
+        else if string match -q -r '^[a-z]$' $choice
+          set choice (contains -i $choice $letters)
+        end
+
+        if string match -q -r '^\d+$' $choice; and test $choice -ge 1 -a $choice -le $dirc
+          cd $uniq_dirs[$choice]
+        else
+          printf 'Error: expected a number between 1 and %d or letter in that range, got "%s"\n' $dirc $choice >&2
+          return 1
+        end
+      '';
+    };
+
+    functions.cdh = {
+      description = "Cloud Data Hub CLI";
+      body = ''
+        command "$HOME/.local/bin/cdh" $argv
+      '';
+    };
+
     # Custom helper function: fzf_bindings
     functions.fun_fzf_bindings.body = ''
       # Fuzzy search current fish key bindings using fzf
