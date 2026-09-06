@@ -31,9 +31,6 @@
       url = "github:noctalia-dev/noctalia/legacy-v4";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    herdr = {
-      url = "github:ogulcancelik/herdr/v0.7.1";
-    };
     kanagawa-yazi = {
       # Yazi color theme
       url = "github:dangooddd/kanagawa.yazi";
@@ -70,7 +67,7 @@
         else
           "vii";
       darwinSystem = "aarch64-darwin";
-      herdrFor = system: inputs.herdr.packages.${system}.default;
+      herdrFor = system: nixpkgs-unstable.legacyPackages.${system}.herdr;
     in
     {
       nixosConfigurations = {
@@ -101,6 +98,7 @@
           system = "x86_64-linux";
           specialArgs = {
             inherit inputs;
+            herdr = herdrFor "x86_64-linux";
             pkgs-unstable = import nixpkgs-unstable {
               system = "x86_64-linux";
               config.allowUnfree = true;

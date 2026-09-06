@@ -1,7 +1,7 @@
 # Temporary until 2026-09: Nix's evaluation cache may fail with
 # `evaluation of cached failed attribute ... unexpectedly succeeded` even when
-# the configuration is valid. For NixOS builds/switches, append:
-# `-- --option eval-cache false`
+# the configuration is valid. For NixOS builds/switches, use:
+# `--option eval-cache false`
 
 # Agent Instructions
 
