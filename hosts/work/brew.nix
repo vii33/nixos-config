@@ -1,8 +1,14 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  macosUsername,
+  ...
+}:
 
 {
   homebrew = {
     enable = true;
+    user = macosUsername;
 
     onActivation = {
       #cleanup = "zap";   # Uninstalls brew packages that are no longer in this list
@@ -58,7 +64,6 @@
 
       "ghostty"
       "bruno" # API client / Alternative: insomnio
-      "docker-desktop"
       "copilot-cli"
       "zed" # Code editor
       #"cyberduck"         # FTP/S3 client
