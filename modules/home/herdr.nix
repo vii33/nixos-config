@@ -5,6 +5,24 @@
   pkgs,
   ...
 }:
+let
+  opencodeMiniConfig = builtins.toJSON {
+    provider = {
+      "github-copilot" = {
+        models = {
+          "gpt-5.6-terra" = {
+            options = {
+              reasoningEffort = "medium";
+              reasoningSummary = "auto";
+              include = [ "reasoning.encrypted_content" ];
+            };
+          };
+        };
+      };
+    };
+  };
+  opencodeMiniConfigTomlEscaped = builtins.replaceStrings [ "\"" ] [ "\\\"" ] opencodeMiniConfig;
+in
 {
   home.file.".config/herdr/config.toml" = {
     force = true;
@@ -82,6 +100,12 @@
       type = "pane"
       command = "lazygit"
       description = "run lazygit"
+
+      [[keys.command]]
+      key = "prefix+m"
+      type = "pane"
+      command = "OPENCODE_CONFIG_CONTENT='${opencodeMiniConfigTomlEscaped}' opencode --mini --model github-copilot/gpt-5.6-terra"
+      description = "open OpenCode mini with GPT-5.6 Terra (medium)"
 
       [[keys.command]]
       key = "prefix+0"

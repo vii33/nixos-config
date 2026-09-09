@@ -26,6 +26,7 @@ yazi ~/path   # Open in specific directory
 ### Quick Navigation
 - `z` — Cd to a directory via zoxide
 - `Z` — Cd to a directory or reveal a file via fzf
+- `S` — Go to `~/.agents/skills`
 - `g` then `Space` — Cd to a directory or reveal a file via interactive prompt
 - `.` — Toggle hidden files
 
@@ -114,7 +115,6 @@ yazi ~/path   # Open in specific directory
 
 ### Search Files
 - `s` — Search files by name using fd
-- `S` — Search files by content using ripgrep
 - `Ctrl+s` — Cancel the ongoing search
 
 ### Sorting
@@ -214,12 +214,6 @@ Yazi configuration files are located at:
 3. Navigate results with arrow keys or `j/k`
 4. `Enter` to jump to selected file
 5. `l` to open it
-
-### Quick Content Search
-1. `S` to search file contents (uses ripgrep)
-2. Type search pattern
-3. Navigate matches
-4. `Enter` to jump to file
 
 ### Organize Files
 1. `v` to enter visual mode

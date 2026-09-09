@@ -18,7 +18,7 @@ These shell abbreviations are configured in `modules/home/fish-shell.nix`.
 | `nosearch` | `nh search` | Fast package search |
 | `workbuild` | `home-manager switch --flake ~/repos/nixos-config/.#work --impure` | macOS user-level update |
 | `hmswitch` | rebuilds Home Manager, detaches Zellij, then removes the current session via a background helper | Fresh Zellij session on next `zz` |
-| `workswitch` | `cd ~/repos/nixos-config; and sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .#work --impure` | macOS system rebuild that persists across restarts |
+| `workswitch` | runs `darwin-rebuild` with the invoking macOS user passed as `MACOS_USERNAME` | macOS system rebuild that persists across restarts; Homebrew runs as that user, never root |
 | `zellijkill` | `zellij kill-all-sessions -y; zellij delete-all-sessions -y` | Kill + delete all Zellij sessions (non-interactive) |
 
 ## Fish Shell Keyboard Shortcuts

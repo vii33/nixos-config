@@ -57,11 +57,14 @@
       macosUsername =
         let
           u = builtins.getEnv "MACOS_USERNAME";
+          sudoUser = builtins.getEnv "SUDO_USER";
           home = builtins.getEnv "HOME";
           homeUser = if home != "" then builtins.baseNameOf home else "";
         in
         if u != "" then
           u
+        else if sudoUser != "" then
+          sudoUser
         else if homeUser != "" then
           homeUser
         else

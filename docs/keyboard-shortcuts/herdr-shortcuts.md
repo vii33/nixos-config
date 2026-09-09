@@ -1,6 +1,6 @@
 # Herdr Shortcuts
 
-Configured non-declaratively in `~/.config/herdr/config.toml`.
+Managed declaratively in `modules/home/herdr.nix` as `~/.config/herdr/config.toml`.
 
 Prefix: `Caps Lock` emits `F18` on the laptop via `services.keyd`.
 
@@ -23,6 +23,7 @@ Prefix: `Caps Lock` emits `F18` on the laptop via `services.keyd`.
 | Split right | `Prefix + V` | Herdr action `split_vertical` |
 | Split horizontal | `Prefix + -` (dash) | |
 | Copy mode | `Prefix + C` | |
+| Open OpenCode mini | `Prefix + M` | GPT-5.6 Terra with medium reasoning effort; opens a temporary zoomed pane |
 
 ## Nested OpenCode
 

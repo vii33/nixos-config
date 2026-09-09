@@ -189,6 +189,7 @@ in
       }" },
       { on = [ "z" ], run = "plugin zoxide", desc = "Jump to a directory using zoxide" },
       { on = [ "Z" ], run = "plugin fzf", desc = "Jump to a directory or reveal a file using fzf" },
+      { on = [ "S" ], run = 'cd "~/.agents/skills"', desc = "Go to agent skills" },
       
       # Quick Look with space bar, Tab for selection, = for peek/properties
       { on = [ "<Space>" ], run = "shell 'qlmanage -p \"$0\" > /dev/null 2>&1' --orphan", desc = "Preview with Quick Look (macOS)" },
@@ -242,9 +243,22 @@ in
       end
     end
 
-    -- Override mtime linemode
+    -- Highlight timestamps for files modified within the last 48 hours.
     function Linemode:mtime()
-      return strip_date_year(self._file.cha.mtime)
+      local mtime = self._file.cha.mtime
+
+      if not mtime then
+        return ""
+      end
+
+      local formatted_time = strip_date_year(mtime)
+      local age = os.time() - mtime
+
+      if age >= 0 and age <= 48 * 60 * 60 then
+        return ui.Span(formatted_time):style(ui.Style():fg("#FFA066"))
+      end
+
+      return formatted_time
     end
 
     -- Override btime linemode (birth time)
