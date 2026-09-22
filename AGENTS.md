@@ -141,7 +141,19 @@ sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .
 
 - After `.nix` edits: run `nix fmt -- <changed-files>`. Avoid bare `nix fmt`;
   with the current flake formatter it may call `nixfmt-rfc-style` on empty stdin.
-- Substantive changes: `nix flake check --no-build`.
+- Match verification scope to the edit; prefer a targeted evaluation over a full flake
+  check for one host or Home Manager profile:
+  - Darwin Home Manager edit: `nix eval --impure --raw --option eval-cache false
+    '.#homeConfigurations.work.activationPackage.drvPath'`.
+  - Darwin host-level edit: `nix eval --impure --raw --option eval-cache false
+    '.#darwinConfigurations.work.system.drvPath'`.
+  - Linux host-level edit: `nix eval --impure --raw --option eval-cache false
+    '.#nixosConfigurations.<host>.config.system.build.toplevel.drvPath'`.
+  - Shared cross-platform modules, `flake.nix`, inputs, overlays, or package definitions:
+    `nix flake check --no-build --option eval-cache false` plus relevant host checks.
+- A full `nix flake check --no-build` evaluates every output and can be slow; do not use it
+  as the default for a host-local change. If it is required, allow a longer timeout and report
+  separately when it cannot complete.
 - Tiny scalar-only tweaks may skip flake check.
 - Recovery builds: start with
   `nix build --dry-run .#nixosConfigurations.laptop.config.system.build.toplevel`.
