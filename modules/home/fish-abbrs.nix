@@ -22,8 +22,9 @@
   nv = "nvim";
   oc = "opencode";
   ocp = "opencode -m opencode/big-pickle";
-  ocl = "opencode -m github-copilot/gpt-5.6-luna";
-  oct = "opencode -m github-copilot/gpt-5.6-terra";
+  ocl = "opencode -m github-copilot/gpt-6-luna";
+  ocs = "opencode -m github-copilot/gpt-6-sol";
+  ocf = "opencode -m github-copilot/gemini-3.8-flash";
   ocm =
     "OPENCODE_CONFIG_CONTENT='"
     + builtins.toJSON {
@@ -34,7 +35,6 @@
       };
     }
     + "' opencode --mini --model github-copilot/gpt-5.6-terra";
-  ocs = "opencode -m github-copilot/claude-sonnet-5";
   rsstartyeti = "rapidscribe-meeting start --capture system-and-mic --microphone \"AppleUSBAudioEngine:Blue Microphones:Yeti Nano:2109SG000XD8_888-000445041006:2,1\"";
   oca =
     "if test -f \"$HOME/.config/fish/conf.d/90-sops-secrets.fish\"; "

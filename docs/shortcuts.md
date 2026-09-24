@@ -26,7 +26,7 @@ See the [complete Fish shortcut reference](keyboard-shortcuts/fish-shell-shortcu
 |---|---|
 | `Ctrl + O` | Fuzzy-pick a file and open it in Helix |
 | `Ctrl + Shift + O` | Fuzzy-pick a file and insert its escaped path |
-| `ocl` / `oct` / `ocs` | Start OpenCode with Luna / Terra / Sonnet 5 |
+| `ocl` / `ocs` / `ocf` | Start OpenCode with GPT-6 Luna / GPT-6 Sol / Gemini 3.8 Flash |
 | `ocss` | Start the shared OpenCode server |
 
 ## Yazi

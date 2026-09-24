@@ -7,9 +7,9 @@ These shell abbreviations are configured in `modules/home/fish-shell.nix`.
 | Abbreviation | Expands To | Notes |
 |---|---|---|
 | `nv` | `nvim` | Declared via `shellAbbrs` |
-| `ocl` | `opencode -m github-copilot/gpt-5.6-luna` | OpenCode with Luna selected |
-| `oct` | `opencode -m github-copilot/gpt-5.6-terra` | OpenCode with Terra selected |
-| `ocs` | `opencode -m github-copilot/claude-sonnet-5` | OpenCode with Sonnet 5 selected |
+| `ocl` | `opencode -m github-copilot/gpt-6-luna` | OpenCode with GPT-6 Luna selected |
+| `ocs` | `opencode -m github-copilot/gpt-6-sol` | OpenCode with GPT-6 Sol selected |
+| `ocf` | `opencode -m github-copilot/gemini-3.8-flash` | OpenCode with Gemini 3.8 Flash selected |
 | `ocss` | sources the OpenCode secret if needed, then runs `opencode serve --hostname 0.0.0.0 --port 4096` | Starts the shared OpenCode server |
 | `occ` | sources the OpenCode secret if needed, then runs `opencode attach http://localhost:4096 --password "$OPENCODE_SERVER_PASSWORD" --dir "$PWD"` | Attaches current directory to the shared OpenCode server |
 | `nodry` | `nh os dry-run --flake .#laptop` | Preview changes without building |
