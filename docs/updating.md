@@ -216,8 +216,12 @@ This will:
 If you only changed Home Manager configuration without system changes:
 
 ```bash
-home-manager switch --flake .#work
+home-manager switch -b backup --flake .#work --impure
 ```
+
+`-b backup` preserves an unmanaged dotfile as a sibling `*.backup` file when
+Home Manager first takes ownership of it. Resolve or rename an existing backup
+before rerunning the command.
 
 ### 4. Update Homebrew Packages
 

@@ -16,8 +16,7 @@ These shell abbreviations are configured in `modules/home/fish-shell.nix`.
 | `noswitch` | `nh os switch --flake .#laptop` | Apply changes & set as default boot |
 | `noclean` | `nh clean all --keep-since 3d --keep 3` | Cleanup old generations |
 | `nosearch` | `nh search` | Fast package search |
-| `workbuild` | `home-manager switch --flake ~/repos/nixos-config/.#work --impure` | macOS user-level update |
-| `hmswitch` | rebuilds Home Manager, detaches Zellij, then removes the current session via a background helper | Fresh Zellij session on next `zz` |
+| `hmswitch` | `home-manager switch -b backup --flake ~/repos/nixos-config/.#work --impure`, then detaches and removes the current Zellij session via a background helper | Preserves unmanaged dotfiles as `*.backup`; a fresh Zellij session starts on next `zz` |
 | `workswitch` | runs `darwin-rebuild` with the invoking macOS user passed as `MACOS_USERNAME` | macOS system rebuild that persists across restarts; Homebrew runs as that user, never root |
 | `zellijkill` | `zellij kill-all-sessions -y; zellij delete-all-sessions -y` | Kill + delete all Zellij sessions (non-interactive) |
 

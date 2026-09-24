@@ -64,7 +64,7 @@
   # Rebuild Home Manager, then detach and let a helper process remove the
   # current Zellij session so the next attach starts fresh.
   hmswitch =
-    "home-manager switch --flake ~/repos/nixos-config/.#work --impure; and begin; "
+    "home-manager switch -b backup --flake ~/repos/nixos-config/.#work --impure; and begin; "
     + "set -l session_name main; "
     + "if set -q ZELLIJ_SESSION_NAME; set session_name $ZELLIJ_SESSION_NAME; "
     + "nohup fish -c \"sleep 1; zellij kill-session '$session_name' >/dev/null 2>&1; "

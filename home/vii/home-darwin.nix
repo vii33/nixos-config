@@ -14,6 +14,7 @@
 let
   secretsFile = ../../secrets/secrets.yaml;
   haveSecretsFile = builtins.pathExists secretsFile;
+  opencodeConfigDir = "${config.home.homeDirectory}/repos/agent-general/opencode";
 in
 {
   # Import user specific packages
@@ -37,6 +38,8 @@ in
     ".npmrc".text = ''
       prefix=${config.home.homeDirectory}/.npm-global
     '';
+
+    ".config/opencode".source = config.lib.file.mkOutOfStoreSymlink opencodeConfigDir;
   }
   // lib.optionalAttrs haveSecretsFile {
     ".config/fish/conf.d/90-sops-secrets.fish".text = ''
