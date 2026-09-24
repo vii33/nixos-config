@@ -41,9 +41,6 @@ in
       prefix = "f18"
 
       new_workspace = "prefix+n"
-      next_workspace = "prefix+j"
-      previous_workspace = "prefix+k"
-
       new_tab = "prefix+t"
       next_tab = "prefix+l"
       previous_tab = "prefix+h"
@@ -60,21 +57,19 @@ in
       goto = "prefix+g"
 
       focus_pane_left = "prefix+ctrl+h"
-      focus_pane_down = "prefix+ctrl+j"
-      focus_pane_up = "prefix+ctrl+k"
+      focus_pane_down = "prefix+j"
+      focus_pane_up = "prefix+k"
       focus_pane_right = "prefix+ctrl+l"
 
       cycle_pane_next = ["prefix+tab", "prefix+ä"]
       cycle_pane_previous = ["prefix+shift+tab", "prefix+ö"]
-      next_agent = "prefix+ü"
+      next_agent = "prefix+o"
       previous_agent = "prefix+p"
 
       split_vertical = "prefix+v"
       split_horizontal = "prefix+minus"
 
       reload_config = "prefix+ctrl+shift+r"
-      open_notification_target = "prefix+o"
-
       [ui.toast]
       # delivery = "herdr"
 
@@ -85,6 +80,7 @@ in
       pane_history = true
 
       [ui]
+      status_indicators = "symbols"
       show_agent_labels_on_pane_borders = true
       sidebar_width = 36
       sidebar_min_width = 23

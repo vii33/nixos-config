@@ -18,8 +18,6 @@ Prefix: `Caps Lock` emits `F18` on the laptop via `services.keyd`.
 | Close tab | `Ctrl + Q` | Direct binding |
 | Close workspace | `Ctrl + Shift + Q`, `Prefix + D` | Direct binding plus prefix shortcut |
 | Goto picker | `Ctrl + G` | Direct binding |
-| Next workspace | `Ctrl + J` | Direct binding |
-| Previous workspace | `Ctrl + K` | Direct binding |
 | Split right | `Prefix + V` | Herdr action `split_vertical` |
 | Split horizontal | `Prefix + -` (dash) | |
 | Copy mode | `Prefix + C` | |
@@ -46,7 +44,6 @@ scrollback bindings do not scroll its messages. OpenCode's own
 | Settings | `Prefix + S` | |
 | Detach | `Prefix + Q` | Leaves server running |
 | Reload config | `Prefix + Ctrl + Shift + R` | |
-| Open notification target | `Prefix + O` | |
 | Workspace picker | `Prefix + W` | |
 | Goto picker | `Prefix + G` | Also has `Ctrl + G` |
 | New workspace | `Prefix + Shift + N` | |
@@ -58,6 +55,8 @@ scrollback bindings do not scroll its messages. OpenCode's own
 | Rename pane | `Prefix + Shift + P` | |
 | Edit scrollback | `Prefix + E` | |
 | Move pane focus | `Prefix + J/K` | Down/up; left/right freed for prev/next tab |
+| Next agent | `Prefix + O` | |
+| Previous agent | `Prefix + P` | |
 | Next pane | `Prefix + Tab` | |
 | Previous pane | `Prefix + Shift + Tab` | |
 | Close pane | `Prefix + X` | |
