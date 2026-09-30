@@ -10,7 +10,7 @@ let
     provider = {
       "github-copilot" = {
         models = {
-          "gpt-5.6-terra" = {
+          "gpt-6-sol" = {
             options = {
               reasoningEffort = "medium";
               reasoningSummary = "auto";
@@ -100,8 +100,8 @@ in
       [[keys.command]]
       key = "prefix+m"
       type = "pane"
-      command = "OPENCODE_CONFIG_CONTENT='${opencodeMiniConfigTomlEscaped}' opencode --mini --model github-copilot/gpt-5.6-terra"
-      description = "open OpenCode mini with GPT-5.6 Terra (medium)"
+      command = "OPENCODE_CONFIG_CONTENT='${opencodeMiniConfigTomlEscaped}' opencode --mini --model github-copilot/gpt-6-sol"
+      description = "open OpenCode mini with GPT-6 Sol (medium)"
 
       [[keys.command]]
       key = "prefix+0"
