@@ -44,7 +44,7 @@ in
       new_tab = "prefix+t"
       next_tab = "prefix+l"
       previous_tab = "prefix+h"
-      switch_tab = ["prefix+1..9"]
+      switch_workspace = "prefix+1..9"
 
       rename_tab = "prefix+r"
       rename_workspace = "prefix+shift+r"

@@ -12,7 +12,7 @@ Prefix: `Caps Lock` emits `F18` on the laptop via `services.keyd`.
 | New tab | `Prefix + T` | |
 | Next tab | `Prefix + L` | |
 | Previous tab | `Prefix + H` | |
-| Go to tab 1..9 | `Prefix + 1..9`, `Ctrl + 1..9` | `Ctrl` variant may depend on terminal encoding |
+| Go to Space 1..9 | `Prefix + 1..9` | Switches Herdr workspaces |
 | Rename tab | `Prefix + R` | Leaves shell `Ctrl + R` history search alone |
 | Rename workspace | `Ctrl + Shift + R` | Direct binding |
 | Close tab | `Ctrl + Q` | Direct binding |
