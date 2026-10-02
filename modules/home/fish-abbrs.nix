@@ -61,17 +61,7 @@
   bs = "pybonsai -w 0.04";
 
   # Mac OS
-  # Rebuild Home Manager, then detach and let a helper process remove the
-  # current Zellij session so the next attach starts fresh.
-  hmswitch =
-    "home-manager switch -b backup --flake ~/repos/nixos-config/.#work --impure; and begin; "
-    + "set -l session_name main; "
-    + "if set -q ZELLIJ_SESSION_NAME; set session_name $ZELLIJ_SESSION_NAME; "
-    + "nohup fish -c \"sleep 1; zellij kill-session '$session_name' >/dev/null 2>&1; "
-    + "sleep 1; zellij delete-session '$session_name' >/dev/null 2>&1\" "
-    + "</dev/null >/dev/null 2>&1 &; disown; zellij action detach; "
-    + "else; zellij kill-session $session_name; sleep 1; "
-    + "zellij delete-session $session_name; end; end";
+  hmswitch = "home-manager switch -b backup --flake ~/repos/nixos-config/.#work --impure";
   workswitch =
     "cd ~/repos/nixos-config; and sudo env \"PATH=$PATH\" \"MACOS_USERNAME=$USER\" "
     + "/run/current-system/sw/bin/darwin-rebuild switch --flake .#work --impure";

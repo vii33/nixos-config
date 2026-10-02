@@ -95,15 +95,6 @@ fish modules/home/nixvim/sync-lazyvim-specs.fish
 The script copies Lua specs from `modules/home/nixvim/lua-specs/` while preserving
 existing local customizations.
 
-## Zellij config reloads
-
-Zellij does not hot-reload config. After a Home Manager rebuild, use:
-
-```bash
-hmswitch
-zz
-```
-
 ## Reloading LaunchAgents
 
 Some Home Manager services, such as key remapping, may need a manual reload after changes:
