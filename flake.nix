@@ -19,6 +19,8 @@
     nixvim = {
       url = "github:nix-community/nixvim/nixos-26.05";
     };
+    # Native Hermes is best-effort upstream; advance this revision deliberately.
+    hermes-agent.url = "github:NousResearch/hermes-agent/8b66a51036c1e20920a17cdd049fdf55c968d683";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -110,6 +112,23 @@
           modules = [
             inputs.sops-nix.nixosModules.sops
             ./hosts/home-server/default.nix
+          ];
+        };
+
+        agent-host = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs;
+            herdr = herdrFor "x86_64-linux";
+            pkgs-unstable = import nixpkgs-unstable {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
+          };
+          modules = [
+            inputs.sops-nix.nixosModules.sops
+            inputs.hermes-agent.nixosModules.default
+            ./hosts/agent-host/default.nix
           ];
         };
       };

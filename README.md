@@ -7,7 +7,8 @@ Personal flake-based NixOS/nix-darwin configuration for multiple hosts.
 | Host | Platform | Entry point | Notes |
 |---|---|---|---|
 | `laptop` | NixOS/Linux | `hosts/laptop/default.nix` | NVIDIA laptop, KDE plus niri, desktop apps |
-| `home-server` | NixOS/Linux | `hosts/home-server/default.nix` | Minimal headless server, WIP |
+| `home-server` | NixOS/Linux | `hosts/home-server/default.nix` | Docker workloads and admin tools |
+| `agent-host` | NixOS/Linux | `hosts/agent-host/default.nix` | Proxmox VM with Docker and Hermes gateway |
 | `work` | nix-darwin/macOS | `hosts/work/default.nix` | Apple Silicon work laptop |
 
 ## Repo layout
@@ -22,6 +23,7 @@ Personal flake-based NixOS/nix-darwin configuration for multiple hosts.
 ## Platform docs
 
 - [Linux / NixOS hosts](docs/linux.md)
+- [Agent host installation and Hermes setup](docs/agent-host.md)
 - [Darwin / macOS host](docs/darwin.md)
 
 ## Common docs
