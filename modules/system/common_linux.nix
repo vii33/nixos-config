@@ -8,7 +8,7 @@
   nix.settings = {
     download-buffer-size = 128 * 1024 * 1024; # 128 MiB
     max-jobs = "auto"; # Use all CPU cores for parallel builds
-    cores = 2; # Limit each build to 2 cores
+    cores = 4; # Allow each build to use up to 4 cores
     auto-optimise-store = true; # Save disk space automatically
 
     # Needed for the cache to be trusted
