@@ -3,11 +3,13 @@
   lib,
   pkgs,
   pkgs-unstable,
+  serverUser,
   ...
 }:
 
 let
-  userHome = config.home-manager.users.vii.home;
+  userHome = config.home-manager.users.${serverUser}.home;
+  hermes = config.services.hermes-agent;
 in
 {
   boot = {
@@ -36,13 +38,31 @@ in
     defaultSopsFile = ../../secrets/secrets.yaml;
     # Reuse the provisioned user identity, but decrypt at boot without a user login.
     age.keyFile = "${userHome.homeDirectory}/.config/sops/age/keys.txt";
+    age.sshKeyPaths = [ ]; # Use only the provisioned age identity for these secrets.
+    gnupg.sshKeyPaths = [ ];
     useSystemdActivation = true;
-    secrets.synology-home-server-share-pw = { };
+    secrets = {
+      synology-home-server-share-pw = { };
+      HERMES_TELEGRAM_BOT_TOKEN = { };
+      HERMES_TELEGRAM_ALLOWED_USERS = { };
+    };
     templates."synology-home-server-share.credentials" = {
       mode = "0400"; # Only root can read the SMB credentials rendered at boot.
       content = ''
         username=agent-host-user
         password=${config.sops.placeholder.synology-home-server-share-pw}
+      '';
+    };
+    templates."hermes-telegram.env" = {
+      # Link the runtime dotenv directly: SOPS runs after Hermes's activation script.
+      path = "${hermes.stateDir}/.hermes/.env";
+      owner = hermes.user;
+      group = hermes.group;
+      mode = "0400"; # Only the Hermes service account and root can read Telegram credentials.
+      restartUnits = [ "hermes-agent.service" ];
+      content = ''
+        TELEGRAM_BOT_TOKEN=${config.sops.placeholder.HERMES_TELEGRAM_BOT_TOKEN}
+        TELEGRAM_ALLOWED_USERS=${config.sops.placeholder.HERMES_TELEGRAM_ALLOWED_USERS}
       '';
     };
   };
@@ -71,7 +91,6 @@ in
     enable = true;
     container.enable = false;
     addToSystemPackages = true;
-    environmentFiles = [ "/var/lib/hermes/provider.env" ];
 
     # Available to gateway tools and scheduled jobs, not only interactive shells.
     extraPackages = with pkgs; [
@@ -88,6 +107,11 @@ in
       docker_29
       docker-compose
     ];
+  };
+
+  systemd.services.hermes-agent = {
+    requires = [ "sops-install-secrets.service" ]; # Do not start without the runtime dotenv.
+    after = [ "sops-install-secrets.service" ];
   };
 
   users.users.hermes.extraGroups = [

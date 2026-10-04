@@ -32,7 +32,7 @@ Commit it after checking the disk layout. Until it exists, evaluating agent-host
 intentionally fails with an installation message. Keep system.stateVersion at
 the original installation value, even when the running NixOS release is newer.
 
-Before the first activation, prepare Hermes's provider.env as described below.
+Before the first build, verify Hermes's Telegram SOPS keys as described below.
 Before the first rebuild, provision the user's age key and authorize its public
 recipient as described in docs/secrets.md. The shared Home Manager configuration
 requires the existing SOPS secrets, and links OpenCode to ~/repos/agent-general;
@@ -120,21 +120,50 @@ No FHS environment or Hermes Docker image is used.
 
 ## Provider and messaging configuration
 
-Before the first activation, create a private runtime environment file on the VM:
+### Telegram credentials in SOPS
+
+From the repository root, open the encrypted file:
 
 ```bash
-sudo install -d -m 0700 /var/lib/hermes
-sudo install -m 0600 /dev/null /var/lib/hermes/provider.env
-sudoedit /var/lib/hermes/provider.env
+env SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt" sops secrets/secrets.yaml
 ```
 
-Only create the empty file once: repeating the install command overwrites it.
-Enter the chosen provider credentials in KEY=value format, and the desired
-messaging platform's tokens/allowed-user settings. For example, an OpenRouter
-configuration requires OPENROUTER_API_KEY. Do not put real credentials in Git,
-Nix attributes, or a Nix path literal. The environmentFiles value is a string
-path: the root activation script reads it on the VM, then writes Hermes's .env.
-This file can later be replaced by a SOPS-managed path.
+The encrypted repository file already contains both keys. When provisioning
+another bot, update these top-level entries in the editor, using its token from
+@BotFather and your numeric Telegram user ID. Keep both values quoted strings:
+
+```yaml
+HERMES_TELEGRAM_BOT_TOKEN: "your-bot-token"
+HERMES_TELEGRAM_ALLOWED_USERS: "your-numeric-user-id"
+```
+
+For multiple allowed users, use a comma-separated string of numeric IDs. Save
+and close; SOPS encrypts the values in secrets/secrets.yaml. These entries must
+exist before building because sops-nix validates the declared keys.
+
+The NixOS SOPS module reuses the provisioned user age key and decrypts at boot.
+It renders /run/secrets/rendered/hermes-telegram.env, readable only by the Hermes
+service account and root, mapping the prefixed SOPS names to TELEGRAM_BOT_TOKEN
+and TELEGRAM_ALLOWED_USERS. SOPS links this file at /var/lib/hermes/.hermes/.env;
+Hermes waits for sops-install-secrets.service before starting. The upstream
+environmentFiles option is deliberately unused because it reads files during
+activation, before boot-time SOPS has rendered them. Secret changes request a
+Hermes service restart on switch. There is no manually maintained
+/var/lib/hermes/provider.env anymore.
+
+### ChatGPT subscription authentication
+
+Subscription login is separate from Telegram credentials. After Hermes is
+installed, authenticate as the service account:
+
+```bash
+sudo -u hermes env HERMES_HOME=/var/lib/hermes/.hermes hermes auth add openai-codex
+```
+
+Open the displayed URL on your laptop or phone and approve the device code using
+your OpenAI account. Hermes stores and refreshes the credentials in
+/var/lib/hermes/.hermes/auth.json. No OpenAI API key is required for this route;
+do not put your ChatGPT password or manually copied OAuth tokens in the SOPS file.
 
 Set the provider/model and any non-secret gateway options under
 services.hermes-agent.settings in hosts/agent-host/configuration.nix. For
@@ -175,9 +204,9 @@ control over this VM, including root-equivalent access through containers.
 The service otherwise uses the upstream module's native hardening and writable
 workspace; it is not configured to write freely across /home/vii.
 
-Changing provider.env alone does not change Hermes's generated .env: rebuild to
-materialize it. Back up /var/lib/hermes, including credentials, and keep the
-backup private. To update Hermes, replace the input revision in flake.nix, run
+After editing the Telegram SOPS entries, rebuild/switch to update Hermes's
+SOPS-managed .env and restart the gateway. Back up /var/lib/hermes, including
+credentials, and keep the backup private. To update Hermes, replace the input revision in flake.nix, run
 nix flake lock, validate the build, and activate. Do not modify /nix/store or use
 pip to repair the packaged Hermes environment. Optional Python dependencies
 belong in extraDependencyGroups/extraPythonPackages, as documented upstream.
@@ -187,11 +216,11 @@ belong in extraDependencyGroups/extraPythonPackages, as documented upstream.
 Hermes and its transitive inputs are pinned in flake.lock. The generated hardware
 configuration matches the cloned VM's /dev/sda1 root filesystem, and the live
 NetworkManager connection uses DHCP at 192.168.0.4. Formatting, the Linux flake
-check, and the agent-host rebuild dry-run passed on 2026-10-04. The final dry-run
-planned 1,319 derivations and about 919 MiB of cached downloads; many derivations
-are dependency downloads or Python wheel installs. An actual build and activation
-have not been performed. A dry-run does not verify that Hermes builds or starts
-successfully. Before activation, create /var/lib/hermes/provider.env and provide
-the desired credentials. The SOPS age key decrypts the configured secrets, but
-~/repos/agent-general is absent, so the OpenCode config links need that repository.
+check, and the agent-host rebuild dry-run passed on 2026-10-04 after merging the
+boot-time SOPS integration. The dry-run planned 1,334 derivations and about
+940 MiB of cached downloads. An actual build and activation have not been
+performed. A dry-run does not verify that Hermes builds or starts successfully.
+Both HERMES_TELEGRAM_* keys are present in the encrypted secrets file. The SOPS age key decrypts the
+configured secrets, but ~/repos/agent-general is absent, so the OpenCode config
+links need that repository.
 After switching, perform the doctor and service checks above on agent-host.
