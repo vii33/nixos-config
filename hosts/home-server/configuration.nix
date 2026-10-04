@@ -12,6 +12,7 @@
   networking = {
     hostName = "home-server";
     networkmanager.enable = true;
+    firewall.allowedTCPPorts = [ 4096 ]; # Allow password-authenticated OpenCode access from mobile.
   };
 
   services.openssh = {
