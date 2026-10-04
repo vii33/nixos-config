@@ -10,7 +10,7 @@
   };
 
   networking = {
-    hostName = "nixos";
+    hostName = "home-server";
     networkmanager.enable = true;
   };
 
