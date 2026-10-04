@@ -17,7 +17,6 @@
     # Common configuration
     ../../modules/system/common_all.nix
     ../../modules/system/common_linux.nix
-    ../../modules/system/ollama.nix
   ];
 
   # From profiles/system/server.nix (currently empty, but keeping structure)
