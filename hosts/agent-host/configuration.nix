@@ -1,4 +1,9 @@
-{ lib, ... }:
+{
+  lib,
+  pkgs,
+  pkgs-unstable,
+  ...
+}:
 
 {
   boot = {
@@ -20,20 +25,32 @@
   };
   services.qemuGuest.enable = lib.mkDefault true;
 
-  # Official Hermes image: configuration and credentials are set up at runtime.
-  virtualisation.oci-containers = {
-    backend = "docker";
-    containers.hermes = {
-      image = "nousresearch/hermes-agent:stable";
-      autoStart = true;
-      cmd = [ "gateway" "run" ];
-      volumes = [ "/var/lib/hermes:/opt/data" ];
-    };
+  services.hermes-agent = {
+    enable = true;
+    container.enable = false;
+    addToSystemPackages = true;
+    environmentFiles = [ "/var/lib/hermes/provider.env" ];
+
+    # Available to gateway tools and scheduled jobs, not only interactive shells.
+    extraPackages = with pkgs; [
+      python3
+      uv
+      nodejs
+      bun
+      git
+      gh
+      jq
+      ripgrep
+      pkgs-unstable.codex
+      pkgs-unstable.opencode
+      docker_29
+      docker-compose
+    ];
   };
 
-  # The image initializes ownership for its runtime user on first startup.
-  systemd.tmpfiles.rules = [ "d /var/lib/hermes 0700 root root -" ];
-  systemd.services.docker-hermes.unitConfig.ConditionPathExists = "/var/lib/hermes/config.yaml";
+  users.users.hermes.extraGroups = [
+    "docker" # Allow Hermes to run containers on its dedicated VM.
+  ];
 
   # Initial installation release; keep this static after installing the VM.
   system.stateVersion = "26.05";
