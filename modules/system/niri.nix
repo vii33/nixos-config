@@ -16,6 +16,14 @@
   # Disable niri-flake's automatic cache configuration (we manage it in common.nix)
   niri-flake.cache.enable = false;
 
+  # Use upstream's signed Noctalia binaries for subsequent builds after activation.
+  nix.settings = {
+    extra-substituters = [ "https://noctalia.cachix.org" ];
+    extra-trusted-public-keys = [
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+    ];
+  };
+
   # Enable niri compositor (makes it available as a session)
   programs.niri = {
     enable = true;

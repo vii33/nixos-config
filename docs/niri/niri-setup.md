@@ -56,20 +56,36 @@ Niri is a scrollable-tiling Wayland compositor with a focus on simplicity and us
 
 ## Binary Cache
 
-The niri binary cache is configured in `profiles/system/common_all.nix`:
+Read when updating Noctalia or investigating unexpected local shell compilation.
 
-```nix
-substituters = [
-  "https://cache.nixos.org"
-  "https://niri.cachix.org"
-];
-trusted-public-keys = [
-  "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-  "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
-];
-```
+Niri uses the nixpkgs package from `cache.nixos.org`; niri-flake's cache is disabled.
+Noctalia follows upstream's `cachix` branch, which points to a successfully cached commit.
+Its nixpkgs input intentionally does not follow ours: overrides change the build hash
+and can prevent cache hits.
 
-This significantly speeds up niri builds by using pre-built binaries.
+The official `https://noctalia.cachix.org` substituter and signing key are configured
+in `flake.nix` (for the initial build) and `modules/system/niri.nix` (after activation).
+Pass `--accept-flake-config` to Nix verification commands to use the flake's cache settings.
+
+## Noctalia 5 Migration
+
+Read when changing shell settings or upgrading from the old `legacy-v4` input.
+
+- Noctalia 5 is a native shell, not the old Quickshell-based application.
+- `modules/home/niri/noctalia.nix` uses `programs.noctalia` and generates a build-validated
+  `~/.config/noctalia/config.toml`. Main bar placement, dark wallpaper-derived colors,
+  disabled animations, and custom palettes are migrated from the old settings.
+- Niri starts Noctalia directly; do not also enable its systemd service.
+- Noctalia owns the wallpaper; the separate startup `swaybg` command is removed.
+  `swayidle` still owns screen-off/suspend timeouts; Noctalia's idle actions are disabled.
+- `Super + Space` still toggles the launcher, now using `noctalia msg panel-toggle launcher`.
+- Legacy JSON settings and QML plugins remain under `dotfiles/noctalia` for rollback,
+  but are no longer linked as the active configuration. The old plugins were disabled
+  and are not installed in the new native plugin system.
+- GUI changes are stored in `~/.local/state/noctalia/settings.toml` and override the
+  Home Manager defaults; they no longer edit the repository's JSON files.
+
+Build checks do not verify visual equivalence; review the shell after the next login.
 
 ## Login
 

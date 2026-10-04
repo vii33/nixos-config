@@ -11,6 +11,8 @@ These keyboard shortcuts are configured in `modules/home/niri/niri.nix`.
 | `Super + Return` | launch terminal (kitty) |
 | `Super + Space` | launch Noctalia launcher |
 
+Noctalia 5 uses `noctalia msg panel-toggle launcher`; the shortcut itself is unchanged.
+
 ## Application Shortcuts
 
 | Key | Action |

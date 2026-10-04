@@ -4,12 +4,11 @@
   config,
   pkgs,
   lib,
-  niriWallpaper ? null,
   ...
 }:
 
 let
-  noctaliaShell = lib.getExe config.programs.noctalia-shell.package;
+  noctaliaShell = lib.getExe config.programs.noctalia.package;
   keyboardBacklightCycle = pkgs.writeShellScript "keyboard-backlight-cycle" ''
     device='tpacpi::kbd_backlight'
     current=$(${lib.getExe pkgs.brightnessctl} --device="$device" get)
@@ -47,11 +46,6 @@ let
 
     ${lib.getExe pkgs.swappy} -f "$tmp"
   '';
-  wallpaper =
-    if niriWallpaper != null then
-      toString niriWallpaper
-    else
-      "${config.home.homeDirectory}/Pictures/Wallpapers/alghozy-7TfUCBVR0nI-unsplash.jpg";
 in
 {
   programs.niri = {
@@ -65,17 +59,7 @@ in
 
       # Spawn commands at startup
       spawn-at-startup = [
-        # Background wallpaper
-        {
-          command = [
-            "${pkgs.swaybg}/bin/swaybg"
-            "-i"
-            wallpaper
-            "-m"
-            "fill"
-          ];
-        }
-        # Noctalia Shell replaces Waybar for the Niri panel and desktop shell.
+        # Noctalia owns the wallpaper, panel, and desktop shell.
         { command = [ noctaliaShell ]; }
         # XWayland Satellite for X11 apps (REQUIRED for Niri >= 0.1.10)
         { command = [ "${lib.getExe pkgs.xwayland-satellite}" ]; }
@@ -171,10 +155,9 @@ in
         # Noctalia Shell provides the launcher.
         "Mod+Space".action.spawn = [
           noctaliaShell
-          "ipc"
-          "call"
+          "msg"
+          "panel-toggle"
           "launcher"
-          "toggle"
         ];
 
         # Window management
