@@ -14,6 +14,8 @@
     };
   };
 
+  fileSystems."/".autoResize = true; # Grow ext4 after increasing the VM disk size.
+
   networking = {
     hostName = "agent-host";
     networkmanager.enable = true;
@@ -52,6 +54,6 @@
     "docker" # Allow Hermes to run containers on its dedicated VM.
   ];
 
-  # Initial installation release; keep this static after installing the VM.
-  system.stateVersion = "26.05";
+  # Preserve the original home-server installation defaults on this cloned VM.
+  system.stateVersion = "25.05";
 }

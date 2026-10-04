@@ -1,8 +1,12 @@
 # agent-host
 
-Fresh x86_64 NixOS 26.05 VM on Proxmox, using BIOS boot and /dev/sda,
-matching the existing home-server VM. Enable the QEMU Guest Agent option
-in Proxmox. Use a unique MAC address and a separate DHCP reservation.
+Cloned x86_64 home-server VM on Proxmox, running NixOS 26.05 with BIOS boot
+and /dev/sda. Preserve the original installation's system.stateVersion = "25.05".
+Enable the QEMU Guest Agent option in Proxmox. Use a unique MAC address and a
+separate DHCP reservation for 192.168.0.4. NetworkManager uses DHCP, so no static
+IP is needed in NixOS. The VM's current MAC address is BC:24:11:4B:DB:4F.
+Root filesystem auto-resizing is enabled so ext4 uses an expanded VM disk on
+the next boot.
 
 Both server hosts import modules/system/server-tools.nix: Docker 29,
 Compose, Codex, OpenCode, Python, uv, Fish, Herdr, Helix, Yazi, and the
@@ -10,26 +14,25 @@ existing Home Manager configuration. Ollama is enabled on neither server.
 The nixswitch and nixdry abbreviations select the correct server flake output.
 The existing home-server hostname is unchanged.
 
-## Generate the fresh VM's hardware configuration
+## Generate the VM's hardware configuration
 
-Do not copy the home-server filesystem UUID. After installing NixOS 26.05
-and cloning this repository on the new VM, run from the repository root:
+Generate the hardware configuration on the target VM and check its root UUID
+against lsblk -f. A disk clone can legitimately retain home-server's UUID;
+use the UUID actually present on this VM. Run from the repository root:
 
 ```bash
 sudo nixos-generate-config --show-hardware-config > hosts/agent-host/hardware-configuration.nix
 git add hosts/agent-host/hardware-configuration.nix
-nix fmt -- hosts/agent-host/default.nix hosts/agent-host/configuration.nix hosts/agent-host/hardware-configuration.nix hosts/home-server/default.nix modules/system/server-tools.nix flake.nix
-nix flake lock
-nix flake check --no-build
-sudo nixos-rebuild dry-run --flake .#agent-host
-sudo nixos-rebuild switch --flake .#agent-host
+nix fmt -- hosts/agent-host/configuration.nix hosts/agent-host/hardware-configuration.nix
+nix flake check --no-build --option eval-cache false
+sudo nixos-rebuild dry-run --flake .#agent-host --option eval-cache false
+sudo nixos-rebuild switch --flake .#agent-host --option eval-cache false
 ```
 
 The generated file must be staged because Git flakes exclude untracked files.
 Commit it after checking the disk layout. Until it exists, evaluating agent-host
-intentionally fails with an installation message; the draft PR cannot pass its
-full flake check yet. If the installed release differs from 26.05, retain the
-system.stateVersion from that fresh installation instead of guessing.
+intentionally fails with an installation message. Keep system.stateVersion at
+the original installation value, even when the running NixOS release is newer.
 
 Before the first activation, prepare Hermes's provider.env as described below.
 Before the first rebuild, provision the user's age key and authorize its public
@@ -123,11 +126,14 @@ belong in extraDependencyGroups/extraPythonPackages, as documented upstream.
 
 ## Validation status
 
-Nix, nixfmt, and access to the target Proxmox VM were unavailable in the editing
-environment. The newly added input is pinned in flake.nix, but its transitive
-entries still need to be generated in flake.lock by running nix flake lock;
-commit that lock update before merging. After adding the real hardware file and
-runtime credentials, run the formatting, flake check, and host dry-run commands
-above; also dry-run home-server because its tools were extracted into the shared
-module. Perform an actual Hermes package build and doctor/service startup check
-on agent-host. The Proxmox VM has not been installed or activated by this PR.
+Hermes and its transitive inputs are pinned in flake.lock. The generated hardware
+configuration matches the cloned VM's /dev/sda1 root filesystem, and the live
+NetworkManager connection uses DHCP at 192.168.0.4. Formatting, the Linux flake
+check, and the agent-host rebuild dry-run passed on 2026-10-04. The final dry-run
+planned 1,319 derivations and about 919 MiB of cached downloads; many derivations
+are dependency downloads or Python wheel installs. An actual build and activation
+have not been performed. A dry-run does not verify that Hermes builds or starts
+successfully. Before activation, create /var/lib/hermes/provider.env and provide
+the desired credentials. The SOPS age key decrypts the configured secrets, but
+~/repos/agent-general is absent, so the OpenCode config links need that repository.
+After switching, perform the doctor and service checks above on agent-host.
