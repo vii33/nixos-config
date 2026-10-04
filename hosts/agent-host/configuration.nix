@@ -91,6 +91,10 @@ in
     enable = true;
     container.enable = false;
     addToSystemPackages = true;
+    settings.model = {
+      provider = "openai-codex";
+      default = "gpt-6.1-sol";
+    };
 
     # Available to gateway tools and scheduled jobs, not only interactive shells.
     extraPackages = with pkgs; [

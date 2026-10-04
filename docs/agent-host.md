@@ -166,10 +166,12 @@ your OpenAI account. Hermes stores and refreshes the credentials in
 do not put your ChatGPT password or manually copied OAuth tokens in the SOPS file.
 
 Set the provider/model and any non-secret gateway options under
-services.hermes-agent.settings in hosts/agent-host/configuration.nix. For
-example, settings.model.default is the provider's model identifier. No provider,
-model, or messaging account has been selected on your behalf. Do not enable a
-public API/dashboard unless its authentication and access have been configured.
+services.hermes-agent.settings in hosts/agent-host/configuration.nix. This host
+selects model.provider = "openai-codex" for ChatGPT subscription authentication
+and model.default = "gpt-6.1-sol" for Sol 6.1. The pinned Hermes source lists this
+model ID in its OpenAI API catalog; availability through the Codex subscription
+backend depends on the authenticated account's live model catalog. Do not enable
+a public API/dashboard unless its authentication and access have been configured.
 
 The native NixOS module owns configuration and startup. Do not run hermes setup,
 hermes config set, hermes gateway setup/install, or hermes update to replace the
