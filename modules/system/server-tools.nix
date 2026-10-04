@@ -16,7 +16,10 @@
     # Common configuration
     ../../modules/system/common_all.nix
     ../../modules/system/common_linux.nix
+    ./opencode-server.nix
   ];
+
+  _module.args.serverUser = "vii";
 
   environment.systemPackages = [
     pkgs.python3

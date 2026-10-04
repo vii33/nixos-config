@@ -1,12 +1,10 @@
 # agent-host
 
-Cloned x86_64 home-server VM on Proxmox, running NixOS 26.05 with BIOS boot
-and /dev/sda. Preserve the original installation's system.stateVersion = "25.05".
-Enable the QEMU Guest Agent option in Proxmox. Use a unique MAC address and a
-separate DHCP reservation for 192.168.0.4. NetworkManager uses DHCP, so no static
-IP is needed in NixOS. The VM's current MAC address is BC:24:11:4B:DB:4F.
-Root filesystem auto-resizing is enabled so ext4 uses an expanded VM disk on
-the next boot.
+Read when: installing the agent VM, managing its boot services, or configuring the Synology mount.
+
+Fresh x86_64 NixOS 26.05 VM on Proxmox, using BIOS boot and /dev/sda,
+matching the existing home-server VM. Enable the QEMU Guest Agent option
+in Proxmox. Use a unique MAC address and a separate DHCP reservation.
 
 Both server hosts import modules/system/server-tools.nix: Docker 29,
 Compose, Codex, OpenCode, Python, uv, Fish, Herdr, Helix, Yazi, and the
@@ -41,6 +39,66 @@ requires the existing SOPS secrets, and links OpenCode to ~/repos/agent-general;
 clone that repository if those OpenCode links are needed. Preserve a working SSH
 login/user credential during installation; this configuration does not provision
 new passwords or authorized SSH keys.
+
+## OpenCode boot service
+
+`opencode-server.service` starts at VM boot, without a login or an `ocss` shell.
+Both this host and `home-server` import the same OpenCode service through
+`modules/system/server-tools.nix`. It runs as `vii` on `0.0.0.0:4096`, with the
+password decrypted by system-level SOPS using the provisioned user Age key.
+TCP port 4096 is open in this host's firewall for direct mobile/client access at
+`http://<agent-host-IP>:4096`, authenticated with `opencode_server_password`
+(default username: `opencode`). Use a trusted LAN or VPN: this endpoint is plain
+HTTP, so do not forward it to the public internet. The Synology password is a
+separate credential. See
+[OpenCode boot services](opencode-server.md#server-vm-boot-services) for prerequisites,
+direct access, optional SSH tunnelling, and service checks. Do not also run `ocss`
+on this host.
+
+## Synology SMB boot mount
+
+At boot, agent-host attempts to mount `//192.168.0.200/home-server-share` at
+`/mnt/home-server-share`, using Synology account `agent-host-user`. Network and
+system-level SOPS must be ready first; no user login is required. This is an
+immediate boot mount, not a first-access automount. If the NAS is unavailable,
+the mount attempt has a 30-second timeout without blocking VM startup (waiting
+for prerequisite services is separate). Once the NAS returns, retry with
+`sudo systemctl start 'mnt-home\x2dserver\x2dshare.mount'`.
+
+Before rebuilding, add the real password to `secrets/secrets.yaml` under the
+exact key `synology-home-server-share-pw`. From the repository root, open the
+encrypted file with SOPS and add the key in the editor; do not put the password
+in a shell command, Nix configuration, or an unencrypted file:
+
+```fish
+env SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt" EDITOR=hx sops secrets/secrets.yaml
+```
+
+SOPS renders a root-only (0400) CIFS credentials file at boot; the password does
+not enter the Nix store. The VM needs the authorized age identity described
+above. Unix extensions are disabled so local files and directories are mapped
+to `vii`, with modes 0600/0700; the NAS account's permissions still apply.
+Hermes runs as a different user and is not granted direct access by this mount.
+No extra inbound firewall port is needed. SMB dialect negotiation uses the
+client's default.
+
+After rebuilding, verify the mount and repeat after reboot:
+
+```fish
+sudo systemctl status 'mnt-home\x2dserver\x2dshare.mount'
+findmnt --mountpoint /mnt/home-server-share
+sudo journalctl -u 'mnt-home\x2dserver\x2dshare.mount' -b
+sudo -u vii ls /mnt/home-server-share
+```
+
+Changing SOPS data can restart the secret installation service during activation
+and interrupt its dependent mount. Stop workloads using the share before such a
+rebuild. After activation, verify the mount; to reconnect with updated credentials,
+run:
+
+```fish
+sudo systemctl restart 'mnt-home\x2dserver\x2dshare.mount'
+```
 
 ## Native Hermes installation
 

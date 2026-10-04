@@ -1,11 +1,95 @@
 # OpenCode Headless Server (Multi-Pane Setup)
 
-Read when: setting up opencode in zellij layouts, debugging attach issues.
+Read when: setting up OpenCode in Zellij, managing server VM boot services,
+or debugging attach issues.
 
 ## Overview
 
 OpenCode supports a headless server mode (`opencode serve`) that allows multiple
 TUI clients to attach to the same session via `opencode attach`.
+
+On `agent-host` and `home-server`, `opencode-server.service` starts at boot as `vii`
+on `0.0.0.0:4096`, with its password delivered from system-level SOPS. It does not
+need the Fish secret export below. TCP port 4096 is open on `agent-host` for
+direct client access; it remains closed on `home-server`.
+Do not run `ocss` alongside this service on the same port.
+
+## Server VM boot services
+
+Both server hosts import `modules/system/opencode-server.nix` through their shared
+`server-tools.nix`. The service starts without a login, uses the user's existing
+OpenCode config/auth and installed tools, and starts in their home directory.
+Attach with `--dir` to select a project directory on the VM. Provider authentication
+still needs to be set up for this user; the server password is not a provider credential.
+
+System-level SOPS decrypts `opencode_server_password` from `secrets/secrets.yaml`
+at boot using `~/.config/sops/age/keys.txt`. Provision this key on each VM before
+activation and keep it available after reboot. systemd delivers the root-only
+secret through `LoadCredential`; the launcher exports the password only at runtime
+and refuses an empty value. Missing/decryption-failed secrets prevent startup,
+and a changed SOPS password restarts the service on activation. The service does
+not depend on Home Manager's login-time secret loading.
+
+### Direct mobile/client access on agent-host
+
+Connect to `http://<agent-host-IP>:4096` from a client on the trusted LAN or VPN.
+Use HTTP Basic authentication with username `opencode` and the SOPS
+`opencode_server_password` value, **not** the Synology share password. TCP 4096 is
+opened only in agent-host's NixOS firewall; any Proxmox/network firewall must
+also permit the connection. Hostname `agent-host` works only if the client can
+resolve it.
+
+This is plain HTTP: credentials and traffic are not TLS-encrypted. Do not forward
+port 4096 to the public internet. For access outside the LAN, use a VPN or an
+authenticated HTTPS reverse proxy. The boot service still runs `opencode serve`
+(headless API); opening the port does not add the `opencode web` browser UI.
+
+From another device with curl, verify authentication without putting the password
+in shell history (the second command prompts for it):
+
+```fish
+curl -i http://agent-host:4096/global/health
+curl -i --user opencode http://agent-host:4096/global/health
+```
+
+The first request must return HTTP 401; the authenticated request should succeed.
+Substitute the VM's actual IP if its hostname does not resolve.
+
+### Optional SSH tunnel
+
+On `home-server`, TCP 4096 remains closed in the NixOS firewall. Use an SSH tunnel
+there; tunnelling is also an option on agent-host:
+
+```bash
+ssh -N -L 4096:127.0.0.1:4096 vii@agent-host
+# For home-server, substitute its actual SSH address (its hostname remains nixos).
+```
+
+Then run `oca`/`occ` locally (using the same SOPS password), or attach explicitly
+with `opencode attach http://localhost:4096 --password "$OPENCODE_SERVER_PASSWORD"`
+and a `--dir` path that exists on the VM. If the local port is occupied, choose a
+different local tunnel port and use it in the attach URL.
+
+On the target VM, dry-run and activate the corresponding flake output:
+
+```bash
+sudo nixos-rebuild dry-run --flake .#home-server --option eval-cache false
+sudo nixos-rebuild switch --flake .#home-server --option eval-cache false
+```
+
+Use `.#agent-host` instead for that VM, after generating its hardware configuration.
+After activation, check the service and repeat after reboot without an interactive
+VM shell login:
+
+```bash
+sudo systemctl status opencode-server.service
+sudo journalctl -u opencode-server.service -f
+sudo systemctl restart opencode-server.service
+```
+
+Verify an unauthenticated request to `/global/health` returns HTTP 401 and an
+authenticated request succeeds before using the server. Manage these instances
+with systemctl, not foreground `ocss` processes. The service restarts after crashes.
 
 ## Commands
 
