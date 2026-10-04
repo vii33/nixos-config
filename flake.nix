@@ -112,6 +112,22 @@
             ./hosts/home-server/default.nix
           ];
         };
+
+        agent-host = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs;
+            herdr = herdrFor "x86_64-linux";
+            pkgs-unstable = import nixpkgs-unstable {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
+          };
+          modules = [
+            inputs.sops-nix.nixosModules.sops
+            ./hosts/agent-host/default.nix
+          ];
+        };
       };
 
       darwinConfigurations = {
