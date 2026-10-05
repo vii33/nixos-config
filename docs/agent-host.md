@@ -77,8 +77,9 @@ env SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt" EDITOR=hx sops secrets/s
 SOPS renders a root-only (0400) CIFS credentials file at boot; the password does
 not enter the Nix store. The VM needs the authorized age identity described
 above. Unix extensions are disabled so local files and directories are mapped
-to `vii`, with modes 0600/0700; the NAS account's permissions still apply.
-Hermes runs as a different user and is not granted direct access by this mount.
+to `vii` and the `home-server-share` group, with modes 0660/0770. Both `vii` and
+`hermes` belong to this group; the NAS account's permissions still apply.
+Hermes's service sandbox permits writes at `/mnt/home-server-share`.
 No extra inbound firewall port is needed. SMB dialect negotiation uses the
 client's default.
 
@@ -89,6 +90,17 @@ sudo systemctl status 'mnt-home\x2dserver\x2dshare.mount'
 findmnt --mountpoint /mnt/home-server-share
 sudo journalctl -u 'mnt-home\x2dserver\x2dshare.mount' -b
 sudo -u vii ls /mnt/home-server-share
+sudo -u hermes ls /mnt/home-server-share
+```
+
+After changing mount ownership or modes, restart the mount to apply the new CIFS
+options. Restart Hermes to pick up group membership and sandbox changes:
+
+```fish
+sudo systemctl restart 'mnt-home\x2dserver\x2dshare.mount'
+sudo systemctl restart hermes-agent.service
+sudo -u hermes sh -c 'printf "# Hermes SMB write test\n" > /mnt/home-server-share/hermes-smb-test.md'
+sudo -u hermes cat /mnt/home-server-share/hermes-smb-test.md
 ```
 
 Changing SOPS data can restart the secret installation service during activation

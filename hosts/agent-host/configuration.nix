@@ -73,10 +73,10 @@ in
     options = [
       "credentials=${config.sops.templates."synology-home-server-share.credentials".path}"
       "uid=${userHome.username}" # Map NAS files to the local agent user without pinning a UID.
-      "gid=${config.users.users.${userHome.username}.group}"
+      "gid=home-server-share"
       "nounix" # Use local ownership/modes rather than NAS-provided Unix permissions.
-      "file_mode=0600" # Keep share access private to the local agent user.
-      "dir_mode=0700"
+      "file_mode=0660" # Allow the local agent user and Hermes to share read/write access.
+      "dir_mode=0770"
       "nosuid" # Do not honor privilege bits or device nodes from the NAS.
       "nodev"
       "_netdev" # Wait for networking before attempting the boot mount.
@@ -116,11 +116,19 @@ in
   systemd.services.hermes-agent = {
     requires = [ "sops-install-secrets.service" ]; # Do not start without the runtime dotenv.
     after = [ "sops-install-secrets.service" ];
+    serviceConfig.ReadWritePaths = [ "/mnt/home-server-share" ]; # Permit writes in the sandbox.
   };
 
-  users.users.hermes.extraGroups = [
-    "docker" # Allow Hermes to run containers on its dedicated VM.
-  ];
+  users.groups.home-server-share = { }; # Limit local SMB access to the two agent accounts.
+  users.users = {
+    ${serverUser}.extraGroups = [
+      "home-server-share" # Share NAS files with Hermes.
+    ];
+    hermes.extraGroups = [
+      "docker" # Allow Hermes to run containers on its dedicated VM.
+      "home-server-share" # Allow Hermes to read and write the SMB mount.
+    ];
+  };
 
   # Preserve the original home-server installation defaults on this cloned VM.
   system.stateVersion = "25.05";
