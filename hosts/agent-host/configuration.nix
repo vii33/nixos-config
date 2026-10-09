@@ -99,6 +99,17 @@ in
       provider = "openai-codex";
       default = "gpt-6.1-sol";
     };
+    settings.stt = {
+      enabled = true;
+      provider = "local";
+      language = ""; # Empty language enables automatic detection.
+      local = {
+        model = "small";
+        language = "";
+        device = "cpu";
+        compute_type = "int8";
+      };
+    };
 
     # Available to gateway tools and scheduled jobs, not only interactive shells.
     extraPackages = with pkgs; [
