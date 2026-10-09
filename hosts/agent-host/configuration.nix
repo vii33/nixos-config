@@ -34,6 +34,10 @@ in
   };
   services.qemuGuest.enable = lib.mkDefault true;
 
+  environment.systemPackages = [
+    pkgs.ghostty.terminfo # Recognize xterm-ghostty in SSH sessions, including service administration.
+  ];
+
   sops = {
     defaultSopsFile = ../../secrets/secrets.yaml;
     # Reuse the provisioned user identity, but decrypt at boot without a user login.
@@ -116,7 +120,8 @@ in
   systemd.services.hermes-agent = {
     requires = [ "sops-install-secrets.service" ]; # Do not start without the runtime dotenv.
     after = [ "sops-install-secrets.service" ];
-    serviceConfig.ReadWritePaths = [ "/mnt/home-server-share" ]; # Permit writes in the sandbox.
+    # Exempt the local parent so sandbox setup never probes an offline SMB mount.
+    serviceConfig.ReadWritePaths = [ "/mnt" ];
   };
 
   users.groups.home-server-share = { }; # Limit local SMB access to the two agent accounts.

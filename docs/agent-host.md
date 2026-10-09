@@ -79,7 +79,11 @@ not enter the Nix store. The VM needs the authorized age identity described
 above. Unix extensions are disabled so local files and directories are mapped
 to `vii` and the `home-server-share` group, with modes 0660/0770. Both `vii` and
 `hermes` belong to this group; the NAS account's permissions still apply.
-Hermes's service sandbox permits writes at `/mnt/home-server-share`.
+Hermes's service sandbox permits writes under the local `/mnt` directory;
+Unix permissions and group membership still control access to the SMB share.
+Sandbox setup does not probe the remote mount, so Hermes can start and restart
+while the NAS is offline. Only operations accessing the unavailable share can
+fail or wait for CIFS timeouts.
 No extra inbound firewall port is needed. SMB dialect negotiation uses the
 client's default.
 
@@ -209,6 +213,70 @@ sudo -u hermes env HERMES_HOME=/var/lib/hermes/.hermes hermes doctor
 sudo -u hermes env HERMES_HOME=/var/lib/hermes/.hermes hermes chat
 sudo systemctl status hermes-agent.service
 sudo journalctl -u hermes-agent.service -f
+```
+
+### Restarting the gateway
+
+Use the NixOS-managed system service:
+
+```bash
+sudo systemctl restart hermes-agent.service
+sudo systemctl status hermes-agent.service --no-pager
+```
+
+Running `hermes gateway restart` as `vii` can report unreadable plugin directories
+and raise `PermissionError` for `/var/lib/hermes/.hermes/.container-mode`.
+`addToSystemPackages` exports the service's `HERMES_HOME` system-wide, but `vii`
+is not in the `hermes` group and cannot traverse `/var/lib/hermes`. The CLI probes
+`.container-mode` even with container mode disabled; this error does not mean
+that the marker file exists or that Hermes is running in a container.
+The CLI's gateway commands target its own `hermes-gateway` units, whereas this
+NixOS module manages `hermes-agent.service`. Use `sudo -u hermes` for interactive
+CLI administration as shown above, and `sudo systemctl` for service lifecycle.
+
+### Unknown terminal type `xterm-ghostty`
+
+SSH from Ghostty carries `TERM=xterm-ghostty`. Programs using terminfo, such as
+`clear` and `tput`, fail if the remote host does not have that terminal definition.
+The host installs `pkgs.ghostty.terminfo` system-wide, including for administration
+as the Hermes service account. This installs terminal data without the GUI.
+
+Until this configuration is activated, use `TERM=xterm-256color` for the failing
+command. For example, apply the pending fixes from the repository root with:
+
+```bash
+sudo env TERM=xterm-256color nixos-rebuild switch --flake .#agent-host --option eval-cache false
+sudo systemctl restart hermes-agent.service
+sudo systemctl status hermes-agent.service --no-pager
+```
+
+After activation, `infocmp xterm-ghostty` should find the installed definition.
+For an interactive CLI check before activation:
+
+```bash
+sudo -u hermes env TERM=xterm-256color HERMES_HOME=/var/lib/hermes/.hermes hermes doctor
+```
+
+### NAS outages
+
+The NAS is optional for gateway startup. `ReadWritePaths` names the local `/mnt`
+parent, not `/mnt/home-server-share`, so systemd does not need to resolve an
+offline CIFS mount when constructing the sandbox. `ProtectSystem=strict` remains
+enabled for the rest of the filesystem. Prefixing the share path with `-` would
+only ignore a missing path, not a mounted share returning `Host is down`.
+
+An older activated configuration naming the share directly can fail before
+Hermes starts with `226/NAMESPACE` and `Host is down`. Rebuild/switch to the
+current configuration to remove that startup dependency; the NAS does not need
+to be brought online first.
+
+A mount unit can show `active (mounted)` even when its NAS connection is down.
+To recover share access, restore connectivity to `192.168.0.200` and its SMB
+service (TCP 445). Stop workloads using the share before remounting:
+
+```bash
+sudo systemctl restart 'mnt-home\x2dserver\x2dshare.mount'
+ls /mnt/home-server-share
 ```
 
 The service explicitly receives Codex, OpenCode, Python, uv, Node, Bun, Git,
