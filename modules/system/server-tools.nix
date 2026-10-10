@@ -58,7 +58,6 @@
     pkgs-unstable.opencode
     herdr
     lazygit
-    trash-cli
   ];
 
   # The shared Fish abbreviations otherwise target the laptop configuration.

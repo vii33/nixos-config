@@ -61,5 +61,6 @@
   environment.systemPackages = with pkgs; [
     nfs-utils # NFS share
     efibootmgr # EFI boot manager for troubleshooting boot issues
+    trash-cli # Move files to the desktop trash from the command line.
   ];
 }
