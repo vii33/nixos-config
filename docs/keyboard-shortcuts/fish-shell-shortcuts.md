@@ -8,7 +8,7 @@ These shell abbreviations are defined in `modules/home/fish-abbrs.nix` and impor
 | Abbreviation | Expands To | Notes |
 |---|---|---|
 | `nv` | `nvim` | Declared via `shellAbbrs` |
-| `oc` | `opencode -m github-copilot/claude-sonnet-5.5` | OpenCode with Claude Sonnet 5.5 selected |
+| `oc` | `opencode` | OpenCode without selecting a model |
 | `oco` | `opencode -m github-copilot/claude-opus-5.5` | OpenCode with Claude Opus 5.5 selected |
 | `ocl` | `opencode -m github-copilot/gpt-6-luna` | OpenCode with GPT-6 Luna selected |
 | `ocs` | `opencode -m github-copilot/gpt-6-sol` | OpenCode with GPT-6 Sol selected |
