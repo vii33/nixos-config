@@ -1,8 +1,3 @@
-# Temporary until 2026-09: Nix's evaluation cache may fail with
-# `evaluation of cached failed attribute ... unexpectedly succeeded` even when
-# the configuration is valid. For NixOS builds/switches, use:
-# `--option eval-cache false`
-
 # Agent Instructions
 
 Personal flake-based NixOS/nix-darwin repo. Primary user: `vii`.
@@ -141,16 +136,20 @@ sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .
 
 - After `.nix` edits: run `nix fmt -- <changed-files>`. Avoid bare `nix fmt`;
   with the current flake formatter it may call `nixfmt-rfc-style` on empty stdin.
+- Use Nix's evaluation cache by default. If evaluation fails with
+  `evaluation of cached failed attribute ... unexpectedly succeeded`, retry the
+  same command with `--option eval-cache false`; this bypasses a stale failed
+  evaluation, not store downloads or builds.
 - Match verification scope to the edit; prefer a targeted evaluation over a full flake
   check for one host or Home Manager profile:
-  - Darwin Home Manager edit: `nix eval --impure --raw --option eval-cache false
+  - Darwin Home Manager edit: `nix eval --impure --raw
     '.#homeConfigurations.work.activationPackage.drvPath'`.
-  - Darwin host-level edit: `nix eval --impure --raw --option eval-cache false
+  - Darwin host-level edit: `nix eval --impure --raw
     '.#darwinConfigurations.work.system.drvPath'`.
-  - Linux host-level edit: `nix eval --impure --raw --option eval-cache false
+  - Linux host-level edit: `nix eval --impure --raw
     '.#nixosConfigurations.<host>.config.system.build.toplevel.drvPath'`.
   - Shared cross-platform modules, `flake.nix`, inputs, overlays, or package definitions:
-    `nix flake check --no-build --option eval-cache false` plus relevant host checks.
+    `nix flake check --no-build` plus relevant host checks.
 - A full `nix flake check --no-build` evaluates every output and can be slow; do not use it
   as the default for a host-local change. If it is required, allow a longer timeout and report
   separately when it cannot complete.
