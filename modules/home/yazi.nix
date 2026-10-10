@@ -67,7 +67,7 @@ in
 
     [preview]
     tab_size = 2
-    max_width = 600
+    max_width = 1200
     max_height = 900
 
     [opener]  # Programs to open files with specific mime types
