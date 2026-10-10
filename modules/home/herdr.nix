@@ -63,8 +63,8 @@ in
 
       cycle_pane_next = ["prefix+tab", "prefix+ä"]
       cycle_pane_previous = ["prefix+shift+tab", "prefix+ö"]
-      next_agent = "prefix+o"
-      previous_agent = "prefix+p"
+      next_agent = "prefix+p"
+      previous_agent = "prefix+o"
 
       split_vertical = "prefix+v"
       split_horizontal = "prefix+minus"
