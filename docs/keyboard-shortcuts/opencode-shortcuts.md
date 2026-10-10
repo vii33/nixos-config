@@ -13,7 +13,7 @@ Custom bindings live in `~/repos/agent-general/opencode/tui.jsonc` (linked from
 | Scroll messages half-page down/up | `Ctrl + D` / `Ctrl + U` | Custom |
 | Scroll messages full page down/up | `Page Down` / `Page Up` | Default |
 | Jump to first message (top) | `Ctrl + G` / `Home` | Default |
-| Jump to last message (bottom) | `G` / `Ctrl + Alt + G` / `End` | Custom (`G`); other keys retained |
+| Jump to last message (bottom) | `Ctrl + Shift + G` / `Ctrl + Alt + G` / `End` | Custom (`Ctrl + Shift + G`); other keys retained |
 | Show session timeline | `Ctrl + X`, then `G` | Default |
 
 `Ctrl + G` is one chord, not `Ctrl + G` twice. OpenCode has configurable

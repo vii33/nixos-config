@@ -2,11 +2,14 @@
 
 ## Fish Shell Abbreviations
 
-These shell abbreviations are configured in `modules/home/fish-shell.nix`.
+These shell abbreviations are defined in `modules/home/fish-abbrs.nix` and imported by
+`modules/home/fish-shell.nix`.
 
 | Abbreviation | Expands To | Notes |
 |---|---|---|
 | `nv` | `nvim` | Declared via `shellAbbrs` |
+| `oc` | `opencode -m github-copilot/claude-sonnet-5.5` | OpenCode with Claude Sonnet 5.5 selected |
+| `oco` | `opencode -m github-copilot/claude-opus-5.5` | OpenCode with Claude Opus 5.5 selected |
 | `ocl` | `opencode -m github-copilot/gpt-6-luna` | OpenCode with GPT-6 Luna selected |
 | `ocs` | `opencode -m github-copilot/gpt-6-sol` | OpenCode with GPT-6 Sol selected |
 | `ocf` | `opencode -m github-copilot/gemini-3.8-flash` | OpenCode with Gemini 3.8 Flash selected |

@@ -20,7 +20,8 @@
   # Applications
   hh = "herdr";
   nv = "nvim";
-  oc = "opencode";
+  oc = "opencode -m github-copilot/claude-sonnet-5.5";
+  oco = "opencode -m github-copilot/claude-opus-5.5";
   ocp = "opencode -m opencode/big-pickle";
   ocl = "opencode -m github-copilot/gpt-6-luna";
   ocs = "opencode -m github-copilot/gpt-6-sol";
