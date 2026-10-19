@@ -10,8 +10,16 @@
 }:
 
 let
-  # Base Python; PyYAML is part of the baseline for ad-hoc YAML checks.
-  basePython = pkgs.python3.withPackages (ps: [ ps.pyyaml ]);
+  # Base Python with the libraries ad-hoc agent scripts most often need;
+  # anything else goes through `uv run --with`.
+  basePython = pkgs.python3.withPackages (ps: [
+    ps.pyyaml
+    ps.requests
+    ps.beautifulsoup4
+    ps.openpyxl
+    ps.python-pptx
+    ps.pillow
+  ]);
 in
 {
   imports = [
