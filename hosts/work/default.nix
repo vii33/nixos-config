@@ -9,6 +9,10 @@
   ...
 }:
 
+let
+  # Base Python; PyYAML is part of the baseline for ad-hoc YAML checks.
+  basePython = pkgs.python3.withPackages (ps: [ ps.pyyaml ]);
+in
 {
   imports = [
     # Only System level modules here! Home manager further down. Home Manager modules must be imported at user level
@@ -20,7 +24,7 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    python3
+    basePython
     go # Go toolchain for local scheduler development.
     uv
     nodejs # Node runtime for npm-installed CLIs like playwright-cli
@@ -71,6 +75,11 @@
     home.packages = [
       herdr
     ];
+
+    # Homebrew's python3 precedes nix on PATH; ~/.local/bin precedes Homebrew,
+    # so these links make `python`/`python3` resolve to basePython.
+    home.file.".local/bin/python3".source = "${basePython}/bin/python3";
+    home.file.".local/bin/python".source = "${basePython}/bin/python";
   };
 
   system.stateVersion = 6;
