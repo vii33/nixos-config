@@ -121,6 +121,7 @@
       pkgs-unstable.opencode
       herdr
       lazygit
+      television
       qimgv
       stirling-pdf-desktop
       thunderbird
