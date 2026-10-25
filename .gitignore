@@ -29,3 +29,7 @@ CLAUDE.md
 scripts/test-zellij-ccdr.sh
 .harness-logs/
 /TODO.md
+
+# Home Manager-generated Noctalia configuration (source: modules/home/niri/noctalia.nix)
+/dotfiles/noctalia/config.toml
+/dotfiles/noctalia/palettes

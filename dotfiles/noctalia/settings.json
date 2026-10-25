@@ -18,6 +18,11 @@
         "ignoreMouseInput": false,
         "overviewLayer": false,
         "pinnedApps": [
+            "bitwarden",
+            "brave-browser",
+            "org.gnome.Nautilus",
+            "md.obsidian.Obsidian",
+            "thunderbird"
         ],
         "position": "center",
         "screenshotAnnotationTool": "",
