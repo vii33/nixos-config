@@ -92,6 +92,19 @@ in
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Document Scanners
+  hardware.sane = {
+    enable = true; # Provide scanner backends for local scanning applications.
+    extraBackends = [
+      pkgs.sane-airscan # Support driverless Wi-Fi scanners via eSCL and WSD.
+    ];
+  };
+
+  services.avahi = {
+    enable = true; # Discover network scanners via mDNS on the local network.
+    openFirewall = true; # Allow mDNS discovery traffic.
+  };
+
   # Nautilus uses GVFS backends for smb:// and other network locations.
   services.gvfs.enable = true;
 

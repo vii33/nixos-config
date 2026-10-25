@@ -122,6 +122,7 @@
       herdr
       lazygit
       qimgv
+      simple-scan
       stirling-pdf-desktop
       thunderbird
       vlc
