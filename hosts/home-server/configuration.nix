@@ -9,6 +9,12 @@
     };
   };
 
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 20; # Compressed RAM swap to absorb brief memory-pressure spikes.
+  };
+
   networking = {
     hostName = "home-server";
     networkmanager.enable = true;
