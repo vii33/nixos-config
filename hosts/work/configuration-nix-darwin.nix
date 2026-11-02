@@ -221,6 +221,8 @@ in
   # Sudo with Touch ID
   security.pam.services.sudo_local.enable = true;  # Keep enabled for sudo PAM services
   security.pam.services.sudo_local.touchIdAuth = true;
+  # Lets Touch ID work inside terminal multiplexers (herdr, zellij, tmux)
+  security.pam.services.sudo_local.reattach = true;
 
   # Fonts
   fonts.packages = with pkgs; [
