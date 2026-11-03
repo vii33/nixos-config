@@ -68,7 +68,6 @@ in
     ../../modules/home/herdr.nix
     ../../modules/home/helix.nix
     ../../modules/home/television.nix
-    ../../modules/home/television-aws-profiles.nix
     ../../modules/home/darwin/capslock-to-f18.nix
     ../../modules/home/darwin/aldente-autostart.nix
     #../../modules/home/nixvim/nixvim.nix
