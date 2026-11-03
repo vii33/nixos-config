@@ -97,6 +97,7 @@
       ../../modules/home/herdr.nix
       ../../modules/home/gsd-browser.nix
       ../../modules/home/helix.nix
+      ../../modules/home/television.nix
 
       ../../modules/home/onedriver.nix
 

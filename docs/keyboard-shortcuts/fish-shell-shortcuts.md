@@ -41,4 +41,5 @@ These keyboard shortcuts are configured in `modules/home/fish-shell.nix`. Some r
 | `Ctrl + Right` | forward-word | |
 | `Ctrl + Left` | backward-word | |
 | `Ctrl + Y` | copy current command line to clipboard | Vim-like; also `yy` in normal mode |
+| `Ctrl + T` | television smart autocomplete (picks channel from current command) | `programs.television` fish integration |
 | `Alt + S` | Inserts `sudo` (plugin-sudope)  |     |
