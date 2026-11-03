@@ -181,4 +181,8 @@ sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .
 - Never commit real secrets. `secrets/` holds encrypted files only.
 - Test with `nixos-rebuild dry-run --flake .#<host>` before switching.
 - Make small, incremental commits for easy rollbacks.
+- Always commit finished work without being asked: after edits and verification, commit
+  each logical change separately (`type: description`; split mixed files by hunk). Never
+  leave completed work uncommitted. Pushing, amending, and destructive Git actions still
+  need an explicit request.
 - Keyboard shortcuts changed? Update `docs/shortcuts.md`.
