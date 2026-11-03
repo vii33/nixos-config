@@ -69,6 +69,10 @@
     + "\"http_proxy=$HTTP_PROXY\" \"https_proxy=$HTTPS_PROXY\" \"no_proxy=$NO_PROXY\" "
     + "/run/current-system/sw/bin/darwin-rebuild switch --flake .#work --impure";
   proxyrestart = "launchctl kickstart -k -p \"gui/$(id -u)/cc.colorto.proxydetox\"";
+  # Dock launches get no proxy env; NODE_USE_ENV_PROXY makes Node fetch honour HTTPS_PROXY
+  openlive =
+    "NODE_USE_ENV_PROXY=1 /Applications/OpenLive.app/Contents/MacOS/OpenLive "
+    + ">/dev/null 2>&1 & disown";
 
   # Kitty
   kittyreload = "kitty @ load-config";
