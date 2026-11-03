@@ -5,24 +5,6 @@
   pkgs,
   ...
 }:
-let
-  opencodeMiniConfig = builtins.toJSON {
-    provider = {
-      "github-copilot" = {
-        models = {
-          "gpt-6-sol" = {
-            options = {
-              reasoningEffort = "medium";
-              reasoningSummary = "auto";
-              include = [ "reasoning.encrypted_content" ];
-            };
-          };
-        };
-      };
-    };
-  };
-  opencodeMiniConfigTomlEscaped = builtins.replaceStrings [ "\"" ] [ "\\\"" ] opencodeMiniConfig;
-in
 {
   home.file.".config/herdr/config.toml" = {
     force = true;
@@ -100,8 +82,8 @@ in
       [[keys.command]]
       key = "prefix+m"
       type = "pane"
-      command = "OPENCODE_CONFIG_CONTENT='${opencodeMiniConfigTomlEscaped}' opencode --mini --model github-copilot/gpt-6-sol"
-      description = "open OpenCode mini with GPT-6 Sol (medium)"
+      command = "opencode mini --model github-copilot/gpt-6.1-sol#medium"
+      description = "open OpenCode mini with GPT-6.1 Sol (medium)"
 
       [[keys.command]]
       key = "prefix+0"

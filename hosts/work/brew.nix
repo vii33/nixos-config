@@ -28,7 +28,7 @@
       "docker-compose" # Check installation instructions: https://formulae.brew.sh/formula/docker-compose#default
       "helix"
       "herdr"
-      "anomalyco/tap/opencode"
+      "anomalyco/tap/opencode-v2" # V2 formula; conflicts with the plain `opencode` formula
       #"pnpm"
     ];
 

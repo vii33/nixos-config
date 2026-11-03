@@ -22,7 +22,7 @@ Prefix: `Caps Lock` emits `F18` on the laptop via `services.keyd`.
 | Split right | `Prefix + V` | Herdr action `split_vertical` |
 | Split horizontal | `Prefix + -` (dash) | |
 | Copy mode | `Prefix + C` | |
-| Open OpenCode mini | `Prefix + M` | GPT-6 Sol with medium reasoning effort; opens a temporary pane |
+| Open OpenCode mini | `Prefix + M` | `opencode mini` (lightweight UI) with GPT-6.1 Sol, `#medium` variant; opens a temporary pane |
 | Open Lazygit | `Prefix + Ctrl + G` | Runs `lazygit` in a temporary pane |
 | Show keybindings TUI | `Prefix + 0` | Runs the local keybindings TUI in a temporary pane |
 | Focus pane left/right | `Prefix + Ctrl + H/L` | |
