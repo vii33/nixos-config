@@ -62,6 +62,12 @@ in
 - Host-specific services: host config file.
 - Before adding laptop TODOs, check `docs/TODOs_laptop_host.md` for an existing entry.
 - User-level changes: `home/vii/` or `modules/home/`.
+- Home Manager modules for the `work` (macOS) host go into the flake's standalone
+  `homeConfigurations.work` module list in `flake.nix`, so `hmswitch` (no sudo) applies them.
+  `hosts/work/default.nix` `home-manager.sharedModules` is a separate list used only by the
+  sudo `darwin-rebuild` (`workswitch`); do not rely on it alone. Add a module to the flake
+  list first; add it to `sharedModules` too only if `workswitch` should also apply it.
+  Verify with `nix eval --impure --raw '.#homeConfigurations.work.activationPackage.drvPath'`.
 - Never change `system.stateVersion` without upgrade plan.
 - Keep `onedriver` as a package only. Do not add Nix/Home Manager-managed
   systemd/autostart services for it; auth should be set up manually per machine.
