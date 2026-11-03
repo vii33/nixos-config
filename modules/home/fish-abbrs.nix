@@ -65,6 +65,8 @@
   hmswitch = "home-manager switch -b backup --flake ~/repos/nixos-config/.#work --impure";
   workswitch =
     "cd ~/repos/nixos-config; and sudo env \"PATH=$PATH\" \"MACOS_USERNAME=$USER\" "
+    # sudo strips proxy vars; flake inputs are fetched by root's nix client, which needs the proxy
+    + "\"http_proxy=$HTTP_PROXY\" \"https_proxy=$HTTPS_PROXY\" \"no_proxy=$NO_PROXY\" "
     + "/run/current-system/sw/bin/darwin-rebuild switch --flake .#work --impure";
   proxyrestart = "launchctl kickstart -k -p \"gui/$(id -u)/cc.colorto.proxydetox\"";
 
