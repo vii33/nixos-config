@@ -103,11 +103,10 @@ in
     keybind = ctrl+shift+0=reset_font_size
 
     # Font configuration
+    # First entry has priority; later entries are fallbacks
     font-family = "FiraCode Nerd Font"
-    #font-family-bold = "JetBrainsMono Nerd Font Bold"
-    #font-family-italic = "JetBrainsMono Nerd Font Italic"
-    #font-family-bold-italic = "JetBrainsMono Nerd Font Bold Italic"
-    font-size = 11
+    font-family = "JetBrainsMono Nerd Font"
+    font-size = 12
     adjust-cell-height = 10%
 
     # Window layout (columns/rows)
