@@ -29,13 +29,13 @@
   ocm =
     "OPENCODE_CONFIG_CONTENT='"
     + builtins.toJSON {
-      provider."github-copilot".models."gpt-6-sol".options = {
+      provider."github-copilot".models."gpt-6.1-sol".options = {
         reasoningEffort = "medium";
         reasoningSummary = "auto";
         include = [ "reasoning.encrypted_content" ];
       };
     }
-    + "' opencode --mini --model github-copilot/gpt-6-sol";
+    + "' opencode --mini --model github-copilot/gpt-6.1-sol";
   rsstartyeti = "rapidscribe-meeting start --capture system-and-mic --microphone \"AppleUSBAudioEngine:Blue Microphones:Yeti Nano:2109SG000XD8_888-000445041006:2,1\"";
   oca =
     "if test -f \"$HOME/.config/fish/conf.d/90-sops-secrets.fish\"; "
