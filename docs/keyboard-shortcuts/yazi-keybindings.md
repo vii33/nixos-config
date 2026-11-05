@@ -212,6 +212,9 @@ Yazi configuration files are located at:
 - `~/.config/yazi/keymap.toml` — Custom keybindings
 - `~/.config/yazi/theme.toml` — Color theme
 
+File names use the default text color instead of file-type colors. The Kanagawa UI theme,
+file icons, and recent-modification timestamp highlighting are unchanged.
+
 ## Tips
 
 1. **Performance**: Yazi is async and won't freeze on large directories

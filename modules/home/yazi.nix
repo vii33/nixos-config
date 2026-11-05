@@ -163,47 +163,9 @@ in
     [flavor]
     dark = "kanagawa"
 
-    # Custom file type colors
+    # Disable file type colors, including those inherited from the flavor.
     [filetype]
-    rules = [
-      # Code files - Blue
-      { mime = "text/x-python", fg = "#8CCFE0" },
-      { mime = "text/javascript", fg = "#8CCFE0" },
-      { mime = "text/x-rust", fg = "#8CCFE0" },
-      { url = "*.ipynb", fg = "#8CCFE0" },
-      { url = "*.nix", fg = "#8CCFE0" },
-      { url = "*.ts", fg = "#8CCFE0" },
-      { url = "*.tsx", fg = "#8CCFE0" },
-      { url = "*.jsx", fg = "#8CCFE0" },
-      
-      # Config files - Red
-      { url = "*.json", fg = "#F27E89" },
-      { url = "*.toml", fg = "#F27E89" },
-      { url = "*.yaml", fg = "#F27E89" },
-      { url = "*.yml", fg = "#F27E89" },
-      
-      # Images - Magenta
-      { mime = "image/*", fg = "#B19BF0" },
-       
-      # Videos - Magenta (darker)
-      { mime = "video/*", fg = "#9C82D8" },
-       
-      # Archives - Green
-      { mime = "application/zip", fg = "#AEDA78" },
-      { mime = "application/x-tar", fg = "#AEDA78" },
-      { url = "*.rar", fg = "#AEDA78" },
-      { url = "*.7z", fg = "#AEDA78" },
-       
-      # Documents - Cyan
-      { mime = "application/pdf", fg = "#8FD6C5" },
-      { url = "*.md", fg = "#8FD6C5" },
-      { url = "*.doc*", fg = "#8FD6C5" },
-      { url = "*.xls*", fg = "#8FD6C5" },
-       
-      # Executables - Red
-      { url = "*.sh", fg = "#F27E89" },
-      { url = "*.fish", fg = "#F27E89" },
-    ]
+    rules = []
   '';
 
   # Custom keybindings
