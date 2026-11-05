@@ -43,3 +43,16 @@ These keyboard shortcuts are configured in `modules/home/fish-shell.nix`. Some r
 | `Ctrl + Y` | copy current command line to clipboard | Vim-like; also `yy` in normal mode |
 | `Ctrl + T` | television smart autocomplete (picks channel from current command) | `programs.television` fish integration |
 | `Alt + S` | Inserts `sudo` (plugin-sudope)  |     |
+
+## Television Channels
+
+- `tv files`: search files in the current working directory (the built-in channel, unchanged).
+- `tv files-all`: search file paths from `/`, including hidden files and files excluded by
+  ignore rules. Returns absolute paths and previews the first 200 lines with `bat`.
+- `tv aws-profiles`: select an AWS CLI profile and start a subshell with `AWS_PROFILE` set.
+
+`files-all` scans the filesystem live, so loading a large disk can take time. It skips
+`/dev`, `/proc`, and `/sys`, does not follow symlinked directories, and does not bypass
+permissions or macOS privacy restrictions. It searches names/paths, not file contents.
+
+After changing the channel configuration, run `hmswitch` on macOS or `noswitch` on Linux.

@@ -1,6 +1,6 @@
 # modules/home/television.nix
-# Television (`tv`) fuzzy finder with fish shell integration and the community aws-profiles
-# channel. Shared by all hosts (macOS and Linux).
+# Television (`tv`) fuzzy finder with fish shell integration and custom channels.
+# Shared by macOS and Linux.
 # Docs: https://alexpasmantier.github.io/television/
 _:
 
@@ -11,6 +11,26 @@ _:
     # Sources tv's fish integration (Ctrl+T smart autocomplete, Ctrl+R history, tv completions)
     # from interactiveShellInit; equivalent to `tv init fish | source`.
     enableFishIntegration = true;
+
+    # Search from / without ignore rules; skip virtual filesystems, not disk files.
+    # fd and bat are installed by modules/system/common_all.nix on both platforms.
+    channels.files-all = {
+      metadata = {
+        name = "files-all";
+        description = "Search files across the filesystem, including hidden and ignored files";
+        requirements = [
+          "fd"
+          "bat"
+        ];
+      };
+      source.command =
+        "fd --type f --hidden --no-ignore --absolute-path --color never"
+        + " --exclude /dev --exclude /proc --exclude /sys -- . / 2>/dev/null";
+      # Escape apostrophes before interpolation into the preview shell command.
+      preview.shell = "bash";
+      preview.command =
+        "bat --color=always --style=numbers --line-range=:200 --" + " '{replace:s/'/'\"'\"'/g}'";
+    };
 
     # Community channel "aws-profiles" (aws-profiles.toml, unchanged from upstream):
     # https://alexpasmantier.github.io/television/community/channels-unix#aws-profiles
