@@ -38,6 +38,7 @@ See the [complete Yazi shortcut reference](keyboard-shortcuts/yazi-keybindings.m
 
 | Key | Action |
 |---|---|
+| `o` | Open chooser: includes OpenCode in this pane and quit Yazi, or in a new horizontal Herdr pane in the current tab |
 | `g` then `O` | Go to `~/.config/opencode` |
 
 ## Zellij

@@ -58,7 +58,7 @@ yazi ~/path   # Open in specific directory
 - `X` — Cancel the yank status
 
 ### File Management
-- `o` — Open interactively. On macOS, every entry offers "Open in default app" and "Reveal in Finder"; directories also offer the VS Code and shell actions.
+- `o` — Open interactively, including "Open in OC and quit" and "Open in OC in new pane". On macOS, every entry also offers "Open in default app" and "Reveal in Finder"; directories also offer the VS Code and shell actions.
 - `O` — Reveal the hovered or selected entries in Finder immediately (macOS); open with the default application on Linux
 - `Enter` — Enter directory / open file (smart-enter)
 - `Shift+Enter` — Open selected files interactively (some terminals don't support)
@@ -156,6 +156,20 @@ end
 This wrapper is managed by the shared Fish Home Manager module. Use `yy` instead of `yazi` to automatically cd to Yazi's current directory when you quit with `q`. Do not call it `ya`; Yazi already uses `ya` for its helper CLI.
 
 When hovering a folder, press `o` and choose `Open folder in shell` to make that folder Yazi's current directory while staying in Yazi. Quit with `q`; the wrapper above then moves the parent shell there. Choose `Open folder in shell and quit` to switch the shell immediately. Use `Q` if you want to quit without updating the shell cwd.
+
+### OpenCode from the `o` Menu
+
+- **Open in OC and quit** — Exit Yazi, then start OpenCode in the same terminal pane.
+  The Home Manager-managed `yazi` launcher handles the handoff; this works with
+  both `yazi` and `yy`, without returning to Yazi after OpenCode closes.
+- **Open in OC in new pane** — Keep Yazi open and split its Herdr pane horizontally
+  (down) in the current tab, just like Herdr's `Prefix + -`. Focus the new pane
+  and run OpenCode there. Requires running Yazi inside Herdr.
+
+Both actions use the selected folder itself, or a selected file's containing
+folder. With multiple selections, the first selected entry determines the workspace.
+Existing default openers are unchanged; OpenCode is an additional menu choice.
+The launcher reserves Yazi exit code `90` for the OpenCode handoff.
 
 ## Bookmarks
 

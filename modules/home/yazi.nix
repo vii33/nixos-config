@@ -10,41 +10,66 @@
 
 let
   isDarwin = pkgs.stdenv.isDarwin;
+  opencodeOpener = pkgs.writeShellApplication {
+    name = "yazi-opencode";
+    runtimeInputs = [
+      pkgs.coreutils
+      pkgs.jq
+    ];
+    text = builtins.readFile ../../scripts/yazi-opencode.sh;
+  };
+  yaziLauncher = pkgs.writeShellApplication {
+    name = "yazi";
+    runtimeInputs = [ pkgs.coreutils ];
+    text = ''
+      export YAZI_REAL_BIN=${pkgs.yazi}/bin/yazi
+      ${builtins.readFile ../../scripts/yazi-launcher.sh}
+    '';
+  };
+  yaziWithOpenCode = pkgs.symlinkJoin {
+    name = "yazi-with-opencode";
+    paths = [ pkgs.yazi ];
+    # Keep ya and package assets, but hand off to OpenCode only after Yazi exits.
+    postBuild = ''
+      ln -sf ${yaziLauncher}/bin/yazi "$out/bin/yazi"
+    '';
+  };
+  ocOpeners = ''"oc-quit", "oc-pane"'';
   directoryOpeners =
     if isDarwin then
-      ''["default-app", "reveal-finder", "code-dir", "cd-dir", "cd-dir-and-quit"]''
+      ''["default-app", "reveal-finder", "code-dir", "cd-dir", "cd-dir-and-quit", ${ocOpeners}]''
     else
-      ''["code-dir", "cd-dir", "cd-dir-and-quit"]'';
+      ''["code-dir", "cd-dir", "cd-dir-and-quit", ${ocOpeners}]'';
   textOpeners =
     if isDarwin then
-      ''["code", "default-app", "reveal-finder", "code-folder", "edit"]''
+      ''["code", "default-app", "reveal-finder", "code-folder", "edit", ${ocOpeners}]''
     else
-      ''["code", "code-folder", "edit"]'';
+      ''["code", "code-folder", "edit", ${ocOpeners}]'';
   mediaOpeners =
     if isDarwin then
-      ''["default-app", "reveal-finder", "code-folder"]''
+      ''["default-app", "reveal-finder", "code-folder", ${ocOpeners}]''
     else
-      ''["open", "code-folder", "reveal"]'';
+      ''["open", "code-folder", "reveal", ${ocOpeners}]'';
   playableOpeners =
     if isDarwin then
-      ''["play", "default-app", "reveal-finder", "code-folder"]''
+      ''["play", "default-app", "reveal-finder", "code-folder", ${ocOpeners}]''
     else
-      ''["play", "code-folder", "reveal"]'';
+      ''["play", "code-folder", "reveal", ${ocOpeners}]'';
   archiveOpeners =
     if isDarwin then
-      ''["extract", "default-app", "reveal-finder", "code-folder"]''
+      ''["extract", "default-app", "reveal-finder", "code-folder", ${ocOpeners}]''
     else
-      ''["extract", "code-folder", "reveal"]'';
+      ''["extract", "code-folder", "reveal", ${ocOpeners}]'';
   defaultOpeners =
     if isDarwin then
-      ''["default-app", "reveal-finder", "code-folder"]''
+      ''["default-app", "reveal-finder", "code-folder", ${ocOpeners}]''
     else
-      ''["open", "code-folder", "reveal"]'';
+      ''["open", "code-folder", "reveal", ${ocOpeners}]'';
 in
 {
   # Install yazi package
   home.packages = with pkgs; [
-    yazi
+    yaziWithOpenCode
     #poppler_utils      # PDF previews (pdftoppm)
   ];
 
@@ -89,6 +114,12 @@ in
     ]
     cd-dir-and-quit = [
       { run = 'ya emit cd %s1; ya emit quit', desc = "Open folder in shell and quit" },
+    ]
+    oc-quit = [
+      { run = '${opencodeOpener}/bin/yazi-opencode quit %s1', desc = "Open in OC and quit", orphan = true },
+    ]
+    oc-pane = [
+      { run = '${opencodeOpener}/bin/yazi-opencode pane %s1', desc = "Open in OC in new pane" },
     ]
     # Default text editor
     edit = [
