@@ -36,6 +36,7 @@ in
 
   environment.systemPackages = [
     pkgs.ghostty.terminfo # Recognize xterm-ghostty in SSH sessions, including service administration.
+    pkgs-unstable.obsidian
   ];
 
   sops = {
