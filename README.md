@@ -32,5 +32,6 @@ Personal flake-based NixOS/nix-darwin configuration for multiple hosts.
 - [Keyboard shortcuts](docs/shortcuts.md)
 - [Post-install steps](docs/post-install-steps.md)
 - [Updating](docs/updating.md)
+- [OpenCode skills](docs/opencode-skills.md)
 - [Backups](docs/backup.md)
 - [Archived configuration snippets](docs/archive/README.md)

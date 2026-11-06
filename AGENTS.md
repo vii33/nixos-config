@@ -5,7 +5,7 @@ Personal flake-based NixOS/nix-darwin repo. Primary user: `vii`.
 ## Repo Shape
 
 - `flake.nix`: entry point. Keep nixpkgs/HM/nix-darwin/NixVim releases aligned.
-- Linux: `nixosConfigurations`: `laptop`, `home-server`.
+- Linux: `nixosConfigurations`: `laptop`, `home-server`, `agent-host`.
 - macOS: `darwinConfigurations`: `work`.
 - Host composition: `hosts/<host>/default.nix`.
 - Linux host config: `hosts/<host>/configuration.nix`.
@@ -54,10 +54,15 @@ in
 |---|---|---|
 | `laptop` | NixOS (Linux) | NVIDIA GPU, NBFC fan control, full desktop |
 | `home-server` | NixOS (Linux) | Minimal headless server (WIP) |
+| `agent-host` | NixOS (Linux) | Headless agent VM with Hermes |
 | `work` | nix-darwin (macOS) | macOS M3 laptop |
 
 ### Edits
 
+- `home-server` and `agent-host` run in similar Proxmox/QEMU VM environments and often
+  need matching settings. When updating one host, check whether the change also makes
+  sense for the other and ask the user whether to update it too before doing so.
+  Do not blindly mirror host-specific workloads, hardware, credentials, or firewall rules.
 - Add shared config to `modules/system/` or `modules/home/` and import from `default.nix`.
 - Host-specific services: host config file.
 - Before adding laptop TODOs, check `docs/TODOs_laptop_host.md` for an existing entry.

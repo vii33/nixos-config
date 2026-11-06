@@ -57,7 +57,8 @@ on this host.
 
 ## Synology SMB boot mount
 
-At boot, agent-host attempts to mount `//192.168.0.200/home-server-share` at
+At boot, both `agent-host` and `home-server` attempt to mount
+`//192.168.0.200/home-server-share` at
 `/mnt/home-server-share`, using Synology account `agent-host-user`. Network and
 system-level SOPS must be ready first; no user login is required. This is an
 immediate boot mount, not a first-access automount. If the NAS is unavailable,
@@ -86,6 +87,16 @@ while the NAS is offline. Only operations accessing the unavailable share can
 fail or wait for CIFS timeouts.
 No extra inbound firewall port is needed. SMB dialect negotiation uses the
 client's default.
+
+On `home-server`, the mount reuses the boot-time SOPS setup from the shared
+OpenCode service. Both hosts disable SSH-host-key-derived SOPS identities and use
+only the provisioned age key. Provision its age identity before activation; a missing or
+unauthorized identity cannot decrypt the NAS password. From the repository root:
+
+```fish
+sudo nixos-rebuild dry-run --flake .#home-server --option eval-cache false
+sudo nixos-rebuild switch --flake .#home-server --option eval-cache false
+```
 
 After rebuilding, verify the mount and repeat after reboot:
 

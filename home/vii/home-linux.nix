@@ -18,6 +18,7 @@ in
   # Import user specific packages
   imports = [
     ./git.nix
+    ../../modules/home/opencode-skills.nix
     # Disabled until the upstream fixed-output hash is updated.
     # ../../modules/home/pybonsai.nix
   ];
@@ -66,16 +67,32 @@ in
       # Export secrets via sops-nix managed files (avoid putting values in the Nix store).
       # Point sops at our age key location (macOS default differs, but safe on Linux too).
       set -gx SOPS_AGE_KEY_FILE $HOME/.config/sops/age/keys.txt
-      set -gx LLM_API_CLIENT_ID (string trim < ${config.sops.secrets.llm_api_client_id.path})
-      set -gx LLM_API_CLIENT_SECRET (string trim < ${config.sops.secrets.llm_api_client_secret.path})
-      set -gx ATC_CONFLUENCE_TOKEN (string trim < ${config.sops.secrets.atc_confluence_token.path})
-      set -gx ATC_JIRA_TOKEN (string trim < ${config.sops.secrets.atc_jira_token.path})
-      set -gx CC_JIRA_API_TOKEN (string trim < ${config.sops.secrets.cc_jira_api_token.path})
-      set -gx JIRA_API_TOKEN $CC_JIRA_API_TOKEN
-      set -l _no_proxy (string trim < ${config.sops.secrets.no_proxy.path})
-      set -gx NO_PROXY $_no_proxy
-      set -gx no_proxy $_no_proxy
-      set -gx OPENCODE_SERVER_PASSWORD (string trim < ${config.sops.secrets.opencode_server_password.path})
+      # The user service may not have populated /run/user yet (e.g. at first SSH login).
+      # Skip unavailable files without clearing inherited environment variables.
+      if test -r "${config.sops.secrets.llm_api_client_id.path}"
+        set -gx LLM_API_CLIENT_ID (string trim < "${config.sops.secrets.llm_api_client_id.path}")
+      end
+      if test -r "${config.sops.secrets.llm_api_client_secret.path}"
+        set -gx LLM_API_CLIENT_SECRET (string trim < "${config.sops.secrets.llm_api_client_secret.path}")
+      end
+      if test -r "${config.sops.secrets.atc_confluence_token.path}"
+        set -gx ATC_CONFLUENCE_TOKEN (string trim < "${config.sops.secrets.atc_confluence_token.path}")
+      end
+      if test -r "${config.sops.secrets.atc_jira_token.path}"
+        set -gx ATC_JIRA_TOKEN (string trim < "${config.sops.secrets.atc_jira_token.path}")
+      end
+      if test -r "${config.sops.secrets.cc_jira_api_token.path}"
+        set -gx CC_JIRA_API_TOKEN (string trim < "${config.sops.secrets.cc_jira_api_token.path}")
+        set -gx JIRA_API_TOKEN $CC_JIRA_API_TOKEN
+      end
+      if test -r "${config.sops.secrets.no_proxy.path}"
+        set -l _no_proxy (string trim < "${config.sops.secrets.no_proxy.path}")
+        set -gx NO_PROXY $_no_proxy
+        set -gx no_proxy $_no_proxy
+      end
+      if test -r "${config.sops.secrets.opencode_server_password.path}"
+        set -gx OPENCODE_SERVER_PASSWORD (string trim < "${config.sops.secrets.opencode_server_password.path}")
+      end
     '';
   };
 
