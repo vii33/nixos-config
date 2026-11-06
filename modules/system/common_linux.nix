@@ -20,6 +20,8 @@
 
   programs.command-not-found.enable = true;
 
+  services.tailscale.enable = true;
+
   programs.nh = {
     enable = true;
     clean.enable = true;
