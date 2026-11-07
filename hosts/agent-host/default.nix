@@ -7,6 +7,7 @@ in
   imports = [
     ./configuration.nix
     ../../modules/system/server-tools.nix
+    ../../modules/system/server-desktop.nix
     (
       if builtins.pathExists hardwareConfig then
         hardwareConfig

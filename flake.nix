@@ -42,6 +42,10 @@
       url = "github:dangooddd/kanagawa.yazi";
       flake = false;
     };
+    mattpocock-skills = {
+      url = "github:mattpocock/skills";
+      flake = false;
+    };
 
   };
 

@@ -20,6 +20,8 @@
 
   programs.command-not-found.enable = true;
 
+  services.tailscale.enable = true;
+
   programs.nh = {
     enable = true;
     clean.enable = true;
@@ -59,6 +61,7 @@
 
   # Linux-only packages
   environment.systemPackages = with pkgs; [
+    ghostty.terminfo # Support SSH clients using TERM=xterm-ghostty without the GUI package
     nfs-utils # NFS share
     efibootmgr # EFI boot manager for troubleshooting boot issues
     trash-cli # Move files to the desktop trash from the command line.

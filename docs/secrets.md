@@ -134,6 +134,39 @@ adds it via `git config include.path=...`.
   email = you@company.example
 ```
 
+## Missing secrets at Linux shell startup
+
+Home Manager's sops-nix secrets live under the user's runtime directory (`/run/user/<uid>`).
+`~/.config/sops-nix/secrets` is a symlink into that directory, so it can be dangling after
+logout or reboot, or before the `sops-nix` user service has finished starting.
+
+The Linux Fish startup snippet reads only readable secret files. Missing files are skipped
+without clearing inherited variables; this avoids startup warnings but does **not** make missing
+credentials available. An Android SSH client does not need its own copy of the server's age key.
+
+In the affected SSH session, check the service and the file's availability without printing secrets:
+
+```fish
+systemctl --user status sops-nix.service
+test -r ~/.config/sops-nix/secrets/cc_jira_api_token; and printf 'readable\n'; or printf 'unavailable\n'
+```
+
+If the service is inactive or failed, retry it, then reload the environment after it succeeds:
+
+```fish
+systemctl --user restart sops-nix.service
+source ~/.config/fish/conf.d/90-sops-secrets.fish
+```
+
+If restarting fails, inspect `journalctl --user -u sops-nix.service -b` locally and verify that
+the server has the correct age key at `~/.config/sops/age/keys.txt` (see setup/rekeying above).
+Do not share private key contents or decrypted secret values.
+
+If `systemctl --user` cannot connect to the user bus, check `echo $XDG_RUNTIME_DIR` and
+`loginctl show-user $USER --property=State,RuntimePath,Linger`. A normal SSH login should establish
+a logind session via PAM; a service-launched shell may not have one. Do not manually create the
+runtime directory or copy decrypted secrets into persistent files to work around this.
+
 ## Important
 
 - If a secret ever landed in git history (even briefly), rotate it; removing it from the working tree
