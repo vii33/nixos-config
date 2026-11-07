@@ -111,6 +111,9 @@ printf '%s\n' 'line 1' 'line 2' > file.txt
 
 Secrets: SOPS Age in `secrets/secrets.yaml`. Run from repo root.
 
+For secret changes, use exactly `chore(secrtes)` as the commit message, with no body.
+Keep secret names, services, and change details out of public commit messages.
+
 ```bash
 env SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt" \
   sops --set '["key_name"] "value"' -i secrets/secrets.yaml
