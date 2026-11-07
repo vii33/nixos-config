@@ -6,6 +6,7 @@
     ./hardware-configuration.nix
     ../../modules/system/server-tools.nix
     ../../modules/system/server-desktop.nix
+    ../../modules/system/caddy.nix
   ];
 
   _module.args.serverFlakeHost = "home-server";
