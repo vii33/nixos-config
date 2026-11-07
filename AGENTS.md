@@ -192,6 +192,10 @@ sudo env "PATH=$PATH" /run/current-system/sw/bin/darwin-rebuild switch --flake .
 
 ## Safety & Workflow
 
+- This repo is an exception to the global owned-repo PR flow: when asked to push,
+  push directly to `main`. Feature branches and PRs are optional, only when requested.
+  Fetch and merge remote changes before pushing; ask if conflicts require choosing
+  between someone else's changes. Use normal pushes; never force-push.
 - Never commit real secrets. `secrets/` holds encrypted files only.
 - Test with `nixos-rebuild dry-run --flake .#<host>` before switching.
 - Make small, incremental commits for easy rollbacks.
